@@ -1,0 +1,10 @@
+^D:\ABY-RHI\CMAKELISTS.TXT
+setlocal
+C:\ProgramData\chocolatey\lib\cmake.portable\tools\cmake-4.2.3-windows-x86_64\bin\cmake.exe -SD:/aby-rhi -BD:/aby-rhi/bin --check-stamp-file D:/aby-rhi/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

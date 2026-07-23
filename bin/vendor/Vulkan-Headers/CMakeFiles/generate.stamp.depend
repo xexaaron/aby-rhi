@@ -1,0 +1,18 @@
+# CMake generation dependency list for this directory.
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/CMakeCInformation.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/CMakeCommonLanguageInclude.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/CMakeDependentOption.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/CMakeLanguageInformation.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Compiler/MSVC-C.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Compiler/MSVC.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Internal/CMakeCLinkerInformation.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Internal/CMakeCommonLinkerInformation.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Linker/MSVC-C.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Linker/MSVC.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Platform/Linker/Windows-MSVC-C.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Platform/Linker/Windows-MSVC.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Platform/Windows-MSVC-C.cmake
+C:/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-4.2.3-windows-x86_64/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake
+D:/aby-rhi/bin/CMakeFiles/4.2.3/CMakeCCompiler.cmake
+D:/aby-rhi/vendor/Vulkan-Headers/CMakeLists.txt
