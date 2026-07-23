@@ -17,11 +17,19 @@ add_subdirectory(${VENDOR_DIR}/vma)
 find_package(Vulkan REQUIRED)
 
 add_library(${PROJECT_NAME} 
+    # User API
     ${ABY_RHI_INCLUDE_DIR}/aby-rhi.hpp
+    ${ABY_RHI_INCLUDE_DIR}/commmon.hpp
+    ${ABY_RHI_INCLUDE_DIR}/context.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces.hpp
+    ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
+    ${ABY_RHI_SRC_DIR}/context.cpp
+    ${ABY_RHI_SRC_DIR}/renderer.cpp
+    # Vulkan
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
-    ${ABY_RHI_SRC_DIR}/aby-rhi.cpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
 )
 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
