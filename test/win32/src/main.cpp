@@ -2,24 +2,7 @@
 #include <aby-rhi/aby-rhi.hpp>
 #include <Windows.h>
 
-class Logger : public aby::rhi::ILogger {
-public:
-    auto log(aby::rhi::ELogLevel level, const std::string& msg) -> void override {
-        switch (level) {
-            case aby::rhi::ELogLevel::debug: printf("[debug] %s\n", msg.c_str()); break;
-            case aby::rhi::ELogLevel::trace: printf("[trace] %s\n", msg.c_str()); break;
-            case aby::rhi::ELogLevel::info:  printf("[info]  %s\n", msg.c_str()); break;
-            case aby::rhi::ELogLevel::warn:  printf("[warn]  %s\n", msg.c_str()); break;
-            case aby::rhi::ELogLevel::error: printf("[error] %s\n", msg.c_str()); break;
-            case aby::rhi::ELogLevel::fatal: printf("[fatal] %s\n", msg.c_str()); break;
-        }
-    }
-
-private:
-};
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     auto* ren = reinterpret_cast<aby::rhi::IRenderer*>(
         GetWindowLongPtr(hwnd, GWLP_USERDATA));
     
@@ -40,8 +23,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
- int main()
-{
+int main() {
     using namespace aby::rhi;
 
     HINSTANCE hInstance = GetModuleHandle(nullptr);
@@ -69,7 +51,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     ShowWindow(window, SW_SHOW);
 
     auto& ctx = Context::get();
-    ctx.set_interface<Logger>();
 
     if (!ctx.init(ERenderer::vulkan, EWindow::win32, window))
         return 1;

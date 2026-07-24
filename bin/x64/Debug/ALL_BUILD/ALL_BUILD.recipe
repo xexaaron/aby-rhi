@@ -5,7 +5,76 @@
       <FullPath>D:\aby-rhi\bin\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\x64\Debug\spirv-tools-tables</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\x64\Debug\core_tables</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\x64\Debug\spirv-tools-header-DebugInfo</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\x64\Debug\spirv-tools-header-OpenCLDebugInfo100</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\x64\Debug\extinst_tables</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\SPIRV-Tools-shared.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\aby-rhi\bin\Debug\aby-rhi-test-win32.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\glslang.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\x64\Debug\shaderc-pkg-config</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\x64\Debug\shaderc_combined-pkg-config</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\shaderc_shared.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\x64\Debug\shaderc_static-pkg-config</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-as.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-cfg.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-diff.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-dis.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-link.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-lint.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-objdump.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-opt.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-reduce.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-tools-cpp-example.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\x64\Debug\spirv-tools-pkg-config</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\aby-rhi\bin\Debug\spirv-val.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\aby-rhi\bin\x64\Debug\ALL_BUILD</FullPath>

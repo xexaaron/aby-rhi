@@ -4,3 +4,6 @@
 [submodule "vendor/vma"]
 	path = vendor/vma
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
+[submodule "vendor/shaderc"]
+	path = vendor/shaderc
+	url = https://github.com/google/shaderc

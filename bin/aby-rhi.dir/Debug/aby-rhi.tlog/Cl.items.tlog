@@ -1,5 +1,6 @@
 D:\aby-rhi\src\context.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\context.obj
 D:\aby-rhi\src\renderer.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\renderer.obj
+D:\aby-rhi\src\shader.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\shader.obj
 D:\aby-rhi\src\interfaces\interfaces.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\interfaces.obj
 D:\aby-rhi\src\interfaces\default_allocator.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\default_allocator.obj
 D:\aby-rhi\src\interfaces\default_fileio.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\default_fileio.obj

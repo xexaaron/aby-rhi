@@ -10,6 +10,10 @@
 	<Folder Name="/CMakePredefinedTargets/">
 		<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4064639b-670c-3e22-acaa-fd204e07522d" DefaultStartup="true">
 			<BuildDependency Project="../../ZERO_CHECK.vcxproj"/>
+		</Project>
+		<Project Path="INSTALL.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ba364dd6-df8f-3b03-9655-5fd1b787703c">
+			<BuildDependency Project="ALL_BUILD.vcxproj"/>
+			<BuildDependency Project="../../ZERO_CHECK.vcxproj"/>
 			<Build Solution="Debug|*" Project="false"/>
 			<Build Solution="Release|*" Project="false"/>
 			<Build Solution="MinSizeRel|*" Project="false"/>

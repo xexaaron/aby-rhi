@@ -32,6 +32,7 @@ namespace aby::rhi {
     */
     class IInterface {
     public:
+        virtual ~IInterface() = default;
         virtual auto name() -> std::string_view = 0;
     private:
     };
@@ -62,14 +63,17 @@ namespace aby::rhi {
 
     /**
      * @brief IFileIO interface for reading/writing data. Used for reading/writing to/from shaders/textures
+     * @param rel_path A relative path starting from the currently set working directory
      */
     class IFileIO : public IInterface {
     public:
         auto name() -> std::string_view override;
         
-        virtual auto read(const fs::path& path, std::vector<uint8_t>* data) -> bool = 0;
-        virtual auto read(const fs::path& path, std::vector<uint32_t>* data) -> bool = 0;
-        virtual auto write(const fs::path& path, std::span<uint8_t> data) -> bool = 0;
+        virtual auto set_cwd(const fs::path& path) -> void = 0;
+        virtual auto cwd() const -> const fs::path& = 0;
+        virtual auto read(const fs::path& rel_path, std::vector<uint8_t>* data) -> bool = 0;
+        virtual auto read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool = 0;
+        virtual auto write(const fs::path& rel_path, std::span<uint8_t> data) -> bool = 0;
     private:
     };
 

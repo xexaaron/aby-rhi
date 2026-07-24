@@ -5,10 +5,13 @@ namespace aby::rhi {
 
     class DefaultFileIO final : public IFileIO {
     public:
-        auto read(const fs::path& path, std::vector<uint8_t>* data) -> bool override;
-        auto read(const fs::path& path, std::vector<uint32_t>* data) -> bool override;
-        auto write(const fs::path& path, std::span<uint8_t> data) -> bool override;
+        auto set_cwd(const fs::path& path) -> void override;
+        auto cwd() const -> const fs::path& override;
+        auto read(const fs::path& rel_path, std::vector<uint8_t>* data) -> bool override;
+        auto read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool override;
+        auto write(const fs::path& rel_path, std::span<uint8_t> data) -> bool override;
     private:
+        fs::path m_CWD;
     };
 
 }

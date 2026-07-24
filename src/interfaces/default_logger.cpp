@@ -10,6 +10,7 @@ namespace aby::rhi {
         constexpr std::string_view red                       = "\033[31m";
         constexpr std::string_view cyan                      = "\033[36m";
         constexpr std::string_view white                     = "\033[37m";
+        constexpr std::string_view dark_grey                 = "\033[90m";
 
         constexpr std::string_view red_background_white_text = "\033[41;97m";
     }
@@ -28,11 +29,15 @@ namespace aby::rhi {
 #ifdef NDEBUG // skip on release build
                 return;
 #endif
+                fmt = "[%sdbg%s] %s\n";
+                color = cyan;
                 break;
             case ELogLevel::trace:
 #ifdef NDEBUG // skip on release build
                 return;
 #endif             
+                fmt = "[%strc%s] %s\n";
+                color = dark_grey;
                 break;
             case ELogLevel::info:
                 fmt = "[%slog%s] %s\n";

@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/VulkanSDK/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -107,10 +107,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -123,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/VulkanSDK/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -139,7 +139,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -153,10 +153,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -169,7 +169,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/VulkanSDK/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -185,7 +185,7 @@
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -199,10 +199,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -215,7 +215,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/VulkanSDK/include"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -232,7 +232,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -244,10 +244,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\aby-rhi\include\aby-rhi;D:\aby-rhi\vendor\vma\include;D:\aby-rhi\vendor\shaderc\libshaderc\include;D:\aby-rhi\vendor\vk-bootstrap\src;D:\aby-rhi\vendor\Vulkan-Headers\include;D:\VulkanSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -320,6 +320,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\common.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\context.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\renderer.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\shader.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\interfaces.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_interfaces.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_allocator.hpp" />
@@ -327,6 +328,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_logger.hpp" />
     <ClCompile Include="D:\aby-rhi\src\context.cpp" />
     <ClCompile Include="D:\aby-rhi\src\renderer.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\shader.cpp" />
     <ClCompile Include="D:\aby-rhi\src\interfaces\interfaces.cpp" />
     <ClCompile Include="D:\aby-rhi\src\interfaces\default_allocator.cpp" />
     <ClCompile Include="D:\aby-rhi\src\interfaces\default_fileio.cpp" />
@@ -349,6 +351,30 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\third_party\glslang\SPIRV\SPIRV.vcxproj">
+      <Project>{9E7153BB-F3C6-3F2C-9523-8FFE5C65DDA0}</Project>
+      <Name>SPIRV</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\opt\SPIRV-Tools-opt.vcxproj">
+      <Project>{63C9EDE2-225F-377E-85E4-75000448F26D}</Project>
+      <Name>SPIRV-Tools-opt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\third_party\spirv-tools\source\SPIRV-Tools-static.vcxproj">
+      <Project>{1575BFD6-8565-3870-9EA3-230176363E50}</Project>
+      <Name>SPIRV-Tools-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\third_party\glslang\glslang\glslang.vcxproj">
+      <Project>{375A98B7-10BC-35B0-B9D0-854F53068081}</Project>
+      <Name>glslang</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\libshaderc\shaderc.vcxproj">
+      <Project>{79DAADE5-8FD8-3089-9B58-FF78C0128ACB}</Project>
+      <Name>shaderc</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\vendor\shaderc\libshaderc_util\shaderc_util.vcxproj">
+      <Project>{9B7A6A2D-05F8-3E4A-88F6-18100BC32D29}</Project>
+      <Name>shaderc_util</Name>
     </ProjectReference>
     <ProjectReference Include="D:\aby-rhi\bin\vendor\vk-bootstrap\vk-bootstrap.vcxproj">
       <Project>{E7073D26-E9E9-3BF4-9521-1442370001E2}</Project>
