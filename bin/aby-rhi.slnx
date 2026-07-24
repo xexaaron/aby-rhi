@@ -11,10 +11,16 @@
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<BuildDependency Project="vendor/vk-bootstrap/vk-bootstrap.vcxproj"/>
 	</Project>
+	<Project Path="test/win32/aby-rhi-test-win32.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5cd90042-c6e1-3ffb-a241-d3e1873fadd7">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="aby-rhi.vcxproj"/>
+		<BuildDependency Project="vendor/vk-bootstrap/vk-bootstrap.vcxproj"/>
+	</Project>
 	<Folder Name="/CMakePredefinedTargets/">
 		<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4064639b-670c-3e22-acaa-fd204e07522d" DefaultStartup="true">
 			<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 			<BuildDependency Project="aby-rhi.vcxproj"/>
+			<BuildDependency Project="test/win32/aby-rhi-test-win32.vcxproj"/>
 			<BuildDependency Project="vendor/vk-bootstrap/vk-bootstrap.vcxproj"/>
 			<Build Solution="Debug|*" Project="false"/>
 			<Build Solution="Release|*" Project="false"/>

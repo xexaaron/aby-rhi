@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/aby-rhi-test-win32.exe",
+            "args": [
+                "--wapi",
+                "sdl"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/bin/Debug",
+            "environment": [],
+            "console": "internalConsole",
+        },
+     
+    ],
+    "version": "2.0.0"
+}

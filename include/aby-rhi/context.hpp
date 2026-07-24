@@ -1,6 +1,7 @@
 #pragma once
 #include "interfaces.hpp"
 #include "common.hpp"
+#include "renderer.hpp"
 #include <type_traits>
 #include <vector> 
 #include <concepts>
@@ -10,10 +11,12 @@ namespace aby::rhi {
     class Context {
     public:
         static auto get() -> Context&;  
-        auto init(ERenderer backend);
-        auto deinit(); 
+        auto init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool;
+        auto deinit() -> void; 
 
-        auto backend() const -> ERenderer;
+        auto renderer_backend() const -> ERenderer;
+        auto window_backend() const -> EWindow;
+        auto renderer() -> IRenderer*;
         auto logger() -> ILogger*;
         auto allocator() -> IAllocator*;
 
@@ -37,7 +40,9 @@ namespace aby::rhi {
     private:
         ILogger*    m_Logger;
         IAllocator* m_Allocator;
-        ERenderer   m_Backend;
+        IRenderer*  m_Renderer;
+        ERenderer   m_RendererBackend;
+        EWindow     m_WinBackend;
     };
 
 

@@ -178,6 +178,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{4A97D63F-1D46-338F-9E09-2E33B86524CB}</Project>
       <Name>aby-rhi</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\aby-rhi\bin\test\win32\aby-rhi-test-win32.vcxproj">
+      <Project>{5CD90042-C6E1-3FFB-A241-D3E1873FADD7}</Project>
+      <Name>aby-rhi-test-win32</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\aby-rhi\bin\vendor\vk-bootstrap\vk-bootstrap.vcxproj">
       <Project>{E7073D26-E9E9-3BF4-9521-1442370001E2}</Project>
       <Name>vk-bootstrap</Name>

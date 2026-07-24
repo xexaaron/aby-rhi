@@ -317,10 +317,22 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\aby-rhi.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\common.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\context.hpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\renderer.hpp" />
+    <ClCompile Include="D:\aby-rhi\src\context.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\renderer.cpp" />
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-dispatch.hpp" />
-    <ClCompile Include="D:\aby-rhi\src\aby-rhi.cpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-renderer.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-callbacks.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-platform.hpp" />
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-helpers.hpp" />
     <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-dispatch.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-renderer.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-callbacks.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-platform.cpp" />
+    <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-helpers.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

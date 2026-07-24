@@ -5,3 +5,5 @@ D:/aby-rhi/bin/vendor/Vulkan-Headers/CMakeFiles/ALL_BUILD.dir
 D:/aby-rhi/bin/vendor/vk-bootstrap/CMakeFiles/vk-bootstrap.dir
 D:/aby-rhi/bin/vendor/vk-bootstrap/CMakeFiles/ALL_BUILD.dir
 D:/aby-rhi/bin/vendor/vma/CMakeFiles/ALL_BUILD.dir
+D:/aby-rhi/bin/test/win32/CMakeFiles/aby-rhi-test-win32.dir
+D:/aby-rhi/bin/test/win32/CMakeFiles/ALL_BUILD.dir

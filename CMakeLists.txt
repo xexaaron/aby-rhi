@@ -10,6 +10,8 @@ set(VENDOR_DIR ${CMAKE_SOURCE_DIR}/vendor)
 set(ABY_RHI_INCLUDE_DIR "include/aby-rhi")
 set(ABY_RHI_SRC_DIR "src")
 
+option(ABY_RHI_BUILD_TESTS "build aby-rhi tests for the specific platform" ON)
+
 add_subdirectory(${VENDOR_DIR}/Vulkan-Headers)
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE PATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
@@ -19,7 +21,7 @@ find_package(Vulkan REQUIRED)
 add_library(${PROJECT_NAME} 
     # User API
     ${ABY_RHI_INCLUDE_DIR}/aby-rhi.hpp
-    ${ABY_RHI_INCLUDE_DIR}/commmon.hpp
+    ${ABY_RHI_INCLUDE_DIR}/common.hpp
     ${ABY_RHI_INCLUDE_DIR}/context.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
@@ -28,8 +30,15 @@ add_library(${PROJECT_NAME}
     # Vulkan
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-callbacks.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-platform.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-helpers.cpp
+
 )
 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
@@ -57,6 +66,10 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1
 )
+
+if (ABY_RHI_BUILD_TESTS)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/test/win32)
+endif()
 
 if(MSVC)
     set_target_properties(vk-bootstrap PROPERTIES FOLDER "dependencies/vk")

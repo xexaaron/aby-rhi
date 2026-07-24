@@ -4,7 +4,8 @@
 		"D:/aby-rhi/bin/cmake_install.cmake",
 		"D:/aby-rhi/bin/vendor/Vulkan-Headers/cmake_install.cmake",
 		"D:/aby-rhi/bin/vendor/vk-bootstrap/cmake_install.cmake",
-		"D:/aby-rhi/bin/vendor/vma/cmake_install.cmake"
+		"D:/aby-rhi/bin/vendor/vma/cmake_install.cmake",
+		"D:/aby-rhi/bin/test/win32/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

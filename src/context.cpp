@@ -1,4 +1,5 @@
 #include "context.hpp"
+#include "backends/vulkan/vulkan-renderer.hpp"
 #include <assert.h>
 
 namespace aby::rhi {
@@ -57,23 +58,45 @@ namespace aby::rhi {
         return context;
     }  
 
-    auto Context::init(ERenderer backend) {
+    auto Context::init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool {
         assert(m_Logger && "Context::set_interface<...>() was not called with a valid logger subclass");        
         if (!m_Allocator) {
             set_interface<DefaultAllocator>();
         }
     
-        m_Backend = backend;
+        m_RendererBackend = renderer_backend;
+        m_WinBackend      = window_backend;
+        switch (renderer_backend) {
+            case ERenderer::vulkan:
+                m_Renderer = new vulkan::Renderer();
+                if (!m_Renderer->init(native_window)) {
+                    return false;
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return true;
     }
 
 
-    auto Context::deinit() {
+    auto Context::deinit() -> void {
+        delete m_Renderer;
         delete m_Logger;
         delete m_Allocator;
     }
 
-    auto Context::backend() const -> ERenderer {
-        return m_Backend;
+    auto Context::renderer_backend() const -> ERenderer {
+        return m_RendererBackend;
+    }
+
+    auto Context::window_backend() const -> EWindow {
+        return m_WinBackend;
+    }
+
+    auto Context::renderer() -> IRenderer* {
+        return m_Renderer;
     }
 
 
