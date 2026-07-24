@@ -28,7 +28,7 @@ namespace aby::rhi::vulkan {
     
     auto VKAPI_PTR vk_free_callback(void* pUserData, void* pMemory) -> void {
         auto* allocator = (IAllocator*)pUserData;
-        allocator->free(pMemory);
+        allocator->free(pMemory, EAllocation::backend);
     }
 
     VKAPI_ATTR VkBool32 VKAPI_CALL vk_debug_callback(

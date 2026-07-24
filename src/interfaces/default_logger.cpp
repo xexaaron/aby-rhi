@@ -1,0 +1,58 @@
+#include "interfaces/default_logger.hpp"
+
+namespace aby::rhi {
+
+    namespace {
+        constexpr std::string_view reset                     = "\033[0m";
+
+        constexpr std::string_view green                     = "\033[32m";
+        constexpr std::string_view yellow                    = "\033[33m";
+        constexpr std::string_view red                       = "\033[31m";
+        constexpr std::string_view cyan                      = "\033[36m";
+        constexpr std::string_view white                     = "\033[37m";
+
+        constexpr std::string_view red_background_white_text = "\033[41;97m";
+    }
+
+    
+    auto DefaultLogger::name() -> std::string_view {
+        return "DefaultLogger";
+    }
+
+    auto DefaultLogger::log(ELogLevel level, const std::string& msg) -> void {
+        std::string_view fmt;
+        std::string_view color;
+
+        switch (level) {
+            case ELogLevel::debug:
+#ifdef NDEBUG // skip on release build
+                return;
+#endif
+                break;
+            case ELogLevel::trace:
+#ifdef NDEBUG // skip on release build
+                return;
+#endif             
+                break;
+            case ELogLevel::info:
+                fmt = "[%slog%s] %s\n";
+                color = green;
+                break; 
+            case ELogLevel::warn:
+                fmt = "[%swrn%s] %s\n";
+                color = yellow;
+                break;
+            case ELogLevel::error:
+                fmt = "[%serr%s] %s\n";
+                color = red;
+                break;
+            case ELogLevel::fatal:
+                fmt = "[%sftl%s] %s\n";
+                color = red_background_white_text;
+                break;
+        }
+
+        std::fprintf(stdout, fmt.data(), color.data(), reset.data(), msg.c_str());
+    }
+
+}

@@ -1,5 +1,9 @@
 D:\aby-rhi\src\context.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\context.obj
 D:\aby-rhi\src\renderer.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\renderer.obj
+D:\aby-rhi\src\interfaces\interfaces.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\interfaces.obj
+D:\aby-rhi\src\interfaces\default_allocator.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\default_allocator.obj
+D:\aby-rhi\src\interfaces\default_fileio.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\default_fileio.obj
+D:\aby-rhi\src\interfaces\default_logger.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\default_logger.obj
 D:\aby-rhi\src\backends\vulkan\vulkan-dispatch.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\vulkan-dispatch.obj
 D:\aby-rhi\src\backends\vulkan\vulkan-renderer.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\vulkan-renderer.obj
 D:\aby-rhi\src\backends\vulkan\vulkan-callbacks.cpp;D:\aby-rhi\bin\aby-rhi.dir\Debug\vulkan-callbacks.obj

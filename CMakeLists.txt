@@ -19,20 +19,33 @@ add_subdirectory(${VENDOR_DIR}/vma)
 find_package(Vulkan REQUIRED)
 
 add_library(${PROJECT_NAME} 
-    # User API
+    # User API 
     ${ABY_RHI_INCLUDE_DIR}/aby-rhi.hpp
     ${ABY_RHI_INCLUDE_DIR}/common.hpp
     ${ABY_RHI_INCLUDE_DIR}/context.hpp
-    ${ABY_RHI_INCLUDE_DIR}/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/default_allocator.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/default_fileio.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/default_logger.hpp
+
+
     ${ABY_RHI_SRC_DIR}/context.cpp
     ${ABY_RHI_SRC_DIR}/renderer.cpp
+    ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
+    ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
+    ${ABY_RHI_SRC_DIR}/interfaces/default_fileio.cpp
+    ${ABY_RHI_SRC_DIR}/interfaces/default_logger.cpp
+
+
     # Vulkan
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-callbacks.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
+    
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp

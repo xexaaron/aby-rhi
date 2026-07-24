@@ -37,6 +37,7 @@ namespace aby::rhi::vulkan {
         blit_region.srcOffsets[1].x = src_sz.width;
         blit_region.srcOffsets[1].y = src_sz.height;
         blit_region.srcOffsets[1].z = 1;
+        
         blit_region.dstOffsets[1].x = dst_sz.width;
         blit_region.dstOffsets[1].y = dst_sz.height;
         blit_region.dstOffsets[1].z = 1;

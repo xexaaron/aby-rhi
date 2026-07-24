@@ -7,6 +7,18 @@
     <ClCompile Include="D:\aby-rhi\src\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\aby-rhi\src\interfaces\interfaces.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\aby-rhi\src\interfaces\default_allocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\aby-rhi\src\interfaces\default_fileio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\aby-rhi\src\interfaces\default_logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\aby-rhi\src\backends\vulkan\vulkan-dispatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,10 +45,22 @@
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces.hpp">
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\aby-rhi\include\aby-rhi\renderer.hpp">
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\interfaces.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_interfaces.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_allocator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_fileio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\aby-rhi\include\aby-rhi\interfaces\default_logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\aby-rhi\include\aby-rhi\backends\vulkan\vulkan-dispatch.hpp">
