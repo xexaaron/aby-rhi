@@ -23,23 +23,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     auto* ren = reinterpret_cast<aby::rhi::IRenderer*>(
         GetWindowLongPtr(hwnd, GWLP_USERDATA));
     
-    static bool resizing = false;
-    static uint32_t x = 0, y = 0;
 
     switch (msg) {
-        case WM_ENTERSIZEMOVE: {
-            resizing = true;
-            break;
-        }
         case WM_SIZE: {
-            x  = LOWORD(lParam);
-            y = HIWORD(lParam);
-            break;
-        }
-        case WM_EXITSIZEMOVE: {
-            if (ren && resizing) {
-                ren->on_resize(x, y);
-                resizing = false;
+            if (ren) {
+                ren->on_resize(LOWORD(lParam), HIWORD(lParam));
             }
             break;
         }
@@ -87,7 +75,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 1;
 
     auto* ren = ctx.renderer();
-
+    ren->set_clear_color(Color(0.5f));
+    
     MSG msg;
     while (true)
     {
@@ -100,8 +89,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             DispatchMessage(&msg);
         }
 
-        ren->on_begin();
+        if (!ren->on_begin()) continue;
+
         ren->on_end();
+
     }
 
     return 0;
