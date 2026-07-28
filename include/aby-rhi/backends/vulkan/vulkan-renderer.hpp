@@ -3,6 +3,7 @@
 #include "backends/vulkan/vulkan-descriptors.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
+#include "backends/vulkan/vulkan-render-pass.hpp"
 #include <vulkan/vulkan.hpp>
 #include <vk_mem_alloc.h>
 #include <VkBootstrap.h>
@@ -41,6 +42,8 @@ namespace aby::rhi::vulkan {
         auto init(void* native_window) -> bool override;
         auto deinit() -> void override;
         auto set_clear_color(Color color) -> void override;
+        auto add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void override;
+      
         auto on_begin() -> bool override;
         auto on_end() -> bool override;
         auto on_resize(uint32_t width, uint32_t height) -> void override;
@@ -67,16 +70,14 @@ namespace aby::rhi::vulkan {
         vkb::Instance               m_Instance              = {};
         vk::ClearColorValue         m_ClearColor            = {};
 
-        std::unique_ptr<Pipeline>   m_TriPipeline;
-        std::shared_ptr<Shader>     m_DrawImageVertex           = nullptr;
-        std::shared_ptr<Shader>     m_DrawImageFragment         = nullptr;
         AllocatedImage              m_DrawImage                 = {};
         vk::DescriptorSet           m_DrawImageDescriptors      = VK_NULL_HANDLE;
         vk::DescriptorSetLayout     m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
         
- 
         std::vector<SwapchainImage> m_Images;
         std::array<FrameData, MAX_FRAMES_IN_FLIGHT> m_Frames;
+
+        std::vector<std::shared_ptr<RenderPass>> m_RenderPasses;
     };
 
 }

@@ -71,17 +71,18 @@ namespace aby::rhi {
         using underlying_type = T;
 
         template <typename U>
-            requires (
-                requires(const U& v) {
-                    v.x;
-                    v.y;
-                } &&
-                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
-            )
-        vec2(const U& vec_type)
-            : x(static_cast<T>(vec_type.x))
-            , y(static_cast<T>(vec_type.y))
-        {}
+        requires (
+            requires(const U& v) {
+                v.x;
+                v.y;
+            } &&
+            !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+        )
+        vec2(const U& vec_type) : 
+            x(static_cast<T>(vec_type.x)),
+            y(static_cast<T>(vec_type.y)) {}
+        vec2(T x, T y) : x(x), y(y) {}
+        vec2(T s) : x(s), y(s) {}
 
         T x, y;
     };
@@ -91,19 +92,20 @@ namespace aby::rhi {
         using underlying_type = T;
 
         template <typename U>
-            requires (
-                requires(const U& v) {
-                    v.x;
-                    v.y;
-                    v.z;
-                } &&
-                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
-            )
-        vec3(const U& vec_type)
-            : x(static_cast<T>(vec_type.x))
-            , y(static_cast<T>(vec_type.y))
-            , z(static_cast<T>(vec_type.z))
-        {}
+        requires (
+            requires(const U& v) {
+                v.x;
+                v.y;
+                v.z;
+            } &&
+            !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+        )
+        vec3(const U& vec_type) :
+            x(static_cast<T>(vec_type.x)),
+            y(static_cast<T>(vec_type.y)),
+            z(static_cast<T>(vec_type.z)) {}
+        vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+        vec3(T s) : x(s), y(s), z(s) {}
 
         T x, y, z;
     };
@@ -113,21 +115,22 @@ namespace aby::rhi {
         using underlying_type = T;
 
         template <typename U>
-            requires (
-                requires(const U& v) {
-                    v.x;
-                    v.y;
-                    v.z;
-                    v.w;
-                } &&
-                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
-            )
-        vec4(const U& vec_type)
-            : x(static_cast<T>(vec_type.x))
-            , y(static_cast<T>(vec_type.y))
-            , z(static_cast<T>(vec_type.z))
-            , w(static_cast<T>(vec_type.w))
-        {}
+        requires (
+            requires(const U& v) {
+                v.x;
+                v.y;
+                v.z;
+                v.w;
+            } &&
+            !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+        )
+        vec4(const U& vec_type) :
+            x(static_cast<T>(vec_type.x)),
+            y(static_cast<T>(vec_type.y)),
+            z(static_cast<T>(vec_type.z)),
+            w(static_cast<T>(vec_type.w)) {}
+        vec4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+        vec4(T s) : x(s), y(s), z(s), w(s) {}
 
         T x, y, z, w;
     };

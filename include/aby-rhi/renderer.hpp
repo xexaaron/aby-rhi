@@ -1,5 +1,6 @@
 #pragma once
 #include "common.hpp"
+#include "render-pass.hpp"
 #include <cstdint>
 
 namespace aby::rhi {
@@ -15,6 +16,7 @@ namespace aby::rhi {
 
         virtual auto init(void* native_window) -> bool = 0;
         virtual auto deinit() -> void = 0;
+        virtual auto add_pass(std::shared_ptr<RenderPass> render_pass) -> void = 0;
         virtual auto set_clear_color(Color color) -> void = 0;
         virtual auto on_begin() -> bool = 0;
         virtual auto on_end() -> bool = 0;

@@ -36,6 +36,10 @@ namespace aby::rhi::vulkan {
     
     }
     
+    auto Shader::type() const -> EShader {
+        return m_Type;
+    }
+
     auto Shader::module() -> vk::ShaderModule {
         return m_Module;
     }

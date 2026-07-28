@@ -35,7 +35,11 @@ namespace aby::rhi {
         static auto create(const fs::path& rel_path) -> std::shared_ptr<Shader>;
         virtual ~Shader() = default;
         
+
         virtual auto bind() -> void = 0;
+
+        virtual auto type() const -> EShader = 0;
+
         virtual auto set_uniform(std::string_view name, int32_t v) -> void = 0;
         virtual auto set_uniform(std::string_view name, vec2<int32_t> v) -> void = 0;
         virtual auto set_uniform(std::string_view name, vec3<int32_t> v) -> void = 0;

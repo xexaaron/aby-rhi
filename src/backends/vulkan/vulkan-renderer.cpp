@@ -46,23 +46,23 @@ namespace aby::rhi::vulkan {
         }
         m_Surface = surface;
 
-        VkPhysicalDeviceVulkan11Features features_11 { .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES };
-        VkPhysicalDeviceVulkan12Features features_12{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES };
-        features_12.bufferDeviceAddress = true;
-        features_12.descriptorIndexing = true;
-        features_12.timelineSemaphore = true;
-        VkPhysicalDeviceVulkan13Features features_13{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
-        features_13.dynamicRendering = true;
-        features_13.synchronization2 = true;
-        VkPhysicalDeviceVulkan14Features features_14{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES };
+        vk::PhysicalDeviceVulkan11Features features11;
+        vk::PhysicalDeviceVulkan12Features features12;
+        features12.setBufferDeviceAddress(vk::True)
+                  .setDescriptorIndexing(vk::True)
+                  .setTimelineSemaphore(vk::True);
+        vk::PhysicalDeviceVulkan13Features features13;
+        features13.setDynamicRendering(vk::True)
+                  .setSynchronization2(vk::True);
+        vk::PhysicalDeviceVulkan14Features features14;
 
         vkb::PhysicalDeviceSelector selector(inst_ret.value());
         auto gpu_ret = selector
             .set_minimum_version(1, 3)
-            .set_required_features_14(features_14)
-            .set_required_features_13(features_13)
-            .set_required_features_12(features_12)
-            .set_required_features_11(features_11)
+            .set_required_features_14(features14)
+            .set_required_features_13(features13)
+            .set_required_features_12(features12)
+            .set_required_features_11(features11)
             .set_surface(m_Surface)
             .add_required_extensions(device_extensions)
             .select();
@@ -215,45 +215,15 @@ namespace aby::rhi::vulkan {
         ), "failed to create draw image view");
 
 
-        m_DrawImageVertex   = std::static_pointer_cast<vulkan::Shader>(Shader::create("colored_triangle.vert"));
-        m_DrawImageFragment = std::static_pointer_cast<vulkan::Shader>(Shader::create("colored_triangle.frag"));
-        
-        PipelineBuilder pbuilder;
-        m_TriPipeline = pbuilder.add_shader(EShader::vert, m_DrawImageVertex->module())
-            .add_shader(EShader::frag, m_DrawImageFragment->module())
-            .set_topology(vk::PrimitiveTopology::eTriangleList)
-            .set_polygon_mode(vk::PolygonMode::eFill)
-            .set_cull_mode(vk::CullModeFlagBits::eNone, vk::FrontFace::eClockwise)
-            .set_color_attachment_format(m_DrawImage.format)
-            .set_depth_format(vk::Format::eUndefined)
-            .disable_multisampling()
-            .disable_blending()
-            .disable_depthtest()
-            .build();
-
-
-        std::vector<PoolSizeRatio> draw_image_pool_sizes{
-            { vk::DescriptorType::eStorageImage, 1 }
-        };
-        
-        if (!m_DescAllocator.init(10, draw_image_pool_sizes)) return false;
-        
-        {
-            DescriptorLayoutBuilder builder;
-            builder.add_binding(0, vk::DescriptorType::eStorageImage);
-        }
-
-
-
         return true;
     }
     
     auto Renderer::deinit() -> void {
         while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS);
 
-        m_DrawImageFragment.reset();
-        m_DrawImageVertex.reset();
-        m_TriPipeline->destroy();
+        for (auto& render_pass : m_RenderPasses) {
+            render_pass->destroy();
+        }
 
         for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroyCommandPool(m_Device.device, m_Frames[i].pool, allocator());
@@ -366,33 +336,22 @@ namespace aby::rhi::vulkan {
             reinterpret_cast<VkRenderingInfo*>(&render_info)
         );
 
-        m_TriPipeline->bind(frame.cmd, vk::PipelineBindPoint::eGraphics);
+        for (auto& render_pass : m_RenderPasses) {
+            render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
+            render_pass->set_cmd_buffer(frame.cmd);
+            render_pass->bind();
+            render_pass->set_viewport({
+                static_cast<float>(m_DrawImage.extent.width),
+                static_cast<float>(m_DrawImage.extent.height)
+            });
+            render_pass->set_scissor({0.f, 0.f}, {
+                static_cast<float>(m_DrawImage.extent.width),
+                static_cast<float>(m_DrawImage.extent.height)
+            });
+        }
 
-        //set dynamic viewport and scissor
-        VkViewport viewport = {};
-        viewport.x = 0;
-        viewport.y = 0;
-        viewport.width = m_DrawImage.extent.width;
-        viewport.height = m_DrawImage.extent.height;
-        viewport.minDepth = 0.f;
-        viewport.maxDepth = 1.f;
-
-        vkCmdSetViewport(frame.cmd, 0, 1, &viewport);
-
-        VkRect2D scissor = {};
-        scissor.offset.x = 0;
-        scissor.offset.y = 0;
-        scissor.extent.width = m_DrawImage.extent.width;
-        scissor.extent.height = m_DrawImage.extent.height;
-
-        vkCmdSetScissor(frame.cmd, 0, 1, &scissor);
-
-        //launch a draw command to draw 3 vertices
         vkCmdDraw(frame.cmd, 3, 1, 0, 0);
-
         vkCmdEndRendering(frame.cmd);
-
-        //
 
         transition_image(
             frame.cmd,
@@ -622,5 +581,10 @@ namespace aby::rhi::vulkan {
     auto Renderer::device() -> vkb::Device& {
         return m_Device;
     }
+
+    auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {
+        m_RenderPasses.push_back(std::static_pointer_cast<RenderPass>(render_pass));
+    }
+
 
 }

@@ -12,7 +12,9 @@ namespace aby::rhi::vulkan {
         ~Shader();
 
         auto bind() -> void override;
+
         auto module() -> vk::ShaderModule;
+        auto type() const -> EShader override;
 
         auto set_uniform(std::string_view name, int32_t v) -> void override;
         auto set_uniform(std::string_view name, vec2<int32_t> v) -> void override;

@@ -35,6 +35,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/common.hpp
     ${ABY_RHI_INCLUDE_DIR}/context.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
+    ${ABY_RHI_INCLUDE_DIR}/render-pass.hpp
     ${ABY_RHI_INCLUDE_DIR}/shader.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
@@ -45,6 +46,7 @@ add_library(${PROJECT_NAME}
 
     ${ABY_RHI_SRC_DIR}/context.cpp
     ${ABY_RHI_SRC_DIR}/renderer.cpp
+    ${ABY_RHI_SRC_DIR}/render-pass.cpp
     ${ABY_RHI_SRC_DIR}/shader.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
@@ -60,6 +62,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-pipeline.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-render-pass.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-shader.hpp
 
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp
@@ -69,6 +72,8 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-pipeline.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-platform.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-render-pass.cpp
+
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-shader.cpp
 
 )

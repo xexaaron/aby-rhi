@@ -61,7 +61,25 @@ int main(int argc, char** argv) {
     if (!ctx.init_renderer()) 
         return 1;
 
+        
+    auto vertex_shader   = Shader::create("colored_triangle.vert");
+    auto fragment_shader = Shader::create("colored_triangle.frag");
     auto* ren = ctx.renderer();
+
+    auto rpsb = RenderPassBuilder::create();
+    auto pass = rpsb->add_shader(vertex_shader)
+        .add_shader(fragment_shader)
+        .set_color_attachment_format(EFormat::rgba_sf16)
+        .set_depth_format(EFormat::none)
+        .use_default_cull_mode()
+        .use_default_polygon_mode()
+        .use_default_topology()
+        .disable_multisampling()
+        .disable_blending()
+        .disable_depthtest()
+        .build();
+
+    ren->add_pass(pass);
     ren->set_clear_color(Color(0.5f));
     
     MSG msg;
