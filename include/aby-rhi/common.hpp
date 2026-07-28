@@ -1,6 +1,13 @@
 #pragma once
 #include <algorithm>
 
+#define aby_rhi_dbg(msg, ...) Context::get().logger()->log(ELogLevel::debug, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_trc(msg, ...) Context::get().logger()->log(ELogLevel::trace, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_log(msg, ...) Context::get().logger()->log(ELogLevel::info, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_wrn(msg, ...) Context::get().logger()->log(ELogLevel::warn, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_err(msg, ...) Context::get().logger()->log(ELogLevel::error, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_ftl(msg, ...) Context::get().logger()->log(ELogLevel::fatal, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+
 namespace aby::rhi {
 
     enum class EAllocation {
@@ -18,6 +25,15 @@ namespace aby::rhi {
         xcb,
         wayland,
         metal
+    };
+
+    enum class EShader {
+        none = 0,
+        vert = 1,
+        frag = 2,
+        px   = frag,
+        comp = 3,
+        geom = 4,
     };
 
     struct Color {
@@ -46,6 +62,84 @@ namespace aby::rhi {
             };
         };
       
+    };
+
+    struct vec_tag {};
+
+    template <typename T>
+    struct vec2 : vec_tag {
+        using underlying_type = T;
+
+        template <typename U>
+            requires (
+                requires(const U& v) {
+                    v.x;
+                    v.y;
+                } &&
+                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+            )
+        vec2(const U& vec_type)
+            : x(static_cast<T>(vec_type.x))
+            , y(static_cast<T>(vec_type.y))
+        {}
+
+        T x, y;
+    };
+
+    template <typename T>
+    struct vec3 : vec_tag {
+        using underlying_type = T;
+
+        template <typename U>
+            requires (
+                requires(const U& v) {
+                    v.x;
+                    v.y;
+                    v.z;
+                } &&
+                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+            )
+        vec3(const U& vec_type)
+            : x(static_cast<T>(vec_type.x))
+            , y(static_cast<T>(vec_type.y))
+            , z(static_cast<T>(vec_type.z))
+        {}
+
+        T x, y, z;
+    };
+
+    template <typename T>
+    struct vec4 : vec_tag {
+        using underlying_type = T;
+
+        template <typename U>
+            requires (
+                requires(const U& v) {
+                    v.x;
+                    v.y;
+                    v.z;
+                    v.w;
+                } &&
+                !std::derived_from<std::remove_cvref_t<U>, vec_tag>
+            )
+        vec4(const U& vec_type)
+            : x(static_cast<T>(vec_type.x))
+            , y(static_cast<T>(vec_type.y))
+            , z(static_cast<T>(vec_type.z))
+            , w(static_cast<T>(vec_type.w))
+        {}
+
+        T x, y, z, w;
+    };
+
+    struct mat4 {
+        /// @brief Your mat4 type must be 16 contiguous floats only ie. glm::mat4 
+        template <typename T>
+        mat4(const T& mat_type) {
+            std::memcpy(data, reinterpret_cast<float*>(*mat_type), sizeof(float) * 16);
+        }
+
+        float data[16];
     };
 
 }

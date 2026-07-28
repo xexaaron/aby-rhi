@@ -78,11 +78,9 @@ namespace aby::rhi::vulkan {
 
 
     auto log_error(const std::string& message, const vkb::Error& error) -> void {
-        auto* log = Context::get().logger();
-        log->log(ELogLevel::error, std::format("[vulkan] {}", message));
+        aby_rhi_err("[vulkan] {}", message);
         for (size_t i = 0; i < error.detailed_failure_reasons.size(); i++) {
-            auto msg = std::format("[vulkan] {}) {}", i, error.detailed_failure_reasons[i]);
-            log->log(ELogLevel::error, msg);
+            aby_rhi_err("[vulkan] {}) {}", i, error.detailed_failure_reasons[i]);
         }
     }
 

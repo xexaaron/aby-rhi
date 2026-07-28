@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
+
 set(VENDOR_DIR ${CMAKE_SOURCE_DIR}/vendor)
 set(ABY_RHI_INCLUDE_DIR "include/aby-rhi")
 set(ABY_RHI_SRC_DIR "src")
@@ -25,6 +26,7 @@ set(SHADERC_SKIP_TESTS           ON CACHE BOOL "")
 set(SHADERC_SKIP_EXECUTABLES     ON CACHE BOOL "")
 set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "")
 add_subdirectory(${VENDOR_DIR}/shaderc)
+
 find_package(Vulkan REQUIRED)
 
 add_library(${PROJECT_NAME} 
@@ -51,17 +53,23 @@ add_library(${PROJECT_NAME}
 
 
     # Vulkan
-    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
-    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-callbacks.hpp
-    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-descriptors.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
-    
-    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
-    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-pipeline.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-shader.hpp
+
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp
-    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-platform.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-descriptors.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-helpers.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-pipeline.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-platform.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-shader.cpp
 
 )
 
@@ -71,6 +79,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
 
+list(APPEND CMAKE_PREFIX_PATH "$ENV{VULKAN_SDK}/Lib/cmake")
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     Vulkan::Vulkan
     vk-bootstrap::vk-bootstrap

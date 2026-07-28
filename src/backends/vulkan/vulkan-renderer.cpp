@@ -2,6 +2,7 @@
 #include "backends/vulkan/vulkan-callbacks.hpp"
 #include "backends/vulkan/vulkan-platform.hpp"
 #include "backends/vulkan/vulkan-helpers.hpp"
+#include "backends/vulkan/vulkan-pipeline.hpp"
 #include "context.hpp"
 #include <vector>
 #include <VkBootstrap.h>
@@ -17,10 +18,9 @@ namespace aby::rhi::vulkan {
         }
 
 #ifndef NDEBUG
-        log->log(ELogLevel::debug, std::format("[vulkan] instance extensions: {}", instance_extensions.size()));
+        aby_rhi_dbg("[vulkan] instance extensions: {}", instance_extensions.size());
         for (size_t i = 0; i < instance_extensions.size(); i++) {
-            std::string msg = std::format(" -- {}) {}", i, instance_extensions[i]);
-            log->log(ELogLevel::debug, msg);
+            aby_rhi_dbg("[vulkan] -- {}) {}", i, instance_extensions[i]);
         }
 #endif
      
@@ -85,7 +85,7 @@ namespace aby::rhi::vulkan {
 #ifndef NDEBUG
         VkPhysicalDeviceProperties props = {0};
         vkGetPhysicalDeviceProperties(m_Device.physical_device, &props);
-        log->log(ELogLevel::debug, std::format("[vulkan] Found GPU: {}", props.deviceName));
+        aby_rhi_dbg("[vulkan] found GPU: {}", props.deviceName);
 #endif
 
         vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
@@ -215,11 +215,45 @@ namespace aby::rhi::vulkan {
         ), "failed to create draw image view");
 
 
+        m_DrawImageVertex   = std::static_pointer_cast<vulkan::Shader>(Shader::create("colored_triangle.vert"));
+        m_DrawImageFragment = std::static_pointer_cast<vulkan::Shader>(Shader::create("colored_triangle.frag"));
+        
+        PipelineBuilder pbuilder;
+        m_TriPipeline = pbuilder.add_shader(EShader::vert, m_DrawImageVertex->module())
+            .add_shader(EShader::frag, m_DrawImageFragment->module())
+            .set_topology(vk::PrimitiveTopology::eTriangleList)
+            .set_polygon_mode(vk::PolygonMode::eFill)
+            .set_cull_mode(vk::CullModeFlagBits::eNone, vk::FrontFace::eClockwise)
+            .set_color_attachment_format(m_DrawImage.format)
+            .set_depth_format(vk::Format::eUndefined)
+            .disable_multisampling()
+            .disable_blending()
+            .disable_depthtest()
+            .build();
+
+
+        std::vector<PoolSizeRatio> draw_image_pool_sizes{
+            { vk::DescriptorType::eStorageImage, 1 }
+        };
+        
+        if (!m_DescAllocator.init(10, draw_image_pool_sizes)) return false;
+        
+        {
+            DescriptorLayoutBuilder builder;
+            builder.add_binding(0, vk::DescriptorType::eStorageImage);
+        }
+
+
+
         return true;
     }
     
     auto Renderer::deinit() -> void {
         while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS);
+
+        m_DrawImageFragment.reset();
+        m_DrawImageVertex.reset();
+        m_TriPipeline->destroy();
 
         for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroyCommandPool(m_Device.device, m_Frames[i].pool, allocator());
@@ -300,14 +334,80 @@ namespace aby::rhi::vulkan {
             frame.cmd,
             m_DrawImage.img,
             vk::ImageLayout::eGeneral,
+            vk::ImageLayout::eColorAttachmentOptimal
+        );
+
+        // draw_geometry
+
+        vk::RenderingAttachmentInfo color_attachment(
+            m_DrawImage.view,
+            vk::ImageLayout::eColorAttachmentOptimal,
+            vk::ResolveModeFlagBits::eNone,
+            {}, /* resolve image view */
+            vk::ImageLayout::eUndefined,
+            vk::AttachmentLoadOp::eLoad,
+            vk::AttachmentStoreOp::eStore
+        );
+
+        vk::RenderingInfo render_info(
+            vk::RenderingFlags{},
+            vk::Rect2D(
+                vk::Offset2D{},
+                vk::Extent2D(m_DrawImage.extent.width, m_DrawImage.extent.height)
+            ),
+            1, /* layer count*/
+            0, /* view mask */
+            1, /* color attachment count */
+            &color_attachment
+        );
+
+        vkCmdBeginRendering(
+            frame.cmd,
+            reinterpret_cast<VkRenderingInfo*>(&render_info)
+        );
+
+        m_TriPipeline->bind(frame.cmd, vk::PipelineBindPoint::eGraphics);
+
+        //set dynamic viewport and scissor
+        VkViewport viewport = {};
+        viewport.x = 0;
+        viewport.y = 0;
+        viewport.width = m_DrawImage.extent.width;
+        viewport.height = m_DrawImage.extent.height;
+        viewport.minDepth = 0.f;
+        viewport.maxDepth = 1.f;
+
+        vkCmdSetViewport(frame.cmd, 0, 1, &viewport);
+
+        VkRect2D scissor = {};
+        scissor.offset.x = 0;
+        scissor.offset.y = 0;
+        scissor.extent.width = m_DrawImage.extent.width;
+        scissor.extent.height = m_DrawImage.extent.height;
+
+        vkCmdSetScissor(frame.cmd, 0, 1, &scissor);
+
+        //launch a draw command to draw 3 vertices
+        vkCmdDraw(frame.cmd, 3, 1, 0, 0);
+
+        vkCmdEndRendering(frame.cmd);
+
+        //
+
+        transition_image(
+            frame.cmd,
+            m_DrawImage.img, 
+            vk::ImageLayout::eColorAttachmentOptimal,
             vk::ImageLayout::eTransferSrcOptimal
         );
+
         transition_image(
             frame.cmd,
             swapchain_img,
             vk::ImageLayout::eUndefined,
             vk::ImageLayout::eTransferDstOptimal
         );
+
         copy_image_to_image(
             frame.cmd,
             m_DrawImage.img,
@@ -315,6 +415,7 @@ namespace aby::rhi::vulkan {
             swapchain_img,
             m_Swapchain.extent
         );
+
         transition_image(
             frame.cmd,
             swapchain_img, 
@@ -517,5 +618,9 @@ namespace aby::rhi::vulkan {
         }
     }
 
+
+    auto Renderer::device() -> vkb::Device& {
+        return m_Device;
+    }
 
 }

@@ -18,26 +18,22 @@ namespace aby::rhi {
         
         m_RendererBackend = renderer_backend;
         m_WinBackend      = window_backend;
-        switch (renderer_backend) {
-            case ERenderer::vulkan:
-                m_Renderer = new vulkan::Renderer();
-                if (!m_Renderer->init(native_window)) {
-                    return false;
-                }
-                break;
-            default:
-                return false;
-        }
+        m_Window          = native_window;
 
         return true;
     }
 
+    auto Context::init_renderer() -> bool {
+        if (m_Renderer = IRenderer::create(m_RendererBackend); !m_Renderer) return false;
+        if (!m_Renderer->init(m_Window)) return false;
+        return true;
+    }
 
     auto Context::deinit() -> void {
-        delete m_Renderer;
-        delete m_Logger;
-        delete m_Allocator;
-        delete m_FileIO;
+        if (m_Renderer)  delete m_Renderer; 
+        if (m_Logger)    delete m_Logger;
+        if (m_Allocator) delete m_Allocator;
+        if (m_FileIO)    delete m_FileIO;
     }
 
     auto Context::renderer_backend() const -> ERenderer {

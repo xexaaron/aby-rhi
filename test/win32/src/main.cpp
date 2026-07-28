@@ -23,7 +23,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 
-int main() {
+int main(int argc, char** argv) {
     using namespace aby::rhi;
 
     HINSTANCE hInstance = GetModuleHandle(nullptr);
@@ -51,8 +51,14 @@ int main() {
     ShowWindow(window, SW_SHOW);
 
     auto& ctx = Context::get();
-
+    
     if (!ctx.init(ERenderer::vulkan, EWindow::win32, window))
+        return 1;
+        
+    ctx.file_io()->set_cwd(fs::path(argv[0]).parent_path());
+    ctx.file_io()->set_cache_dir(ctx.file_io()->cwd() / "cache");
+    
+    if (!ctx.init_renderer()) 
         return 1;
 
     auto* ren = ctx.renderer();
