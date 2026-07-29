@@ -26,7 +26,7 @@ namespace aby::rhi {
     public:
         /**
          * @brief The type of shader will be determined by the path.
-         *        pre-compiled shaders should be suffixed by '.spv' (ex. .vert.spv)
+         * @warning Do not use precompiled shaders. For vertex shaders we want to be able to parse a description.
          * @param .geom Geometry shader
          * @param .vert Vertex shader
          * @param .frag Fragment shader

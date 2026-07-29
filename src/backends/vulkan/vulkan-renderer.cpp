@@ -215,11 +215,29 @@ namespace aby::rhi::vulkan {
         ), "failed to create draw image view");
 
 
+        vkcheck(vkCreateCommandPool(
+            m_Device.device,
+            reinterpret_cast<VkCommandPoolCreateInfo*>(&command_pool_ci),
+            allocator(),
+            reinterpret_cast<VkCommandPool*>(&m_Immediate.pool)
+        ), "failed to create immediate submit command pool");
+
+        vk::CommandBufferAllocateInfo cmd_alloc_info(m_Immediate.pool, vk::CommandBufferLevel::ePrimary, 1);
+
+        vkcheck(vkAllocateCommandBuffers(
+            m_Device.device,
+            reinterpret_cast<VkCommandBufferAllocateInfo*>(&cmd_alloc_info),
+            reinterpret_cast<VkCommandBuffer*>(&m_Immediate.cmd)
+        ), "failed to allocate immediate command buffer");
+
+
         return true;
     }
     
     auto Renderer::deinit() -> void {
         while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS);
+
+        vkDestroyCommandPool(m_Device.device, m_Immediate.pool, allocator());
 
         for (auto& render_pass : m_RenderPasses) {
             render_pass->destroy();
@@ -348,9 +366,10 @@ namespace aby::rhi::vulkan {
                 static_cast<float>(m_DrawImage.extent.width),
                 static_cast<float>(m_DrawImage.extent.height)
             });
+            render_pass->run();
         }
 
-        vkCmdDraw(frame.cmd, 3, 1, 0, 0);
+        // vkCmdDraw(frame.cmd, 3, 1, 0, 0);
         vkCmdEndRendering(frame.cmd);
 
         transition_image(
@@ -584,6 +603,46 @@ namespace aby::rhi::vulkan {
 
     auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {
         m_RenderPasses.push_back(std::static_pointer_cast<RenderPass>(render_pass));
+    }
+
+    auto Renderer::vma() -> VmaAllocator& {
+        return m_VMA;
+    }
+
+    auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
+        vkcheck(vkResetFences(m_Device.device, 1, reinterpret_cast<VkFence*>(&m_Immediate.fence)),
+            "failed to reset immediate submit fence");
+        vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), 
+            "failed to reset immedaite submit command buffer");
+
+        vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
+        vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, reinterpret_cast<VkCommandBufferBeginInfo*>(&begin_info)), 
+            "failed to begin immediate submit command buffer");
+
+        fn(m_Immediate.cmd);
+
+        vkcheck(vkEndCommandBuffer(m_Immediate.cmd), 
+            "failed to end immediate submit command buffer");
+
+        vk::CommandBufferSubmitInfo submit_info(m_Immediate.cmd);
+        vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
+
+        vkcheck(vkQueueSubmit2(
+            m_GraphicsQueue,
+            1, /* submit count */
+            reinterpret_cast<VkSubmitInfo2*>(&submit),
+            m_Immediate.fence
+        ), "failed to submit immediate submit command buffer");
+
+        vkcheck(vkWaitForFences(
+            m_Device.device,
+            1, /* fence count */
+            reinterpret_cast<VkFence*>(&m_Immediate.fence),
+            vk::True,
+            9999999999 /* timeout */
+        ), "failed to wait for immediate submit fence");
+
+        return true;
     }
 
 

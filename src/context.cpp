@@ -5,7 +5,6 @@
 
 namespace aby::rhi {
 
-
     auto Context::get() -> Context& {
         static Context context;
         return context;
@@ -20,14 +19,12 @@ namespace aby::rhi {
         m_WinBackend      = window_backend;
         m_Window          = native_window;
 
+        if (m_Renderer = IRenderer::create(m_RendererBackend); !m_Renderer) return false;
+        if (!m_Renderer->init(m_Window)) return false;
+
         return true;
     }
 
-    auto Context::init_renderer() -> bool {
-        if (m_Renderer = IRenderer::create(m_RendererBackend); !m_Renderer) return false;
-        if (!m_Renderer->init(m_Window)) return false;
-        return true;
-    }
 
     auto Context::deinit() -> void {
         if (m_Renderer)  delete m_Renderer; 

@@ -11,8 +11,6 @@ namespace aby::rhi {
     public:
         static auto get() -> Context&;  
         auto init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool;
-        auto init_renderer() -> bool;
-
         auto deinit() -> void; 
 
         auto renderer_backend() const -> ERenderer;

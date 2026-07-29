@@ -5,12 +5,13 @@
 #include <vector>
 
 namespace aby::rhi::vulkan {
-
+    
     class RenderPass : public rhi::RenderPass {
     public:
         RenderPass(std::unique_ptr<Pipeline> pipeline, const std::vector<std::shared_ptr<rhi::Shader>>& shaders);
 
         auto bind() -> void override;
+        auto run() -> void override;
         auto destroy() -> void override;
         auto set_viewport(vec2<float> size, vec2<float> loc = {0.f, 0.f}, vec2<float> min_max_depth = {0.f, 1.f}) -> void override;
         auto set_scissor(vec2<float> offset, vec2<float> size) -> void override;
@@ -28,6 +29,7 @@ namespace aby::rhi::vulkan {
     public:
         auto build() -> std::shared_ptr<rhi::RenderPass> override;
 
+        auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
         auto add_shader(std::shared_ptr<rhi::Shader> shader) -> RenderPassBuilder& override;
 
         auto set_topology(ETopology topology) -> RenderPassBuilder& override;

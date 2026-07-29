@@ -11,6 +11,11 @@ namespace aby::rhi {
     auto eshader_to_shaderc(EShader type) -> shaderc_shader_kind;
 
     auto Shader::create(const fs::path& rel_path) -> std::shared_ptr<Shader> {
+        // Officially we do not support using precompiled shaders here.
+        // We want to cache them ourselves.
+        // For vertex shaders we want to build a descriptor layout from them.
+
+
         auto& ctx = Context::get();
         auto* io  = ctx.file_io();
         auto* log = ctx.logger();

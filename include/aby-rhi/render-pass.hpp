@@ -39,13 +39,13 @@ namespace aby::rhi {
     /// @brief Use the RenderPassBuilder to construct this.
     class RenderPass {
     public:
-        /// @brief Called by the renderer backend
+        
+        /// @brief The functions below should not be called by the user. only by the renderer backend.
+
         virtual auto bind() -> void = 0;
-        /// @brief Called by the renderer backend
+        virtual auto run() -> void = 0;
         virtual auto destroy() -> void = 0;
-        /// @brief Called by the renderer backend
         virtual auto set_viewport(vec2<float> size, vec2<float> loc = {0.f, 0.f}, vec2<float> min_max_depth = {0.f, 1.f}) -> void = 0;
-        /// @brief Called by the renderer backend
         virtual auto set_scissor(vec2<float> offset, vec2<float> size) -> void = 0;
     private:
     };
@@ -57,6 +57,8 @@ namespace aby::rhi {
 
         virtual auto build() -> std::shared_ptr<RenderPass> = 0;
 
+        /// @brief The render pass will own the created shader
+        virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& = 0;
         virtual auto add_shader(std::shared_ptr<Shader> shader) -> RenderPassBuilder& = 0;
         
         virtual auto set_topology(ETopology topology) -> RenderPassBuilder& = 0;
@@ -69,9 +71,12 @@ namespace aby::rhi {
         virtual auto disable_blending() -> RenderPassBuilder& = 0;
         virtual auto disable_depthtest() -> RenderPassBuilder& = 0;
 
-        auto use_default_topology(/* ETopology::triangle_list */) -> RenderPassBuilder&;
-        auto use_default_polygon_mode(/* EPolygonMode::fill */) -> RenderPassBuilder&;
-        auto use_default_cull_mode(/* ECullMode::none, EFrontFace::clockwise */) -> RenderPassBuilder&;
+        /// @brief ETopologoy::triangle_list  
+        auto use_default_topology() -> RenderPassBuilder&;
+        /// @brief EPolygonMode::fill
+        auto use_default_polygon_mode(/*  */) -> RenderPassBuilder&;
+        /// @brief ECullMode::none, EFrontFace::clockwise 
+        auto use_default_cull_mode() -> RenderPassBuilder&;
     };
 
 

@@ -16,6 +16,10 @@ namespace aby::rhi::vulkan {
         m_Pipeline->bind(m_Cmd, m_BindPoint);
     }
 
+    auto RenderPass::run() -> void {
+        
+    }
+
     auto RenderPass::destroy() -> void {
         for (auto& shader : m_Shaders) {
             shader.reset();
@@ -65,6 +69,11 @@ namespace aby::rhi::vulkan {
             std::move(m_PipelineBuilder.build()),
             m_Shaders
         );
+    }
+
+    auto RenderPassBuilder::add_shader(const fs::path& rel_path) -> RenderPassBuilder& {
+        auto shader = Shader::create(rel_path);
+        return add_shader(shader);
     }
 
     auto RenderPassBuilder::add_shader(std::shared_ptr<rhi::Shader> shader) -> RenderPassBuilder& {

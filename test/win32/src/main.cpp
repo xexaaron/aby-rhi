@@ -57,18 +57,10 @@ int main(int argc, char** argv) {
         
     ctx.file_io()->set_cwd(fs::path(argv[0]).parent_path());
     ctx.file_io()->set_cache_dir(ctx.file_io()->cwd() / "cache");
-    
-    if (!ctx.init_renderer()) 
-        return 1;
-
-        
-    auto vertex_shader   = Shader::create("colored_triangle.vert");
-    auto fragment_shader = Shader::create("colored_triangle.frag");
-    auto* ren = ctx.renderer();
 
     auto rpsb = RenderPassBuilder::create();
-    auto pass = rpsb->add_shader(vertex_shader)
-        .add_shader(fragment_shader)
+    auto pass = rpsb->add_shader("colored_triangle.vert")
+        .add_shader("colored_triangle.frag")
         .set_color_attachment_format(EFormat::rgba_sf16)
         .set_depth_format(EFormat::none)
         .use_default_cull_mode()
@@ -79,6 +71,7 @@ int main(int argc, char** argv) {
         .disable_depthtest()
         .build();
 
+    auto* ren = ctx.renderer();
     ren->add_pass(pass);
     ren->set_clear_color(Color(0.5f));
     

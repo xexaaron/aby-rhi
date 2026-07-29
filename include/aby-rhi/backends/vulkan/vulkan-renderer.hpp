@@ -8,6 +8,7 @@
 #include <vk_mem_alloc.h>
 #include <VkBootstrap.h>
 #include <array>
+#include <functional>
 
 namespace aby::rhi::vulkan {
 
@@ -32,6 +33,12 @@ namespace aby::rhi::vulkan {
         vk::Fence         render_fence;
     };
 
+    struct ImmediateCommands {
+        vk::Fence         fence;
+        vk::CommandBuffer cmd;
+        vk::CommandPool   pool;
+    };
+
     static constexpr size_t MAX_FRAMES_IN_FLIGHT = 2;
 
     class Renderer : public aby::rhi::IRenderer {
@@ -43,12 +50,15 @@ namespace aby::rhi::vulkan {
         auto deinit() -> void override;
         auto set_clear_color(Color color) -> void override;
         auto add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void override;
-      
+        
+        auto immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool;
+         
         auto on_begin() -> bool override;
         auto on_end() -> bool override;
         auto on_resize(uint32_t width, uint32_t height) -> void override;
     public:
         auto device() -> vkb::Device&;
+        auto vma() -> VmaAllocator&;
     protected:
         auto recreate_swapchain() -> bool;
         auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
@@ -69,6 +79,7 @@ namespace aby::rhi::vulkan {
         vkb::Device                 m_Device                = {};         
         vkb::Instance               m_Instance              = {};
         vk::ClearColorValue         m_ClearColor            = {};
+        ImmediateCommands           m_Immediate             = {};
 
         AllocatedImage              m_DrawImage                 = {};
         vk::DescriptorSet           m_DrawImageDescriptors      = VK_NULL_HANDLE;
