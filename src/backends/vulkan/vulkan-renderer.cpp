@@ -1,7 +1,5 @@
 #include "backends/vulkan/vulkan-renderer.hpp"
-#include "backends/vulkan/vulkan-callbacks.hpp"
-#include "backends/vulkan/vulkan-platform.hpp"
-#include "backends/vulkan/vulkan-helpers.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "context.hpp"
 #include <vector>
@@ -17,12 +15,10 @@ namespace aby::rhi::vulkan {
             return false;
         }
 
-#ifndef NDEBUG
         aby_rhi_dbg("[vulkan] instance extensions: {}", instance_extensions.size());
         for (size_t i = 0; i < instance_extensions.size(); i++) {
             aby_rhi_dbg("[vulkan] -- {}) {}", i, instance_extensions[i]);
         }
-#endif
      
         vkb::InstanceBuilder instb;
         auto inst_ret = instb.set_app_name("aby-rhi")
@@ -82,11 +78,9 @@ namespace aby::rhi::vulkan {
         m_PresentQueue        = m_Device.get_queue(vkb::QueueType::present).value();
         m_PresentQueueFamily  = m_Device.get_queue_index(vkb::QueueType::present).value();
 
-#ifndef NDEBUG
         VkPhysicalDeviceProperties props = {0};
         vkGetPhysicalDeviceProperties(m_Device.physical_device, &props);
         aby_rhi_dbg("[vulkan] found GPU: {}", props.deviceName);
-#endif
 
         vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
         auto swapchain_result = swapchain_builder.set_desired_extent(m_Width, m_Height)
@@ -471,7 +465,8 @@ namespace aby::rhi::vulkan {
         while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS);
 
         vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
-        auto swapchain_result = swapchain_builder.set_desired_extent(m_Width, m_Height)
+        auto swapchain_result = swapchain_builder
+            .set_desired_extent(m_Width, m_Height)
             .set_desired_format(VkSurfaceFormatKHR{
                 .format     = m_Swapchain.image_format,
                 .colorSpace = m_Swapchain.color_space,

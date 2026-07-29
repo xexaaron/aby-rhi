@@ -11,7 +11,8 @@ namespace aby::rhi {
                 return std::make_unique<vulkan::RenderPassBuilder>();
             }
             default:
-                break;
+                
+                aby_rhi_assert(false, "unimplemented renderer backend: {}", backend);
         }
         return nullptr;
     }

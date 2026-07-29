@@ -1,7 +1,6 @@
 #include "backends/vulkan/vulkan-descriptors.hpp"
-#include "backends/vulkan/vulkan-callbacks.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
-#include "backends/vulkan/vulkan-helpers.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 #include "context.hpp"
 
 namespace aby::rhi::vulkan {
@@ -47,12 +46,12 @@ namespace aby::rhi::vulkan {
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
         vk::DescriptorSetLayout layout;
-        vkCreateDescriptorSetLayout(
+        vkassert(vkCreateDescriptorSetLayout(
             r->device(),
             reinterpret_cast<VkDescriptorSetLayoutCreateInfo*>(&create_info),
             allocator(),
             reinterpret_cast<VkDescriptorSetLayout*>(&layout)
-        );
+        ), "failed to create descriptor set layout");
 
         return layout;
     } 
@@ -100,11 +99,11 @@ namespace aby::rhi::vulkan {
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
         vk::DescriptorSet ds;
-        vkAllocateDescriptorSets(
+        vkassert(vkAllocateDescriptorSets(
             r->device(),
             reinterpret_cast<VkDescriptorSetAllocateInfo*>(&alloc_info),
             reinterpret_cast<VkDescriptorSet*>(&ds)
-        );
+        ), "failed to allocate descriptor set(s)");
 
         return ds;
     }

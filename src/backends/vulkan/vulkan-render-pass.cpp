@@ -1,5 +1,6 @@
 #include "backends/vulkan/vulkan-render-pass.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 
 namespace aby::rhi::vulkan {
 

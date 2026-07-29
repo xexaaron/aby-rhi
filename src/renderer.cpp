@@ -1,5 +1,6 @@
 #include "renderer.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
+#include "context.hpp"
 
 namespace aby::rhi {
 
@@ -8,8 +9,9 @@ namespace aby::rhi {
             case ERenderer::vulkan: 
                 return new vulkan::Renderer();
             default:
-                return nullptr;
+                aby_rhi_assert(false, "unimplemented renderer backend: {}", backend);
         }
+        return nullptr;
     }
 
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "common.hpp"
+#include "context.hpp"
 #include <vector>
 #include <memory>
 #include <cassert>
@@ -35,8 +36,8 @@ namespace aby::rhi {
 
         template <typename V>
         auto push(const V& vertex) -> void {
-            assert(sizeof(V) == m_Stride && "incompatible vertex type being pushed into VertexBuffer");
-            assert(used_bytes() + sizeof(V) <= capacity_bytes()&& "VertexBuffer out of range");
+            aby_rhi_assert(sizeof(V) == m_Stride, "incompatible vertex type being pushed into VertexBuffer");
+            aby_rhi_assert(used_bytes() + sizeof(V) <= capacity_bytes(), "incompatible vertex type being pushed into VertexBuffer");
             std::memcpy(m_Data.data() + (m_Count * sizeof(V)), &vertex, sizeof(V));
             m_Count++;
         }

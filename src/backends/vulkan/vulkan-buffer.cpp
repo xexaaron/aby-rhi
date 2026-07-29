@@ -1,8 +1,6 @@
 #include "backends/vulkan/vulkan-buffer.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
-#include "context.hpp"
-
-#include <vk_mem_alloc.h>
+#include "backends/vulkan/vulkan-common.hpp"
 
 namespace aby::rhi::vulkan {
 
@@ -19,14 +17,14 @@ namespace aby::rhi::vulkan {
 
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
         
-        vmaCreateBuffer(
+        vkassert(vmaCreateBuffer(
             r->vma(),
             reinterpret_cast<VkBufferCreateInfo*>(&create_info),
             &alloc_create_info,
             reinterpret_cast<VkBuffer*>(&m_Buffer),
             &m_Alloc,
             &m_AllocInfo
-        );
+        ), "failed to create VMA buffer");
 
         vk::BufferDeviceAddressInfo info(m_Buffer);
         m_Address = vkGetBufferDeviceAddress(
@@ -90,7 +88,13 @@ namespace aby::rhi::vulkan {
 
         if (!r->immediate_submit([&](vk::CommandBuffer cmd){
             vk::BufferCopy copy(0, 0, this->used_bytes());
-            cmd.copyBuffer(staging, m_GPUData, { copy });
+            vkCmdCopyBuffer(
+                cmd,
+                staging,
+                m_GPUData,
+                1,
+                reinterpret_cast<VkBufferCopy*>(&copy)
+            );
         })) {
             aby_rhi_err("failed to upload vertex buffer data");
             return;
@@ -122,7 +126,13 @@ namespace aby::rhi::vulkan {
 
         if (!r->immediate_submit([&](vk::CommandBuffer cmd){
             vk::BufferCopy copy(0, 0, this->used_bytes());
-            cmd.copyBuffer(staging, m_GPUData, { copy });
+            vkCmdCopyBuffer(
+                cmd,
+                staging,
+                m_GPUData,
+                1,
+                reinterpret_cast<VkBufferCopy*>(&copy)
+            );
         })) {
             aby_rhi_err("failed to upload vertex buffer data");
             return;

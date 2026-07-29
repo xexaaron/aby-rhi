@@ -34,6 +34,9 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/aby-rhi.hpp
     ${ABY_RHI_INCLUDE_DIR}/buffer.hpp
     ${ABY_RHI_INCLUDE_DIR}/common.hpp
+    ${ABY_RHI_INCLUDE_DIR}/common-enums.hpp
+    ${ABY_RHI_INCLUDE_DIR}/common-types.hpp
+
     ${ABY_RHI_INCLUDE_DIR}/context.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/render-pass.hpp
@@ -45,6 +48,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_logger.hpp
 
     ${ABY_RHI_SRC_DIR}/buffer.cpp
+    ${ABY_RHI_SRC_DIR}/common-types.cpp
     ${ABY_RHI_SRC_DIR}/context.cpp
     ${ABY_RHI_SRC_DIR}/renderer.cpp
     ${ABY_RHI_SRC_DIR}/render-pass.cpp
@@ -58,6 +62,7 @@ add_library(${PROJECT_NAME}
     # Vulkan
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-buffer.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-callbacks.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-common.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-descriptors.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp

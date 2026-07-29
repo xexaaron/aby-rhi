@@ -31,6 +31,7 @@ namespace aby::rhi {
         if (type == EShader::none) {
             aby_rhi_err("unsupported shader extension type: {}", ext.string());
             aby_rhi_err("expected one of [.vert, .frag, .comp, .geom]");
+            return nullptr;
         } 
 
         bool is_cached = is_cached_shader(io->cache_dir() / rel_path);
@@ -59,8 +60,7 @@ namespace aby::rhi {
                 return std::make_shared<vulkan::Shader>(type, data);
             }
             default:
-                aby_rhi_ftl("renderer backend shader not implemented!");
-                assert(false && "renderer backend shader not implemented");
+                aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
         }
 
         aby_rhi_err("failed to create shader: {}", rel_path.string());
@@ -82,7 +82,6 @@ namespace aby::rhi {
             reinterpret_cast<char*>(data.data()),
             data.size()
         );
-
 
         shaderc::Compiler compiler;
         shaderc::CompileOptions options;
@@ -114,9 +113,7 @@ namespace aby::rhi {
             return false;
         }
 
-#ifndef NDEBUG
         aby_rhi_dbg("compiled shader: {}", name);
-#endif
         return true;
     }
 

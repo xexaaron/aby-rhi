@@ -38,8 +38,9 @@ namespace aby::rhi {
             case ERenderer::vulkan: 
                 return std::make_shared<vulkan::VertexBuffer>(size, stride);
             default:
-                return nullptr;
+                aby_rhi_assert(false, "VertexBuffer for renderer backend: {} not implemented", ctx.renderer_backend());
         }
+        return nullptr;
     }
  
     VertexBuffer::VertexBuffer(size_t size, size_t stride) :
@@ -54,8 +55,9 @@ namespace aby::rhi {
             case ERenderer::vulkan: 
                 return std::make_shared<vulkan::IndexBuffer>(size);
             default:
-                return nullptr;
+                aby_rhi_assert(false, "IndexBuffer for renderer backend: {} not implemented", ctx.renderer_backend());
         }
+        return nullptr;
     }
 
     IndexBuffer::IndexBuffer(size_t size) :
@@ -65,7 +67,7 @@ namespace aby::rhi {
     }
 
     auto IndexBuffer::push(uint32_t index) -> void {
-        assert(used_bytes() + sizeof(uint32_t) <= capacity_bytes()&& "VertexBuffer out of range");
+        aby_rhi_assert(used_bytes() + sizeof(uint32_t) <= capacity_bytes(), "VertexBuffer out of range");
         std::memcpy(m_Data.data() + (m_Count * sizeof(uint32_t)), &index, sizeof(uint32_t));
         m_Count++;
     }

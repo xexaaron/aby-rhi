@@ -1,6 +1,6 @@
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
-#include "backends/vulkan/vulkan-callbacks.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 #include "context.hpp"
 #include <array>
 
@@ -92,12 +92,12 @@ namespace aby::rhi::vulkan {
             nullptr  /*  push constant ranges      */
         );
 
-        vkCreatePipelineLayout(
+        vkassert(vkCreatePipelineLayout(
             r->device(),
             reinterpret_cast<VkPipelineLayoutCreateInfo*>(&layout_create_info),
             allocator(),
             reinterpret_cast<VkPipelineLayout*>(&m_Layout)
-        );
+        ), "failed to create pipeline layout");
 
         vk::GraphicsPipelineCreateInfo create_info(
             vk::PipelineCreateFlags{},
@@ -123,17 +123,14 @@ namespace aby::rhi::vulkan {
 
         vk::Pipeline pipeline;
         
-        if (vkCreateGraphicsPipelines(
+        vkassert(vkCreateGraphicsPipelines(
             r->device(),
             VK_NULL_HANDLE, /* pipeline cache */
             1,              /* pipeline count */
             reinterpret_cast<VkGraphicsPipelineCreateInfo*>(&create_info), 
             allocator(),
             reinterpret_cast<VkPipeline*>(&pipeline)
-        ) != VK_SUCCESS)
-        {
-            return std::make_unique<Pipeline>(VK_NULL_HANDLE, VK_NULL_HANDLE);
-        }
+        ), "failed to create graphics pipeline");
 
         return std::make_unique<Pipeline>(pipeline, m_Layout);
     }   

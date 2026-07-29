@@ -41,8 +41,9 @@ namespace aby::rhi::vulkan {
             case EWindow::metal: 
                 break;
             default:
-                return false;
+                break;
         };
+        aby_rhi_assert(false, "unimplemented windowing backend: {}", ctx.window_backend());
         return false;
     }
 

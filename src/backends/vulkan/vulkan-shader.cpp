@@ -1,7 +1,6 @@
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
-#include "backends/vulkan/vulkan-callbacks.hpp"
-#include "backends/vulkan/vulkan-helpers.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 #include "context.hpp"
 
 namespace aby::rhi::vulkan {
@@ -18,12 +17,12 @@ namespace aby::rhi::vulkan {
             m_Data.data()
         );
 
-        vkCreateShaderModule(
+        vkassert(vkCreateShaderModule(
             r->device(),
             reinterpret_cast<VkShaderModuleCreateInfo*>(&create_info),
             allocator(),
             reinterpret_cast<VkShaderModule*>(&m_Module)
-        );
+        ), "failed to create shader module: {}", type);
     }
 
     

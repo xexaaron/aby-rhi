@@ -4,38 +4,6 @@
 
 namespace aby::rhi {
 
-    enum class ETopology {
-        point_list,
-        line_list,
-        line_strip,
-        triangle_list,
-        triangle_strip,
-        triangle_fan,
-    };
-
-    enum class EPolygonMode {
-        fill,
-        line,
-        point,
-    };
-
-    enum class ECullMode {
-        none,
-        front,
-        back,
-        front_and_back,
-    };
-
-    enum class EFrontFace {
-        clockwise,
-        counter_clockwise,
-    };
-
-    enum class EFormat {
-        none,
-        rgba_sf16,
-    };
-
     /// @brief Use the RenderPassBuilder to construct this.
     class RenderPass {
     public:

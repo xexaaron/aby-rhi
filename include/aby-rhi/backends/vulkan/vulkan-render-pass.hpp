@@ -1,7 +1,7 @@
 #pragma once
 #include "render-pass.hpp"
-#include "vulkan-pipeline.hpp"
-#include "vulkan-descriptors.hpp"
+#include "backends/vulkan/vulkan-pipeline.hpp"
+#include "backends/vulkan/vulkan-descriptors.hpp"
 #include <vector>
 
 namespace aby::rhi::vulkan {

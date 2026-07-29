@@ -18,15 +18,6 @@ namespace aby::rhi {
 
     namespace fs = std::filesystem;
 
-    enum class ELogLevel {
-        debug,
-        trace,
-        info, 
-        warn,
-        error,
-        fatal,
-    };
-
     /**
      * @brief Base class for interfaces providing a common subset of debugging information
     */
