@@ -1,6 +1,8 @@
 #include "backends/vulkan/vulkan-render-pass.hpp"
+#include "backends/vulkan/vulkan-renderer.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "backends/vulkan/vulkan-common.hpp"
+#include "backends/vulkan/vulkan-buffer.hpp"
 
 namespace aby::rhi::vulkan {
 
@@ -18,18 +20,36 @@ namespace aby::rhi::vulkan {
     }
 
     auto RenderPass::run() -> void {
-        
+        for (auto& cmd : m_Commands) {
+            auto* i = static_cast<vulkan::IndexBuffer*>(cmd.ibuff());
+            auto* v = static_cast<vulkan::VertexBuffer*>(cmd.vbuff());
+            auto  s = cmd.instances();
+
+            VkBuffer vb = v->gpu();
+            VkBuffer ib = i->gpu();
+            VkDeviceSize vb_offset = 0;
+
+            vkCmdBindVertexBuffers(m_Cmd, 0, 1, &vb, &vb_offset);
+            vkCmdBindIndexBuffer(m_Cmd, ib, 0, VK_INDEX_TYPE_UINT32);
+            vkCmdDrawIndexed(m_Cmd, i->count(), s, 0, 0, 0);
+        }
     }
 
     auto RenderPass::destroy() -> void {
         for (auto& shader : m_Shaders) {
-            shader.reset();
+            shader->destroy();
+        }
+        for (auto& cmd : m_Commands) {
+            cmd.vbuff()->destroy();
+            cmd.ibuff()->destroy();
         }
         m_Pipeline->destroy();
+        
     }
 
     auto RenderPass::set_viewport(vec2<float> size, vec2<float> loc, vec2<float> min_max_depth) -> void {
-        vk::Viewport vp(loc.x, loc.y, size.x, size.y, min_max_depth.x, min_max_depth.y);
+        /* flip the y for vulkan rendering */
+        vk::Viewport vp(loc.x, size.y, size.x, -size.y, min_max_depth.x, min_max_depth.y);
         vkCmdSetViewport(
             m_Cmd,
             0, /* first viewport */
@@ -66,6 +86,23 @@ namespace aby::rhi::vulkan {
 namespace aby::rhi::vulkan {
 
     auto RenderPassBuilder::build() -> std::shared_ptr<rhi::RenderPass> {
+
+        if (!m_VIDB.inputs().empty()) {
+            m_PipelineBuilder.add_vertex_type(0, m_VIDB.stride());
+            auto& inputs = m_VIDB.inputs();
+
+            for (size_t i = 0; i < inputs.size(); i++) {
+                auto& input = inputs[i];
+                vk::Format format = eformat_to_vkformat(input.format);
+                m_PipelineBuilder.add_vertex_field(i, 0, format, inputs[i].offset);
+            }
+        }
+
+        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
+        m_PipelineBuilder.set_color_attachment_format(r->color_format());
+        m_PipelineBuilder.set_depth_format(vk::Format::eUndefined);
+
         return std::make_shared<RenderPass>(
             std::move(m_PipelineBuilder.build()),
             m_Shaders
@@ -129,25 +166,6 @@ namespace aby::rhi::vulkan {
         return *this;
     }
     
-    auto RenderPassBuilder::set_color_attachment_format(EFormat format) -> RenderPassBuilder& {
-        vk::Format f;
-        switch (format) {
-            case EFormat::none:      f = vk::Format::eUndefined;          break;
-            case EFormat::rgba_sf16: f = vk::Format::eR16G16B16A16Sfloat; break;
-        }                                            
-        m_PipelineBuilder.set_color_attachment_format(f);
-        return *this;
-    }
-    
-    auto RenderPassBuilder::set_depth_format(EFormat format) -> RenderPassBuilder& {
-        vk::Format f;
-        switch (format) {
-            case EFormat::none:      f = vk::Format::eUndefined;          break;
-            case EFormat::rgba_sf16: f = vk::Format::eR16G16B16A16Sfloat; break;
-        }
-        m_PipelineBuilder.set_depth_format(f);
-        return *this;
-    }
 
     auto RenderPassBuilder::disable_multisampling() -> RenderPassBuilder& {
         m_PipelineBuilder.disable_multisampling();

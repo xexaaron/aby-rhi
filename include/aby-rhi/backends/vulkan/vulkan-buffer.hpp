@@ -12,6 +12,7 @@ namespace aby::rhi::vulkan {
 
         auto allocation() -> VmaAllocation;
         auto allocation_info() -> VmaAllocationInfo;
+        auto destroy() -> void;
 
         operator VkBuffer();
         operator vk::Buffer();
@@ -28,6 +29,8 @@ namespace aby::rhi::vulkan {
         VertexBuffer(size_t size, size_t stride);
 
         auto upload() -> void override;
+        auto destroy() -> void override;
+        auto gpu() -> vulkan::Buffer&;
     private:
         vulkan::Buffer m_GPUData;
     };
@@ -37,6 +40,8 @@ namespace aby::rhi::vulkan {
         IndexBuffer(size_t size);    
         
         auto upload() -> void override;
+        auto destroy() -> void override;
+        auto gpu() -> vulkan::Buffer&;
     private:
         vulkan::Buffer m_GPUData;
     };

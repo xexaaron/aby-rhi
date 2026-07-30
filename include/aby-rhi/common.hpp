@@ -4,15 +4,15 @@
 #include <format>
 
 #ifndef NDEBUG
-#   define aby_rhi_dbg(msg, ...) Context::get().logger()->log(ELogLevel::debug, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#   define aby_rhi_dbg(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::debug, std::format(msg __VA_OPT__(,) __VA_ARGS__))
 #else
 #   define aby_rhi_dbg(...)
 #endif 
-#define aby_rhi_trc(msg, ...) Context::get().logger()->log(ELogLevel::trace, std::format(msg __VA_OPT__(,) __VA_ARGS__))
-#define aby_rhi_log(msg, ...) Context::get().logger()->log(ELogLevel::info, std::format(msg __VA_OPT__(,) __VA_ARGS__))
-#define aby_rhi_wrn(msg, ...) Context::get().logger()->log(ELogLevel::warn, std::format(msg __VA_OPT__(,) __VA_ARGS__))
-#define aby_rhi_err(msg, ...) Context::get().logger()->log(ELogLevel::error, std::format(msg __VA_OPT__(,) __VA_ARGS__))
-#define aby_rhi_ftl(msg, ...) Context::get().logger()->log(ELogLevel::fatal, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_trc(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::trace, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_log(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::info, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_wrn(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::warn, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_err(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::error, std::format(msg __VA_OPT__(,) __VA_ARGS__))
+#define aby_rhi_ftl(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::fatal, std::format(msg __VA_OPT__(,) __VA_ARGS__))
 #define aby_rhi_assert(expr, ...) do {                    \
         if (!(expr)) {                                    \
             aby_rhi_ftl("assertion failed: {}", #expr);   \
@@ -262,8 +262,19 @@ namespace std {
             std::string_view str = "unknown";
 
             switch (value) {
-                case aby::rhi::EFormat::none:      str = "none"; break;
-                case aby::rhi::EFormat::rgba_sf16: str = "rgba_sf16"; break;
+                case aby::rhi::EFormat::none:      str = "none";        break;
+                case aby::rhi::EFormat::rgba_f32:  str = "float[4]";    break;
+                case aby::rhi::EFormat::rgb_f32:   str = "float[3]";    break;
+                case aby::rhi::EFormat::rg_f32:    str = "float[2]";    break;
+                case aby::rhi::EFormat::r_f32:     str = "float";       break;
+                case aby::rhi::EFormat::rgba_i32:  str = "int32[4]";    break;
+                case aby::rhi::EFormat::rgb_i32:   str = "int32[3]";    break;
+                case aby::rhi::EFormat::rg_i32:    str = "int32[2]";    break;
+                case aby::rhi::EFormat::r_i32:     str = "int32";       break;
+                case aby::rhi::EFormat::rgba_u32:  str = "uint32[4]";   break;
+                case aby::rhi::EFormat::rgb_u32:   str = "uint32[3]";   break;
+                case aby::rhi::EFormat::rg_u32:    str = "uint32[2]";   break;
+                case aby::rhi::EFormat::r_u32:     str = "uint32";      break;
             }
 
             return std::ranges::copy(str, ctx.out()).out;

@@ -224,6 +224,13 @@ namespace aby::rhi::vulkan {
             reinterpret_cast<VkCommandBuffer*>(&m_Immediate.cmd)
         ), "failed to allocate immediate command buffer");
 
+        vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
+        vkcheck(vkCreateFence(
+            m_Device.device,
+            reinterpret_cast<VkFenceCreateInfo*>(&fence_ci),
+            allocator(),
+            reinterpret_cast<VkFence*>(&m_Immediate.fence)
+        ), "failed to create render fence");
 
         return true;
     }
@@ -232,7 +239,7 @@ namespace aby::rhi::vulkan {
         while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS);
 
         vkDestroyCommandPool(m_Device.device, m_Immediate.pool, allocator());
-
+        vkDestroyFence(m_Device.device, m_Immediate.fence, allocator());
         for (auto& render_pass : m_RenderPasses) {
             render_pass->destroy();
         }
@@ -640,5 +647,9 @@ namespace aby::rhi::vulkan {
         return true;
     }
 
+
+    auto Renderer::color_format() -> vk::Format {
+        return m_DrawImage.format;
+    }
 
 }

@@ -27,9 +27,16 @@ namespace aby::rhi::vulkan {
 
     
     Shader::~Shader() {
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-        vkDestroyShaderModule(r->device(), m_Module, allocator());
+        destroy();
     }
+
+    auto Shader::destroy() -> void {
+        if (m_Module) {
+            auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+            vkDestroyShaderModule(r->device(), m_Module, allocator());
+        }
+    }
+
 
     auto Shader::bind() -> void {
     

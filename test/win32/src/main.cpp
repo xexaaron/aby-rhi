@@ -58,11 +58,21 @@ int main(int argc, char** argv) {
     ctx.file_io()->set_cwd(fs::path(argv[0]).parent_path());
     ctx.file_io()->set_cache_dir(ctx.file_io()->cwd() / "cache");
 
+    struct Vertex {
+        vec3<float> pos   = { 0.f, 0.f, 0.f };
+        vec2<float> uv    = { 0.f, 0.f };
+        Color       color = { 1.f, 1.f, 1.f, 1.f }; 
+    };
+
     auto rpsb = RenderPassBuilder::create();
-    auto pass = rpsb->add_shader("colored_triangle.vert")
-        .add_shader("colored_triangle.frag")
-        .set_color_attachment_format(EFormat::rgba_sf16)
-        .set_depth_format(EFormat::none)
+    auto pass = rpsb->
+        add_shader("test_vertex.vert")
+        .vertex_description_builder()
+            .add_input<&Vertex::pos>(EFormat::rgb_f32)
+            .add_input<&Vertex::uv>(EFormat::rg_f32)
+            .add_input<&Vertex::color>(EFormat::rgba_f32)
+            .build()
+        ->add_shader("test_frag.frag")
         .use_default_cull_mode()
         .use_default_polygon_mode()
         .use_default_topology()
@@ -70,28 +80,69 @@ int main(int argc, char** argv) {
         .disable_blending()
         .disable_depthtest()
         .build();
-
+    
     auto* ren = ctx.renderer();
     ren->add_pass(pass);
     ren->set_clear_color(Color(0.5f));
+
+
+    using Index = uint32_t;
+
+    auto vbuff = VertexBuffer::create(100, sizeof(Vertex));
+    auto ibuff = IndexBuffer::create(60);
+
+    Vertex v0{
+        .pos   = {-0.5f, -0.5f, 0.0f},
+        .uv    = {0.0f, 0.0f},
+        .color = {1.0f, 0.0f, 0.0f, 1.0f}
+    };
+    Vertex v1{
+        .pos   = {0.5f, -0.5f, 0.0f},
+        .uv    = {1.0f, 0.0f},
+        .color = {0.0f, 1.0f, 0.0f, 1.0f}
+    };
+    Vertex v2{
+        .pos   = {0.0f, 0.5f, 0.0f},
+        .uv    = {0.5f, 1.0f},
+        .color = {0.0f, 0.0f, 1.0f, 1.0f}
+    };
+
+    vbuff->push(&v0);
+    vbuff->push(&v1);
+    vbuff->push(&v2);
+    ibuff->push(0);
+    ibuff->push(1);
+    ibuff->push(2);
     
+    vbuff->upload();
+    ibuff->upload();
+
+    DrawCmd cmd(vbuff, ibuff, 1);
+    pass->submit(cmd);
+
     MSG msg;
-    while (true)
-    {
-        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-        {
-            if (msg.message == WM_QUIT)
-                return 0;
+
+    bool running = true;
+
+    while (running) {
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+            if (msg.message == WM_QUIT) {
+                running = false;
+                break;
+            }
 
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
 
         if (!ren->on_begin()) continue;
-
+        
+        
         ren->on_end();
 
     }
+
+    ctx.deinit();
 
     return 0;
 }

@@ -36,8 +36,8 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/common.hpp
     ${ABY_RHI_INCLUDE_DIR}/common-enums.hpp
     ${ABY_RHI_INCLUDE_DIR}/common-types.hpp
-
     ${ABY_RHI_INCLUDE_DIR}/context.hpp
+    ${ABY_RHI_INCLUDE_DIR}/draw-cmd.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/render-pass.hpp
     ${ABY_RHI_INCLUDE_DIR}/shader.hpp
@@ -50,6 +50,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/buffer.cpp
     ${ABY_RHI_SRC_DIR}/common-types.cpp
     ${ABY_RHI_SRC_DIR}/context.cpp
+    ${ABY_RHI_SRC_DIR}/draw-cmd.cpp
     ${ABY_RHI_SRC_DIR}/renderer.cpp
     ${ABY_RHI_SRC_DIR}/render-pass.cpp
     ${ABY_RHI_SRC_DIR}/shader.cpp

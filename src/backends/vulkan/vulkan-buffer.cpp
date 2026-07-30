@@ -26,21 +26,32 @@ namespace aby::rhi::vulkan {
             &m_AllocInfo
         ), "failed to create VMA buffer");
 
-        vk::BufferDeviceAddressInfo info(m_Buffer);
-        m_Address = vkGetBufferDeviceAddress(
-            r->device(),
-            reinterpret_cast<VkBufferDeviceAddressInfo*>(&info)
-        );
+        if (usage & vk::BufferUsageFlagBits::eShaderDeviceAddress) {
+            vk::BufferDeviceAddressInfo info(m_Buffer);
+            m_Address = vkGetBufferDeviceAddress(
+                r->device(),
+                reinterpret_cast<VkBufferDeviceAddressInfo*>(&info)
+            );
+        }
+       
     }
 
     Buffer::~Buffer() {
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
-        vmaDestroyBuffer(
-            r->vma(), 
-            m_Buffer,
-            m_Alloc
-        );
+        destroy();
     }
+
+    auto Buffer::destroy() -> void {
+        if (m_Buffer) {
+            auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
+            vmaDestroyBuffer(
+                r->vma(), 
+                m_Buffer,
+                m_Alloc
+            );
+            m_Buffer = VK_NULL_HANDLE;
+        }
+    }
+
 
     auto Buffer::allocation() -> VmaAllocation {
         return m_Alloc;
@@ -65,9 +76,10 @@ namespace aby::rhi::vulkan {
 
     VertexBuffer::VertexBuffer(size_t size, size_t stride) :
         rhi::VertexBuffer(size, stride),
-        m_GPUData(size, 
+        m_GPUData(size * stride, 
             vk::BufferUsageFlagBits::eVertexBuffer |
-            vk::BufferUsageFlagBits::eTransferDst,         
+            vk::BufferUsageFlagBits::eTransferDst  |
+            vk::BufferUsageFlagBits::eShaderDeviceAddress,         
             VMA_MEMORY_USAGE_GPU_ONLY
         )
     {
@@ -75,8 +87,9 @@ namespace aby::rhi::vulkan {
     }
 
     auto VertexBuffer::upload() -> void  {
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
+        if (this->used_bytes() == 0) return;
 
+        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
         vulkan::Buffer staging(
             capacity_bytes(),
             vk::BufferUsageFlagBits::eTransferSrc,
@@ -101,11 +114,21 @@ namespace aby::rhi::vulkan {
         }
     }
 
+    auto VertexBuffer::destroy() -> void {
+        m_GPUData.destroy();
+    }
+
+    auto VertexBuffer::gpu() -> vulkan::Buffer& {
+        return m_GPUData;
+    }
+
+
     IndexBuffer::IndexBuffer(size_t size) :
         rhi::IndexBuffer(size),
-        m_GPUData(size, 
+        m_GPUData(size * sizeof(uint32_t), 
             vk::BufferUsageFlagBits::eIndexBuffer |
-            vk::BufferUsageFlagBits::eTransferDst,
+            vk::BufferUsageFlagBits::eTransferDst |
+            vk::BufferUsageFlagBits::eShaderDeviceAddress,         
             VMA_MEMORY_USAGE_GPU_ONLY
         )
     {
@@ -113,6 +136,7 @@ namespace aby::rhi::vulkan {
     }    
     
     auto IndexBuffer::upload() -> void  {
+        if (this->used_bytes() == 0) return;
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
 
         vulkan::Buffer staging(
@@ -139,6 +163,13 @@ namespace aby::rhi::vulkan {
         }
     }
 
+    auto IndexBuffer::destroy() -> void {
+        m_GPUData.destroy();
+    }
+    
+    auto IndexBuffer::gpu() -> vulkan::Buffer& {
+        return m_GPUData;
+    }
 
 
 

@@ -84,4 +84,25 @@ namespace aby::rhi::vulkan {
         }
     }
 
+    auto eformat_to_vkformat(EFormat format) -> vk::Format {
+        switch (format) {
+            case EFormat::none:      return vk::Format::eUndefined;
+            case EFormat::rgba_f32:  return vk::Format::eR32G32B32A32Sfloat;
+            case EFormat::rgb_f32:   return vk::Format::eR32G32B32Sfloat;
+            case EFormat::rg_f32:    return vk::Format::eR32G32Sfloat;
+            case EFormat::r_f32:     return vk::Format::eR32Sfloat;
+            case EFormat::rgba_i32:  return vk::Format::eR32G32B32A32Sint;
+            case EFormat::rgb_i32:   return vk::Format::eR32G32B32Sint;
+            case EFormat::rg_i32:    return vk::Format::eR32G32Sint;
+            case EFormat::r_i32:     return vk::Format::eR32Sint;
+            case EFormat::rgba_u32:  return vk::Format::eR32G32B32A32Uint;
+            case EFormat::rgb_u32:   return vk::Format::eR32G32B32Uint;
+            case EFormat::rg_u32:    return vk::Format::eR32G32Uint;
+            case EFormat::r_u32:     return vk::Format::eR32Uint;
+            default:
+                aby_rhi_assert(false, "unknown EFormat -> vk::Format conversion");
+                return vk::Format::eUndefined;
+        }
+    }
+
 }

@@ -5,11 +5,11 @@
 namespace aby::rhi {
 
     Buffer::Buffer(size_t size, size_t stride) :
-        m_Size(size),
+        m_Size(size * stride),
         m_Stride(stride),
         m_Count(0)
     {
-        m_Data.resize(size);
+        m_Data.resize(m_Size);
     }
 
     auto Buffer::stride() const -> size_t {
@@ -46,7 +46,16 @@ namespace aby::rhi {
     VertexBuffer::VertexBuffer(size_t size, size_t stride) :
         Buffer(size, stride)
     {
+        
+    }
 
+    auto VertexBuffer::push(void* v) -> void {
+        aby_rhi_assert(used_bytes() + m_Stride <= capacity_bytes(), 
+            "VertexBuffer is full: {} + {} <= {}",
+            used_bytes(), m_Stride, capacity_bytes()
+        );
+        std::memcpy(m_Data.data() + (m_Count * m_Stride), v, m_Stride);
+        m_Count++;
     }
 
     auto IndexBuffer::create(size_t size) -> std::shared_ptr<IndexBuffer> {

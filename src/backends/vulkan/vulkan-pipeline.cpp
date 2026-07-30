@@ -56,7 +56,14 @@ namespace aby::rhi::vulkan {
     auto PipelineBuilder::build() -> std::unique_ptr<Pipeline> {
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
-        vk::PipelineVertexInputStateCreateInfo vertex_input_info;
+        vk::PipelineVertexInputStateCreateInfo vertex_input_info(
+            vk::PipelineVertexInputStateCreateFlags(),
+            m_VertexInputBindings.size(),
+            m_VertexInputBindings.data(),
+            m_VertexAttributes.size(),
+            m_VertexAttributes.data()
+        );
+
         vk::PipelineTessellationStateCreateInfo tesselation_input_info;
         vk::PipelineViewportStateCreateInfo viewport_state(
             vk::PipelineViewportStateCreateFlags{},
@@ -176,12 +183,12 @@ namespace aby::rhi::vulkan {
 
 
     auto PipelineBuilder::add_vertex_field(uint32_t location, uint32_t binding, vk::Format format, size_t offset_of) -> PipelineBuilder& {
-        m_VertexAttributes[binding] = vk::VertexInputAttributeDescription(
+        m_VertexAttributes.push_back(vk::VertexInputAttributeDescription(
             location,
             binding,
             format,
             offset_of
-        );
+        ));
         return *this;
     }
         

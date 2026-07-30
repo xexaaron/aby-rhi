@@ -85,11 +85,11 @@ namespace aby::rhi {
 
         shaderc::Compiler compiler;
         shaderc::CompileOptions options;
-#ifdef NDEBUG
-        options.SetOptimizationLevel(shaderc_optimization_level_performance);
-#else
-        options.SetOptimizationLevel(shaderc_optimization_level_size);
-#endif
+// #ifdef NDEBUG
+//       options.SetOptimizationLevel(shaderc_optimization_level_performance);
+// #else
+//       options.SetOptimizationLevel(shaderc_optimization_level_size);
+// #endif
         // TODO: renderer agnostic
         options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_4);
 

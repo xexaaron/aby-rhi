@@ -67,7 +67,25 @@ namespace aby::rhi {
 
     enum class EFormat {
         none,
-        rgba_sf16,
-    };
 
+        rgba_f32,
+        rgb_f32,
+        rg_f32,
+        r_f32,
+
+        rgba_f16,
+        rgb_f16,
+        rg_f16,
+        r_f16,
+
+        rgba_i32,
+        rgb_i32,
+        rg_i32,
+        r_i32,
+
+        rgba_u32,
+        rgb_u32,
+        rg_u32,
+        r_u32,
+    };
 }

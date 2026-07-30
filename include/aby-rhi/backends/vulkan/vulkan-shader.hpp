@@ -12,7 +12,7 @@ namespace aby::rhi::vulkan {
         ~Shader();
 
         auto bind() -> void override;
-
+        auto destroy() -> void override;
         auto module() -> vk::ShaderModule;
         auto type() const -> EShader override;
 

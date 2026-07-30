@@ -59,6 +59,7 @@ namespace aby::rhi::vulkan {
     public:
         auto device() -> vkb::Device&;
         auto vma() -> VmaAllocator&;
+        auto color_format() -> vk::Format;
     protected:
         auto recreate_swapchain() -> bool;
         auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;

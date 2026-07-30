@@ -1,6 +1,5 @@
 #pragma once
 #include "common.hpp"
-#include "context.hpp"
 #include <vector>
 #include <memory>
 #include <cassert>
@@ -13,6 +12,7 @@ namespace aby::rhi {
         virtual ~Buffer() = default;
 
         virtual auto upload() -> void = 0;
+        virtual auto destroy() -> void = 0;
 
         auto stride() const -> size_t;
         auto capacity_bytes() const -> size_t;
@@ -33,14 +33,9 @@ namespace aby::rhi {
         VertexBuffer(size_t size, size_t stride);
         
         virtual auto upload() -> void = 0;
+        virtual auto destroy() -> void = 0;
 
-        template <typename V>
-        auto push(const V& vertex) -> void {
-            aby_rhi_assert(sizeof(V) == m_Stride, "incompatible vertex type being pushed into VertexBuffer");
-            aby_rhi_assert(used_bytes() + sizeof(V) <= capacity_bytes(), "incompatible vertex type being pushed into VertexBuffer");
-            std::memcpy(m_Data.data() + (m_Count * sizeof(V)), &vertex, sizeof(V));
-            m_Count++;
-        }
+        auto push(void* v) -> void;
     private:
     };
 
@@ -50,6 +45,7 @@ namespace aby::rhi {
         IndexBuffer(size_t size);
 
         virtual auto upload() -> void = 0;
+        virtual auto destroy() -> void = 0;
 
         auto push(uint32_t index) -> void;
     private:

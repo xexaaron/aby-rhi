@@ -37,7 +37,7 @@ namespace aby::rhi {
         
 
         virtual auto bind() -> void = 0;
-
+        virtual auto destroy() -> void = 0;
         virtual auto type() const -> EShader = 0;
 
         virtual auto set_uniform(std::string_view name, int32_t v) -> void = 0;

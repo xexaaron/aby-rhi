@@ -35,8 +35,6 @@ namespace aby::rhi::vulkan {
         auto set_topology(ETopology topology) -> RenderPassBuilder& override;
         auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder& override;
         auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& override;
-        auto set_color_attachment_format(EFormat format) -> RenderPassBuilder& override;
-        auto set_depth_format(EFormat format) -> RenderPassBuilder& override;
         
         auto disable_multisampling() -> RenderPassBuilder& override;
         auto disable_blending() -> RenderPassBuilder& override;

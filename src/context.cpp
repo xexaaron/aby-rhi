@@ -27,6 +27,7 @@ namespace aby::rhi {
 
 
     auto Context::deinit() -> void {
+        m_Renderer->deinit();
         if (m_Renderer)  delete m_Renderer; 
         if (m_Logger)    delete m_Logger;
         if (m_Allocator) delete m_Allocator;
