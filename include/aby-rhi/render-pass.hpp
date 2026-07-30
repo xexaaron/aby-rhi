@@ -8,13 +8,12 @@ namespace aby::rhi {
     /// @brief Use the RenderPassBuilder to construct this.
     class RenderPass {
     public:
-        /// @brief This is the only function that should be called by the user.
-        ///        This must be called after Renderer::on_begin and before Renderer::on_end  
         auto submit(const DrawCmd& cmd) -> void;
 
         /// @brief The functions below should not be called by the user. only by the renderer backend.
         ///        these functions must be called during Renderer::on_begin 
 
+        auto clear() -> void;
         virtual auto bind() -> void = 0;
         virtual auto run() -> void = 0;
         virtual auto destroy() -> void = 0;

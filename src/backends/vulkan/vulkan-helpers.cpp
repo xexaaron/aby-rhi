@@ -1,5 +1,6 @@
 #include "backends/vulkan/vulkan-helpers.hpp"
 #include "context.hpp"
+#include <vulkan/vk_enum_string_helper.h>
 
 namespace aby::rhi::vulkan {
 
@@ -78,7 +79,7 @@ namespace aby::rhi::vulkan {
 
 
     auto log_error(const std::string& message, const vkb::Error& error) -> void {
-        aby_rhi_err("[vulkan] {}", message);
+        aby_rhi_err("[vulkan] {}: {}", message, string_VkResult(error.vk_result));
         for (size_t i = 0; i < error.detailed_failure_reasons.size(); i++) {
             aby_rhi_err("[vulkan] {}) {}", i, error.detailed_failure_reasons[i]);
         }

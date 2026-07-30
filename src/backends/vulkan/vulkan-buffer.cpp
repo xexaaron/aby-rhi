@@ -26,6 +26,7 @@ namespace aby::rhi::vulkan {
             &m_AllocInfo
         ), "failed to create VMA buffer");
 
+
         if (usage & vk::BufferUsageFlagBits::eShaderDeviceAddress) {
             vk::BufferDeviceAddressInfo info(m_Buffer);
             m_Address = vkGetBufferDeviceAddress(
@@ -33,7 +34,8 @@ namespace aby::rhi::vulkan {
                 reinterpret_cast<VkBufferDeviceAddressInfo*>(&info)
             );
         }
-       
+        
+
     }
 
     Buffer::~Buffer() {
@@ -49,6 +51,7 @@ namespace aby::rhi::vulkan {
                 m_Alloc
             );
             m_Buffer = VK_NULL_HANDLE;
+
         }
     }
 

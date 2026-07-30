@@ -240,6 +240,9 @@ namespace aby::rhi::vulkan {
 
         vkDestroyCommandPool(m_Device.device, m_Immediate.pool, allocator());
         vkDestroyFence(m_Device.device, m_Immediate.fence, allocator());
+        m_Immediate.pool = VK_NULL_HANDLE;
+        m_Immediate.fence = VK_NULL_HANDLE;
+
         for (auto& render_pass : m_RenderPasses) {
             render_pass->destroy();
         }
@@ -248,22 +251,40 @@ namespace aby::rhi::vulkan {
             vkDestroyCommandPool(m_Device.device, m_Frames[i].pool, allocator());
             vkDestroyFence(m_Device, m_Frames[i].render_fence, allocator());
             vkDestroySemaphore(m_Device, m_Frames[i].acquire, allocator());
+            m_Frames[i].pool = VK_NULL_HANDLE;
+            m_Frames[i].render_fence = VK_NULL_HANDLE;
+            m_Frames[i].acquire = VK_NULL_HANDLE;
         }
 
         vkDestroyImageView(m_Device.device, m_DrawImage.view, allocator());
         vmaDestroyImage(m_VMA, m_DrawImage.img, m_DrawImage.alloc);
 
-        vmaDestroyAllocator(m_VMA);
+        m_DrawImage.view  = VK_NULL_HANDLE;
+        m_DrawImage.img   = VK_NULL_HANDLE;
+        m_DrawImage.alloc = VK_NULL_HANDLE;
 
         vkb::destroy_swapchain(m_Swapchain);
+        m_Swapchain.swapchain = VK_NULL_HANDLE;
+
         for (size_t i = 0; i < m_Images.size(); i++) {
             vkDestroyImageView(m_Device.device, m_Images[i].view, allocator());
             vkDestroySemaphore(m_Device, m_Images[i].render_finished, allocator());
+            m_Images[i].view = VK_NULL_HANDLE;
+            m_Images[i].render_finished = VK_NULL_HANDLE;
         }
+
+        m_GC.run();
+
+        vmaDestroyAllocator(m_VMA);
+        m_VMA = VK_NULL_HANDLE;
 
         vkb::destroy_surface(m_Instance, m_Surface);
         vkb::destroy_device(m_Device);
         vkb::destroy_instance(m_Instance);
+        m_Surface = VK_NULL_HANDLE;
+        m_Device.device  = VK_NULL_HANDLE;
+        m_Device.physical_device.surface = VK_NULL_HANDLE;
+        m_Instance.instance = VK_NULL_HANDLE;
     }
     
     auto Renderer::on_begin() -> bool {
@@ -355,6 +376,16 @@ namespace aby::rhi::vulkan {
             reinterpret_cast<VkRenderingInfo*>(&render_info)
         );
 
+
+        
+        return true;
+    }
+    
+    auto Renderer::on_end() -> bool {
+
+        auto& frame = get_current_frame();
+        auto& img   = m_Images[m_SwapchainImgIndex];
+
         for (auto& render_pass : m_RenderPasses) {
             render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
             render_pass->set_cmd_buffer(frame.cmd);
@@ -368,9 +399,9 @@ namespace aby::rhi::vulkan {
                 static_cast<float>(m_DrawImage.extent.height)
             });
             render_pass->run();
+            render_pass->clear();
         }
 
-        // vkCmdDraw(frame.cmd, 3, 1, 0, 0);
         vkCmdEndRendering(frame.cmd);
 
         transition_image(
@@ -382,7 +413,7 @@ namespace aby::rhi::vulkan {
 
         transition_image(
             frame.cmd,
-            swapchain_img,
+            img.img,
             vk::ImageLayout::eUndefined,
             vk::ImageLayout::eTransferDstOptimal
         );
@@ -391,23 +422,17 @@ namespace aby::rhi::vulkan {
             frame.cmd,
             m_DrawImage.img,
             vk::Extent2D(m_DrawImage.extent.width, m_DrawImage.extent.height),
-            swapchain_img,
+            img.img,
             m_Swapchain.extent
         );
 
         transition_image(
             frame.cmd,
-            swapchain_img, 
+            img.img, 
             vk::ImageLayout::eTransferDstOptimal,
             vk::ImageLayout::ePresentSrcKHR
         );
         
-        return true;
-    }
-    
-    auto Renderer::on_end() -> bool {
-        auto& frame = get_current_frame();
-        auto& img   = m_Images[m_SwapchainImgIndex];
         vkcheck(vkEndCommandBuffer(frame.cmd), "failed to end command buffer");
     
         vk::CommandBufferSubmitInfo cbsi(frame.cmd);
@@ -454,6 +479,12 @@ namespace aby::rhi::vulkan {
         );
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
+            if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
+                return false;
+            
+            aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]",
+                m_Width, m_Height, string_VkResult(result));
+
             recreate_swapchain();
             return false;
         } 
@@ -488,6 +519,7 @@ namespace aby::rhi::vulkan {
 
         vkbcheck(swapchain_result, "failed to recreate swapchain");
 
+        vkb::destroy_swapchain(m_Swapchain);
         m_Swapchain = swapchain_result.value();
         auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
         
@@ -652,4 +684,7 @@ namespace aby::rhi::vulkan {
         return m_DrawImage.format;
     }
 
+    auto Renderer::gc() -> GarbageCollector& {
+        return m_GC;
+    }
 }

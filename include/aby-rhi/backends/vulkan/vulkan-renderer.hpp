@@ -4,6 +4,7 @@
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-render-pass.hpp"
+#include "backends/vulkan/vulkan-gc.hpp"
 #include <vulkan/vulkan.hpp>
 #include <vk_mem_alloc.h>
 #include <VkBootstrap.h>
@@ -60,6 +61,7 @@ namespace aby::rhi::vulkan {
         auto device() -> vkb::Device&;
         auto vma() -> VmaAllocator&;
         auto color_format() -> vk::Format;
+        auto gc() -> GarbageCollector&;
     protected:
         auto recreate_swapchain() -> bool;
         auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
@@ -85,7 +87,9 @@ namespace aby::rhi::vulkan {
         AllocatedImage              m_DrawImage                 = {};
         vk::DescriptorSet           m_DrawImageDescriptors      = VK_NULL_HANDLE;
         vk::DescriptorSetLayout     m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
-        
+ 
+        GarbageCollector            m_GC;
+
         std::vector<SwapchainImage> m_Images;
         std::array<FrameData, MAX_FRAMES_IN_FLIGHT> m_Frames;
 

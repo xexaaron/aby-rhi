@@ -1,6 +1,7 @@
 #include "buffer.hpp"
 #include "context.hpp"
 #include "backends/vulkan/vulkan-buffer.hpp"
+#include "backends/vulkan/vulkan-renderer.hpp"
 
 namespace aby::rhi {
 
@@ -35,8 +36,15 @@ namespace aby::rhi {
     auto VertexBuffer::create(size_t size, size_t stride) -> std::shared_ptr<VertexBuffer> {
         auto& ctx = Context::get();
         switch (ctx.renderer_backend()) {
-            case ERenderer::vulkan: 
-                return std::make_shared<vulkan::VertexBuffer>(size, stride);
+            case ERenderer::vulkan: { 
+                auto ptr = std::make_shared<vulkan::VertexBuffer>(size, stride);
+                auto* r  = static_cast<vulkan::Renderer*>(ctx.renderer());
+                r->gc().push([weak = std::weak_ptr(ptr)]{
+                    if (auto p = weak.lock()) 
+                        p->destroy();
+                }); 
+                return ptr;
+            }
             default:
                 aby_rhi_assert(false, "VertexBuffer for renderer backend: {} not implemented", ctx.renderer_backend());
         }
@@ -61,8 +69,16 @@ namespace aby::rhi {
     auto IndexBuffer::create(size_t size) -> std::shared_ptr<IndexBuffer> {
         auto& ctx = Context::get();
         switch (ctx.renderer_backend()) {
-            case ERenderer::vulkan: 
-                return std::make_shared<vulkan::IndexBuffer>(size);
+            case ERenderer::vulkan: {
+                auto ptr = std::make_shared<vulkan::IndexBuffer>(size);
+                auto* r  = static_cast<vulkan::Renderer*>(ctx.renderer());
+                r->gc().push([weak = std::weak_ptr(ptr)]{
+                    if (auto p = weak.lock()) 
+                        p->destroy();
+                }); 
+                return ptr;
+            }
+                
             default:
                 aby_rhi_assert(false, "IndexBuffer for renderer backend: {} not implemented", ctx.renderer_backend());
         }

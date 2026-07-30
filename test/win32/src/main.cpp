@@ -118,7 +118,6 @@ int main(int argc, char** argv) {
     ibuff->upload();
 
     DrawCmd cmd(vbuff, ibuff, 1);
-    pass->submit(cmd);
 
     MSG msg;
 
@@ -135,8 +134,13 @@ int main(int argc, char** argv) {
             DispatchMessage(&msg);
         }
 
-        if (!ren->on_begin()) continue;
+        if (!running) 
+            break;
+
+        if (!ren->on_begin()) 
+            continue;
         
+        pass->submit(cmd);
         
         ren->on_end();
 

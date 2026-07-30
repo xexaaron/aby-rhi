@@ -44,7 +44,6 @@ namespace aby::rhi::vulkan {
             cmd.ibuff()->destroy();
         }
         m_Pipeline->destroy();
-        
     }
 
     auto RenderPass::set_viewport(vec2<float> size, vec2<float> loc, vec2<float> min_max_depth) -> void {

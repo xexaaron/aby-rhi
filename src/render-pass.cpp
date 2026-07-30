@@ -8,6 +8,10 @@ namespace aby::rhi {
         m_Commands.push_back(cmd);
     }
 
+    auto RenderPass::clear() -> void {
+        m_Commands.clear();
+    }
+
 }
 
 namespace aby::rhi {
@@ -48,7 +52,6 @@ namespace aby::rhi {
                 return std::make_unique<vulkan::RenderPassBuilder>();
             }
             default:
-                
                 aby_rhi_assert(false, "unimplemented renderer backend: {}", backend);
         }
         return nullptr;
