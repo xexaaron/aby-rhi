@@ -1,1 +1,4 @@
-bin/
+bin/ 
+vendor/shaderc
+vendor/vk-boostrap
+vendor/vma

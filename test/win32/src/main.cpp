@@ -13,6 +13,47 @@ struct MVP {
 	float projection[16];
 };
 
+HWND get_workerw() {
+	HWND progman = FindWindowA("Progman", nullptr);
+
+	// Ask Progman to spawn WorkerW
+	DWORD_PTR result = 0;
+	SendMessageTimeoutA(
+	    progman,
+	    0x052C,
+	    0,
+	    0,
+	    SMTO_NORMAL,
+	    1000,
+	    &result);
+
+	HWND workerw = nullptr;
+
+	EnumWindows(
+	    [](HWND hwnd, LPARAM lParam) -> BOOL {
+		HWND shell = FindWindowExA(
+		    hwnd,
+		    nullptr,
+		    "SHELLDLL_DefView",
+		    nullptr);
+
+		if (shell) {
+			HWND* out = reinterpret_cast<HWND*>(lParam);
+			*out      = FindWindowExA(
+			    nullptr,
+			    hwnd,
+			    "WorkerW",
+			    nullptr);
+			return FALSE;
+		}
+
+		return TRUE;
+	},
+	    reinterpret_cast<LPARAM>(&workerw));
+
+	return workerw;
+}
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	auto* ren = reinterpret_cast<aby::rhi::IRenderer*>(
 	    GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -69,19 +110,50 @@ int main(int argc, char** argv) {
 
 	RegisterClassA(&wc);
 
+	RECT rect;
+
+	GetClientRect(
+	    GetDesktopWindow(),
+	    &rect);
+
+	int width  = rect.right;
+	int height = rect.bottom;
+
 	HWND window = CreateWindowExA(
-	    0,
+	    WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE,
 	    wc.lpszClassName,
 	    "Aby RHI",
-	    WS_OVERLAPPEDWINDOW,
+	    WS_POPUP,
 	    CW_USEDEFAULT, CW_USEDEFAULT,
-	    1280, 720,
+	    width, height,
 	    nullptr,
 	    nullptr,
 	    hInstance,
 	    nullptr);
 
+	auto workerw = get_workerw();
+	SetParent(window, workerw);
+
+	SetLayeredWindowAttributes(
+	    window,
+	    0,
+	    180,
+	    LWA_ALPHA);
+
+	SetWindowLongPtr(
+	    window,
+	    GWL_STYLE,
+	    WS_VISIBLE | WS_POPUP);
+
 	ShowWindow(window, SW_SHOW);
+	SetWindowPos(
+	    window,
+	    HWND_TOPMOST,
+	    0,
+	    0,
+	    width,
+	    height,
+	    SWP_NOACTIVATE | SWP_SHOWWINDOW);
 
 	auto& ctx = Context::get();
 
@@ -107,7 +179,7 @@ int main(int argc, char** argv) {
 
 	auto* ren = ctx.renderer();
 	ren->add_pass(pass);
-	ren->set_clear_color(Color(0.5f));
+	ren->set_clear_color(Color(0.f));
 
 	using Index = uint32_t;
 
@@ -135,31 +207,21 @@ int main(int argc, char** argv) {
 	};
 
 	float angle = 0.785398f; // 45 degrees
+	MVP mvp     = create_mvp(angle);
 
-	float c = cos(angle);
-	float s = sin(angle);
-
-	float fov    = 45.0f * 3.1415926f / 180.0f;
-	float aspect = 1280.0f / 720.0f;
-	float pnear  = 0.1f;
-	float pfar   = 100.0f;
-
-	float f = 1.0f / tan(fov / 2.0f);
-
-	MVP mvp = create_mvp(0.785398f);
 	for (size_t i = 0; i < std::size(vertices); i++) {
 		vbuff->push(&vertices[i]);
 	}
+	vbuff->upload();
+
 	for (size_t i = 0; i < std::size(indices); i++) {
 		ibuff->push(indices[i]);
 	}
-
-	vbuff->upload();
 	ibuff->upload();
 
 	DrawCmd cmd(vbuff, ibuff, 1);
 
-	pass->set_uniform("mvp", &mvp, sizeof(MVP));
+	pass->set_uniform("mvp", mvp);
 
 	MSG msg;
 
@@ -185,7 +247,7 @@ int main(int argc, char** argv) {
 		angle += 0.01f;
 
 		auto mvp = create_mvp(angle);
-		pass->set_uniform("mvp", &mvp, sizeof(MVP));
+		pass->set_uniform("mvp", mvp);
 		pass->submit(cmd);
 
 		ren->on_end();
