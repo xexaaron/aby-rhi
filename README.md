@@ -2,8 +2,15 @@
 
 ## Cloning
 ```bash
-git clone --depth=1 https://github.com/xexaaron/aby-rhi <path>
+git clone --depth=1 --recurse-submodules https://github.com/xexaaron/aby-rhi <path>
 cd <path>
+# or as a submodule
+git submodule add --depth=1 https://github.com/xexaaron/aby-rhi <path>
+git submodule update --init --recursive
+# once one of the two above steps are done some more setup is required for shaderc
+cd <path>/vendor/shaderc
+py utils/git-sync-deps
+# this will get the proper dependencies for shaderc 
 ```
 ## Building
 ```bash
