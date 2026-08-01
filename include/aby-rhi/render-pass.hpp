@@ -14,6 +14,13 @@ namespace aby::rhi {
          */
 		auto submit(const DrawCmd& cmd) -> void;
 
+		template <typename T>
+		auto set_uniform(std::string_view name, T& obj) -> void {
+			set_uniform(name, &obj, sizeof(T));
+		}
+
+		virtual auto set_uniform(std::string_view name, void* data, size_t bytes) -> void = 0;
+
 		/// @brief The functions below should not be called by the user. only by the renderer backend.
 		///        these functions must be called during Renderer::on_begin
 
@@ -126,6 +133,7 @@ namespace aby::rhi {
 		virtual ~RenderPassBuilder() = default;
 
 		virtual auto build() -> std::shared_ptr<RenderPass> = 0;
+		virtual auto clear() -> void                        = 0;
 
 		/// @brief The render pass will own the created shader
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                = 0;
@@ -137,17 +145,23 @@ namespace aby::rhi {
 		virtual auto set_topology(ETopology topology) -> RenderPassBuilder&                     = 0;
 		virtual auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder&                  = 0;
 		virtual auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& = 0;
+		virtual auto set_color_attachment_format(EFormat format) -> RenderPassBuilder&          = 0;
+		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                     = 0;
 
 		virtual auto disable_multisampling() -> RenderPassBuilder& = 0;
 		virtual auto disable_blending() -> RenderPassBuilder&      = 0;
 		virtual auto disable_depthtest() -> RenderPassBuilder&     = 0;
 
+		// use_default_topology, use_default_polygon_mode, ... etc.
+		auto use_all_defaults() -> RenderPassBuilder&;
 		/// @brief ETopologoy::triangle_list
 		auto use_default_topology() -> RenderPassBuilder&;
 		/// @brief EPolygonMode::fill
 		auto use_default_polygon_mode(/*  */) -> RenderPassBuilder&;
 		/// @brief ECullMode::none, EFrontFace::clockwise
 		auto use_default_cull_mode() -> RenderPassBuilder&;
+		/// @brief Renderer determinant
+		virtual auto use_default_attachment_formats() -> RenderPassBuilder& = 0;
 	protected:
 		VertexInputDescriptionBuilder m_VIDB;
 	};

@@ -32,6 +32,7 @@ namespace aby::rhi::vulkan {
 		if (m_Module) {
 			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 			vkDestroyShaderModule(r->device(), m_Module, allocator());
+			m_Module = VK_NULL_HANDLE;
 		}
 	}
 

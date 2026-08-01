@@ -18,7 +18,8 @@ namespace aby::rhi {
 namespace aby::rhi {
 
 	VertexInputDescriptionBuilder::VertexInputDescriptionBuilder(RenderPassBuilder* rpb) :
-	    m_RPB(rpb) {
+	    m_RPB(rpb),
+	    m_Stride(0) {
 	}
 
 	auto VertexInputDescriptionBuilder::add_input(size_t bytes, EFormat format, size_t offset) -> VertexInputDescriptionBuilder& {
@@ -60,6 +61,14 @@ namespace aby::rhi {
 
 	auto RenderPassBuilder::vertex_description_builder() -> VertexInputDescriptionBuilder& {
 		return m_VIDB;
+	}
+
+	auto RenderPassBuilder::use_all_defaults() -> RenderPassBuilder& {
+		use_default_topology();
+		use_default_polygon_mode();
+		use_default_cull_mode();
+		use_default_attachment_formats();
+		return *this;
 	}
 
 	auto RenderPassBuilder::use_default_topology() -> RenderPassBuilder& {

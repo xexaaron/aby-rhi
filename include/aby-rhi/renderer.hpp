@@ -14,7 +14,7 @@ namespace aby::rhi {
          * @note  You are responsible for freeing this memory.
          */
 		static auto create(ERenderer backend) -> IRenderer*;
-		virtual ~IRenderer();
+		virtual ~IRenderer() = default;
 
 		virtual auto init(void* native_window) -> bool                         = 0;
 		virtual auto deinit() -> void                                          = 0;

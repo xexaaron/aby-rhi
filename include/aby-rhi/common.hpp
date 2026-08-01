@@ -47,9 +47,6 @@ namespace std {
 				case aby::rhi::EAllocation::backend:
 					str = "backend";
 					break;
-				case aby::rhi::EAllocation::interface:
-					str = "interface";
-					break;
 			}
 
 			return std::ranges::copy(str, ctx.out()).out;

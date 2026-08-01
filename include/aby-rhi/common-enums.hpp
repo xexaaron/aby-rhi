@@ -4,7 +4,6 @@ namespace aby::rhi {
 
 	enum class EAllocation {
 		backend,
-		interface,
 	};
 
 	enum class ELogLevel {

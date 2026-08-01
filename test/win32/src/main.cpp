@@ -61,17 +61,20 @@ int main(int argc, char** argv) {
 		vec2<float> uv  = { 0.f, 0.f };
 		Color color     = { 1.f, 1.f, 1.f, 1.f };
 	};
+	struct MVP {
+		float model[16];
+		float view[16];
+		float projection[16];
+	};
 
 	auto rpsb = RenderPassBuilder::create();
 	auto pass = rpsb->add_shader("test_vertex.vert")
-	                .add_uniform("MVP", 0, EShader::vert)
+	                .add_uniform("mvp", 0, EShader::vert)
 	                .vertex_description_builder()
 	                .add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
 	                .build()
 	                ->add_shader("test_frag.frag")
-	                .use_default_cull_mode()
-	                .use_default_polygon_mode()
-	                .use_default_topology()
+	                .use_all_defaults()
 	                .disable_multisampling()
 	                .disable_blending()
 	                .disable_depthtest()
@@ -87,19 +90,42 @@ int main(int argc, char** argv) {
 	auto ibuff = IndexBuffer::create(60);
 
 	Vertex v0{
-		.pos   = { -0.5f, -0.5f, 0.0f },
+		.pos   = { 400.0f, 500.0f, 0.0f },
 		.uv    = { 0.0f, 0.0f },
 		.color = { 1.0f, 0.0f, 0.0f, 1.0f }
 	};
 	Vertex v1{
-		.pos   = { 0.5f, -0.5f, 0.0f },
+		.pos   = { 800.0f, 500.0f, 0.0f },
 		.uv    = { 1.0f, 0.0f },
 		.color = { 0.0f, 1.0f, 0.0f, 1.0f }
 	};
 	Vertex v2{
-		.pos   = { 0.0f, 0.5f, 0.0f },
+		.pos   = { 600.0f, 200.0f, 0.0f },
 		.uv    = { 0.5f, 1.0f },
 		.color = { 0.0f, 0.0f, 1.0f, 1.0f }
+	};
+
+	MVP mvp = {
+		// Model (identity)
+		{
+         1,    0,    0,    0,
+         0,           1,    0,    0,
+         0,    0,    1,    0,
+         0,    0,    0,    1    },
+
+		// View (identity)
+		{
+         1,    0,    0,    0,
+         0,           1,    0,    0,
+         0,    0,    1,    0,
+         0,    0,    0,    1    },
+
+		// Projection (orthographic, Vulkan clip space)
+		{
+         2.0f / 1280, 0.0f, 0.0f, 0.0f,
+         0.0f, -2.0f / 720, 0.0f, 0.0f,
+         0.0f, 0.0f, 1.0f, 0.0f,
+         -1.0f, 1.0f, 0.0f, 1.0f }
 	};
 
 	vbuff->push(&v0);
@@ -113,6 +139,8 @@ int main(int argc, char** argv) {
 	ibuff->upload();
 
 	DrawCmd cmd(vbuff, ibuff, 1);
+
+	pass->set_uniform("mvp", &mvp, sizeof(MVP));
 
 	MSG msg;
 

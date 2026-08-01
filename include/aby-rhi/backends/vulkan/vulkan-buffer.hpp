@@ -8,12 +8,21 @@ namespace aby::rhi::vulkan {
 
 	class Buffer {
 	public:
+		Buffer();
 		Buffer(size_t size, vk::BufferUsageFlags usage, VmaMemoryUsage memory_usage);
+		Buffer(const Buffer& other);
+		Buffer(Buffer&& other);
+
 		~Buffer();
 
+		auto clear() -> void;
+		auto copy_to(vk::Buffer dst, size_t bytes) -> bool;
+		auto write(void* data, size_t bytes) -> void;
 		auto allocation() -> VmaAllocation;
 		auto allocation_info() -> VmaAllocationInfo;
 		auto destroy() -> void;
+
+		Buffer& operator=(Buffer&& other);
 
 		operator VkBuffer();
 		operator vk::Buffer();

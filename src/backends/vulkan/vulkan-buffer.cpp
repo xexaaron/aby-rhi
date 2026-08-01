@@ -5,15 +5,27 @@
 
 namespace aby::rhi::vulkan {
 
+	Buffer::Buffer() :
+	    m_Alloc(VK_NULL_HANDLE),
+	    m_AllocInfo{},
+	    m_Address(0),
+	    m_Buffer{} {
+	}
+
 	Buffer::Buffer(size_t size, vk::BufferUsageFlags usage, VmaMemoryUsage memory_usage) {
 		vk::BufferCreateInfo create_info(
 		    vk::BufferCreateFlags(),
 		    size,
 		    usage);
 
+		VmaAllocationCreateFlags alloc_flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
+		if (memory_usage == VMA_MEMORY_USAGE_AUTO) {
+			alloc_flags |= VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
+		}
+
 		VmaAllocationCreateInfo alloc_create_info = {};
 		alloc_create_info.usage                   = memory_usage;
-		alloc_create_info.flags                   = VMA_ALLOCATION_CREATE_MAPPED_BIT;
+		alloc_create_info.flags                   = alloc_flags;
 
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
@@ -32,18 +44,66 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
+	Buffer::Buffer(const Buffer& other) :
+	    m_Buffer(other.m_Buffer),
+	    m_Address(other.m_Address),
+	    m_Alloc(other.m_Alloc),
+	    m_AllocInfo(other.m_AllocInfo) {
+	}
+
+	Buffer::Buffer(Buffer&& other) :
+	    m_Buffer(other.m_Buffer),
+	    m_Address(other.m_Address),
+	    m_Alloc(other.m_Alloc),
+	    m_AllocInfo(other.m_AllocInfo) {
+		other.m_Buffer    = VK_NULL_HANDLE;
+		other.m_Address   = 0;
+		other.m_Alloc     = VK_NULL_HANDLE;
+		other.m_AllocInfo = {};
+	}
+
 	Buffer::~Buffer() {
 		destroy();
+	}
+
+	auto Buffer::clear() -> void {
+		std::memset(m_AllocInfo.pMappedData, 0, m_AllocInfo.size);
+	}
+
+	auto Buffer::write(void* data, size_t bytes) -> void {
+		std::memcpy(m_AllocInfo.pMappedData, data, bytes);
+	}
+
+	auto Buffer::copy_to(vk::Buffer dst, size_t bytes) -> bool {
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
+		if (!r->immediate_submit([&](vk::CommandBuffer cmd) {
+			vk::BufferCopy copy(0, 0, bytes);
+			vkCmdCopyBuffer(
+			    cmd,
+			    this->m_Buffer,
+			    dst,
+			    1,
+			    vkcast(copy));
+		})) {
+			return false;
+		}
+		return true;
 	}
 
 	auto Buffer::destroy() -> void {
 		if (m_Buffer) {
 			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
 			vmaDestroyBuffer(
 			    r->vma(),
 			    m_Buffer,
 			    m_Alloc);
-			m_Buffer = VK_NULL_HANDLE;
+
+			m_Buffer  = VK_NULL_HANDLE;
+			m_Alloc   = VK_NULL_HANDLE;
+			m_Address = 0;
+			std::memset(&m_AllocInfo, 0, sizeof(VmaAllocationInfo));
 		}
 	}
 
@@ -53,6 +113,20 @@ namespace aby::rhi::vulkan {
 
 	auto Buffer::allocation_info() -> VmaAllocationInfo {
 		return m_AllocInfo;
+	}
+
+	Buffer& Buffer::operator=(Buffer&& other) {
+		m_Buffer    = other.m_Buffer;
+		m_Address   = other.m_Address;
+		m_Alloc     = other.m_Alloc;
+		m_AllocInfo = other.m_AllocInfo;
+
+		other.m_Buffer    = VK_NULL_HANDLE;
+		other.m_Address   = 0;
+		other.m_Alloc     = VK_NULL_HANDLE;
+		other.m_AllocInfo = {};
+
+		return *this;
 	}
 
 	Buffer::operator VkBuffer() {
@@ -85,20 +159,10 @@ namespace aby::rhi::vulkan {
 		    vk::BufferUsageFlagBits::eTransferSrc,
 		    VMA_MEMORY_USAGE_CPU_ONLY);
 
-		void* data = staging.allocation_info().pMappedData;
-		std::memcpy(data, m_Data.data(), this->used_bytes());
+		staging.write(m_Data.data(), this->used_bytes());
 
-		if (!r->immediate_submit([&](vk::CommandBuffer cmd) {
-			vk::BufferCopy copy(0, 0, this->used_bytes());
-			vkCmdCopyBuffer(
-			    cmd,
-			    staging,
-			    m_GPUData,
-			    1,
-			    vkcast(copy));
-		})) {
+		if (!staging.copy_to(m_GPUData, this->used_bytes())) {
 			aby_rhi_err("failed to upload vertex buffer data");
-			return;
 		}
 	}
 

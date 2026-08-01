@@ -279,6 +279,8 @@ namespace aby::rhi::vulkan {
 
 		m_GC.run();
 
+		m_DescAllocator.deinit();
+
 		vmaDestroyAllocator(m_VMA);
 		m_VMA = VK_NULL_HANDLE;
 
