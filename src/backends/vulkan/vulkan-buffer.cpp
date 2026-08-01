@@ -159,7 +159,7 @@ namespace aby::rhi::vulkan {
 		    vk::BufferUsageFlagBits::eTransferSrc,
 		    VMA_MEMORY_USAGE_CPU_ONLY);
 
-		staging.write(m_Data.data(), this->used_bytes());
+		staging.write(m_Data, this->used_bytes());
 
 		if (!staging.copy_to(m_GPUData, this->used_bytes())) {
 			aby_rhi_err("failed to upload vertex buffer data");
@@ -168,6 +168,10 @@ namespace aby::rhi::vulkan {
 
 	auto VertexBuffer::destroy() -> void {
 		m_GPUData.destroy();
+		if (m_Data) {
+			std::free(m_Data);
+			m_Data = nullptr;
+		}
 	}
 
 	auto VertexBuffer::gpu() -> vulkan::Buffer& {
@@ -193,7 +197,7 @@ namespace aby::rhi::vulkan {
 		    VMA_MEMORY_USAGE_CPU_ONLY);
 
 		void* data = staging.allocation_info().pMappedData;
-		std::memcpy(data, m_Data.data(), this->used_bytes());
+		std::memcpy(data, m_Data, this->used_bytes());
 
 		if (!r->immediate_submit([&](vk::CommandBuffer cmd) {
 			vk::BufferCopy copy(0, 0, this->used_bytes());
@@ -211,6 +215,10 @@ namespace aby::rhi::vulkan {
 
 	auto IndexBuffer::destroy() -> void {
 		m_GPUData.destroy();
+		if (m_Data) {
+			std::free(m_Data);
+			m_Data = nullptr;
+		}
 	}
 
 	auto IndexBuffer::gpu() -> vulkan::Buffer& {

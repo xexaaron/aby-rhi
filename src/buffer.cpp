@@ -10,7 +10,7 @@ namespace aby::rhi {
 	    m_Size(size * stride),
 	    m_Stride(stride),
 	    m_Count(0) {
-		m_Data.resize(m_Size);
+		m_Data = static_cast<uint8_t*>(std::malloc(m_Size));
 	}
 
 	auto Buffer::stride() const -> size_t {
@@ -59,7 +59,7 @@ namespace aby::rhi {
 		aby_rhi_assert(used_bytes() + m_Stride <= capacity_bytes(),
 		               "VertexBuffer is full: {} + {} <= {}",
 		               used_bytes(), m_Stride, capacity_bytes());
-		std::memcpy(m_Data.data() + (m_Count * m_Stride), v, m_Stride);
+		std::memcpy(m_Data + (m_Count * m_Stride), v, m_Stride);
 		m_Count++;
 	}
 
@@ -88,7 +88,7 @@ namespace aby::rhi {
 
 	auto IndexBuffer::push(uint32_t index) -> void {
 		aby_rhi_assert(used_bytes() + sizeof(uint32_t) <= capacity_bytes(), "VertexBuffer out of range");
-		std::memcpy(m_Data.data() + (m_Count * sizeof(uint32_t)), &index, sizeof(uint32_t));
+		std::memcpy(m_Data + (m_Count * sizeof(uint32_t)), &index, sizeof(uint32_t));
 		m_Count++;
 	}
 

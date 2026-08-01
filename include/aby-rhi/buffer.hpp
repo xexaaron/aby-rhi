@@ -51,7 +51,7 @@ namespace aby::rhi {
 		size_t m_Stride;
 		size_t m_Size;
 		size_t m_Count;
-		std::vector<uint8_t> m_Data;
+		uint8_t* m_Data;
 	};
 
 	class VertexBuffer : public Buffer {
