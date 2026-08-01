@@ -39,18 +39,6 @@ namespace aby::rhi {
         virtual auto bind() -> void = 0;
         virtual auto destroy() -> void = 0;
         virtual auto type() const -> EShader = 0;
-
-        virtual auto set_uniform(std::string_view name, int32_t v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec2<int32_t> v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec3<int32_t> v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec4<int32_t> v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, float v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec2<float> v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec3<float> v) -> void = 0;
-        virtual auto set_uniform(std::string_view name, vec4<float> v) -> void = 0;
-
-        virtual auto add_input(const std::string& name, uint8_t location, size_t bytes) -> Shader& = 0;
-        virtual auto add_uniform(const std::string& name, size_t set, size_t binding, size_t bytes) -> Shader& = 0;
     protected:
         struct PathData {
             std::string name;

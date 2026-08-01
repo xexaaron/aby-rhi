@@ -103,9 +103,9 @@ namespace aby::rhi::vulkan {
             vk::SemaphoreCreateInfo semaphore_ci;
             vkcheck(vkCreateSemaphore(
                 m_Device.device,
-                reinterpret_cast<VkSemaphoreCreateInfo*>(&semaphore_ci),
+                vkcast(semaphore_ci),
                 allocator(),
-                reinterpret_cast<VkSemaphore*>(&m_Images[i].render_finished)
+                vkcast(m_Images[i].render_finished)
             ), "failed to create acquire semaphore");
         }
         
@@ -117,33 +117,33 @@ namespace aby::rhi::vulkan {
         for (size_t i = 0; i < m_Frames.size(); i++) {
             vkcheck(vkCreateCommandPool(
                 m_Device.device,
-                reinterpret_cast<const VkCommandPoolCreateInfo*>(&command_pool_ci),
+                vkcast(command_pool_ci),
                 allocator(), 
-                reinterpret_cast<VkCommandPool*>(&m_Frames[i].pool)
+                vkcast(m_Frames[i].pool)
             ), "failed to create command pool");
             
             vk::CommandBufferAllocateInfo cmd_alloc_info(m_Frames[i].pool, vk::CommandBufferLevel::ePrimary, 1);
 
             vkcheck(vkAllocateCommandBuffers(
                 m_Device.device, 
-                reinterpret_cast<const VkCommandBufferAllocateInfo*>(&cmd_alloc_info),
-                reinterpret_cast<VkCommandBuffer*>(&m_Frames[i].cmd)
+                vkcast(cmd_alloc_info),
+                vkcast(m_Frames[i].cmd)
             ), "failed to create command pool");
 
             vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
             vkcheck(vkCreateFence(
                 m_Device.device,
-                reinterpret_cast<VkFenceCreateInfo*>(&fence_ci),
+                vkcast(fence_ci),
                 allocator(),
-                reinterpret_cast<VkFence*>(&m_Frames[i].render_fence)
+                vkcast(m_Frames[i].render_fence)
             ), "failed to create render fence");
 
             vk::SemaphoreCreateInfo semaphore_ci;
             vkcheck(vkCreateSemaphore(
                 m_Device.device,
-                reinterpret_cast<VkSemaphoreCreateInfo*>(&semaphore_ci),
+                vkcast(semaphore_ci),
                 allocator(),
-                reinterpret_cast<VkSemaphore*>(&m_Frames[i].acquire)
+                vkcast(m_Frames[i].acquire)
             ), "failed to create wait semaphore");
         }
 
@@ -179,9 +179,9 @@ namespace aby::rhi::vulkan {
         draw_image_allocinfo.requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
         vkcheck(vmaCreateImage(
             m_VMA,
-            reinterpret_cast<VkImageCreateInfo*>(&draw_image_ci),
+            vkcast(draw_image_ci),
             &draw_image_allocinfo,
-            reinterpret_cast<VkImage*>(&m_DrawImage.img),
+            vkcast(m_DrawImage.img),
             &m_DrawImage.alloc,
             nullptr
         ), "failed to create draw image image (using VMA)");
@@ -203,34 +203,39 @@ namespace aby::rhi::vulkan {
 
         vkcheck(vkCreateImageView(
             m_Device.device,
-            reinterpret_cast<VkImageViewCreateInfo*>(&draw_image_view_ci),
+            vkcast(draw_image_view_ci),
             allocator(),
-            reinterpret_cast<VkImageView*>(&m_DrawImage.view)
+            vkcast(m_DrawImage.view)
         ), "failed to create draw image view");
 
 
         vkcheck(vkCreateCommandPool(
             m_Device.device,
-            reinterpret_cast<VkCommandPoolCreateInfo*>(&command_pool_ci),
+            vkcast(command_pool_ci),
             allocator(),
-            reinterpret_cast<VkCommandPool*>(&m_Immediate.pool)
+            vkcast(m_Immediate.pool)
         ), "failed to create immediate submit command pool");
 
         vk::CommandBufferAllocateInfo cmd_alloc_info(m_Immediate.pool, vk::CommandBufferLevel::ePrimary, 1);
 
         vkcheck(vkAllocateCommandBuffers(
             m_Device.device,
-            reinterpret_cast<VkCommandBufferAllocateInfo*>(&cmd_alloc_info),
-            reinterpret_cast<VkCommandBuffer*>(&m_Immediate.cmd)
+            vkcast(cmd_alloc_info),
+            vkcast(m_Immediate.cmd)
         ), "failed to allocate immediate command buffer");
 
         vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
         vkcheck(vkCreateFence(
             m_Device.device,
-            reinterpret_cast<VkFenceCreateInfo*>(&fence_ci),
+            vkcast(fence_ci),
             allocator(),
-            reinterpret_cast<VkFence*>(&m_Immediate.fence)
+            vkcast(m_Immediate.fence)
         ), "failed to create render fence");
+
+        std::vector<PoolSizeRatio> pool_size_ratios{
+            PoolSizeRatio{ vk::DescriptorType::eUniformBuffer, 1 }
+        };
+        m_DescAllocator.init(16, pool_size_ratios);
 
         return true;
     }
@@ -293,7 +298,7 @@ namespace aby::rhi::vulkan {
         vkcheck(vkWaitForFences(
             m_Device.device,
             1,
-            reinterpret_cast<VkFence*>(&frame.render_fence),
+            vkcast(frame.render_fence),
             true,
             1000000000
         ), "failed to wait for render fence");
@@ -301,7 +306,7 @@ namespace aby::rhi::vulkan {
         vkcheck(vkResetFences(
             m_Device.device,
             1,
-            reinterpret_cast<VkFence*>(&frame.render_fence)
+            vkcast(frame.render_fence)
         ), "failed to reset render fence");
 
         vkcheck(vkAcquireNextImageKHR(
@@ -318,7 +323,7 @@ namespace aby::rhi::vulkan {
         vk::CommandBufferBeginInfo cbbi(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
         vkcheck(vkBeginCommandBuffer(
             frame.cmd,
-            reinterpret_cast<VkCommandBufferBeginInfo*>(&cbbi)
+            vkcast(cbbi)
         ), "failed to begin command buffer");
 
         transition_image(
@@ -371,13 +376,7 @@ namespace aby::rhi::vulkan {
             &color_attachment
         );
 
-        vkCmdBeginRendering(
-            frame.cmd,
-            reinterpret_cast<VkRenderingInfo*>(&render_info)
-        );
-
-
-        
+        vkCmdBeginRendering(frame.cmd, vkcast(render_info));
         return true;
     }
     
@@ -459,12 +458,7 @@ namespace aby::rhi::vulkan {
             &signal_ssi
         );
 
-        vkQueueSubmit2(
-            m_GraphicsQueue,
-            1,
-            reinterpret_cast<VkSubmitInfo2*>(&submit_info),
-            frame.render_fence
-        );
+        vkQueueSubmit2(m_GraphicsQueue, 1, vkcast(submit_info), frame.render_fence);
         vk::PresentInfoKHR present_info(
             1,
             &img.render_finished,
@@ -473,10 +467,7 @@ namespace aby::rhi::vulkan {
             &m_SwapchainImgIndex
         );
 
-        auto result = vkQueuePresentKHR(
-            m_GraphicsQueue,
-            reinterpret_cast<VkPresentInfoKHR*>(&present_info)
-        );
+        auto result = vkQueuePresentKHR(m_GraphicsQueue, vkcast(present_info));
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
             if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
@@ -644,14 +635,11 @@ namespace aby::rhi::vulkan {
     }
 
     auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
-        vkcheck(vkResetFences(m_Device.device, 1, reinterpret_cast<VkFence*>(&m_Immediate.fence)),
-            "failed to reset immediate submit fence");
-        vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), 
-            "failed to reset immedaite submit command buffer");
+        vkcheck(vkResetFences(m_Device.device, 1, vkcast(m_Immediate.fence)),"failed to reset immediate submit fence");
+        vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), "failed to reset immedaite submit command buffer");
 
         vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
-        vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, reinterpret_cast<VkCommandBufferBeginInfo*>(&begin_info)), 
-            "failed to begin immediate submit command buffer");
+        vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
 
         fn(m_Immediate.cmd);
 
@@ -664,14 +652,14 @@ namespace aby::rhi::vulkan {
         vkcheck(vkQueueSubmit2(
             m_GraphicsQueue,
             1, /* submit count */
-            reinterpret_cast<VkSubmitInfo2*>(&submit),
+            vkcast(submit),
             m_Immediate.fence
         ), "failed to submit immediate submit command buffer");
 
         vkcheck(vkWaitForFences(
             m_Device.device,
             1, /* fence count */
-            reinterpret_cast<VkFence*>(&m_Immediate.fence),
+            vkcast(m_Immediate.fence),
             vk::True,
             9999999999 /* timeout */
         ), "failed to wait for immediate submit fence");
@@ -687,4 +675,9 @@ namespace aby::rhi::vulkan {
     auto Renderer::gc() -> GarbageCollector& {
         return m_GC;
     }
+
+    auto Renderer::desc_alloc() -> DescriptorAllocator& {
+        return m_DescAllocator;
+    }
+
 }

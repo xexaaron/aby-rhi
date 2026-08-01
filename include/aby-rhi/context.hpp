@@ -9,10 +9,22 @@ namespace aby::rhi {
 
     class Context {
     public:
+        /**
+         * @brief Get the static context instance
+        */
         static auto get() -> Context&;  
+        /**
+         * @brief initialize the context. this must be called before anything else relating to the aby::rhi API
+         * @param renderer_backend which renderer to create
+         * @param window_backend platform specific window backend
+         * @param native_window Windows: HWND, ...
+         * @return true on success otherwise false
+         */
         auto init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool;
+        /**
+         * @brief Must be called at the end of the application to release all resources.
+         */
         auto deinit() -> void; 
-
         auto renderer_backend() const -> ERenderer;
         auto window_backend() const -> EWindow;
         auto renderer() -> IRenderer*;

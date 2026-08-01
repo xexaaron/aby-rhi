@@ -1,4 +1,5 @@
 #include "backends/vulkan/vulkan-helpers.hpp"
+#include "backends/vulkan/vulkan-common.hpp"
 #include "context.hpp"
 #include <vulkan/vk_enum_string_helper.h>
 
@@ -26,10 +27,7 @@ namespace aby::rhi::vulkan {
 
         vk::DependencyInfo dep_info({}, 0, nullptr, 0, nullptr, 1, &image_barrier);
 
-        vkCmdPipelineBarrier2(
-            cmd,
-            reinterpret_cast<VkDependencyInfo*>(&dep_info)
-        );
+        vkCmdPipelineBarrier2(cmd, vkcast(dep_info));
     }
 
     auto copy_image_to_image(vk::CommandBuffer cmd, vk::Image src, vk::Extent2D src_sz, vk::Image dst, vk::Extent2D dst_sz) -> void {
@@ -70,9 +68,9 @@ namespace aby::rhi::vulkan {
             cmd,
             image,
             static_cast<VkImageLayout>(layout),
-            reinterpret_cast<VkClearColorValue*>(&color),
+            vkcast(color),
             1,
-            reinterpret_cast<VkImageSubresourceRange*>(&range)
+            vkcast(range)
         );
     }
 

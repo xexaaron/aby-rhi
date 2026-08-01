@@ -6,9 +6,10 @@
 
 namespace aby::rhi::vulkan {
 
-    Pipeline::Pipeline(vk::Pipeline pipeline, vk::PipelineLayout layout) :
+    Pipeline::Pipeline(vk::Pipeline pipeline, vk::PipelineLayout layout, const std::vector<vk::DescriptorSet>& sets) :
         m_Pipeline(pipeline),
-        m_Layout(layout)
+        m_Layout(layout),
+        m_DescriptorSets(sets)
     {
 
     } 
@@ -16,6 +17,19 @@ namespace aby::rhi::vulkan {
     auto Pipeline::bind(vk::CommandBuffer cmd, vk::PipelineBindPoint point) -> void {
         auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
         vkCmdBindPipeline(cmd, static_cast<VkPipelineBindPoint>(point), m_Pipeline);
+
+        for (auto& set : m_DescriptorSets) {
+            vkCmdBindDescriptorSets(
+                cmd,
+                static_cast<VkPipelineBindPoint>(point),
+                m_Layout,
+                0, /* first set */
+                m_DescriptorSets.size(),
+                vkcast(m_DescriptorSets.data()),
+                0,      /* dynamic offset count */
+                nullptr /* dynamic offsets */
+            );
+        }
     }
     
     auto Pipeline::destroy() -> void {
@@ -91,6 +105,30 @@ namespace aby::rhi::vulkan {
             &m_ColorBlendAttachment
         );
 
+        if (!m_UniformBindings.empty()) {
+            std::vector<vk::DescriptorSetLayoutBinding> bindings;
+            bindings.reserve(m_UniformBindings.size());
+            for (auto& [name, binding] : m_UniformBindings) {   
+                bindings.push_back(binding);
+            }
+            vk::DescriptorSetLayoutCreateInfo descriptor_layout_ci(
+                vk::DescriptorSetLayoutCreateFlagBits::eUpdateAfterBindPool,
+                bindings.size(),
+                bindings.data()
+            );
+            vk::DescriptorSetLayout layout;
+            vkCreateDescriptorSetLayout(
+                r->device(),
+                descriptor_layout_ci,
+                allocator(),
+                vkcast(layout)
+            );
+            m_DescriptorSetLayouts.push_back(layout);
+
+            auto& desc_alloc = r->desc_alloc();
+            m_DescriptorSets.push_back(desc_alloc.alloc(layout));
+        }
+
         vk::PipelineLayoutCreateInfo layout_create_info(
             vk::PipelineLayoutCreateFlags(),
             m_DescriptorSetLayouts.size(),
@@ -101,9 +139,9 @@ namespace aby::rhi::vulkan {
 
         vkassert(vkCreatePipelineLayout(
             r->device(),
-            reinterpret_cast<VkPipelineLayoutCreateInfo*>(&layout_create_info),
+            vkcast(layout_create_info),
             allocator(),
-            reinterpret_cast<VkPipelineLayout*>(&m_Layout)
+            vkcast(m_Layout)
         ), "failed to create pipeline layout");
 
         vk::GraphicsPipelineCreateInfo create_info(
@@ -134,12 +172,12 @@ namespace aby::rhi::vulkan {
             r->device(),
             VK_NULL_HANDLE, /* pipeline cache */
             1,              /* pipeline count */
-            reinterpret_cast<VkGraphicsPipelineCreateInfo*>(&create_info), 
+            vkcast(create_info), 
             allocator(),
-            reinterpret_cast<VkPipeline*>(&pipeline)
+            vkcast(pipeline)
         ), "failed to create graphics pipeline");
 
-        return std::make_unique<Pipeline>(pipeline, m_Layout);
+        return std::make_unique<Pipeline>(pipeline, m_Layout, m_DescriptorSets);
     }   
 
 
@@ -192,6 +230,16 @@ namespace aby::rhi::vulkan {
         return *this;
     }
         
+    auto PipelineBuilder::add_uniform(std::string_view name, uint32_t binding, vk::ShaderStageFlags stage) -> PipelineBuilder& {
+        m_UniformBindings[std::string(name)] = vk::DescriptorSetLayoutBinding(
+            binding,
+            vk::DescriptorType::eUniformBuffer,
+            1, /* descriptor count */
+            stage
+        );
+        return *this;
+    }
+
     auto PipelineBuilder::set_topology(vk::PrimitiveTopology topology) -> PipelineBuilder& {
         m_InputAssembly.setTopology(topology);
         m_InputAssembly.setPrimitiveRestartEnable(vk::False);

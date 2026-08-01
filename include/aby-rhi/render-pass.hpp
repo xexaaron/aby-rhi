@@ -8,16 +8,38 @@ namespace aby::rhi {
     /// @brief Use the RenderPassBuilder to construct this.
     class RenderPass {
     public:
+        /**
+         * @brief Submit a draw cmd to be rendered. This must be called each frame.
+         * @param cmd The draw command.
+         */
         auto submit(const DrawCmd& cmd) -> void;
 
         /// @brief The functions below should not be called by the user. only by the renderer backend.
         ///        these functions must be called during Renderer::on_begin 
 
+        /**
+         * @brief Clear the list of commands
+         */
         auto clear() -> void;
+        /**
+         * @brief bind the pipeline, buffers, and any other resources used.
+         */
         virtual auto bind() -> void = 0;
+        /**
+         * @brief executes each draw command.
+         */
         virtual auto run() -> void = 0;
+        /**
+         * @brief destroy all resources the RenderPass owns. 
+        */
         virtual auto destroy() -> void = 0;
+        /**
+         * @brief set the viewport. In backends like vulkan it will be configured to use loc=0,0 as the top left.
+         */
         virtual auto set_viewport(vec2<float> size, vec2<float> loc = {0.f, 0.f}, vec2<float> min_max_depth = {0.f, 1.f}) -> void = 0;
+        /**
+         * @brief set the scissor. 
+         */
         virtual auto set_scissor(vec2<float> offset, vec2<float> size) -> void = 0;
     protected:
         std::vector<DrawCmd> m_Commands;
@@ -49,8 +71,14 @@ namespace aby::rhi {
         }
     public:
         VertexInputDescriptionBuilder(RenderPassBuilder* rpb);
-
+        /**
+         * @brief add a vertex input
+         * @param bytes The size of the vertex member.
+         * @param format The format of the member (ie. vec2f -> rg_f32)
+         * @param offset The offsetof the member compared to the Vertex structure. 
+        */
         auto add_input(size_t bytes, EFormat format, size_t offset) -> VertexInputDescriptionBuilder&;
+        
         /**
          * @brief Add a vertex shader input
          * @tparam Member in the format: &T::member
@@ -67,8 +95,19 @@ namespace aby::rhi {
 
             return *this;
         }
+
+        /**
+         * @brief Add vertex shader inputs
+         * @tparam ...Member in the format: &T::member...
+         * @param formats The format(s) corresponding to the members layout. (ie. vec2f -> rg_f32)
+         */
+        template<auto... Member> requires( ( std::is_member_object_pointer_v<decltype(Member)> && ...) )
+        auto add_inputs(std::same_as<EFormat> auto... formats) -> VertexInputDescriptionBuilder& {
+            static_assert(sizeof...(Member) == sizeof...(formats));
+            (add_input<Member>(formats), ...);
+            return *this;
+        }
       
-        
         auto build() -> RenderPassBuilder*;
         
         auto inputs() -> std::vector<VertexInput>&;
@@ -90,9 +129,10 @@ namespace aby::rhi {
         /// @brief The render pass will own the created shader
         virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& = 0;
         virtual auto add_shader(std::shared_ptr<Shader> shader) -> RenderPassBuilder& = 0;
+        virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& = 0;
         
         auto vertex_description_builder() -> VertexInputDescriptionBuilder&; 
-        
+
         virtual auto set_topology(ETopology topology) -> RenderPassBuilder& = 0;
         virtual auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder& = 0;
         virtual auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& = 0;

@@ -31,6 +31,7 @@ namespace aby::rhi::vulkan {
 
         auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
         auto add_shader(std::shared_ptr<rhi::Shader> shader) -> RenderPassBuilder& override;
+        auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
 
         auto set_topology(ETopology topology) -> RenderPassBuilder& override;
         auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder& override;

@@ -18,3 +18,15 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_frag.frag
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_frag.frag
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_vertex.vert
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_vertex.vert
+
+    COMMENT "[test:win32] Copying test shaders"
+)

@@ -3,7 +3,12 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/aby-rhi",
+                "${workspaceFolder}/vendor/shaderc/libshaderc/include",
+                "${workspaceFolder}/vendor/vk-bootstrap/src",
+                "${workspaceFolder}/vendor/vma/include",
+                "${workspaceFolder}/test/win32/include",
                 "${env:VULKAN_SDK}/include"
             ],
             "defines": [

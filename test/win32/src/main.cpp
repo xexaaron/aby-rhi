@@ -67,10 +67,9 @@ int main(int argc, char** argv) {
     auto rpsb = RenderPassBuilder::create();
     auto pass = rpsb->
         add_shader("test_vertex.vert")
+        .add_uniform("MVP", 0, EShader::vert)
         .vertex_description_builder()
-            .add_input<&Vertex::pos>(EFormat::rgb_f32)
-            .add_input<&Vertex::uv>(EFormat::rg_f32)
-            .add_input<&Vertex::color>(EFormat::rgba_f32)
+            .add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
             .build()
         ->add_shader("test_frag.frag")
         .use_default_cull_mode()
@@ -118,6 +117,7 @@ int main(int argc, char** argv) {
     ibuff->upload();
 
     DrawCmd cmd(vbuff, ibuff, 1);
+    
 
     MSG msg;
 

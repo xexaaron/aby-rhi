@@ -19,9 +19,9 @@ namespace aby::rhi::vulkan {
         
         vkassert(vmaCreateBuffer(
             r->vma(),
-            reinterpret_cast<VkBufferCreateInfo*>(&create_info),
+            vkcast(create_info),
             &alloc_create_info,
-            reinterpret_cast<VkBuffer*>(&m_Buffer),
+            vkcast(m_Buffer),
             &m_Alloc,
             &m_AllocInfo
         ), "failed to create VMA buffer");
@@ -29,10 +29,7 @@ namespace aby::rhi::vulkan {
 
         if (usage & vk::BufferUsageFlagBits::eShaderDeviceAddress) {
             vk::BufferDeviceAddressInfo info(m_Buffer);
-            m_Address = vkGetBufferDeviceAddress(
-                r->device(),
-                reinterpret_cast<VkBufferDeviceAddressInfo*>(&info)
-            );
+            m_Address = vkGetBufferDeviceAddress(r->device(), vkcast(info));
         }
         
 
@@ -109,7 +106,7 @@ namespace aby::rhi::vulkan {
                 staging,
                 m_GPUData,
                 1,
-                reinterpret_cast<VkBufferCopy*>(&copy)
+                vkcast(copy)
             );
         })) {
             aby_rhi_err("failed to upload vertex buffer data");
@@ -158,7 +155,7 @@ namespace aby::rhi::vulkan {
                 staging,
                 m_GPUData,
                 1,
-                reinterpret_cast<VkBufferCopy*>(&copy)
+                vkcast(copy)
             );
         })) {
             aby_rhi_err("failed to upload vertex buffer data");

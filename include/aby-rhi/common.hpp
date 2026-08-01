@@ -22,8 +22,10 @@
         }                                                 \
     } while(0)
 
+/**
+ * @brief Formatters for common types and enums. 
+ */
 namespace std {
-
     template<>
     struct formatter<aby::rhi::EAllocation, char> {
         template<class ParseContext>

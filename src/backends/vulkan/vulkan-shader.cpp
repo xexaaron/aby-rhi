@@ -19,9 +19,9 @@ namespace aby::rhi::vulkan {
 
         vkassert(vkCreateShaderModule(
             r->device(),
-            reinterpret_cast<VkShaderModuleCreateInfo*>(&create_info),
+            vkcast(create_info),
             allocator(),
-            reinterpret_cast<VkShaderModule*>(&m_Module)
+            vkcast(m_Module)
         ), "failed to create shader module: {}", type);
     }
 
@@ -49,40 +49,5 @@ namespace aby::rhi::vulkan {
     auto Shader::module() -> vk::ShaderModule {
         return m_Module;
     }
-
-
-    auto Shader::set_uniform(std::string_view name, int32_t v) -> void {
-    }
-
-    auto Shader::set_uniform(std::string_view name, vec2<int32_t> v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, vec3<int32_t> v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, vec4<int32_t> v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, float v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, vec2<float> v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, vec3<float> v) -> void {
-    }
-    
-    auto Shader::set_uniform(std::string_view name, vec4<float> v) -> void {
-    }
-
-
-    auto Shader::add_input(const std::string& name, uint8_t location, size_t bytes) -> Shader& {
-        return *this;
-    }
-
-    auto Shader::add_uniform(const std::string& name, size_t set, size_t binding, size_t bytes) -> Shader& {
-        return *this;
-    }
-
 
 }

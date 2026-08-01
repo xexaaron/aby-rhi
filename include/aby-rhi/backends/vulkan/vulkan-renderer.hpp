@@ -62,6 +62,7 @@ namespace aby::rhi::vulkan {
         auto vma() -> VmaAllocator&;
         auto color_format() -> vk::Format;
         auto gc() -> GarbageCollector&;
+        auto desc_alloc() -> DescriptorAllocator&;
     protected:
         auto recreate_swapchain() -> bool;
         auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
@@ -83,7 +84,7 @@ namespace aby::rhi::vulkan {
         vkb::Instance               m_Instance              = {};
         vk::ClearColorValue         m_ClearColor            = {};
         ImmediateCommands           m_Immediate             = {};
-
+        
         AllocatedImage              m_DrawImage                 = {};
         vk::DescriptorSet           m_DrawImageDescriptors      = VK_NULL_HANDLE;
         vk::DescriptorSetLayout     m_DrawImageDescriptorLayout = VK_NULL_HANDLE;

@@ -14,5 +14,4 @@ namespace aby::rhi {
         return nullptr;
     }
 
-
 }

@@ -49,12 +49,7 @@ namespace aby::rhi::vulkan {
     auto RenderPass::set_viewport(vec2<float> size, vec2<float> loc, vec2<float> min_max_depth) -> void {
         /* flip the y for vulkan rendering */
         vk::Viewport vp(loc.x, size.y, size.x, -size.y, min_max_depth.x, min_max_depth.y);
-        vkCmdSetViewport(
-            m_Cmd,
-            0, /* first viewport */
-            1, /* viewport count */
-            reinterpret_cast<VkViewport*>(&vp)
-        );
+        vkCmdSetViewport(m_Cmd, 0, 1, vkcast(vp));
     }
     
     auto RenderPass::set_scissor(vec2<float> offset, vec2<float> size) -> void {
@@ -62,12 +57,7 @@ namespace aby::rhi::vulkan {
             vk::Offset2D(offset.x, offset.y),
             vk::Extent2D(size.x, size.y)
         );
-        vkCmdSetScissor(
-            m_Cmd,
-            0,
-            1,
-            reinterpret_cast<VkRect2D*>(&scissor)
-        );
+        vkCmdSetScissor(m_Cmd, 0, 1, vkcast(scissor));
     }
 
     auto RenderPass::set_bind_point(vk::PipelineBindPoint point) -> RenderPass& {
@@ -101,7 +91,6 @@ namespace aby::rhi::vulkan {
 
         m_PipelineBuilder.set_color_attachment_format(r->color_format());
         m_PipelineBuilder.set_depth_format(vk::Format::eUndefined);
-
         return std::make_shared<RenderPass>(
             std::move(m_PipelineBuilder.build()),
             m_Shaders
@@ -119,6 +108,20 @@ namespace aby::rhi::vulkan {
         m_Shaders.push_back(shader);
         return *this;
     }
+
+    auto RenderPassBuilder::add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& {
+        vk::ShaderStageFlags stage_flags;
+        switch (stage) {
+            case EShader::none: stage_flags |= vk::ShaderStageFlagBits::eAll;      break;
+            case EShader::vert: stage_flags |= vk::ShaderStageFlagBits::eVertex;   break;
+            case EShader::frag: stage_flags |= vk::ShaderStageFlagBits::eFragment; break;
+            case EShader::comp: stage_flags |= vk::ShaderStageFlagBits::eCompute;  break;
+            case EShader::geom: stage_flags |= vk::ShaderStageFlagBits::eGeometry; break;
+        }
+        m_PipelineBuilder.add_uniform(name, binding, stage_flags);
+        return *this;
+    }
+
 
     auto RenderPassBuilder::set_topology(ETopology topology) -> RenderPassBuilder& {
         vk::PrimitiveTopology t;

@@ -6,7 +6,13 @@ layout(location = 2) in vec4 inColor;
 
 layout(location = 0) out vec4 outColor;
 
+layout(set = 0, binding = 0) uniform MVP {
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+} mvp;
+
 void main() {
-    gl_Position = vec4(inPosition, 1.0);
+    gl_Position = mvp.projection * mvp.view * mvp.model * vec4(inPosition, 1.0);
     outColor = inColor;
 }

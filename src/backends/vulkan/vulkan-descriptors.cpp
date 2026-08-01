@@ -48,9 +48,9 @@ namespace aby::rhi::vulkan {
         vk::DescriptorSetLayout layout;
         vkassert(vkCreateDescriptorSetLayout(
             r->device(),
-            reinterpret_cast<VkDescriptorSetLayoutCreateInfo*>(&create_info),
+            vkcast(create_info),
             allocator(),
-            reinterpret_cast<VkDescriptorSetLayout*>(&layout)
+            vkcast(layout)
         ), "failed to create descriptor set layout");
 
         return layout;
@@ -70,7 +70,7 @@ namespace aby::rhi::vulkan {
         }
 
         vk::DescriptorPoolCreateInfo create_info(
-            vk::DescriptorPoolCreateFlags(),
+            vk::DescriptorPoolCreateFlagBits::eUpdateAfterBind,
             max_sets,
             pool_sizes.size(),
             pool_sizes.data()
@@ -80,9 +80,9 @@ namespace aby::rhi::vulkan {
 
         vkcheck(vkCreateDescriptorPool(
             r->device(),
-            reinterpret_cast<VkDescriptorPoolCreateInfo*>(&create_info),
+            vkcast(create_info),
             allocator(),
-            reinterpret_cast<VkDescriptorPool*>(&m_Pool)
+            vkcast(m_Pool)
         ), "failed to create descriptor pool");
 
         return true;
@@ -101,8 +101,8 @@ namespace aby::rhi::vulkan {
         vk::DescriptorSet ds;
         vkassert(vkAllocateDescriptorSets(
             r->device(),
-            reinterpret_cast<VkDescriptorSetAllocateInfo*>(&alloc_info),
-            reinterpret_cast<VkDescriptorSet*>(&ds)
+            vkcast(alloc_info),
+            vkcast(ds)
         ), "failed to allocate descriptor set(s)");
 
         return ds;
