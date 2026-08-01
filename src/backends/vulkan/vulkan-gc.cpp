@@ -2,16 +2,16 @@
 
 namespace aby::rhi::vulkan {
 
-    auto GarbageCollector::push(Dtor&& dtor) -> void {
-        m_Dtors.emplace(std::move(dtor));
-    }
+	auto GarbageCollector::push(Dtor&& dtor) -> void {
+		m_Dtors.emplace(std::move(dtor));
+	}
 
-    auto GarbageCollector::run() -> void {
-        while (!m_Dtors.empty()) {
-            auto& dtor = m_Dtors.top();
-            dtor();
-            m_Dtors.pop();
-        }
-    }
+	auto GarbageCollector::run() -> void {
+		while (!m_Dtors.empty()) {
+			auto& dtor = m_Dtors.top();
+			dtor();
+			m_Dtors.pop();
+		}
+	}
 
-}
+} // namespace aby::rhi::vulkan

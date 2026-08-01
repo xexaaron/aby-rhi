@@ -1,176 +1,156 @@
 #include "backends/vulkan/vulkan-buffer.hpp"
-#include "backends/vulkan/vulkan-renderer.hpp"
+
 #include "backends/vulkan/vulkan-common.hpp"
+#include "backends/vulkan/vulkan-renderer.hpp"
 
 namespace aby::rhi::vulkan {
 
-    Buffer::Buffer(size_t size, vk::BufferUsageFlags usage, VmaMemoryUsage memory_usage) {
-        vk::BufferCreateInfo create_info(
-            vk::BufferCreateFlags(),
-            size,
-            usage
-        );
+	Buffer::Buffer(size_t size, vk::BufferUsageFlags usage, VmaMemoryUsage memory_usage) {
+		vk::BufferCreateInfo create_info(
+		    vk::BufferCreateFlags(),
+		    size,
+		    usage);
 
-        VmaAllocationCreateInfo alloc_create_info = {};
-        alloc_create_info.usage = memory_usage;
-        alloc_create_info.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
+		VmaAllocationCreateInfo alloc_create_info = {};
+		alloc_create_info.usage                   = memory_usage;
+		alloc_create_info.flags                   = VMA_ALLOCATION_CREATE_MAPPED_BIT;
 
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
-        
-        vkassert(vmaCreateBuffer(
-            r->vma(),
-            vkcast(create_info),
-            &alloc_create_info,
-            vkcast(m_Buffer),
-            &m_Alloc,
-            &m_AllocInfo
-        ), "failed to create VMA buffer");
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
+		vkassert(vmaCreateBuffer(
+		             r->vma(),
+		             vkcast(create_info),
+		             &alloc_create_info,
+		             vkcast(m_Buffer),
+		             &m_Alloc,
+		             &m_AllocInfo),
+		         "failed to create VMA buffer");
 
-        if (usage & vk::BufferUsageFlagBits::eShaderDeviceAddress) {
-            vk::BufferDeviceAddressInfo info(m_Buffer);
-            m_Address = vkGetBufferDeviceAddress(r->device(), vkcast(info));
-        }
-        
+		if (usage & vk::BufferUsageFlagBits::eShaderDeviceAddress) {
+			vk::BufferDeviceAddressInfo info(m_Buffer);
+			m_Address = vkGetBufferDeviceAddress(r->device(), vkcast(info));
+		}
+	}
 
-    }
+	Buffer::~Buffer() {
+		destroy();
+	}
 
-    Buffer::~Buffer() {
-        destroy();
-    }
+	auto Buffer::destroy() -> void {
+		if (m_Buffer) {
+			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+			vmaDestroyBuffer(
+			    r->vma(),
+			    m_Buffer,
+			    m_Alloc);
+			m_Buffer = VK_NULL_HANDLE;
+		}
+	}
 
-    auto Buffer::destroy() -> void {
-        if (m_Buffer) {
-            auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
-            vmaDestroyBuffer(
-                r->vma(), 
-                m_Buffer,
-                m_Alloc
-            );
-            m_Buffer = VK_NULL_HANDLE;
+	auto Buffer::allocation() -> VmaAllocation {
+		return m_Alloc;
+	}
 
-        }
-    }
+	auto Buffer::allocation_info() -> VmaAllocationInfo {
+		return m_AllocInfo;
+	}
 
+	Buffer::operator VkBuffer() {
+		return m_Buffer;
+	}
 
-    auto Buffer::allocation() -> VmaAllocation {
-        return m_Alloc;
-    }
+	Buffer::operator vk::Buffer() {
+		return m_Buffer;
+	}
 
-    auto Buffer::allocation_info() -> VmaAllocationInfo {
-        return m_AllocInfo;
-    }
+	Buffer::operator vk::DeviceAddress() {
+		return m_Address;
+	}
 
-    Buffer::operator VkBuffer() {
-        return m_Buffer;
-    }
+	VertexBuffer::VertexBuffer(size_t size, size_t stride) :
+	    rhi::VertexBuffer(size, stride),
+	    m_GPUData(size * stride,
+	              vk::BufferUsageFlagBits::eVertexBuffer |
+	                  vk::BufferUsageFlagBits::eTransferDst |
+	                  vk::BufferUsageFlagBits::eShaderDeviceAddress,
+	              VMA_MEMORY_USAGE_GPU_ONLY) {
+	}
 
-    Buffer::operator vk::Buffer() {
-        return m_Buffer;
-    }
+	auto VertexBuffer::upload() -> void {
+		if (this->used_bytes() == 0) return;
 
-    Buffer::operator vk::DeviceAddress() {
-        return m_Address;
-    }
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+		vulkan::Buffer staging(
+		    capacity_bytes(),
+		    vk::BufferUsageFlagBits::eTransferSrc,
+		    VMA_MEMORY_USAGE_CPU_ONLY);
 
+		void* data = staging.allocation_info().pMappedData;
+		std::memcpy(data, m_Data.data(), this->used_bytes());
 
-    VertexBuffer::VertexBuffer(size_t size, size_t stride) :
-        rhi::VertexBuffer(size, stride),
-        m_GPUData(size * stride, 
-            vk::BufferUsageFlagBits::eVertexBuffer |
-            vk::BufferUsageFlagBits::eTransferDst  |
-            vk::BufferUsageFlagBits::eShaderDeviceAddress,         
-            VMA_MEMORY_USAGE_GPU_ONLY
-        )
-    {
+		if (!r->immediate_submit([&](vk::CommandBuffer cmd) {
+			vk::BufferCopy copy(0, 0, this->used_bytes());
+			vkCmdCopyBuffer(
+			    cmd,
+			    staging,
+			    m_GPUData,
+			    1,
+			    vkcast(copy));
+		})) {
+			aby_rhi_err("failed to upload vertex buffer data");
+			return;
+		}
+	}
 
-    }
+	auto VertexBuffer::destroy() -> void {
+		m_GPUData.destroy();
+	}
 
-    auto VertexBuffer::upload() -> void  {
-        if (this->used_bytes() == 0) return;
+	auto VertexBuffer::gpu() -> vulkan::Buffer& {
+		return m_GPUData;
+	}
 
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
-        vulkan::Buffer staging(
-            capacity_bytes(),
-            vk::BufferUsageFlagBits::eTransferSrc,
-            VMA_MEMORY_USAGE_CPU_ONLY
-        );
+	IndexBuffer::IndexBuffer(size_t size) :
+	    rhi::IndexBuffer(size),
+	    m_GPUData(size * sizeof(uint32_t),
+	              vk::BufferUsageFlagBits::eIndexBuffer |
+	                  vk::BufferUsageFlagBits::eTransferDst |
+	                  vk::BufferUsageFlagBits::eShaderDeviceAddress,
+	              VMA_MEMORY_USAGE_GPU_ONLY) {
+	}
 
-        void* data = staging.allocation_info().pMappedData;
-        std::memcpy(data, m_Data.data(), this->used_bytes());
+	auto IndexBuffer::upload() -> void {
+		if (this->used_bytes() == 0) return;
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
-        if (!r->immediate_submit([&](vk::CommandBuffer cmd){
-            vk::BufferCopy copy(0, 0, this->used_bytes());
-            vkCmdCopyBuffer(
-                cmd,
-                staging,
-                m_GPUData,
-                1,
-                vkcast(copy)
-            );
-        })) {
-            aby_rhi_err("failed to upload vertex buffer data");
-            return;
-        }
-    }
+		vulkan::Buffer staging(
+		    capacity_bytes(),
+		    vk::BufferUsageFlagBits::eTransferSrc,
+		    VMA_MEMORY_USAGE_CPU_ONLY);
 
-    auto VertexBuffer::destroy() -> void {
-        m_GPUData.destroy();
-    }
+		void* data = staging.allocation_info().pMappedData;
+		std::memcpy(data, m_Data.data(), this->used_bytes());
 
-    auto VertexBuffer::gpu() -> vulkan::Buffer& {
-        return m_GPUData;
-    }
+		if (!r->immediate_submit([&](vk::CommandBuffer cmd) {
+			vk::BufferCopy copy(0, 0, this->used_bytes());
+			vkCmdCopyBuffer(
+			    cmd,
+			    staging,
+			    m_GPUData,
+			    1,
+			    vkcast(copy));
+		})) {
+			aby_rhi_err("failed to upload vertex buffer data");
+			return;
+		}
+	}
 
+	auto IndexBuffer::destroy() -> void {
+		m_GPUData.destroy();
+	}
 
-    IndexBuffer::IndexBuffer(size_t size) :
-        rhi::IndexBuffer(size),
-        m_GPUData(size * sizeof(uint32_t), 
-            vk::BufferUsageFlagBits::eIndexBuffer |
-            vk::BufferUsageFlagBits::eTransferDst |
-            vk::BufferUsageFlagBits::eShaderDeviceAddress,         
-            VMA_MEMORY_USAGE_GPU_ONLY
-        )
-    {
+	auto IndexBuffer::gpu() -> vulkan::Buffer& {
+		return m_GPUData;
+	}
 
-    }    
-    
-    auto IndexBuffer::upload() -> void  {
-        if (this->used_bytes() == 0) return;
-        auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer()); 
-
-        vulkan::Buffer staging(
-            capacity_bytes(),
-            vk::BufferUsageFlagBits::eTransferSrc,
-            VMA_MEMORY_USAGE_CPU_ONLY
-        );
-
-        void* data = staging.allocation_info().pMappedData;
-        std::memcpy(data, m_Data.data(), this->used_bytes());
-
-        if (!r->immediate_submit([&](vk::CommandBuffer cmd){
-            vk::BufferCopy copy(0, 0, this->used_bytes());
-            vkCmdCopyBuffer(
-                cmd,
-                staging,
-                m_GPUData,
-                1,
-                vkcast(copy)
-            );
-        })) {
-            aby_rhi_err("failed to upload vertex buffer data");
-            return;
-        }
-    }
-
-    auto IndexBuffer::destroy() -> void {
-        m_GPUData.destroy();
-    }
-    
-    auto IndexBuffer::gpu() -> vulkan::Buffer& {
-        return m_GPUData;
-    }
-
-
-
-}
+} // namespace aby::rhi::vulkan

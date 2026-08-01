@@ -3,6 +3,6 @@
 
 namespace aby::rhi::vulkan {
 
-    auto load_functions(vk::Instance instance, vk::Device device) -> void;
+	auto load_functions(vk::Instance instance, vk::Device device) -> void;
 
 }
