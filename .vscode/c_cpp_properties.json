@@ -15,7 +15,11 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1"
+                "VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1",
+                "ABY_RHI_ENABLE_LOG_INFO=1",
+                "ABY_RHI_ENABLE_LOG_TRACE=1",
+                "ABY_RHI_ENABLE_LOG_WARN=1",
+                "ABY_RHI_ENABLE_ASSERT=1"
             ],
             "compilerArgs": [
                 "/Zc:preprocessor"

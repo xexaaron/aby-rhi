@@ -110,20 +110,14 @@ int main(int argc, char** argv) {
 
 	RegisterClassA(&wc);
 
-	RECT rect;
-
-	GetClientRect(
-	    GetDesktopWindow(),
-	    &rect);
-
-	int width  = rect.right;
-	int height = rect.bottom;
+	int width  = 1280;
+	int height = 720;
 
 	HWND window = CreateWindowExA(
-	    WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE,
+	    0,
 	    wc.lpszClassName,
 	    "Aby RHI",
-	    WS_POPUP,
+	    WS_OVERLAPPEDWINDOW,
 	    CW_USEDEFAULT, CW_USEDEFAULT,
 	    width, height,
 	    nullptr,
@@ -131,29 +125,7 @@ int main(int argc, char** argv) {
 	    hInstance,
 	    nullptr);
 
-	auto workerw = get_workerw();
-	SetParent(window, workerw);
-
-	SetLayeredWindowAttributes(
-	    window,
-	    0,
-	    180,
-	    LWA_ALPHA);
-
-	SetWindowLongPtr(
-	    window,
-	    GWL_STYLE,
-	    WS_VISIBLE | WS_POPUP);
-
 	ShowWindow(window, SW_SHOW);
-	SetWindowPos(
-	    window,
-	    HWND_TOPMOST,
-	    0,
-	    0,
-	    width,
-	    height,
-	    SWP_NOACTIVATE | SWP_SHOWWINDOW);
 
 	auto& ctx = Context::get();
 

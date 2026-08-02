@@ -13,6 +13,12 @@ set(ABY_RHI_INCLUDE_DIR "include/aby-rhi")
 set(ABY_RHI_SRC_DIR "src")
 
 option(ABY_RHI_BUILD_TESTS "build aby-rhi tests for the specific platform" ON)
+# Errors will always be logged
+option(ABY_RHI_ENABLE_LOG_INFO "enable info logging" ON)
+option(ABY_RHI_ENABLE_LOG_TRACE "enable trace logging" ON)
+option(ABY_RHI_ENABLE_LOG_WARN "enable warning logging" ON)
+option(ABY_RHI_ENABLE_ASSERT "enable assertions. if turned off then only errors will be logged." ON)
+
 
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FILEPATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
@@ -119,6 +125,11 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1
+)
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    ABY_RHI_ENABLE_LOG_INFO=$<BOOL:${ABY_RHI_ENABLE_LOG_INFO}>
+    ABY_RHI_ENABLE_LOG_TRACE=$<BOOL:${ABY_RHI_ENABLE_LOG_TRACE}>
+    ABY_RHI_ENABLE_LOG_WARN=$<BOOL:${ABY_RHI_ENABLE_LOG_WARN}> 
 )
 
 if (ABY_RHI_BUILD_TESTS)
