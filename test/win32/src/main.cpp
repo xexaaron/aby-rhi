@@ -94,6 +94,8 @@ int main(int argc, char** argv) {
 
 	ShowWindow(window, SW_SHOW);
 
+	void(0);
+
 	auto& ctx = Context::get();
 
 	if (!ctx.init(ERenderer::vulkan, EWindow::win32, window))
