@@ -18,18 +18,16 @@ namespace aby::rhi::vulkan {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 		vkCmdBindPipeline(cmd, static_cast<VkPipelineBindPoint>(point), m_Pipeline);
 
-		for (auto& set : m_DescriptorSets) {
-			vkCmdBindDescriptorSets(
-			    cmd,
-			    static_cast<VkPipelineBindPoint>(point),
-			    m_Layout,
-			    0, /* first set */
-			    m_DescriptorSets.size(),
-			    vkcast(m_DescriptorSets.data()),
-			    0,      /* dynamic offset count */
-			    nullptr /* dynamic offsets */
-			);
-		}
+		vkCmdBindDescriptorSets(
+		    cmd,
+		    static_cast<VkPipelineBindPoint>(point),
+		    m_Layout,
+		    0, /* first set */
+		    m_DescriptorSets.size(),
+		    vkcast(m_DescriptorSets.data()),
+		    0,      /* dynamic offset count */
+		    nullptr /* dynamic offsets */
+		);
 	}
 
 	auto Pipeline::destroy() -> void {

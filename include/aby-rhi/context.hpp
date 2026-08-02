@@ -28,7 +28,7 @@ namespace aby::rhi {
 		auto deinit() -> void;
 		auto renderer_backend() const -> ERenderer;
 		auto window_backend() const -> EWindow;
-		auto renderer() -> IRenderer*;
+		auto renderer() -> Renderer*;
 		auto logger() -> ILogger*;
 		auto allocator() -> IAllocator*;
 		auto file_io() -> IFileIO*;
@@ -56,7 +56,7 @@ namespace aby::rhi {
 		ILogger* m_Logger;
 		IAllocator* m_Allocator;
 		IFileIO* m_FileIO;
-		IRenderer* m_Renderer;
+		Renderer* m_Renderer;
 		void* m_Window;
 		ERenderer m_RendererBackend;
 		EWindow m_WinBackend;

@@ -21,7 +21,7 @@ namespace aby::rhi {
 		m_WinBackend      = window_backend;
 		m_Window          = native_window;
 
-		if (m_Renderer = IRenderer::create(m_RendererBackend); !m_Renderer) return false;
+		if (m_Renderer = Renderer::create(m_RendererBackend); !m_Renderer) return false;
 		if (!m_Renderer->init(m_Window)) return false;
 
 		return true;
@@ -43,7 +43,7 @@ namespace aby::rhi {
 		return m_WinBackend;
 	}
 
-	auto Context::renderer() -> IRenderer* {
+	auto Context::renderer() -> Renderer* {
 		return m_Renderer;
 	}
 

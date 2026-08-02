@@ -6,15 +6,15 @@
 
 namespace aby::rhi {
 
-	class IRenderer {
+	class Renderer {
 	public:
 		/**
          * @brief Create a renderer for the backend
          * @param backend a renderer api backend
          * @note  You are responsible for freeing this memory.
          */
-		static auto create(ERenderer backend) -> IRenderer*;
-		virtual ~IRenderer() = default;
+		static auto create(ERenderer backend) -> Renderer*;
+		virtual ~Renderer() = default;
 
 		virtual auto init(void* native_window) -> bool                         = 0;
 		virtual auto deinit() -> void                                          = 0;

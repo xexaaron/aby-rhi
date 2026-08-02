@@ -11,3 +11,4 @@
 #include "render-pass.hpp"
 #include "renderer.hpp"
 #include "shader.hpp"
+#include "texture.hpp"

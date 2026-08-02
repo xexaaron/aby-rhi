@@ -33,6 +33,11 @@ set(SHADERC_SKIP_EXECUTABLES     ON CACHE BOOL "")
 set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "")
 add_subdirectory(${VENDOR_DIR}/shaderc)
 
+add_subdirectory(${VENDOR_DIR}/stb_image)
+set_target_properties(stb_image PROPERTIES
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+)
+
 find_package(Vulkan REQUIRED)
 
 add_library(${PROJECT_NAME} 
@@ -47,6 +52,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/render-pass.hpp
     ${ABY_RHI_INCLUDE_DIR}/shader.hpp
+    ${ABY_RHI_INCLUDE_DIR}/texture.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_allocator.hpp
@@ -60,6 +66,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/renderer.cpp
     ${ABY_RHI_SRC_DIR}/render-pass.cpp
     ${ABY_RHI_SRC_DIR}/shader.cpp
+    ${ABY_RHI_SRC_DIR}/texture.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_fileio.cpp
@@ -79,6 +86,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-render-pass.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-shader.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-texture.hpp
 
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-buffer.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp
@@ -91,6 +99,8 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-render-pass.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-shader.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-texture.cpp
+
 
 )
 
@@ -106,6 +116,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     vk-bootstrap::vk-bootstrap
     VulkanMemoryAllocator::Headers
     shaderc
+    stb_image::stb_image
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -113,6 +124,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${Vulkan_INCLUDE_DIR}
     ${VENDOR_DIR}/vma/include
     ${VENDOR_DIR}/shaderc/libshaderc/include
+    ${VENDOR_DIR}/stb_image/include
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE

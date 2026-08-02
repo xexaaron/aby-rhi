@@ -15,35 +15,35 @@
 namespace aby::rhi::vulkan {
 
 	struct SwapchainImage {
-		vk::Image img;
-		vk::ImageView view;
-		vk::Semaphore render_finished;
+		vk::Image img				  = VK_NULL_HANDLE;
+		vk::ImageView view			  = VK_NULL_HANDLE;
+		vk::Semaphore render_finished = VK_NULL_HANDLE;
 	};
 
 	struct AllocatedImage {
-		vk::Image img;
-		vk::ImageView view;
-		VmaAllocation alloc;
-		vk::Extent3D extent;
-		vk::Format format;
+		vk::Image img		= VK_NULL_HANDLE;
+		vk::ImageView view	= VK_NULL_HANDLE;
+		VmaAllocation alloc = VK_NULL_HANDLE;
+		vk::Extent3D extent = {};
+		vk::Format format	= vk::Format::eUndefined;
 	};
 
 	struct FrameData {
-		vk::CommandPool pool;
-		vk::CommandBuffer cmd;
-		vk::Semaphore acquire;
-		vk::Fence render_fence;
+		vk::CommandPool pool   = VK_NULL_HANDLE;
+		vk::CommandBuffer cmd  = VK_NULL_HANDLE;
+		vk::Semaphore acquire  = VK_NULL_HANDLE;
+		vk::Fence render_fence = VK_NULL_HANDLE;
 	};
 
 	struct ImmediateCommands {
-		vk::Fence fence;
-		vk::CommandBuffer cmd;
-		vk::CommandPool pool;
+		vk::Fence fence		  = VK_NULL_HANDLE;
+		vk::CommandBuffer cmd = VK_NULL_HANDLE;
+		vk::CommandPool pool  = VK_NULL_HANDLE;
 	};
 
 	static constexpr size_t MAX_FRAMES_IN_FLIGHT = 2;
 
-	class Renderer : public aby::rhi::IRenderer {
+	class Renderer : public aby::rhi::Renderer {
 	public:
 		Renderer() {
 		}
@@ -55,6 +55,7 @@ namespace aby::rhi::vulkan {
 		auto add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void override;
 
 		auto immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool;
+		auto register_texture(vk::ImageView view, vk::Sampler smapler) -> uint32_t;
 
 		auto on_begin() -> bool override;
 		auto on_end() -> bool override;
@@ -65,6 +66,14 @@ namespace aby::rhi::vulkan {
 		auto color_format() -> vk::Format;
 		auto gc() -> GarbageCollector&;
 		auto desc_alloc() -> DescriptorAllocator&;
+		auto tex_desc_set() -> vk::DescriptorSet;
+		auto tex_desc_layout() -> vk::DescriptorSetLayout;
+	private:
+		auto init_vulkan(void* native_window) -> bool;
+		auto init_commands() -> bool;
+		auto init_vma() -> bool;
+		auto init_draw_image() -> bool;
+		auto init_descriptors() -> bool;
 	protected:
 		auto recreate_swapchain() -> bool;
 		auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
@@ -78,18 +87,23 @@ namespace aby::rhi::vulkan {
 		uint32_t m_Height              = 600;
 		VmaAllocator m_VMA             = VK_NULL_HANDLE;
 		DescriptorAllocator m_DescAllocator;
+		DescriptorAllocator m_TexAllocator;
+
 		vk::SurfaceKHR m_Surface         = VK_NULL_HANDLE;
 		vk::Queue m_GraphicsQueue        = VK_NULL_HANDLE;
 		vk::Queue m_PresentQueue         = VK_NULL_HANDLE;
 		vkb::Swapchain m_Swapchain       = {};
 		vkb::Device m_Device             = {};
 		vkb::Instance m_Instance         = {};
-		vk::ClearColorValue m_ClearColor = {};
+		vk::ClearColorValue m_ClearColor = vk::ClearColorValue(0.15f, 0.15f, 0.15f, 1.f);
 		ImmediateCommands m_Immediate    = {};
 
 		AllocatedImage m_DrawImage                          = {};
 		vk::DescriptorSet m_DrawImageDescriptors            = VK_NULL_HANDLE;
 		vk::DescriptorSetLayout m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
+
+		vk::DescriptorSet m_TextureDescriptors            = VK_NULL_HANDLE;
+		vk::DescriptorSetLayout m_TextureDescriptorLayout = VK_NULL_HANDLE;
 
 		GarbageCollector m_GC;
 

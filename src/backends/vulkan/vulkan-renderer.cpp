@@ -12,6 +12,44 @@ namespace aby::rhi::vulkan {
 	auto Renderer::init(void* native_window) -> bool {
 		auto& ctx = Context::get();
 		auto* log = ctx.logger();
+
+		if (!init_vulkan(native_window)) {
+			aby_rhi_err("failed to init vulkan");
+			return false;
+		}
+
+		if (!recreate_swapchain()) {
+			aby_rhi_err("failed to create swapchain");
+			return false;
+		}
+
+		if (!init_commands()) {
+			aby_rhi_err("failed to init commands");
+			return false;
+		}
+
+		if (!init_vma()) {
+			aby_rhi_err("failed to init vulkan memory allocator");
+			return false;
+		}
+
+		if (!init_draw_image()) {
+			aby_rhi_err("failed to init draw image");
+			return false;
+		}
+
+		if (!init_descriptors()) {
+			aby_rhi_err("failed to init descriptors");
+			return false;
+		}
+
+		return true;
+	}
+
+	auto Renderer::init_vulkan(void* native_window) -> bool {
+		auto& ctx = Context::get();
+		auto* log = ctx.logger();
+
 		std::vector<const char*> instance_extensions, device_extensions;
 		if (!get_extensions(&instance_extensions, &device_extensions)) {
 			return false;
@@ -26,8 +64,12 @@ namespace aby::rhi::vulkan {
 		auto inst_ret = instb.set_app_name("aby-rhi")
 		                    .set_allocation_callbacks(allocator())
 		                    .set_debug_callback(vk_debug_callback)
+		                    .set_debug_messenger_severity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
+		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
 #ifndef NDEBUG
 		                    .request_validation_layers(true)
+		                    .add_validation_feature_enable(VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT)
 #endif
 		                    .enable_extensions(instance_extensions)
 		                    .require_api_version(1, 4, 3)
@@ -48,10 +90,16 @@ namespace aby::rhi::vulkan {
 		vk::PhysicalDeviceVulkan12Features features12;
 		features12.setBufferDeviceAddress(vk::True)
 		    .setDescriptorIndexing(vk::True)
+		    .setRuntimeDescriptorArray(vk::True)
+		    .setShaderSampledImageArrayNonUniformIndexing(vk::True)
+		    .setDescriptorBindingPartiallyBound(vk::True)
+		    .setDescriptorBindingSampledImageUpdateAfterBind(vk::True)
+		    .setDescriptorBindingVariableDescriptorCount(vk::True)
 		    .setTimelineSemaphore(vk::True);
 		vk::PhysicalDeviceVulkan13Features features13;
 		features13.setDynamicRendering(vk::True)
 		    .setSynchronization2(vk::True);
+
 		vk::PhysicalDeviceVulkan14Features features14;
 
 		vkb::PhysicalDeviceSelector selector(inst_ret.value());
@@ -83,34 +131,10 @@ namespace aby::rhi::vulkan {
 		VkPhysicalDeviceProperties props = { 0 };
 		vkGetPhysicalDeviceProperties(m_Device.physical_device, &props);
 		aby_rhi_dbg("[vulkan] found GPU: {}", props.deviceName);
+		return true;
+	}
 
-		vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
-		auto swapchain_result = swapchain_builder.set_desired_extent(m_Width, m_Height)
-		                            .set_desired_format(VkSurfaceFormatKHR{ .format = VK_FORMAT_R8G8B8A8_UNORM })
-		                            .set_allocation_callbacks(allocator())
-		                            .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
-		                            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-		                            .add_image_usage_flags(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
-		                            .set_desired_min_image_count(MAX_FRAMES_IN_FLIGHT)
-		                            .build();
-
-		vkbcheck(swapchain_result, "failed to create swapchain");
-
-		m_Swapchain        = swapchain_result.value();
-		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
-		m_Images.resize(imgs.size());
-		for (size_t i = 0; i < imgs.size(); i++) {
-			m_Images[i].img  = imgs[i];
-			m_Images[i].view = views[i];
-			vk::SemaphoreCreateInfo semaphore_ci;
-			vkcheck(vkCreateSemaphore(
-			            m_Device.device,
-			            vkcast(semaphore_ci),
-			            allocator(),
-			            vkcast(m_Images[i].render_finished)),
-			        "failed to create acquire semaphore");
-		}
-
+	auto Renderer::init_commands() -> bool {
 		vk::CommandPoolCreateInfo command_pool_ci(
 		    vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
 		    m_GraphicsQueueFamily);
@@ -148,8 +172,33 @@ namespace aby::rhi::vulkan {
 			        "failed to create wait semaphore");
 		}
 
-		m_ClearColor = vk::ClearColorValue(0.f, 0.f, 0.f, 1.f);
+		vkcheck(vkCreateCommandPool(
+		            m_Device.device,
+		            vkcast(command_pool_ci),
+		            allocator(),
+		            vkcast(m_Immediate.pool)),
+		        "failed to create immediate submit command pool");
 
+		vk::CommandBufferAllocateInfo cmd_alloc_info(m_Immediate.pool, vk::CommandBufferLevel::ePrimary, 1);
+
+		vkcheck(vkAllocateCommandBuffers(
+		            m_Device.device,
+		            vkcast(cmd_alloc_info),
+		            vkcast(m_Immediate.cmd)),
+		        "failed to allocate immediate command buffer");
+
+		vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
+		vkcheck(vkCreateFence(
+		            m_Device.device,
+		            vkcast(fence_ci),
+		            allocator(),
+		            vkcast(m_Immediate.fence)),
+		        "failed to create render fence");
+
+		return true;
+	}
+
+	auto Renderer::init_vma() -> bool {
 		VmaAllocatorCreateInfo alloc_info = {};
 		alloc_info.physicalDevice         = m_Device.physical_device;
 		alloc_info.device                 = m_Device.device;
@@ -157,6 +206,10 @@ namespace aby::rhi::vulkan {
 		alloc_info.flags                  = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
 		vkcheck(vmaCreateAllocator(&alloc_info, &m_VMA), "failed to create VMA allocator");
 
+		return true;
+	}
+
+	auto Renderer::init_draw_image() -> bool {
 		m_DrawImage.extent = vk::Extent3D(m_Width, m_Height, 1);
 		m_DrawImage.format = vk::Format::eR16G16B16A16Sfloat;
 
@@ -207,33 +260,60 @@ namespace aby::rhi::vulkan {
 		            vkcast(m_DrawImage.view)),
 		        "failed to create draw image view");
 
-		vkcheck(vkCreateCommandPool(
-		            m_Device.device,
-		            vkcast(command_pool_ci),
-		            allocator(),
-		            vkcast(m_Immediate.pool)),
-		        "failed to create immediate submit command pool");
+		return true;
+	}
 
-		vk::CommandBufferAllocateInfo cmd_alloc_info(m_Immediate.pool, vk::CommandBufferLevel::ePrimary, 1);
+	auto Renderer::init_descriptors() -> bool {
+		{
+			std::vector<PoolSizeRatio> pool_size_ratios{
+				PoolSizeRatio{ vk::DescriptorType::eUniformBuffer, 1 },
+			};
+			if (!m_DescAllocator.init(16, pool_size_ratios, vk::DescriptorPoolCreateFlagBits::eUpdateAfterBind)) {
+				return false;
+			}
+		}
 
-		vkcheck(vkAllocateCommandBuffers(
-		            m_Device.device,
-		            vkcast(cmd_alloc_info),
-		            vkcast(m_Immediate.cmd)),
-		        "failed to allocate immediate command buffer");
+		{
+			std::vector<PoolSizeRatio> pool_size_ratios{
+				PoolSizeRatio{ vk::DescriptorType::eCombinedImageSampler, 16384 }
+			};
 
-		vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
-		vkcheck(vkCreateFence(
-		            m_Device.device,
-		            vkcast(fence_ci),
-		            allocator(),
-		            vkcast(m_Immediate.fence)),
-		        "failed to create render fence");
+			if (!m_TexAllocator.init(1, pool_size_ratios, vk::DescriptorPoolCreateFlagBits::eUpdateAfterBind)) {
+				return false;
+			}
 
-		std::vector<PoolSizeRatio> pool_size_ratios{
-			PoolSizeRatio{ vk::DescriptorType::eUniformBuffer, 1 }
-		};
-		m_DescAllocator.init(16, pool_size_ratios);
+			vk::DescriptorSetLayoutBinding binding(
+			    0,
+			    vk::DescriptorType::eCombinedImageSampler,
+			    16384,
+			    vk::ShaderStageFlagBits::eAll);
+
+			vk::DescriptorBindingFlags flags = vk::DescriptorBindingFlagBits::ePartiallyBound |
+			                                   vk::DescriptorBindingFlagBits::eUpdateAfterBind;
+
+			vk::DescriptorSetLayoutBindingFlagsCreateInfo flags_create_info(
+			    1,
+			    &flags);
+
+			vk::DescriptorSetLayoutCreateInfo texture_descriptor_set_create_info(
+			    vk::DescriptorSetLayoutCreateFlagBits::eUpdateAfterBindPool,
+			    1,
+			    &binding,
+			    &flags_create_info);
+
+			vkcheck(vkCreateDescriptorSetLayout(
+			            m_Device.device,
+			            vkcast(texture_descriptor_set_create_info),
+			            allocator(),
+			            vkcast(m_TextureDescriptorLayout)),
+			        "failed to create texture descriptor set layout");
+
+			m_TextureDescriptors = m_TexAllocator.alloc(m_TextureDescriptorLayout);
+
+			m_GC.push([&]() {
+				vkDestroyDescriptorSetLayout(m_Device.device, m_TextureDescriptorLayout, allocator());
+			});
+		}
 
 		return true;
 	}
@@ -280,6 +360,7 @@ namespace aby::rhi::vulkan {
 		m_GC.run();
 
 		m_DescAllocator.deinit();
+		m_TexAllocator.deinit();
 
 		vmaDestroyAllocator(m_VMA);
 		m_VMA = VK_NULL_HANDLE;
@@ -349,8 +430,6 @@ namespace aby::rhi::vulkan {
 		    m_DrawImage.img,
 		    vk::ImageLayout::eGeneral,
 		    vk::ImageLayout::eColorAttachmentOptimal);
-
-		// draw_geometry
 
 		vk::RenderingAttachmentInfo color_attachment(
 		    m_DrawImage.view,
@@ -479,10 +558,7 @@ namespace aby::rhi::vulkan {
 		vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
 		auto swapchain_result = swapchain_builder
 		                            .set_desired_extent(m_Width, m_Height)
-		                            .set_desired_format(VkSurfaceFormatKHR{
-		                                .format     = m_Swapchain.image_format,
-		                                .colorSpace = m_Swapchain.color_space,
-		                            })
+		                            .set_desired_format(VkSurfaceFormatKHR{ .format = VK_FORMAT_R8G8B8A8_UNORM })
 		                            .set_allocation_callbacks(allocator())
 		                            .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
 		                            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
@@ -493,17 +569,35 @@ namespace aby::rhi::vulkan {
 
 		vkbcheck(swapchain_result, "failed to recreate swapchain");
 
-		vkb::destroy_swapchain(m_Swapchain);
+		if (m_Swapchain) {
+			vkb::destroy_swapchain(m_Swapchain);
+		}
+
 		m_Swapchain        = swapchain_result.value();
 		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
-
 		for (size_t i = 0; i < m_Images.size(); i++) {
-			vkDestroyImageView(m_Device.device, m_Images[i].view, allocator());
+			if (m_Images[i].view) {
+				vkDestroyImageView(m_Device.device, m_Images[i].view, allocator());
+				m_Images[i].view = VK_NULL_HANDLE;
+			}
+		}
+
+		if (m_Images.size() < imgs.size()) {
+			m_Images.resize(imgs.size());
 		}
 
 		for (size_t i = 0; i < imgs.size(); i++) {
 			m_Images[i].img  = imgs[i];
 			m_Images[i].view = views[i];
+			if (!m_Images[i].render_finished) {
+				vk::SemaphoreCreateInfo semaphore_ci;
+				vkcheck(vkCreateSemaphore(
+				            m_Device.device,
+				            vkcast(semaphore_ci),
+				            allocator(),
+				            vkcast(m_Images[i].render_finished)),
+				        "failed to create wait semaphore");
+			}
 		}
 
 		return true;
@@ -527,6 +621,56 @@ namespace aby::rhi::vulkan {
 
 	auto Renderer::get_current_frame() -> FrameData& {
 		return m_Frames[m_FrameIndex % MAX_FRAMES_IN_FLIGHT];
+	}
+
+	auto Renderer::register_texture(vk::ImageView view, vk::Sampler sampler) -> uint32_t {
+		static uint32_t global_texture_index = 0;
+
+		uint32_t texture_id = global_texture_index;
+
+		vk::DescriptorImageInfo info(sampler, view, vk::ImageLayout::eShaderReadOnlyOptimal);
+		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
+
+		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
+		aby_rhi_dbg("write texture descriptor: [array element: {}, sampler: {}, view: {}]",
+		            texture_id, (void*)(VkSampler)sampler, (void*)(VkImageView)view);
+
+		global_texture_index++;
+		return texture_id;
+	}
+
+	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
+		vkcheck(vkResetFences(m_Device.device, 1, vkcast(m_Immediate.fence)), "failed to reset immediate submit fence");
+		vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), "failed to reset immedaite submit command buffer");
+
+		vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
+		vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
+
+		fn(m_Immediate.cmd);
+
+		vkcheck(vkEndCommandBuffer(m_Immediate.cmd),
+		        "failed to end immediate submit command buffer");
+
+		vk::CommandBufferSubmitInfo submit_info(m_Immediate.cmd);
+		vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
+
+		vkcheck(vkQueueSubmit2(
+		            m_GraphicsQueue,
+		            1, /* submit count */
+		            vkcast(submit),
+		            m_Immediate.fence),
+		        "failed to submit immediate submit command buffer");
+
+		vkcheck(vkWaitForFences(
+		            m_Device.device,
+		            1, /* fence count */
+		            vkcast(m_Immediate.fence),
+		            vk::True,
+		            9999999999 /* timeout */
+		            ),
+		        "failed to wait for immediate submit fence");
+
+		return true;
 	}
 
 	auto Renderer::set_clear_color(Color color) -> void {
@@ -615,40 +759,6 @@ namespace aby::rhi::vulkan {
 		return m_VMA;
 	}
 
-	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
-		vkcheck(vkResetFences(m_Device.device, 1, vkcast(m_Immediate.fence)), "failed to reset immediate submit fence");
-		vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), "failed to reset immedaite submit command buffer");
-
-		vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
-		vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
-
-		fn(m_Immediate.cmd);
-
-		vkcheck(vkEndCommandBuffer(m_Immediate.cmd),
-		        "failed to end immediate submit command buffer");
-
-		vk::CommandBufferSubmitInfo submit_info(m_Immediate.cmd);
-		vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
-
-		vkcheck(vkQueueSubmit2(
-		            m_GraphicsQueue,
-		            1, /* submit count */
-		            vkcast(submit),
-		            m_Immediate.fence),
-		        "failed to submit immediate submit command buffer");
-
-		vkcheck(vkWaitForFences(
-		            m_Device.device,
-		            1, /* fence count */
-		            vkcast(m_Immediate.fence),
-		            vk::True,
-		            9999999999 /* timeout */
-		            ),
-		        "failed to wait for immediate submit fence");
-
-		return true;
-	}
-
 	auto Renderer::color_format() -> vk::Format {
 		return m_DrawImage.format;
 	}
@@ -659,6 +769,14 @@ namespace aby::rhi::vulkan {
 
 	auto Renderer::desc_alloc() -> DescriptorAllocator& {
 		return m_DescAllocator;
+	}
+
+	auto Renderer::tex_desc_set() -> vk::DescriptorSet {
+		return m_TextureDescriptors;
+	}
+
+	auto Renderer::tex_desc_layout() -> vk::DescriptorSetLayout {
+		return m_TextureDescriptorLayout;
 	}
 
 } // namespace aby::rhi::vulkan

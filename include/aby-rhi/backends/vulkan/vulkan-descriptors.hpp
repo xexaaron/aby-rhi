@@ -26,7 +26,7 @@ namespace aby::rhi::vulkan {
 
 	class DescriptorAllocator {
 	public:
-		auto init(uint32_t max_sets, std::span<PoolSizeRatio> pool_ratios) -> bool;
+		auto init(uint32_t max_sets, std::span<PoolSizeRatio> pool_ratios, vk::DescriptorPoolCreateFlags flags) -> bool;
 		auto alloc(vk::DescriptorSetLayout layout) -> vk::DescriptorSet;
 		auto clear() -> bool;
 		auto deinit() -> void;

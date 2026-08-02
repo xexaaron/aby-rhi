@@ -29,14 +29,14 @@ namespace aby::rhi::vulkan {
 
 			vk::DescriptorBufferInfo info(
 			    uniform.buffer.operator vk::Buffer(),
-			    0,
+			    0, /* offset */
 			    bytes);
 
 			vk::WriteDescriptorSet write(
 			    uniform.set,
 			    uniform.binding,
-			    0,
-			    1,
+			    0, /* dst array element */
+			    1, /* descriptor count */
 			    vk::DescriptorType::eUniformBuffer,
 			    nullptr,
 			    &info);
@@ -115,9 +115,11 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::build() -> std::shared_ptr<rhi::RenderPass> {
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
 		if (!m_VIDB.inputs().empty()) {
 			m_VertexInputBindings.push_back(vk::VertexInputBindingDescription(
-			    0,
+			    0, /* binding */
 			    m_VIDB.stride(),
 			    vk::VertexInputRate::eVertex));
 
@@ -127,14 +129,57 @@ namespace aby::rhi::vulkan {
 				auto& input       = inputs[i];
 				vk::Format format = eformat_to_vkformat(input.format);
 				m_VertexAttributes.push_back(vk::VertexInputAttributeDescription(
-				    i,
-				    0,
+				    i, /* location */
+				    0, /* binding */
 				    format,
 				    inputs[i].offset));
 			}
 		}
 
-		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+		m_DescriptorSets.push_back(r->tex_desc_set());
+		m_DescriptorSetLayouts.push_back(r->tex_desc_layout());
+
+		if (!m_UniformBindings.empty()) {
+			std::vector<vk::DescriptorSetLayoutBinding> bindings;
+			bindings.reserve(m_UniformBindings.size());
+			for (auto& [name, binding] : m_UniformBindings) {
+				bindings.push_back(binding);
+			}
+
+			vk::DescriptorSetLayoutCreateInfo descriptor_layout_ci(
+			    vk::DescriptorSetLayoutCreateFlagBits::eUpdateAfterBindPool,
+			    bindings.size(),
+			    bindings.data());
+
+			vk::DescriptorSetLayout layout;
+
+			vkCreateDescriptorSetLayout(
+			    r->device(),
+			    descriptor_layout_ci,
+			    allocator(),
+			    vkcast(layout));
+			m_DescriptorSetLayouts.push_back(layout);
+
+			auto& desc_alloc = r->desc_alloc();
+			m_DescriptorSets.push_back(desc_alloc.alloc(layout));
+
+			r->gc().push([layouts = m_DescriptorSetLayouts]() {
+				auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+				/// skip one because the first index will be our texture descriptor array.
+				/// we dont own the texture descriptor array and it will be cleaned up by
+				/// the renderer.
+				for (size_t i = 1; i < layouts.size(); i++) {
+					vkDestroyDescriptorSetLayout(
+					    r->device(),
+					    layouts[i],
+					    allocator());
+				}
+			});
+
+			for (auto& [name, uniform] : m_Uniforms) {
+				uniform.set = m_DescriptorSets.back();
+			}
+		}
 
 		vk::PipelineVertexInputStateCreateInfo vertex_input_info(
 		    vk::PipelineVertexInputStateCreateFlags(),
@@ -159,50 +204,13 @@ namespace aby::rhi::vulkan {
 		    vk::PipelineDynamicStateCreateFlags{},
 		    dynamic_states.size(),
 		    dynamic_states.data());
+
 		vk::PipelineColorBlendStateCreateInfo color_blend_state(
 		    vk::PipelineColorBlendStateCreateFlags(),
-		    vk::False,
+		    vk::False, /* logic op enable */
 		    vk::LogicOp::eCopy,
-		    1,
+		    1, /* attachment count */
 		    &m_ColorBlendAttachment);
-
-		if (!m_UniformBindings.empty()) {
-			std::vector<vk::DescriptorSetLayoutBinding> bindings;
-			bindings.reserve(m_UniformBindings.size());
-			for (auto& [name, binding] : m_UniformBindings) {
-				bindings.push_back(binding);
-			}
-			vk::DescriptorSetLayoutCreateInfo descriptor_layout_ci(
-			    vk::DescriptorSetLayoutCreateFlagBits::eUpdateAfterBindPool,
-			    bindings.size(),
-			    bindings.data());
-			vk::DescriptorSetLayout layout;
-			vkCreateDescriptorSetLayout(
-			    r->device(),
-			    descriptor_layout_ci,
-			    allocator(),
-			    vkcast(layout));
-			m_DescriptorSetLayouts.push_back(layout);
-
-			auto& desc_alloc = r->desc_alloc();
-
-			m_DescriptorSets.push_back(desc_alloc.alloc(layout));
-
-			r->gc().push([layouts = m_DescriptorSetLayouts]() {
-				auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
-				for (auto& layout : layouts) {
-					vkDestroyDescriptorSetLayout(
-					    r->device(),
-					    layout,
-					    allocator());
-				}
-			});
-
-			for (auto& [name, uniform] : m_Uniforms) {
-				uniform.set = m_DescriptorSets.back();
-			}
-		}
 
 		vk::PipelineLayoutCreateInfo layout_create_info(
 		    vk::PipelineLayoutCreateFlags(),

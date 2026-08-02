@@ -5,7 +5,7 @@
 
 namespace aby::rhi {
 
-	auto IRenderer::create(ERenderer backend) -> IRenderer* {
+	auto Renderer::create(ERenderer backend) -> Renderer* {
 		switch (backend) {
 			case ERenderer::vulkan:
 				return new vulkan::Renderer();

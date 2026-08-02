@@ -12,50 +12,17 @@ struct MVP {
 	float view[16];
 	float projection[16];
 };
-
-HWND get_workerw() {
-	HWND progman = FindWindowA("Progman", nullptr);
-
-	// Ask Progman to spawn WorkerW
-	DWORD_PTR result = 0;
-	SendMessageTimeoutA(
-	    progman,
-	    0x052C,
-	    0,
-	    0,
-	    SMTO_NORMAL,
-	    1000,
-	    &result);
-
-	HWND workerw = nullptr;
-
-	EnumWindows(
-	    [](HWND hwnd, LPARAM lParam) -> BOOL {
-		HWND shell = FindWindowExA(
-		    hwnd,
-		    nullptr,
-		    "SHELLDLL_DefView",
-		    nullptr);
-
-		if (shell) {
-			HWND* out = reinterpret_cast<HWND*>(lParam);
-			*out      = FindWindowExA(
-			    nullptr,
-			    hwnd,
-			    "WorkerW",
-			    nullptr);
-			return FALSE;
-		}
-
-		return TRUE;
-	},
-	    reinterpret_cast<LPARAM>(&workerw));
-
-	return workerw;
-}
+struct Material {
+	uint32_t albedo;
+	uint32_t ao;
+	uint32_t height;
+	uint32_t normal;
+	uint32_t roughness;
+	uint32_t orm;
+};
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	auto* ren = reinterpret_cast<aby::rhi::IRenderer*>(
+	auto* ren = reinterpret_cast<aby::rhi::Renderer*>(
 	    GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (msg) {
@@ -138,12 +105,13 @@ int main(int argc, char** argv) {
 	auto rpsb = RenderPassBuilder::create();
 	auto pass = rpsb->add_shader("test_vertex.vert")
 	                .add_uniform("mvp", 0, EShader::vert)
+	                .add_uniform("texs", 1, EShader::vert)
 	                .vertex_description_builder()
 	                .add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
 	                .build()
 	                ->add_shader("test_frag.frag")
 	                .use_all_defaults()
-	                .set_cull_mode(ECullMode::back, EFrontFace::counter_clockwise)
+	                .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	                .disable_multisampling()
 	                .disable_blending()
 	                .disable_depthtest()
@@ -151,7 +119,23 @@ int main(int argc, char** argv) {
 
 	auto* ren = ctx.renderer();
 	ren->add_pass(pass);
-	ren->set_clear_color(Color(0.f));
+	ren->set_clear_color(Color(0.2f, 0.2f, 0.2f, 1.f));
+
+	auto tex_albedo    = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png");
+	auto tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
+	auto tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
+	auto tex_normal    = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
+	auto tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png");
+	auto tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png");
+
+	Material material{
+		.albedo    = tex_albedo->id(),
+		.ao        = tex_ao->id(),
+		.height    = tex_ao->id(),
+		.normal    = tex_normal->id(),
+		.roughness = tex_roughness->id(),
+		.orm       = tex_orm->id()
+	};
 
 	using Index = uint32_t;
 
@@ -159,23 +143,50 @@ int main(int argc, char** argv) {
 	auto ibuff = IndexBuffer::create(60);
 
 	Vertex vertices[] = {
-		{  { -0.5f, -0.5f, 0.5f }, { 0.f, 0.f }, { 1, 0, 0, 1 } },
-		{   { 0.5f, -0.5f, 0.5f }, { 0.f, 0.f }, { 0, 1, 0, 1 } },
-		{    { 0.5f, 0.5f, 0.5f }, { 0.f, 0.f }, { 0, 0, 1, 1 } },
-		{   { -0.5f, 0.5f, 0.5f }, { 0.f, 0.f }, { 1, 1, 0, 1 } },
-		{ { -0.5f, -0.5f, -0.5f }, { 0.f, 0.f }, { 1, 0, 1, 1 } },
-		{  { 0.5f, -0.5f, -0.5f }, { 0.f, 0.f }, { 0, 1, 1, 1 } },
-		{   { 0.5f, 0.5f, -0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
-		{  { -0.5f, 0.5f, -0.5f }, { 0.f, 0.f }, { 0, 0, 0, 1 } },
+		// Front (+Z)
+		{  { -0.5f, -0.5f, 0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{   { 0.5f, -0.5f, 0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{    { 0.5f, 0.5f, 0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{   { -0.5f, 0.5f, 0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
+
+		// Back (-Z)
+		{  { 0.5f, -0.5f, -0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{ { -0.5f, -0.5f, -0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{  { -0.5f, 0.5f, -0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{   { 0.5f, 0.5f, -0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
+
+		// Left (-X)
+		{ { -0.5f, -0.5f, -0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{  { -0.5f, -0.5f, 0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{   { -0.5f, 0.5f, 0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{  { -0.5f, 0.5f, -0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
+
+		// Right (+X)
+		{   { 0.5f, -0.5f, 0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{  { 0.5f, -0.5f, -0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{   { 0.5f, 0.5f, -0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{    { 0.5f, 0.5f, 0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
+
+		// Top (+Y)
+		{   { -0.5f, 0.5f, 0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{    { 0.5f, 0.5f, 0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{   { 0.5f, 0.5f, -0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{  { -0.5f, 0.5f, -0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
+
+		// Bottom (-Y)
+		{ { -0.5f, -0.5f, -0.5f }, { 0.f, 0.f }, { 1, 1, 1, 1 } },
+		{  { 0.5f, -0.5f, -0.5f }, { 1.f, 0.f }, { 1, 1, 1, 1 } },
+		{   { 0.5f, -0.5f, 0.5f }, { 1.f, 1.f }, { 1, 1, 1, 1 } },
+		{  { -0.5f, -0.5f, 0.5f }, { 0.f, 1.f }, { 1, 1, 1, 1 } },
 	};
 
 	uint32_t indices[] = {
-		0, 1, 2, 2, 3, 0, // front
-		4, 6, 5, 6, 4, 7, // back
-		0, 4, 5, 5, 1, 0, // bottom
-		3, 2, 6, 6, 7, 3, // top
-		1, 5, 6, 6, 2, 1, // right
-		4, 0, 3, 3, 7, 4  // left
+		0, 1, 2, 2, 3, 0,       // Front
+		4, 5, 6, 6, 7, 4,       // Back
+		8, 9, 10, 10, 11, 8,    // Left
+		12, 13, 14, 14, 15, 12, // Right
+		16, 17, 18, 18, 19, 16, // Top
+		20, 21, 22, 22, 23, 20  // Bottom
 	};
 
 	float angle = 0.785398f; // 45 degrees
@@ -194,6 +205,7 @@ int main(int argc, char** argv) {
 	DrawCmd cmd(vbuff, ibuff, 1);
 
 	pass->set_uniform("mvp", mvp);
+	pass->set_uniform("texs", material);
 
 	MSG msg;
 

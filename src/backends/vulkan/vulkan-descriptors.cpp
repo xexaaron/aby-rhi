@@ -59,7 +59,7 @@ namespace aby::rhi::vulkan {
 
 namespace aby::rhi::vulkan {
 
-	auto DescriptorAllocator::init(uint32_t max_sets, std::span<PoolSizeRatio> pool_ratios) -> bool {
+	auto DescriptorAllocator::init(uint32_t max_sets, std::span<PoolSizeRatio> pool_ratios, vk::DescriptorPoolCreateFlags flags) -> bool {
 		std::vector<vk::DescriptorPoolSize> pool_sizes;
 		pool_sizes.resize(pool_ratios.size());
 
@@ -69,7 +69,7 @@ namespace aby::rhi::vulkan {
 		}
 
 		vk::DescriptorPoolCreateInfo create_info(
-		    vk::DescriptorPoolCreateFlagBits::eUpdateAfterBind,
+		    flags,
 		    max_sets,
 		    pool_sizes.size(),
 		    pool_sizes.data());
