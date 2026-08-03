@@ -87,4 +87,18 @@ namespace aby::rhi {
 		r_u32,
 	};
 
+	enum class EJobPriority {
+		low      = 0,
+		medium   = 1,
+		high     = 2,
+		critical = 3
+	};
+
+	enum class EJobQueue {
+		textures = 0,
+		shaders	 = 1,
+		caching  = 2,
+		max_queues
+	};
+
 } // namespace aby::rhi

@@ -51,12 +51,14 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/draw-cmd.hpp
     ${ABY_RHI_INCLUDE_DIR}/renderer.hpp
     ${ABY_RHI_INCLUDE_DIR}/render-pass.hpp
+    ${ABY_RHI_INCLUDE_DIR}/resource.hpp
     ${ABY_RHI_INCLUDE_DIR}/shader.hpp
     ${ABY_RHI_INCLUDE_DIR}/texture.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_allocator.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_fileio.hpp
+    ${ABY_RHI_INCLUDE_DIR}/interfaces/default_job_system.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_logger.hpp
 
     ${ABY_RHI_SRC_DIR}/buffer.cpp
@@ -65,11 +67,13 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/draw-cmd.cpp
     ${ABY_RHI_SRC_DIR}/renderer.cpp
     ${ABY_RHI_SRC_DIR}/render-pass.cpp
+    ${ABY_RHI_SRC_DIR}/resource.cpp
     ${ABY_RHI_SRC_DIR}/shader.cpp
     ${ABY_RHI_SRC_DIR}/texture.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_fileio.cpp
+    ${ABY_RHI_SRC_DIR}/interfaces/default_job_system.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_logger.cpp
 
 

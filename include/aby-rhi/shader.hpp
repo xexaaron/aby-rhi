@@ -36,6 +36,7 @@ namespace aby::rhi {
 		static auto create(const fs::path& rel_path) -> std::shared_ptr<Shader>;
 		virtual ~Shader() = default;
 
+		virtual auto data() -> std::span<uint32_t> = 0;
 		virtual auto bind() -> void          = 0;
 		virtual auto destroy() -> void       = 0;
 		virtual auto type() const -> EShader = 0;
@@ -53,4 +54,4 @@ namespace aby::rhi {
 		static auto size_of_glsl_type(const std::string& glsl_type) -> size_t;
 	};
 
-}; // namespace aby::rhi
+} // namespace aby::rhi

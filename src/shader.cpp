@@ -2,19 +2,51 @@
 
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "context.hpp"
+#include "interfaces/default_fileio.hpp"
 
 #include <assert.h>
 #include <iostream>
 #include <shaderc/shaderc.hpp>
-
+#include <thread>
 namespace aby::rhi {
 
 	auto eshader_to_shaderc(EShader type) -> shaderc_shader_kind;
 
+	class ShaderCompiler {
+	public:
+		static auto init() -> void {
+			std::call_once(s_InitFlag, [] {
+				s_Options.SetTargetEnvironment(
+				    shaderc_target_env_vulkan,
+				    shaderc_env_version_vulkan_1_4);
+
+				s_Options.SetOptimizationLevel(
+				    shaderc_optimization_level_performance);
+			});
+		}
+
+		static auto compile(const char* source_text, size_t source_text_len, shaderc_shader_kind shader_kind, const char* input_file_name, std::vector<uint32_t>* out_data) -> bool {
+			init();
+
+			auto module = s_Compiler.CompileGlslToSpv(source_text, source_text_len, shader_kind, input_file_name, s_Options);
+			if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
+				Context::get().logger()->log(ELogLevel::error, module.GetErrorMessage());
+				return false;
+			}
+
+			out_data->assign(module.cbegin(), module.cend());
+			return true;
+		}
+	private:
+		static inline shaderc::Compiler s_Compiler;
+		static inline shaderc::CompileOptions s_Options;
+		static inline std::once_flag s_InitFlag;
+	};
+
 	auto Shader::create(const fs::path& rel_path) -> std::shared_ptr<Shader> {
 		// Officially we do not support using precompiled shaders here.
 		// We want to cache them ourselves.
-		// For vertex shaders we want to build a descriptor layout from them.
+		// For vertex shaders we want to build a descriptor layout from them; That is in the future.
 
 		auto& ctx = Context::get();
 		auto* io  = ctx.file_io();
@@ -40,15 +72,44 @@ namespace aby::rhi {
 
 		if (!is_compiled) {
 			if (!is_cached) {
-				if (!compile_shader(rel_path, name, type)) {
+				std::vector<uint8_t> data;
+				if (!io->read(rel_path, &data)) {
+					return nullptr;
+				}
+
+				auto shaderc_type = eshader_to_shaderc(type);
+
+				std::vector<uint32_t> out_data;
+				if (!ShaderCompiler::compile(reinterpret_cast<const char*>(data.data()), data.size(), shaderc_type, name.c_str(), &out_data)) {
 					aby_rhi_err("failed to compile shader: {}", name);
 					return nullptr;
 				}
-			}
 
-			read_path = io->cache_dir() / rel_path.string().append(".spv");
+				std::shared_ptr<Shader> shader = nullptr;
+				switch (ctx.renderer_backend()) {
+					case ERenderer::vulkan: {
+						shader = std::make_shared<vulkan::Shader>(type, std::move(out_data));
+						break;
+					}
+					default:
+						aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
+				}
+
+				auto cache_dir = io->cache_dir();
+
+				std::thread([cache_dir, rel_path, write_data = shader->data()]() mutable {
+					DefaultFileIO io;
+					fs::path out_path = cache_dir / (rel_path.string() + ".spv");
+					io.write(out_path, write_data);
+				}).detach();
+
+				aby_rhi_dbg("compiled shader: {}", name);
+
+				return shader;
+			}
 		}
 
+		read_path = io->cache_dir() / rel_path.string().append(".spv");
 		std::vector<uint32_t> data;
 		if (!io->read(read_path, &data)) {
 			aby_rhi_err("failed to read shader file: {}", read_path.string());
@@ -72,45 +133,6 @@ namespace aby::rhi {
 		auto* io  = ctx.file_io();
 		auto* log = ctx.logger();
 
-		std::vector<uint8_t> data;
-		if (!io->read(rel_path, &data)) {
-			return false;
-		}
-
-		auto shaderc_type = eshader_to_shaderc(type);
-		std::string source(
-		    reinterpret_cast<char*>(data.data()),
-		    data.size());
-
-		shaderc::Compiler compiler;
-		shaderc::CompileOptions options;
-		// #ifdef NDEBUG
-		//       options.SetOptimizationLevel(shaderc_optimization_level_performance);
-		// #else
-		//       options.SetOptimizationLevel(shaderc_optimization_level_size);
-		// #endif
-		// TODO: renderer agnostic
-		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_4);
-
-		auto module = compiler.CompileGlslToSpv(
-		    source,
-		    eshader_to_shaderc(type),
-		    name.c_str(),
-		    options);
-
-		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
-			log->log(ELogLevel::error, module.GetErrorMessage());
-			return false;
-		}
-
-		std::vector<uint32_t> out_data{ module.cbegin(), module.cend() };
-		fs::path out_path = io->cache_dir() / (rel_path.string().append(".spv"));
-
-		if (!io->write(out_path, out_data)) {
-			return false;
-		}
-
-		aby_rhi_dbg("compiled shader: {}", name);
 		return true;
 	}
 

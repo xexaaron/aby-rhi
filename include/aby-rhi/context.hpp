@@ -1,6 +1,7 @@
 #pragma once
 #include "interfaces/interfaces.hpp"
 #include "renderer.hpp"
+#include "resource.hpp"
 
 #include <concepts>
 #include <type_traits>
@@ -32,12 +33,14 @@ namespace aby::rhi {
 		auto logger() -> ILogger*;
 		auto allocator() -> IAllocator*;
 		auto file_io() -> IFileIO*;
+		auto job_sys() -> IJobSystem*;
 
 		/**
          * @brief Set the interface type. Call this before calling Context::init.
          * @tparam ILogger Logging interface [optional]
          * @tparam IAllocator Allocator interface [optional]
          * @tparam IFileIO File io interface [optional]
+		 * @tparam IJobSystem Job system interface [optional]
          */
 		template <typename T>
 		requires(std::derived_from<T, IInterface>)
@@ -48,6 +51,8 @@ namespace aby::rhi {
 				m_Allocator = new T();
 			} else if constexpr (std::is_base_of_v<IFileIO, T>) {
 				m_FileIO = new T();
+			} else if constexpr (std::is_base_of_v<IJobSystem, T>) {
+				m_JobSystem = new T();
 			} else {
 				static_assert(std::false_type::value, "unimplemented interface type");
 			}
@@ -56,6 +61,7 @@ namespace aby::rhi {
 		ILogger* m_Logger;
 		IAllocator* m_Allocator;
 		IFileIO* m_FileIO;
+		IJobSystem* m_JobSystem;
 		Renderer* m_Renderer;
 		void* m_Window;
 		ERenderer m_RendererBackend;

@@ -2,3 +2,4 @@ bin/
 vendor/shaderc
 vendor/vk-boostrap
 vendor/vma
+timings.log

@@ -14,4 +14,8 @@ namespace aby::rhi {
 		return "IFileIO";
 	};
 
+	auto IJobSystem::name() -> std::string_view {
+		return "IJobSystem";
+	};
+
 } // namespace aby::rhi

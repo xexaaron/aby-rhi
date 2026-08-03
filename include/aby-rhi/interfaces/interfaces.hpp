@@ -11,6 +11,7 @@
 #include "common.hpp"
 
 #include <filesystem>
+#include <functional>
 #include <span>
 #include <string>
 #include <string_view>
@@ -70,6 +71,16 @@ namespace aby::rhi {
 		virtual auto read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool = 0;
 		virtual auto write(const fs::path& rel_path, std::span<uint8_t> data) -> bool    = 0;
 		virtual auto write(const fs::path& rel_path, std::span<uint32_t> data) -> bool   = 0;
+	private:
+	};
+
+	class IJobSystem : public IInterface {
+	public:
+		using Job = std::function<void()>;
+		auto name() -> std::string_view override;
+
+		virtual auto add_job(EJobQueue queue, EJobPriority priority, Job&& job) -> void = 0;
+		virtual auto destroy() -> void                                                  = 0;
 	private:
 	};
 

@@ -47,4 +47,8 @@ namespace aby::rhi::vulkan {
 		return m_Module;
 	}
 
+	auto Shader::data() -> std::span<uint32_t> {
+		return { m_Data.data(), m_Data.size() };
+	}
+
 } // namespace aby::rhi::vulkan

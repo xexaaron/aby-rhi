@@ -16,6 +16,7 @@ namespace aby::rhi {
 		if (!m_Logger) set_interface<DefaultLogger>();
 		if (!m_Allocator) set_interface<DefaultAllocator>();
 		if (!m_FileIO) set_interface<DefaultFileIO>();
+		if (!m_JobSystem) set_interface<DefaultJobSystem>();
 
 		m_RendererBackend = renderer_backend;
 		m_WinBackend      = window_backend;
