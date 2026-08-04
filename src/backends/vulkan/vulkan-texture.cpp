@@ -138,7 +138,6 @@ namespace aby::rhi::vulkan {
 		});
 
 		m_ID = r->register_texture(m_View, m_Sampler);
-		aby_rhi_dbg("registered texture: {} to id {}", path.string(), m_ID);
 	}
 
 	Texture::~Texture() {

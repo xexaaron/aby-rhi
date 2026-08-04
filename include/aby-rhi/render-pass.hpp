@@ -137,7 +137,7 @@ namespace aby::rhi {
 
 		/// @brief The render pass will own the created shader
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                = 0;
-		virtual auto add_shader(std::shared_ptr<Shader> shader) -> RenderPassBuilder&                          = 0;
+		virtual auto add_shader(Resource shader) -> RenderPassBuilder&                                         = 0;
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& = 0;
 
 		auto vertex_description_builder() -> VertexInputDescriptionBuilder&;

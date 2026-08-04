@@ -2,6 +2,7 @@
 #include "interfaces/interfaces.hpp"
 #include "renderer.hpp"
 #include "resource.hpp"
+#include "texture.hpp"
 
 #include <concepts>
 #include <type_traits>
@@ -34,6 +35,8 @@ namespace aby::rhi {
 		auto allocator() -> IAllocator*;
 		auto file_io() -> IFileIO*;
 		auto job_sys() -> IJobSystem*;
+		auto textures() -> ResourceContainer<Texture, EResource::texture>&;
+		auto shaders() -> ResourceContainer<Shader, EResource::shader>&;
 
 		/**
          * @brief Set the interface type. Call this before calling Context::init.
@@ -66,6 +69,9 @@ namespace aby::rhi {
 		void* m_Window;
 		ERenderer m_RendererBackend;
 		EWindow m_WinBackend;
+
+		ResourceContainer<Texture, EResource::texture> m_Textures;
+		ResourceContainer<Shader, EResource::shader> m_Shaders;
 	};
 
 } // namespace aby::rhi

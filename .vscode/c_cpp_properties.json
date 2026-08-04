@@ -21,6 +21,7 @@
                 "ABY_RHI_ENABLE_LOG_TRACE=1",
                 "ABY_RHI_ENABLE_LOG_WARN=1",
                 "ABY_RHI_ENABLE_ASSERT=1",
+                "ABY_RHI_ENABLE_PROFILING=1",
                 "__debug_break=std::abort"
             ],
             "compilerArgs": [

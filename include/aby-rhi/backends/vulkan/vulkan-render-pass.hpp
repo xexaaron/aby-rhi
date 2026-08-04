@@ -3,6 +3,7 @@
 #include "backends/vulkan/vulkan-descriptors.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "render-pass.hpp"
+#include "resource.hpp"
 
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace aby::rhi::vulkan {
 	class RenderPass : public rhi::RenderPass {
 	public:
 		RenderPass(std::unique_ptr<Pipeline> pipeline,
-		           const std::vector<std::shared_ptr<rhi::Shader>>& shaders,
+		           const std::vector<Resource>& shaders,
 		           const std::unordered_map<std::string, Uniform>& uniforms);
 
 		auto set_uniform(std::string_view name, void* data, size_t bytes) -> void override;
@@ -35,7 +36,7 @@ namespace aby::rhi::vulkan {
 		vk::PipelineBindPoint m_BindPoint;
 		vk::CommandBuffer m_Cmd;
 		std::unique_ptr<Pipeline> m_Pipeline;
-		std::vector<std::shared_ptr<rhi::Shader>> m_Shaders;
+		std::vector<Resource> m_Shaders;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 	};
 
@@ -47,7 +48,7 @@ namespace aby::rhi::vulkan {
 		auto clear() -> void override;
 
 		auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
-		auto add_shader(std::shared_ptr<rhi::Shader> shader) -> RenderPassBuilder& override;
+		auto add_shader(Resource shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
 
 		auto set_topology(ETopology topology) -> RenderPassBuilder& override;
@@ -62,7 +63,7 @@ namespace aby::rhi::vulkan {
 
 		auto use_default_attachment_formats() -> RenderPassBuilder& override;
 	private:
-		std::vector<std::shared_ptr<rhi::Shader>> m_Shaders;
+		std::vector<Resource> m_Shaders;
 		vk::PipelineLayout m_PipelineLayout;
 		vk::PipelineInputAssemblyStateCreateInfo m_InputAssembly;
 		vk::PipelineRasterizationStateCreateInfo m_Rasterizer;

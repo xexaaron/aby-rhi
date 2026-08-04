@@ -8,23 +8,6 @@
 
 namespace aby::rhi {
 
-	enum class EResource : uint32_t {
-		none,
-		texture,
-		shader,
-	};
-
-	enum class EResourceState : uint16_t {
-		invalid,
-		loading,
-		loaded,
-		failed,
-	};
-
-	enum class ResourceID : uint32_t {
-		invalid = UINT32_MAX,
-	};
-
 	/**
      * @brief A resource is a handle to the resource data contained with the Context.
      *        This is used for loading data asynchronously while still being able to give out
@@ -46,6 +29,7 @@ namespace aby::rhi {
 
 		operator ResourceID() const;
 		operator std::pair<EResource, ResourceID>() const;
+		explicit operator bool() const;
 	private:
 		EResource m_Type;
 		ResourceID m_ID;
@@ -54,11 +38,11 @@ namespace aby::rhi {
 	/**
 	 * @brief A resource container that owns the resources and performs cleanup
 	 * @tparam T the type of resource.
-	 * @tparam resource_type The type of resource that is owned. Used for runtime checking and resource creation
+	 * @tparam ResourceType The type of resource that is owned. Used for runtime checking and resource creation
 	 *                       to ensure that resources owned by another container arent accessed using this container.
 	 * @warning The container does not do bounds checking itself.
 	 */
-	template <typename T, EResource resource_type>
+	template <typename T, EResource ResourceType>
 	class ResourceContainer {
 	public:
 		~ResourceContainer();
@@ -126,19 +110,57 @@ namespace aby::rhi {
 		std::mutex m_IndexMutex;
 	};
 
+	/**
+	 * @brief ResourcePtr class that abstracts the synchronization mechanisms from the user
+	 * @tparam T the underlying resource type
+	 * @tparam ResourceType the resource type of the container that owns the underlying resource data
+	 */
+	template <typename T, EResource ResourceType>
+	class ResourcePtr : public Resource {
+	public:
+		ResourcePtr();
+		ResourcePtr(std::nullptr_t);
+		ResourcePtr(ResourceID id, ResourceContainer<T, ResourceType>* container);
+
+		/**
+		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
+		 * @return If the resource load failed nullptr, otherwise the resource data.
+		 */
+		auto operator->() -> T*;
+		/**
+		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
+		 * @return If the resource load failed nullptr, otherwise the resource data.
+		*/
+		auto get() -> T*;
+		/**
+		 * @brief Checks if the resource id is invalid
+		*/
+		explicit operator bool() const;
+	private:
+		mutable T* m_Cached                             = nullptr;
+		ResourceContainer<T, ResourceType>* m_Container = nullptr;
+	};
+
+	template <typename T, EResource ResourceType>
+	auto create_resource(Resource resource, ResourceContainer<T, ResourceType>& container) -> ResourcePtr<T, ResourceType> {
+		if (resource.type() != ResourceType)
+			return {};
+		return ResourcePtr<T, ResourceType>(resource.id(), &container);
+	}
+
 } // namespace aby::rhi
 
 namespace aby::rhi {
 
-	template <typename T, EResource resource_type>
-	ResourceContainer<T, resource_type>::~ResourceContainer() {
+	template <typename T, EResource ResourceType>
+	ResourceContainer<T, ResourceType>::~ResourceContainer() {
 		for (auto* resource : m_Resources) {
 			delete resource;
 		}
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::reserve() -> Resource {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::reserve() -> Resource {
 		std::lock_guard lock(m_IndexMutex);
 
 		ResourceID id = ResourceID::invalid;
@@ -153,31 +175,29 @@ namespace aby::rhi {
 			m_ResourceStates.emplace_back(EResourceState::loading);
 		}
 
-		return Resource(resource_type, id);
+		return Resource(ResourceType, id);
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::add(Resource resource, T* obj) -> void {
-		auto idx = static_cast<size_t>(resource.id());
-
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::add(Resource resource, T* obj) -> void {
+		auto idx         = static_cast<size_t>(resource.id());
 		m_Resources[idx] = obj;
 		m_ResourceStates[idx].store(EResourceState::loaded, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
 	}
 
-	template <typename T, EResource resource_type>
+	template <typename T, EResource ResourceType>
 	template <typename... Args>
 	requires(std::is_constructible_v<T, Args...>)
-	auto ResourceContainer<T, resource_type>::emplace(Resource resource, Args&&... args) -> void {
-		auto idx = static_cast<size_t>(resource.id());
-
+	auto ResourceContainer<T, ResourceType>::emplace(Resource resource, Args&&... args) -> void {
+		auto idx         = static_cast<size_t>(resource.id());
 		m_Resources[idx] = new T(std::forward<Args>(args)...);
 		m_ResourceStates[idx].store(EResourceState::loaded, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::remove(Resource resource) -> void {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::remove(Resource resource) -> void {
 		auto idx = static_cast<size_t>(resource.id());
 
 		m_ResourceStates[idx].store(EResourceState::invalid, std::memory_order_release);
@@ -189,42 +209,40 @@ namespace aby::rhi {
 		m_FreeIDs.push(resource.id());
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::fail(Resource resource) -> void {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::fail(Resource resource) -> void {
 		auto idx = static_cast<size_t>(resource.id());
 		m_ResourceStates[idx].store(EResourceState::failed, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::wait_for(Resource resource) -> bool {
-		auto idx = static_cast<size_t>(resource.id());
-
-		auto state = m_ResourceStates[idx].load(
-		    std::memory_order_acquire);
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::wait_for(Resource resource) -> bool {
+		auto idx   = static_cast<size_t>(resource.id());
+		auto state = m_ResourceStates[idx].load(std::memory_order_acquire);
 
 		while (state == EResourceState::loading) {
-			m_ResourceStates[idx].wait(state);
+			// m_ResourceStates[idx].wait(state);
 			state = m_ResourceStates[idx].load(std::memory_order_acquire);
 		}
 
 		return state == EResourceState::loaded;
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::is_loaded(Resource resource) -> bool {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::is_loaded(Resource resource) -> bool {
 		auto idx = static_cast<size_t>(resource.id());
 		return m_ResourceStates[idx].load(std::memory_order_acquire) == EResourceState::loaded;
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::state(Resource resource) -> EResourceState {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::state(Resource resource) -> EResourceState {
 		return m_ResourceStates[static_cast<size_t>(resource.id())].load(std::memory_order_acquire);
 	}
 
-	template <typename T, EResource resource_type>
-	auto ResourceContainer<T, resource_type>::operator[](Resource resource) -> T* {
-		if (resource.type() != resource_type) {
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::operator[](Resource resource) -> T* {
+		if (resource.type() != ResourceType) {
 			return nullptr;
 		}
 		auto idx = static_cast<size_t>(resource.id());
@@ -235,6 +253,48 @@ namespace aby::rhi {
 			return nullptr;
 		}
 		return m_Resources[idx];
+	}
+
+} // namespace aby::rhi
+
+namespace aby::rhi {
+
+	template <typename T, EResource ResourceType>
+	ResourcePtr<T, ResourceType>::ResourcePtr() = default;
+
+	template <typename T, EResource ResourceType>
+	ResourcePtr<T, ResourceType>::ResourcePtr(std::nullptr_t) :
+	    Resource(ResourceType, ResourceID::invalid),
+	    m_Cached(nullptr),
+	    m_Container(nullptr) {
+	}
+
+	template <typename T, EResource ResourceType>
+	ResourcePtr<T, ResourceType>::ResourcePtr(ResourceID id, ResourceContainer<T, ResourceType>* container) :
+	    Resource(ResourceType, id),
+	    m_Container(container) {
+	}
+
+	template <typename T, EResource ResourceType>
+	auto ResourcePtr<T, ResourceType>::operator->() -> T* {
+		if (!m_Cached) {
+			if (!m_Container->wait_for(*this))
+				return nullptr;
+
+			m_Cached = (*m_Container)[*this];
+		}
+
+		return m_Cached;
+	}
+
+	template <typename T, EResource ResourceType>
+	auto ResourcePtr<T, ResourceType>::get() -> T* {
+		return operator->();
+	}
+
+	template <typename T, EResource ResourceType>
+	ResourcePtr<T, ResourceType>::operator bool() const {
+		return this->id() != ResourceID::invalid;
 	}
 
 } // namespace aby::rhi

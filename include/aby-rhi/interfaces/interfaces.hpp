@@ -79,8 +79,23 @@ namespace aby::rhi {
 		using Job = std::function<void()>;
 		auto name() -> std::string_view override;
 
-		virtual auto add_job(EJobQueue queue, EJobPriority priority, Job&& job) -> void = 0;
-		virtual auto destroy() -> void                                                  = 0;
+		/**
+		 * @brief Get the number of threads that jobs can be run on.
+		 */
+		virtual auto thread_count() -> size_t = 0;
+
+		/**
+		 * @brief Add a job to be ran asynchronously 
+		 * @param priority The order in which the jobs should be completed.
+		 */
+		virtual auto add_job(EJobPriority priority, Job&& job) -> void = 0;
+
+		/**
+		 * @brief Should cleanup any resources the JobSystem uses
+		 * 	      and finish all jobs currently running. The jobs must finish
+		 * 		  because they could be jobs such as caching data.
+		 */
+		virtual auto destroy() -> void = 0;
 	private:
 	};
 

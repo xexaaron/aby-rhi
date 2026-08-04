@@ -1,5 +1,5 @@
 #pragma once
-
+#include <cstdint>
 namespace aby::rhi {
 
 	enum class EAllocation {
@@ -96,9 +96,26 @@ namespace aby::rhi {
 
 	enum class EJobQueue {
 		textures = 0,
-		shaders	 = 1,
+		shaders  = 1,
 		caching  = 2,
 		max_queues
+	};
+
+	enum class EResource : uint32_t {
+		none,
+		texture,
+		shader,
+	};
+
+	enum class EResourceState : uint16_t {
+		invalid,
+		loading,
+		loaded,
+		failed,
+	};
+
+	enum class ResourceID : uint32_t {
+		invalid = UINT32_MAX,
 	};
 
 } // namespace aby::rhi

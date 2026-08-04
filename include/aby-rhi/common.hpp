@@ -2,7 +2,9 @@
 #include "common-enums.hpp"
 #include "common-types.hpp"
 
+#include <chrono>
 #include <format>
+#include <string>
 
 #ifndef NDEBUG
 #	define aby_rhi_dbg(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::debug, std::format(msg __VA_OPT__(, ) __VA_ARGS__))
@@ -30,7 +32,7 @@
 
 #if ABY_RHI_ENABLE_ASSERT == 1
 #	if defined(_MSC_VER)
-#		define ABY_RHI_DEBUG_BREAK() __debug_break()
+#		define ABY_RHI_DEBUG_BREAK() __debugbreak()
 #	elif defined(__clang__) || defined(__GNUC__)
 #		if defined(_WIN32)
 #			define ABY_RHI_DEBUG_BREAK() __builtin_debugtrap()
@@ -49,6 +51,14 @@
 #	define ABY_RHI_DEBUG_BREAK()
 #endif
 
+#if defined(_MSC_VER)
+#	define ABY_RHI_FUNCTION_NAME __FUNCSIG__
+#elif defined(__GNUC__) || defined(__clang__)
+#	define ABY_RHI_FUNCTION_NAME __PRETTY_FUNCTION__
+#else
+#	define ABY_RHI_FUNCTION_NAME __func__
+#endif
+
 #define aby_rhi_assert(expr, ...)                         \
 	do {                                                  \
 		if (!(expr)) {                                    \
@@ -58,6 +68,35 @@
 			ABY_RHI_DEBUG_BREAK();                        \
 		}                                                 \
 	} while (0)
+
+#if ABY_RHI_ENABLE_PROFILING == 1
+#	define ABY_RHI_CONCAT_IMPL(x, y) x##y
+#	define ABY_RHI_CONCAT(x, y) ABY_RHI_CONCAT_IMPL(x, y)
+#	define ABY_RHI_STRINGIFY_IMPL(x) #x
+#	define ABY_RHI_STRINGIFY(x) ABY_RHI_STRINGIFY_IMPL(x)
+#	define ABY_RHI_EVAL_MACRO(x) x
+#	define aby_rhi_profile(scope_name)                                                    \
+		auto ABY_RHI_CONCAT(scoped_timer_, __COUNTER__) = ::aby::rhi::detail::ScopedTimer( \
+		    __FILE__ ":(" ABY_RHI_STRINGIFY(ABY_RHI_EVAL_MACRO(__LINE__)) ")"              \
+		                                                                  " [" scope_name "]")
+#else
+#	define aby_rhi_profile(...)
+#endif
+
+namespace aby::rhi::detail {
+
+	class ScopedTimer {
+	public:
+		using Clock = std::chrono::steady_clock;
+
+		explicit ScopedTimer(std::string_view name);
+		~ScopedTimer();
+	private:
+		std::string_view m_Name;
+		Clock::time_point m_Start;
+	};
+
+} // namespace aby::rhi::detail
 
 /**
  * @brief Formatters for common types and enums. 
@@ -409,6 +448,160 @@ namespace std {
 			}
 
 			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EJobPriority, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EJobPriority value, FmtContext& ctx) const {
+			std::string_view str = "unknown";
+
+			switch (value) {
+				case aby::rhi::EJobPriority::low:
+					str = "low";
+					break;
+				case aby::rhi::EJobPriority::medium:
+					str = "medium";
+					break;
+				case aby::rhi::EJobPriority::high:
+					str = "high";
+					break;
+				case aby::rhi::EJobPriority::critical:
+					str = "critical";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EJobQueue, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EJobQueue value, FmtContext& ctx) const {
+			std::string_view str = "unknown";
+
+			switch (value) {
+				case aby::rhi::EJobQueue::textures:
+					str = "textures";
+					break;
+				case aby::rhi::EJobQueue::shaders:
+					str = "shaders";
+					break;
+				case aby::rhi::EJobQueue::caching:
+					str = "caching";
+					break;
+				case aby::rhi::EJobQueue::max_queues:
+					str = "max queues";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EResource, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EResource value, FmtContext& ctx) const {
+			std::string_view str = "unknown";
+
+			switch (value) {
+				case aby::rhi::EResource::none:
+					str = "none";
+					break;
+				case aby::rhi::EResource::texture:
+					str = "texture";
+					break;
+				case aby::rhi::EResource::shader:
+					str = "shader";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EResourceState, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EResourceState value, FmtContext& ctx) const {
+			std::string_view str = "unknown";
+
+			switch (value) {
+				case aby::rhi::EResourceState::invalid:
+					str = "invalid";
+					break;
+				case aby::rhi::EResourceState::loading:
+					str = "loading";
+					break;
+				case aby::rhi::EResourceState::loaded:
+					str = "loaded";
+					break;
+				case aby::rhi::EResourceState::failed:
+					str = "failed";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::ResourceID, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::ResourceID value, FmtContext& ctx) const {
+			switch (value) {
+				case aby::rhi::ResourceID::invalid:
+					return std::format_to(ctx.out(), "<invalid>");
+
+				default:
+					return std::format_to(
+					    ctx.out(),
+					    "<{}>",
+					    std::to_underlying(value));
+			}
 		}
 	};
 

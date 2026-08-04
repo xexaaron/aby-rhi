@@ -7,6 +7,13 @@
 #include <VkBootstrap.h>
 #include <vector>
 
+#ifndef _NDEBUG
+#	define SHADER_PRINTF_ENABLE 1
+#	define VALIDATION_LAYER_ENABLE 1
+#else
+#	define SHADER_PRINTF_ENABLE 0
+#	define VALIDATION_LAYER_ENABLE 0
+#endif
 namespace aby::rhi::vulkan {
 
 	auto Renderer::init(void* native_window) -> bool {
@@ -67,8 +74,8 @@ namespace aby::rhi::vulkan {
 		                    .set_debug_messenger_severity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
 		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
 		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
-#ifndef NDEBUG
-		                    .request_validation_layers(true)
+		                    .request_validation_layers(VALIDATION_LAYER_ENABLE)
+#if SHADER_PRINTF_ENABLE == 1
 		                    .add_validation_feature_enable(VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT)
 #endif
 		                    .enable_extensions(instance_extensions)
@@ -87,6 +94,9 @@ namespace aby::rhi::vulkan {
 		m_Surface = surface;
 
 		vk::PhysicalDeviceVulkan11Features features11;
+#if SHADER_PRINTF_ENABLE == 1
+		features11.setStorageBuffer16BitAccess(vk::True);
+#endif
 		vk::PhysicalDeviceVulkan12Features features12;
 		features12.setBufferDeviceAddress(vk::True)
 		    .setDescriptorIndexing(vk::True)
@@ -95,12 +105,28 @@ namespace aby::rhi::vulkan {
 		    .setDescriptorBindingPartiallyBound(vk::True)
 		    .setDescriptorBindingSampledImageUpdateAfterBind(vk::True)
 		    .setDescriptorBindingVariableDescriptorCount(vk::True)
+#if SHADER_PRINTF_ENABLE == 1
+		    .setVulkanMemoryModel(vk::True)
+		    .setVulkanMemoryModelDeviceScope(vk::True)
+		    .setScalarBlockLayout(vk::True)
+		    .setStorageBuffer8BitAccess(vk::True)
+		    .setShaderInt8(vk::True)
+#endif
 		    .setTimelineSemaphore(vk::True);
+
 		vk::PhysicalDeviceVulkan13Features features13;
 		features13.setDynamicRendering(vk::True)
 		    .setSynchronization2(vk::True);
 
 		vk::PhysicalDeviceVulkan14Features features14;
+
+		vk::PhysicalDeviceFeatures features;
+#if SHADER_PRINTF_ENABLE == 1
+		features.setFragmentStoresAndAtomics(vk::True)
+		    .setVertexPipelineStoresAndAtomics(vk::True)
+		    .setShaderInt64(vk::True)
+		    .setShaderInt16(vk::True);
+#endif
 
 		vkb::PhysicalDeviceSelector selector(inst_ret.value());
 		auto gpu_ret = selector
@@ -109,6 +135,7 @@ namespace aby::rhi::vulkan {
 		                   .set_required_features_13(features13)
 		                   .set_required_features_12(features12)
 		                   .set_required_features_11(features11)
+		                   .set_required_features(features)
 		                   .set_surface(m_Surface)
 		                   .add_required_extensions(device_extensions)
 		                   .select();
@@ -171,29 +198,6 @@ namespace aby::rhi::vulkan {
 			            vkcast(m_Frames[i].acquire)),
 			        "failed to create wait semaphore");
 		}
-
-		vkcheck(vkCreateCommandPool(
-		            m_Device.device,
-		            vkcast(command_pool_ci),
-		            allocator(),
-		            vkcast(m_Immediate.pool)),
-		        "failed to create immediate submit command pool");
-
-		vk::CommandBufferAllocateInfo cmd_alloc_info(m_Immediate.pool, vk::CommandBufferLevel::ePrimary, 1);
-
-		vkcheck(vkAllocateCommandBuffers(
-		            m_Device.device,
-		            vkcast(cmd_alloc_info),
-		            vkcast(m_Immediate.cmd)),
-		        "failed to allocate immediate command buffer");
-
-		vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
-		vkcheck(vkCreateFence(
-		            m_Device.device,
-		            vkcast(fence_ci),
-		            allocator(),
-		            vkcast(m_Immediate.fence)),
-		        "failed to create render fence");
 
 		return true;
 	}
@@ -322,10 +326,8 @@ namespace aby::rhi::vulkan {
 		while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS)
 			;
 
-		vkDestroyCommandPool(m_Device.device, m_Immediate.pool, allocator());
-		vkDestroyFence(m_Device.device, m_Immediate.fence, allocator());
-		m_Immediate.pool  = VK_NULL_HANDLE;
-		m_Immediate.fence = VK_NULL_HANDLE;
+		auto& immediate_cmds = get_immediate();
+		immediate_cmds.destroy();
 
 		for (auto& render_pass : m_RenderPasses) {
 			render_pass->destroy();
@@ -623,6 +625,85 @@ namespace aby::rhi::vulkan {
 		return m_Frames[m_FrameIndex % MAX_FRAMES_IN_FLIGHT];
 	}
 
+	auto Renderer::get_immediate() -> ImmediateCommands& {
+		thread_local ImmediateCommands cmds = create_immediate_commands();
+		return cmds;
+	}
+
+	auto Renderer::create_immediate_commands() -> ImmediateCommands {
+		vk::CommandPoolCreateInfo command_pool_ci(
+		    vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
+		    m_GraphicsQueueFamily);
+
+		ImmediateCommands cmds;
+
+		vkassert(vkCreateCommandPool(
+		             m_Device.device,
+		             vkcast(command_pool_ci),
+		             allocator(),
+		             vkcast(cmds.pool)),
+		         "failed to create immediate submit command pool");
+
+		vk::CommandBufferAllocateInfo cmd_alloc_info(cmds.pool, vk::CommandBufferLevel::ePrimary, 1);
+
+		vkassert(vkAllocateCommandBuffers(
+		             m_Device.device,
+		             vkcast(cmd_alloc_info),
+		             vkcast(cmds.cmd)),
+		         "failed to allocate immediate command buffer");
+
+		vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
+
+		vkassert(vkCreateFence(
+		             m_Device.device,
+		             vkcast(fence_ci),
+		             allocator(),
+		             vkcast(cmds.fence)),
+		         "failed to create render fence");
+
+		return cmds;
+	}
+
+	
+
+	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
+		std::scoped_lock lock(m_ImmediateSubmitMutex);
+		
+		auto& immediate = get_immediate();
+
+		vkcheck(vkResetFences(m_Device.device, 1, vkcast(immediate.fence)), "failed to reset immediate submit fence");
+		vkcheck(vkResetCommandBuffer(immediate.cmd, 0), "failed to reset immedaite submit command buffer");
+
+		vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
+		vkcheck(vkBeginCommandBuffer(immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
+
+		fn(immediate.cmd);
+
+		vkcheck(vkEndCommandBuffer(immediate.cmd),
+		        "failed to end immediate submit command buffer");
+
+		vk::CommandBufferSubmitInfo submit_info(immediate.cmd);
+		vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
+
+		vkcheck(vkQueueSubmit2(
+		            m_GraphicsQueue,
+		            1, /* submit count */
+		            vkcast(submit),
+		            immediate.fence),
+		        "failed to submit immediate submit command buffer");
+
+		vkcheck(vkWaitForFences(
+		            m_Device.device,
+		            1, /* fence count */
+		            vkcast(immediate.fence),
+		            vk::True,
+		            9999999999 /* timeout */
+		            ),
+		        "failed to wait for immediate submit fence");
+
+		return true;
+	}
+
 	auto Renderer::register_texture(vk::ImageView view, vk::Sampler sampler) -> uint32_t {
 		static uint32_t global_texture_index = 0;
 
@@ -632,45 +713,9 @@ namespace aby::rhi::vulkan {
 		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
 
 		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
-		aby_rhi_dbg("write texture descriptor: [array element: {}, sampler: {}, view: {}]",
-		            texture_id, (void*)(VkSampler)sampler, (void*)(VkImageView)view);
 
 		global_texture_index++;
 		return texture_id;
-	}
-
-	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
-		vkcheck(vkResetFences(m_Device.device, 1, vkcast(m_Immediate.fence)), "failed to reset immediate submit fence");
-		vkcheck(vkResetCommandBuffer(m_Immediate.cmd, 0), "failed to reset immedaite submit command buffer");
-
-		vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
-		vkcheck(vkBeginCommandBuffer(m_Immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
-
-		fn(m_Immediate.cmd);
-
-		vkcheck(vkEndCommandBuffer(m_Immediate.cmd),
-		        "failed to end immediate submit command buffer");
-
-		vk::CommandBufferSubmitInfo submit_info(m_Immediate.cmd);
-		vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
-
-		vkcheck(vkQueueSubmit2(
-		            m_GraphicsQueue,
-		            1, /* submit count */
-		            vkcast(submit),
-		            m_Immediate.fence),
-		        "failed to submit immediate submit command buffer");
-
-		vkcheck(vkWaitForFences(
-		            m_Device.device,
-		            1, /* fence count */
-		            vkcast(m_Immediate.fence),
-		            vk::True,
-		            9999999999 /* timeout */
-		            ),
-		        "failed to wait for immediate submit fence");
-
-		return true;
 	}
 
 	auto Renderer::set_clear_color(Color color) -> void {
@@ -777,6 +822,24 @@ namespace aby::rhi::vulkan {
 
 	auto Renderer::tex_desc_layout() -> vk::DescriptorSetLayout {
 		return m_TextureDescriptorLayout;
+	}
+
+} // namespace aby::rhi::vulkan
+
+namespace aby::rhi::vulkan {
+
+	ImmediateCommands::~ImmediateCommands() {
+		destroy();
+	}
+
+	auto ImmediateCommands::destroy() -> void {
+		if (this->pool) {
+			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+			vkDestroyCommandPool(r->device(), this->pool, allocator());
+			vkDestroyFence(r->device(), this->fence, allocator());
+			this->pool  = VK_NULL_HANDLE;
+			this->fence = VK_NULL_HANDLE;
+		}
 	}
 
 } // namespace aby::rhi::vulkan

@@ -45,9 +45,13 @@ namespace aby::rhi::vulkan {
 			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
 				log->log(ELogLevel::warn, data->pMessage);
 				break;
-			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-				log->log(ELogLevel::info, data->pMessage);
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT: {
+				std::string msg(data->pMessage);
+				if (msg.contains("debugPrintf")) {
+					log->log(ELogLevel::info, data->pMessage);
+				}
 				break;
+			}
 			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
 				log->log(ELogLevel::trace, data->pMessage);
 				break;

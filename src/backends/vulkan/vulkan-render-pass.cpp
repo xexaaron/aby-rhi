@@ -9,7 +9,7 @@ namespace aby::rhi::vulkan {
 
 	RenderPass::RenderPass(
 	    std::unique_ptr<Pipeline> pipeline,
-	    const std::vector<std::shared_ptr<rhi::Shader>>& shaders,
+	    const std::vector<Resource>& shaders,
 	    const std::unordered_map<std::string, Uniform>& uniforms) :
 	    m_BindPoint(vk::PipelineBindPoint::eGraphics),
 	    m_Cmd(VK_NULL_HANDLE),
@@ -69,8 +69,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPass::destroy() -> void {
-		for (auto& shader : m_Shaders) {
-			shader->destroy();
+		auto& shaders = Context::get().shaders();
+		for (Resource shader : m_Shaders) {
+			shaders.remove(shader);
 		}
 		for (auto& cmd : m_Commands) {
 			cmd.vbuff()->destroy();
@@ -115,7 +116,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::build() -> std::shared_ptr<rhi::RenderPass> {
-		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+		auto& ctx              = Context::get();
+		auto* r                = static_cast<vulkan::Renderer*>(ctx.renderer());
+		auto& shader_container = ctx.shaders();
 
 		if (!m_VIDB.inputs().empty()) {
 			m_VertexInputBindings.push_back(vk::VertexInputBindingDescription(
@@ -134,6 +137,46 @@ namespace aby::rhi::vulkan {
 				    format,
 				    inputs[i].offset));
 			}
+		}
+
+		for (Resource shader : m_Shaders) {
+			if (!shader_container.wait_for(shader)) {
+				aby_rhi_err("failed to wait for shader: {}", shader.id());
+				return nullptr;
+			}
+
+			auto* s = static_cast<vulkan::Shader*>(shader_container[shader]);
+			if (!s) {
+				aby_rhi_err("failed to retrieve shader: {}", shader.id());
+				return nullptr;
+			}
+
+			vk::ShaderStageFlagBits stage;
+
+			switch (s->type()) {
+				case EShader::vert:
+					stage = vk::ShaderStageFlagBits::eVertex;
+					break;
+				case EShader::frag:
+					stage = vk::ShaderStageFlagBits::eFragment;
+					break;
+				case EShader::comp:
+					stage = vk::ShaderStageFlagBits::eCompute;
+					break;
+				case EShader::geom:
+					stage = vk::ShaderStageFlagBits::eGeometry;
+					break;
+				default:
+					break;
+			}
+
+			vk::PipelineShaderStageCreateInfo create_info(
+			    vk::PipelineShaderStageCreateFlags(),
+			    stage,
+			    s->module(),
+			    "main");
+
+			m_ShaderStages.push_back(create_info);
 		}
 
 		m_DescriptorSets.push_back(r->tex_desc_set());
@@ -281,34 +324,8 @@ namespace aby::rhi::vulkan {
 		return add_shader(shader);
 	}
 
-	auto RenderPassBuilder::add_shader(std::shared_ptr<rhi::Shader> shader) -> RenderPassBuilder& {
-		auto s = std::static_pointer_cast<vulkan::Shader>(shader);
-		vk::ShaderStageFlagBits stage;
-
-		switch (shader->type()) {
-			case EShader::vert:
-				stage = vk::ShaderStageFlagBits::eVertex;
-				break;
-			case EShader::frag:
-				stage = vk::ShaderStageFlagBits::eFragment;
-				break;
-			case EShader::comp:
-				stage = vk::ShaderStageFlagBits::eCompute;
-				break;
-			case EShader::geom:
-				stage = vk::ShaderStageFlagBits::eGeometry;
-				break;
-			default:
-				break;
-		}
-
-		vk::PipelineShaderStageCreateInfo create_info(
-		    vk::PipelineShaderStageCreateFlags(),
-		    stage,
-		    s->module(),
-		    "main");
-
-		m_ShaderStages.push_back(create_info);
+	auto RenderPassBuilder::add_shader(Resource shader) -> RenderPassBuilder& {
+		aby_rhi_assert(shader.type() == EResource::shader, "attempted to add a shader resource that is not of type EResource::shader");
 		m_Shaders.push_back(shader);
 		return *this;
 	}

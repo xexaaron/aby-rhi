@@ -23,4 +23,8 @@ namespace aby::rhi {
 		return std::make_pair(m_Type, m_ID);
 	}
 
+	Resource::operator bool() const {
+		return m_ID != ResourceID::invalid;
+	}
+
 } // namespace aby::rhi

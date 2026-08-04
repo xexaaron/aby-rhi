@@ -13,12 +13,11 @@ set(ABY_RHI_INCLUDE_DIR "include/aby-rhi")
 set(ABY_RHI_SRC_DIR "src")
 
 option(ABY_RHI_BUILD_TESTS "build aby-rhi tests for the specific platform" ON)
-# Errors will always be logged
 option(ABY_RHI_ENABLE_LOG_INFO "enable info logging" ON)
 option(ABY_RHI_ENABLE_LOG_TRACE "enable trace logging" ON)
 option(ABY_RHI_ENABLE_LOG_WARN "enable warning logging" ON)
 option(ABY_RHI_ENABLE_ASSERT "enable assertions. if turned off then only errors will be logged." ON)
-
+option(ABY_RHI_ENABLE_PROFILING "enable profiling of initialization scopes" ON)
 
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FILEPATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
@@ -62,6 +61,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_logger.hpp
 
     ${ABY_RHI_SRC_DIR}/buffer.cpp
+    ${ABY_RHI_SRC_DIR}/common.cpp
     ${ABY_RHI_SRC_DIR}/common-types.cpp
     ${ABY_RHI_SRC_DIR}/context.cpp
     ${ABY_RHI_SRC_DIR}/draw-cmd.cpp
@@ -142,10 +142,13 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE
     VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1
 )
+
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     ABY_RHI_ENABLE_LOG_INFO=$<BOOL:${ABY_RHI_ENABLE_LOG_INFO}>
     ABY_RHI_ENABLE_LOG_TRACE=$<BOOL:${ABY_RHI_ENABLE_LOG_TRACE}>
     ABY_RHI_ENABLE_LOG_WARN=$<BOOL:${ABY_RHI_ENABLE_LOG_WARN}> 
+    ABY_RHI_ENABLE_ASSERT=$<BOOL:${ABY_RHI_ENABLE_ASSERT}>
+    ABY_RHI_ENABLE_PROFILING=$<BOOL:${ABY_RHI_ENABLE_PROFILING}>
 )
 
 if (ABY_RHI_BUILD_TESTS)

@@ -15,17 +15,17 @@
 namespace aby::rhi::vulkan {
 
 	struct SwapchainImage {
-		vk::Image img				  = VK_NULL_HANDLE;
-		vk::ImageView view			  = VK_NULL_HANDLE;
+		vk::Image img                 = VK_NULL_HANDLE;
+		vk::ImageView view            = VK_NULL_HANDLE;
 		vk::Semaphore render_finished = VK_NULL_HANDLE;
 	};
 
 	struct AllocatedImage {
-		vk::Image img		= VK_NULL_HANDLE;
-		vk::ImageView view	= VK_NULL_HANDLE;
+		vk::Image img       = VK_NULL_HANDLE;
+		vk::ImageView view  = VK_NULL_HANDLE;
 		VmaAllocation alloc = VK_NULL_HANDLE;
 		vk::Extent3D extent = {};
-		vk::Format format	= vk::Format::eUndefined;
+		vk::Format format   = vk::Format::eUndefined;
 	};
 
 	struct FrameData {
@@ -36,7 +36,11 @@ namespace aby::rhi::vulkan {
 	};
 
 	struct ImmediateCommands {
-		vk::Fence fence		  = VK_NULL_HANDLE;
+		~ImmediateCommands();
+
+		auto destroy() -> void;
+
+		vk::Fence fence       = VK_NULL_HANDLE;
 		vk::CommandBuffer cmd = VK_NULL_HANDLE;
 		vk::CommandPool pool  = VK_NULL_HANDLE;
 	};
@@ -78,6 +82,8 @@ namespace aby::rhi::vulkan {
 		auto recreate_swapchain() -> bool;
 		auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
 		auto get_current_frame() -> FrameData&;
+		auto get_immediate() -> ImmediateCommands&;
+		auto create_immediate_commands() -> ImmediateCommands;
 	private:
 		uint32_t m_GraphicsQueueFamily = UINT32_MAX;
 		uint32_t m_PresentQueueFamily  = UINT32_MAX;
@@ -96,7 +102,6 @@ namespace aby::rhi::vulkan {
 		vkb::Device m_Device             = {};
 		vkb::Instance m_Instance         = {};
 		vk::ClearColorValue m_ClearColor = vk::ClearColorValue(0.15f, 0.15f, 0.15f, 1.f);
-		ImmediateCommands m_Immediate    = {};
 
 		AllocatedImage m_DrawImage                          = {};
 		vk::DescriptorSet m_DrawImageDescriptors            = VK_NULL_HANDLE;
@@ -104,6 +109,8 @@ namespace aby::rhi::vulkan {
 
 		vk::DescriptorSet m_TextureDescriptors            = VK_NULL_HANDLE;
 		vk::DescriptorSetLayout m_TextureDescriptorLayout = VK_NULL_HANDLE;
+
+		std::mutex m_ImmediateSubmitMutex;
 
 		GarbageCollector m_GC;
 

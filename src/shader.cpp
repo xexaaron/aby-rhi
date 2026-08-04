@@ -43,18 +43,20 @@ namespace aby::rhi {
 		static inline std::once_flag s_InitFlag;
 	};
 
-	auto Shader::create(const fs::path& rel_path) -> std::shared_ptr<Shader> {
+	auto Shader::create(const fs::path& rel_path) -> Resource {
 		// Officially we do not support using precompiled shaders here.
 		// We want to cache them ourselves.
 		// For vertex shaders we want to build a descriptor layout from them; That is in the future.
 
-		auto& ctx = Context::get();
-		auto* io  = ctx.file_io();
-		auto* log = ctx.logger();
+		auto& ctx     = Context::get();
+		auto* io      = ctx.file_io();
+		auto* log     = ctx.logger();
+		auto* jobs    = ctx.job_sys();
+		auto& shaders = ctx.shaders();
 
 		if (!fs::exists(io->cwd() / rel_path)) {
 			aby_rhi_err("file does not exist: {}", (io->cwd() / rel_path).string());
-			return nullptr;
+			return Resource();
 		}
 
 		auto [name, ext, is_compiled] = get_path_data(rel_path);
@@ -63,77 +65,83 @@ namespace aby::rhi {
 		if (type == EShader::none) {
 			aby_rhi_err("unsupported shader extension type: {}", ext.string());
 			aby_rhi_err("expected one of [.vert, .frag, .comp, .geom]");
-			return nullptr;
+			return Resource();
 		}
 
-		bool is_cached = is_cached_shader(io->cache_dir() / rel_path);
-
+		bool is_cached     = is_cached_shader(io->cache_dir() / rel_path);
 		fs::path read_path = rel_path;
+		auto resource      = shaders.reserve();
 
 		if (!is_compiled) {
 			if (!is_cached) {
-				std::vector<uint8_t> data;
-				if (!io->read(rel_path, &data)) {
-					return nullptr;
-				}
+				jobs->add_job(EJobPriority::high, [rel_path, type, name, resource]() {
+					auto& ctx     = Context::get();
+					auto* io      = ctx.file_io();
+					auto* jobs    = ctx.job_sys();
+					auto& shaders = ctx.shaders();
 
-				auto shaderc_type = eshader_to_shaderc(type);
-
-				std::vector<uint32_t> out_data;
-				if (!ShaderCompiler::compile(reinterpret_cast<const char*>(data.data()), data.size(), shaderc_type, name.c_str(), &out_data)) {
-					aby_rhi_err("failed to compile shader: {}", name);
-					return nullptr;
-				}
-
-				std::shared_ptr<Shader> shader = nullptr;
-				switch (ctx.renderer_backend()) {
-					case ERenderer::vulkan: {
-						shader = std::make_shared<vulkan::Shader>(type, std::move(out_data));
-						break;
+					std::vector<uint8_t> data;
+					if (!io->read(rel_path, &data)) {
+						shaders.fail(resource);
+						return;
 					}
-					default:
-						aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
-				}
 
-				auto cache_dir = io->cache_dir();
+					auto shaderc_type = eshader_to_shaderc(type);
 
-				std::thread([cache_dir, rel_path, write_data = shader->data()]() mutable {
-					DefaultFileIO io;
-					fs::path out_path = cache_dir / (rel_path.string() + ".spv");
-					io.write(out_path, write_data);
-				}).detach();
+					std::vector<uint32_t> out_data;
+					if (!ShaderCompiler::compile(reinterpret_cast<const char*>(data.data()), data.size(), shaderc_type, name.c_str(), &out_data)) {
+						aby_rhi_err("failed to compile shader: {}", name);
+						shaders.fail(resource);
+						return;
+					}
 
-				aby_rhi_dbg("compiled shader: {}", name);
+					Shader* shader = nullptr;
+					switch (ctx.renderer_backend()) {
+						case ERenderer::vulkan: {
+							shader = new vulkan::Shader(type, std::move(out_data));
+							break;
+						}
+						default:
+							aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
+					}
 
-				return shader;
+					auto cache_dir = io->cache_dir();
+
+					jobs->add_job(EJobPriority::low, [cache_dir, rel_path, write_data = shader->data()]() {
+						DefaultFileIO io;
+						fs::path out_path = cache_dir / (rel_path.string() + ".spv");
+						io.write(out_path, write_data);
+					});
+
+					shaders.add(resource, shader);
+
+					aby_rhi_dbg("compiled shader: {}", name);
+				});
+
+				return resource;
 			}
 		}
 
 		read_path = io->cache_dir() / rel_path.string().append(".spv");
+
 		std::vector<uint32_t> data;
 		if (!io->read(read_path, &data)) {
 			aby_rhi_err("failed to read shader file: {}", read_path.string());
-			return nullptr;
+			return Resource();
 		}
 
 		switch (ctx.renderer_backend()) {
 			case ERenderer::vulkan: {
-				return std::make_shared<vulkan::Shader>(type, data);
+				auto* shader = new vulkan::Shader(type, std::move(data));
+				shaders.add(resource, shader);
+				return resource;
 			}
 			default:
 				aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
 		}
 
 		aby_rhi_err("failed to create shader: {}", rel_path.string());
-		return nullptr;
-	}
-
-	auto Shader::compile_shader(const fs::path& rel_path, const std::string& name, EShader type) -> bool {
-		auto& ctx = Context::get();
-		auto* io  = ctx.file_io();
-		auto* log = ctx.logger();
-
-		return true;
+		return Resource();
 	}
 
 	auto Shader::ext_to_eshader(const fs::path& ext) -> EShader {
