@@ -12,7 +12,8 @@ namespace aby::rhi {
 		return context;
 	}
 
-	auto Context::init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool {
+	auto Context::init(const ContextParams& params) -> bool {
+		m_Params = params;
 		aby_rhi_profile("context initialization");
 		{
 			{
@@ -25,11 +26,13 @@ namespace aby::rhi {
 
 			{
 				aby_rhi_profile("context renderer initialization");
-				m_RendererBackend = renderer_backend;
-				m_WinBackend      = window_backend;
-				m_Window          = native_window;
-				if (m_Renderer = Renderer::create(m_RendererBackend); !m_Renderer) return false;
-				if (!m_Renderer->init(m_Window)) return false;
+
+				GraphicsParams graphics{
+					.aliasing = m_Params.aliasing
+				};
+
+				if (m_Renderer = Renderer::create(m_Params.renderer_backend, graphics); !m_Renderer) return false;
+				if (!m_Renderer->init(m_Params.native_window)) return false;
 			}
 		}
 		return true;
@@ -48,11 +51,11 @@ namespace aby::rhi {
 	}
 
 	auto Context::renderer_backend() const -> ERenderer {
-		return m_RendererBackend;
+		return m_Params.renderer_backend;
 	}
 
 	auto Context::window_backend() const -> EWindow {
-		return m_WinBackend;
+		return m_Params.window_backend;
 	}
 
 	auto Context::renderer() -> Renderer* {

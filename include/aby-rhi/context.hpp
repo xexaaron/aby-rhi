@@ -10,6 +10,13 @@
 
 namespace aby::rhi {
 
+	struct ContextParams {
+		ERenderer renderer_backend;
+		EWindow window_backend;
+		void* native_window; // needed for surface creation
+		EAntiAliasing aliasing;
+	};
+
 	class Context {
 	public:
 		/**
@@ -23,7 +30,7 @@ namespace aby::rhi {
          * @param native_window Windows: HWND, ...
          * @return true on success otherwise false
          */
-		auto init(ERenderer renderer_backend, EWindow window_backend, void* native_window) -> bool;
+		auto init(const ContextParams& params) -> bool;
 		/**
          * @brief Must be called at the end of the application to release all resources.
          */
@@ -66,10 +73,7 @@ namespace aby::rhi {
 		IFileIO* m_FileIO;
 		IJobSystem* m_JobSystem;
 		Renderer* m_Renderer;
-		void* m_Window;
-		ERenderer m_RendererBackend;
-		EWindow m_WinBackend;
-
+		ContextParams m_Params;
 		ResourceContainer<Texture, EResource::texture> m_Textures;
 		ResourceContainer<Shader, EResource::shader> m_Shaders;
 	};

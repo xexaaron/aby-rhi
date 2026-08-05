@@ -57,7 +57,6 @@ namespace aby::rhi::vulkan {
 		auto set_color_attachment_format(EFormat format) -> RenderPassBuilder& override;
 		auto set_depth_format(EFormat format) -> RenderPassBuilder& override;
 
-		auto disable_multisampling() -> RenderPassBuilder& override;
 		auto disable_blending() -> RenderPassBuilder& override;
 		auto disable_depthtest() -> RenderPassBuilder& override;
 

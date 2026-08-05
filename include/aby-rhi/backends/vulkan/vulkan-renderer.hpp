@@ -1,6 +1,7 @@
 #pragma once
 #include "backends/vulkan/vulkan-descriptors.hpp"
 #include "backends/vulkan/vulkan-gc.hpp"
+#include "backends/vulkan/vulkan-image.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-render-pass.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
@@ -20,14 +21,6 @@ namespace aby::rhi::vulkan {
 		vk::Semaphore render_finished = VK_NULL_HANDLE;
 	};
 
-	struct AllocatedImage {
-		vk::Image img       = VK_NULL_HANDLE;
-		vk::ImageView view  = VK_NULL_HANDLE;
-		VmaAllocation alloc = VK_NULL_HANDLE;
-		vk::Extent3D extent = {};
-		vk::Format format   = vk::Format::eUndefined;
-	};
-
 	struct FrameData {
 		vk::CommandPool pool   = VK_NULL_HANDLE;
 		vk::CommandBuffer cmd  = VK_NULL_HANDLE;
@@ -38,19 +31,20 @@ namespace aby::rhi::vulkan {
 	struct ImmediateCommands {
 		~ImmediateCommands();
 
+		auto create(uint32_t queue_family) -> bool;
 		auto destroy() -> void;
 
 		vk::Fence fence       = VK_NULL_HANDLE;
 		vk::CommandBuffer cmd = VK_NULL_HANDLE;
 		vk::CommandPool pool  = VK_NULL_HANDLE;
+		std::once_flag m_CreateFlag;
 	};
 
 	static constexpr size_t MAX_FRAMES_IN_FLIGHT = 2;
 
 	class Renderer : public aby::rhi::Renderer {
 	public:
-		Renderer() {
-		}
+		Renderer(GraphicsParams params);
 		~Renderer() = default;
 
 		auto init(void* native_window) -> bool override;
@@ -72,6 +66,10 @@ namespace aby::rhi::vulkan {
 		auto desc_alloc() -> DescriptorAllocator&;
 		auto tex_desc_set() -> vk::DescriptorSet;
 		auto tex_desc_layout() -> vk::DescriptorSetLayout;
+		auto max_sampler_anisotropy() -> float;
+		auto graphics() const -> const GraphicsParams&;
+		auto render_target_sample_count() -> vk::SampleCountFlagBits;
+		auto antialiasing_enabled() const -> bool;
 	private:
 		auto init_vulkan(void* native_window) -> bool;
 		auto init_commands() -> bool;
@@ -83,8 +81,9 @@ namespace aby::rhi::vulkan {
 		auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
 		auto get_current_frame() -> FrameData&;
 		auto get_immediate() -> ImmediateCommands&;
-		auto create_immediate_commands() -> ImmediateCommands;
 	private:
+		GraphicsParams m_Graphics;
+
 		uint32_t m_GraphicsQueueFamily = UINT32_MAX;
 		uint32_t m_PresentQueueFamily  = UINT32_MAX;
 		uint32_t m_FrameIndex          = 0;
@@ -103,7 +102,8 @@ namespace aby::rhi::vulkan {
 		vkb::Instance m_Instance         = {};
 		vk::ClearColorValue m_ClearColor = vk::ClearColorValue(0.15f, 0.15f, 0.15f, 1.f);
 
-		AllocatedImage m_DrawImage                          = {};
+		Image m_DrawImage                                   = {};
+		Image m_ResolveImage                                = {};
 		vk::DescriptorSet m_DrawImageDescriptors            = VK_NULL_HANDLE;
 		vk::DescriptorSetLayout m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
 
@@ -112,9 +112,11 @@ namespace aby::rhi::vulkan {
 
 		std::mutex m_ImmediateSubmitMutex;
 
+		vk::PhysicalDeviceLimits m_Limits;
+
 		GarbageCollector m_GC;
 
-		std::vector<SwapchainImage> m_Images;
+		std::vector<std::pair<Image, vk::Semaphore>> m_SwapchainImages;
 		std::array<FrameData, MAX_FRAMES_IN_FLIGHT> m_Frames;
 
 		std::vector<std::shared_ptr<RenderPass>> m_RenderPasses;

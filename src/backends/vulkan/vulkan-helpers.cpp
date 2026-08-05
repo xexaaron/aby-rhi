@@ -7,21 +7,24 @@
 
 namespace aby::rhi::vulkan {
 
-	auto transition_image(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout src, vk::ImageLayout dst) -> void {
+	auto transition_image(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout src, vk::ImageLayout dst,
+	                      uint32_t mip_levels, uint32_t base_mip, uint32_t array_layers, uint32_t base_layer) -> void {
 		vk::ImageMemoryBarrier2 image_barrier(
 		    vk::PipelineStageFlagBits2::eAllCommands,
 		    vk::AccessFlagBits2::eMemoryWrite,
 		    vk::PipelineStageFlagBits2::eAllCommands,
 		    vk::AccessFlagBits2::eMemoryWrite | vk::AccessFlagBits2::eMemoryRead,
-		    src, dst,
-		    0, 0,
+		    src,
+		    dst,
+		    0, /* src queue */
+		    0, /* dst queue */
 		    image,
 		    vk::ImageSubresourceRange(
 		        dst == vk::ImageLayout::eDepthAttachmentOptimal ? vk::ImageAspectFlagBits::eDepth : vk::ImageAspectFlagBits::eColor,
-		        0,
-		        VK_REMAINING_MIP_LEVELS,
-		        0,
-		        VK_REMAINING_ARRAY_LAYERS));
+		        base_mip,
+		        mip_levels,
+		        base_layer,
+		        array_layers));
 
 		vk::DependencyInfo dep_info({}, 0, nullptr, 0, nullptr, 1, &image_barrier);
 

@@ -148,9 +148,8 @@ namespace aby::rhi {
 		virtual auto set_color_attachment_format(EFormat format) -> RenderPassBuilder&          = 0;
 		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                     = 0;
 
-		virtual auto disable_multisampling() -> RenderPassBuilder& = 0;
-		virtual auto disable_blending() -> RenderPassBuilder&      = 0;
-		virtual auto disable_depthtest() -> RenderPassBuilder&     = 0;
+		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
+		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;
 
 		// use_default_topology, use_default_polygon_mode, ... etc.
 		auto use_all_defaults() -> RenderPassBuilder&;

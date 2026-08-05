@@ -263,6 +263,13 @@ namespace aby::rhi::vulkan {
 		    nullptr /*  push constant ranges      */
 		);
 
+		m_Multisampling.setRasterizationSamples(r->render_target_sample_count())
+		    .setSampleShadingEnable(vk::False)
+		    .setMinSampleShading(1.0f)
+		    .setPSampleMask(VK_NULL_HANDLE)
+		    .setAlphaToCoverageEnable(vk::False)
+		    .setAlphaToOneEnable(vk::False);
+
 		vkassert(vkCreatePipelineLayout(
 		             r->device(),
 		             vkcast(layout_create_info),
@@ -453,16 +460,6 @@ namespace aby::rhi::vulkan {
 
 	auto RenderPassBuilder::set_depth_format(EFormat format) -> RenderPassBuilder& {
 		m_RenderInfo.setDepthAttachmentFormat(eformat_to_vkformat(format));
-		return *this;
-	}
-
-	auto RenderPassBuilder::disable_multisampling() -> RenderPassBuilder& {
-		m_Multisampling.setSampleShadingEnable(vk::False);
-		m_Multisampling.setRasterizationSamples(vk::SampleCountFlagBits::e1);
-		m_Multisampling.setMinSampleShading(1.f);
-		m_Multisampling.setPSampleMask(nullptr);
-		m_Multisampling.setAlphaToCoverageEnable(vk::False);
-		m_Multisampling.setAlphaToOneEnable(vk::False);
 		return *this;
 	}
 

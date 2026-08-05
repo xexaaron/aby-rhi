@@ -6,6 +6,10 @@
 
 namespace aby::rhi {
 
+	struct GraphicsParams {
+		EAntiAliasing aliasing;
+	};
+
 	class Renderer {
 	public:
 		/**
@@ -13,7 +17,7 @@ namespace aby::rhi {
          * @param backend a renderer api backend
          * @note  You are responsible for freeing this memory.
          */
-		static auto create(ERenderer backend) -> Renderer*;
+		static auto create(ERenderer backend, const GraphicsParams& graphics) -> Renderer*;
 		virtual ~Renderer() = default;
 
 		virtual auto init(void* native_window) -> bool                         = 0;

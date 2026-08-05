@@ -16,6 +16,10 @@
 #endif
 namespace aby::rhi::vulkan {
 
+	Renderer::Renderer(GraphicsParams params) :
+	    m_Graphics(params) {
+	}
+
 	auto Renderer::init(void* native_window) -> bool {
 		auto& ctx = Context::get();
 		auto* log = ctx.logger();
@@ -121,11 +125,14 @@ namespace aby::rhi::vulkan {
 		vk::PhysicalDeviceVulkan14Features features14;
 
 		vk::PhysicalDeviceFeatures features;
+		features.setSamplerAnisotropy(vk::True)
 #if SHADER_PRINTF_ENABLE == 1
-		features.setFragmentStoresAndAtomics(vk::True)
+		    .setFragmentStoresAndAtomics(vk::True)
 		    .setVertexPipelineStoresAndAtomics(vk::True)
 		    .setShaderInt64(vk::True)
 		    .setShaderInt16(vk::True);
+#else
+		    ;
 #endif
 
 		vkb::PhysicalDeviceSelector selector(inst_ret.value());
@@ -158,6 +165,7 @@ namespace aby::rhi::vulkan {
 		VkPhysicalDeviceProperties props = { 0 };
 		vkGetPhysicalDeviceProperties(m_Device.physical_device, &props);
 		aby_rhi_dbg("[vulkan] found GPU: {}", props.deviceName);
+		m_Limits = props.limits;
 		return true;
 	}
 
@@ -214,55 +222,18 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::init_draw_image() -> bool {
-		m_DrawImage.extent = vk::Extent3D(m_Width, m_Height, 1);
-		m_DrawImage.format = vk::Format::eR16G16B16A16Sfloat;
+		auto sample_count = render_target_sample_count();
+		auto extent       = vk::Extent3D(m_Width, m_Height, 1);
+		auto format       = vk::Format::eR16G16B16A16Sfloat;
+		auto usage        = vk::ImageUsageFlagBits::eTransferSrc |
+		                    vk::ImageUsageFlagBits::eTransferDst |
+		                    vk::ImageUsageFlagBits::eColorAttachment;
 
-		vk::ImageCreateInfo draw_image_ci(
-		    vk::ImageCreateFlags(0),
-		    vk::ImageType::e2D,
-		    m_DrawImage.format,
-		    m_DrawImage.extent,
-		    1, /* mip levels */
-		    1, /* array layers*/
-		    vk::SampleCountFlagBits::e1,
-		    vk::ImageTiling::eOptimal,
-		    vk::ImageUsageFlagBits::eTransferSrc |
-		        vk::ImageUsageFlagBits::eTransferDst |
-		        vk::ImageUsageFlagBits::eStorage |
-		        vk::ImageUsageFlagBits::eColorAttachment);
+		m_DrawImage.create(extent, format, sample_count, usage);
 
-		VmaAllocationCreateInfo draw_image_allocinfo = {};
-		draw_image_allocinfo.usage                   = VMA_MEMORY_USAGE_GPU_ONLY;
-		draw_image_allocinfo.requiredFlags           = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-		vkcheck(vmaCreateImage(
-		            m_VMA,
-		            vkcast(draw_image_ci),
-		            &draw_image_allocinfo,
-		            vkcast(m_DrawImage.img),
-		            &m_DrawImage.alloc,
-		            nullptr),
-		        "failed to create draw image image (using VMA)");
-
-		vk::ImageViewCreateInfo draw_image_view_ci(
-		    vk::ImageViewCreateFlags(0),
-		    m_DrawImage.img,
-		    vk::ImageViewType::e2D,
-		    m_DrawImage.format,
-		    vk::ComponentMapping{},
-		    vk::ImageSubresourceRange(
-		        vk::ImageAspectFlagBits::eColor,
-		        0, /* base mip level */
-		        1, /* level count */
-		        0, /* base array layer */
-		        1  /* layer count */
-		        ));
-
-		vkcheck(vkCreateImageView(
-		            m_Device.device,
-		            vkcast(draw_image_view_ci),
-		            allocator(),
-		            vkcast(m_DrawImage.view)),
-		        "failed to create draw image view");
+		if (antialiasing_enabled()) {
+			m_ResolveImage.create(extent, format, vk::SampleCountFlagBits::e1, usage);
+		}
 
 		return true;
 	}
@@ -342,21 +313,17 @@ namespace aby::rhi::vulkan {
 			m_Frames[i].acquire      = VK_NULL_HANDLE;
 		}
 
-		vkDestroyImageView(m_Device.device, m_DrawImage.view, allocator());
-		vmaDestroyImage(m_VMA, m_DrawImage.img, m_DrawImage.alloc);
-
-		m_DrawImage.view  = VK_NULL_HANDLE;
-		m_DrawImage.img   = VK_NULL_HANDLE;
-		m_DrawImage.alloc = VK_NULL_HANDLE;
+		m_DrawImage.destroy();
+		m_ResolveImage.destroy();
 
 		vkb::destroy_swapchain(m_Swapchain);
 		m_Swapchain.swapchain = VK_NULL_HANDLE;
 
-		for (size_t i = 0; i < m_Images.size(); i++) {
-			vkDestroyImageView(m_Device.device, m_Images[i].view, allocator());
-			vkDestroySemaphore(m_Device, m_Images[i].render_finished, allocator());
-			m_Images[i].view            = VK_NULL_HANDLE;
-			m_Images[i].render_finished = VK_NULL_HANDLE;
+		for (size_t i = 0; i < m_SwapchainImages.size(); i++) {
+			auto& [img, semaphore] = m_SwapchainImages[i];
+			img.destroy();
+			vkDestroySemaphore(m_Device, semaphore, allocator());
+			semaphore = VK_NULL_HANDLE;
 		}
 
 		m_GC.run();
@@ -410,43 +377,33 @@ namespace aby::rhi::vulkan {
 		            vkcast(cbbi)),
 		        "failed to begin command buffer");
 
-		transition_image(
-		    frame.cmd,
-		    m_DrawImage.img,
-		    vk::ImageLayout::eUndefined,
-		    vk::ImageLayout::eGeneral);
+		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
 
-		vk::ImageSubresourceRange clear_range(
-		    vk::ImageAspectFlagBits::eColor,
-		    0,
-		    VK_REMAINING_MIP_LEVELS,
-		    0,
-		    VK_REMAINING_ARRAY_LAYERS);
+		m_DrawImage.transition(frame.cmd, vk::ImageLayout::eColorAttachmentOptimal);
 
-		clear_screen(frame.cmd, m_DrawImage.img, vk::ImageLayout::eGeneral, m_ClearColor, clear_range);
-
-		auto swapchain_img = m_Images[m_SwapchainImgIndex].img;
-
-		transition_image(
-		    frame.cmd,
-		    m_DrawImage.img,
-		    vk::ImageLayout::eGeneral,
-		    vk::ImageLayout::eColorAttachmentOptimal);
+		if (antialiasing_enabled()) {
+			m_ResolveImage.transition(frame.cmd, vk::ImageLayout::eColorAttachmentOptimal);
+		}
 
 		vk::RenderingAttachmentInfo color_attachment(
-		    m_DrawImage.view,
+		    m_DrawImage.view(),
 		    vk::ImageLayout::eColorAttachmentOptimal,
-		    vk::ResolveModeFlagBits::eNone,
-		    {}, /* resolve image view */
-		    vk::ImageLayout::eUndefined,
-		    vk::AttachmentLoadOp::eLoad,
-		    vk::AttachmentStoreOp::eStore);
+		    antialiasing_enabled()
+		        ? vk::ResolveModeFlagBits::eAverage
+		        : vk::ResolveModeFlagBits::eNone,
+		    m_ResolveImage.view(),
+		    antialiasing_enabled()
+		        ? vk::ImageLayout::eColorAttachmentOptimal
+		        : vk::ImageLayout::eUndefined,
+		    vk::AttachmentLoadOp::eClear,
+		    vk::AttachmentStoreOp::eStore,
+		    m_ClearColor);
 
 		vk::RenderingInfo render_info(
 		    vk::RenderingFlags{},
 		    vk::Rect2D(
 		        vk::Offset2D{},
-		        vk::Extent2D(m_DrawImage.extent.width, m_DrawImage.extent.height)),
+		        m_DrawImage.extent2d()),
 		    1, /* layer count*/
 		    0, /* view mask */
 		    1, /* color attachment count */
@@ -457,47 +414,29 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::on_end() -> bool {
-		auto& frame = get_current_frame();
-		auto& img   = m_Images[m_SwapchainImgIndex];
+		auto& frame                                      = get_current_frame();
+		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
 
 		for (auto& render_pass : m_RenderPasses) {
 			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
 			render_pass->set_cmd_buffer(frame.cmd);
 			render_pass->bind();
-			render_pass->set_viewport({ static_cast<float>(m_DrawImage.extent.width),
-			                            static_cast<float>(m_DrawImage.extent.height) });
-			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_DrawImage.extent.width),
-			                                         static_cast<float>(m_DrawImage.extent.height) });
+			render_pass->set_viewport({ static_cast<float>(m_DrawImage.width()),
+			                            static_cast<float>(m_DrawImage.height()) });
+			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_DrawImage.width()),
+			                                         static_cast<float>(m_DrawImage.height()) });
 			render_pass->run();
 			render_pass->clear();
 		}
 
 		vkCmdEndRendering(frame.cmd);
 
-		transition_image(
-		    frame.cmd,
-		    m_DrawImage.img,
-		    vk::ImageLayout::eColorAttachmentOptimal,
-		    vk::ImageLayout::eTransferSrcOptimal);
+		Image& present_image = antialiasing_enabled() ? m_ResolveImage : m_DrawImage;
 
-		transition_image(
-		    frame.cmd,
-		    img.img,
-		    vk::ImageLayout::eUndefined,
-		    vk::ImageLayout::eTransferDstOptimal);
-
-		copy_image_to_image(
-		    frame.cmd,
-		    m_DrawImage.img,
-		    vk::Extent2D(m_DrawImage.extent.width, m_DrawImage.extent.height),
-		    img.img,
-		    m_Swapchain.extent);
-
-		transition_image(
-		    frame.cmd,
-		    img.img,
-		    vk::ImageLayout::eTransferDstOptimal,
-		    vk::ImageLayout::ePresentSrcKHR);
+		present_image.transition(frame.cmd, vk::ImageLayout::eTransferSrcOptimal);
+		swapchain_img.transition(frame.cmd, vk::ImageLayout::eTransferDstOptimal);
+		present_image.copy_to(frame.cmd, swapchain_img);
+		swapchain_img.transition(frame.cmd, vk::ImageLayout::ePresentSrcKHR);
 
 		vkcheck(vkEndCommandBuffer(frame.cmd), "failed to end command buffer");
 
@@ -509,7 +448,7 @@ namespace aby::rhi::vulkan {
 		    vk::PipelineStageFlagBits2::eColorAttachmentOutputKHR);
 
 		vk::SemaphoreSubmitInfo signal_ssi(
-		    img.render_finished,
+		    render_finished_semaphore,
 		    1,
 		    vk::PipelineStageFlagBits2::eAllGraphics);
 
@@ -525,7 +464,7 @@ namespace aby::rhi::vulkan {
 		vkQueueSubmit2(m_GraphicsQueue, 1, vkcast(submit_info), frame.render_fence);
 		vk::PresentInfoKHR present_info(
 		    1,
-		    &img.render_finished,
+		    &render_finished_semaphore,
 		    1,
 		    reinterpret_cast<vk::SwapchainKHR*>(&m_Swapchain.swapchain),
 		    &m_SwapchainImgIndex);
@@ -577,27 +516,30 @@ namespace aby::rhi::vulkan {
 
 		m_Swapchain        = swapchain_result.value();
 		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
-		for (size_t i = 0; i < m_Images.size(); i++) {
-			if (m_Images[i].view) {
-				vkDestroyImageView(m_Device.device, m_Images[i].view, allocator());
-				m_Images[i].view = VK_NULL_HANDLE;
-			}
+		for (auto& [img, _] : m_SwapchainImages) {
+			img.destroy();
 		}
 
-		if (m_Images.size() < imgs.size()) {
-			m_Images.resize(imgs.size());
+		if (m_SwapchainImages.size() < imgs.size()) {
+			m_SwapchainImages.resize(imgs.size());
 		}
 
 		for (size_t i = 0; i < imgs.size(); i++) {
-			m_Images[i].img  = imgs[i];
-			m_Images[i].view = views[i];
-			if (!m_Images[i].render_finished) {
+			m_SwapchainImages[i].first.wrap(
+			    imgs[i],
+			    views[i],
+			    vk::Extent3D(m_Swapchain.extent.width, m_Swapchain.extent.height, 1),
+			    static_cast<vk::Format>(m_Swapchain.image_format),
+			    vk::SampleCountFlagBits::e1,
+			    static_cast<vk::ImageUsageFlags>(m_Swapchain.image_usage_flags));
+
+			if (!m_SwapchainImages[i].second) {
 				vk::SemaphoreCreateInfo semaphore_ci;
 				vkcheck(vkCreateSemaphore(
 				            m_Device.device,
 				            vkcast(semaphore_ci),
 				            allocator(),
-				            vkcast(m_Images[i].render_finished)),
+				            vkcast(m_SwapchainImages[i].second)),
 				        "failed to create wait semaphore");
 			}
 		}
@@ -626,49 +568,14 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::get_immediate() -> ImmediateCommands& {
-		thread_local ImmediateCommands cmds = create_immediate_commands();
+		thread_local ImmediateCommands cmds;
+		cmds.create(m_GraphicsQueueFamily);
 		return cmds;
 	}
-
-	auto Renderer::create_immediate_commands() -> ImmediateCommands {
-		vk::CommandPoolCreateInfo command_pool_ci(
-		    vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
-		    m_GraphicsQueueFamily);
-
-		ImmediateCommands cmds;
-
-		vkassert(vkCreateCommandPool(
-		             m_Device.device,
-		             vkcast(command_pool_ci),
-		             allocator(),
-		             vkcast(cmds.pool)),
-		         "failed to create immediate submit command pool");
-
-		vk::CommandBufferAllocateInfo cmd_alloc_info(cmds.pool, vk::CommandBufferLevel::ePrimary, 1);
-
-		vkassert(vkAllocateCommandBuffers(
-		             m_Device.device,
-		             vkcast(cmd_alloc_info),
-		             vkcast(cmds.cmd)),
-		         "failed to allocate immediate command buffer");
-
-		vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
-
-		vkassert(vkCreateFence(
-		             m_Device.device,
-		             vkcast(fence_ci),
-		             allocator(),
-		             vkcast(cmds.fence)),
-		         "failed to create render fence");
-
-		return cmds;
-	}
-
-	
 
 	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
 		std::scoped_lock lock(m_ImmediateSubmitMutex);
-		
+
 		auto& immediate = get_immediate();
 
 		vkcheck(vkResetFences(m_Device.device, 1, vkcast(immediate.fence)), "failed to reset immediate submit fence");
@@ -805,7 +712,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::color_format() -> vk::Format {
-		return m_DrawImage.format;
+		return m_DrawImage.format();
 	}
 
 	auto Renderer::gc() -> GarbageCollector& {
@@ -824,12 +731,77 @@ namespace aby::rhi::vulkan {
 		return m_TextureDescriptorLayout;
 	}
 
+	auto Renderer::max_sampler_anisotropy() -> float {
+		return m_Limits.maxSamplerAnisotropy;
+	}
+
+	auto Renderer::graphics() const -> const GraphicsParams& {
+		return m_Graphics;
+	}
+
+	auto Renderer::render_target_sample_count() -> vk::SampleCountFlagBits {
+		switch (m_Graphics.aliasing) {
+			case EAntiAliasing::none:
+				return vk::SampleCountFlagBits::e1;
+			case EAntiAliasing::msaa2x:
+				return vk::SampleCountFlagBits::e2;
+			case EAntiAliasing::msaa4x:
+				return vk::SampleCountFlagBits::e4;
+			case EAntiAliasing::msaa8x:
+				return vk::SampleCountFlagBits::e8;
+		}
+		return vk::SampleCountFlagBits::e1;
+	}
+
+	auto Renderer::antialiasing_enabled() const -> bool {
+		return m_Graphics.aliasing != EAntiAliasing::none;
+	}
+
 } // namespace aby::rhi::vulkan
 
 namespace aby::rhi::vulkan {
 
 	ImmediateCommands::~ImmediateCommands() {
 		destroy();
+	}
+
+	auto ImmediateCommands::create(uint32_t queue_family) -> bool {
+		std::call_once(m_CreateFlag, [&]() {
+			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
+			vk::CommandPoolCreateInfo command_pool_ci(
+			    vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
+			    queue_family);
+
+			vkassert(vkCreateCommandPool(
+			             r->device(),
+			             vkcast(command_pool_ci),
+			             allocator(),
+			             vkcast(this->pool)),
+			         "failed to create immediate submit command pool");
+
+			vk::CommandBufferAllocateInfo cmd_alloc_info(
+			    this->pool,
+			    vk::CommandBufferLevel::ePrimary,
+			    1);
+
+			vkassert(vkAllocateCommandBuffers(
+			             r->device(),
+			             vkcast(cmd_alloc_info),
+			             vkcast(this->cmd)),
+			         "failed to allocate immediate submit command buffer");
+
+			vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
+
+			vkassert(vkCreateFence(
+			             r->device(),
+			             vkcast(fence_ci),
+			             allocator(),
+			             vkcast(this->fence)),
+			         "failed to create immediate submit fence");
+		});
+
+		return true;
 	}
 
 	auto ImmediateCommands::destroy() -> void {

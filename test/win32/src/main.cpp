@@ -44,10 +44,10 @@ auto create_mvp(float angle) -> MVP {
 	float c = cos(angle);
 	float s = sin(angle);
 
-	float fov    = 45.0f * 3.1415926f / 180.0f;
-	float aspect = 1280.0f / 720.0f;
-	float pnear  = 0.1f;
-	float pfar   = 100.0f;
+	constexpr float fov    = 45.0f * 3.1415926f / 180.0f;
+	constexpr float aspect = 1280.0f / 720.0f;
+	constexpr float pnear  = 0.1f;
+	constexpr float pfar   = 100.0f;
 
 	float f = 1.0f / tan(fov / 2.0f);
 
@@ -73,12 +73,12 @@ int main(int argc, char** argv) {
 	float angle;
 	MVP mvp;
 
-	ResourcePtr<Texture, EResource::texture> tex_albedo    = nullptr;
-	ResourcePtr<Texture, EResource::texture> tex_ao        = nullptr;
-	ResourcePtr<Texture, EResource::texture> tex_height    = nullptr;
-	ResourcePtr<Texture, EResource::texture> tex_normal    = nullptr;
-	ResourcePtr<Texture, EResource::texture> tex_roughness = nullptr;
-	ResourcePtr<Texture, EResource::texture> tex_orm       = nullptr;
+	TexturePtr tex_albedo    = nullptr;
+	TexturePtr tex_ao        = nullptr;
+	TexturePtr tex_height    = nullptr;
+	TexturePtr tex_normal    = nullptr;
+	TexturePtr tex_roughness = nullptr;
+	TexturePtr tex_orm       = nullptr;
 
 	Material material = {};
 
@@ -110,7 +110,14 @@ int main(int argc, char** argv) {
 	ShowWindow(window, SW_SHOW);
 	auto& ctx = Context::get();
 
-	if (!ctx.init(ERenderer::vulkan, EWindow::win32, window))
+	ContextParams context_params{
+		.renderer_backend = ERenderer::vulkan,
+		.window_backend   = EWindow::win32,
+		.native_window    = window,
+		.aliasing         = EAntiAliasing::msaa8x
+	};
+
+	if (!ctx.init(context_params))
 		return 1;
 
 	ctx.file_io()->set_cwd(fs::path(argv[0]).parent_path());
@@ -126,11 +133,16 @@ int main(int argc, char** argv) {
 	    ->add_shader("test_frag.frag")
 	    .use_all_defaults()
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
-	    .disable_multisampling()
 	    .disable_blending()
 	    .disable_depthtest();
 
-	tex_albedo    = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png");
+	TextureParams texture_params{
+		.mip_levels           = 0,
+		.anisotropy_filtering = 16.f,
+		.filtering            = EFiltering::nearest,
+		.repeat_mode          = ERepeatMode::repeat
+	};
+	tex_albedo    = Texture::create("Cobblestone.png", texture_params);
 	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
 	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
 	tex_normal    = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
