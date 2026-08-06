@@ -10,9 +10,9 @@ namespace aby::rhi::vulkan {
 
 	class Texture : public rhi::Texture {
 	public:
-		Texture(const fs::path& path, const TextureParams& params);
+		Texture(ResourceID id, const fs::path& path, const TextureParams& params);
 		~Texture();
-		
+
 		auto destroy() -> void override;
 		auto id() -> uint32_t override;
 		auto width() -> uint32_t override;

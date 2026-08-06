@@ -27,4 +27,8 @@ namespace aby::rhi {
 		return m_ID != ResourceID::invalid;
 	}
 
+	auto Resource::operator==(Resource other) const -> bool {
+		return m_Type == other.m_Type && m_ID == other.m_ID;
+	}
+
 } // namespace aby::rhi

@@ -15,7 +15,7 @@ namespace aby::rhi {
 
 				jobs->add_job(EJobPriority::high, [rel_path, resource, params]() {
 					auto& texs = Context::get().textures();
-					auto tex   = new vulkan::Texture(rel_path, params);
+					auto tex   = new vulkan::Texture(resource.id(), rel_path, params);
 					auto* r    = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
 					r->gc().push([p = tex] {

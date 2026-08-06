@@ -611,17 +611,11 @@ namespace aby::rhi::vulkan {
 		return true;
 	}
 
-	auto Renderer::register_texture(vk::ImageView view, vk::Sampler sampler) -> uint32_t {
-		static uint32_t global_texture_index = 0;
-
-		uint32_t texture_id = global_texture_index;
-
+	auto Renderer::register_texture(ResourceID id, vk::ImageView view, vk::Sampler sampler) -> uint32_t {
+		uint32_t texture_id = static_cast<uint32_t>(id);
 		vk::DescriptorImageInfo info(sampler, view, vk::ImageLayout::eShaderReadOnlyOptimal);
 		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
-
 		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
-
-		global_texture_index++;
 		return texture_id;
 	}
 

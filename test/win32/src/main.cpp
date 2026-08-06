@@ -114,7 +114,8 @@ int main(int argc, char** argv) {
 		.renderer_backend = ERenderer::vulkan,
 		.window_backend   = EWindow::win32,
 		.native_window    = window,
-		.aliasing         = EAntiAliasing::msaa8x
+		.graphics         = GraphicsParams{
+		    .aliasing = EAntiAliasing::msaa8x }
 	};
 
 	if (!ctx.init(context_params))

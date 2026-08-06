@@ -24,12 +24,13 @@ namespace aby::rhi {
 		Resource(EResource type = EResource::none, ResourceID id = ResourceID::invalid);
 
 		auto type() const -> EResource;
-		auto state() const -> EResourceState;
 		auto id() const -> ResourceID;
 
 		operator ResourceID() const;
 		operator std::pair<EResource, ResourceID>() const;
+
 		explicit operator bool() const;
+		auto operator==(Resource other) const -> bool;
 	private:
 		EResource m_Type;
 		ResourceID m_ID;
@@ -129,9 +130,15 @@ namespace aby::rhi {
 		auto operator->() -> T*;
 		/**
 		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
+		 * @return If the resource load failed assert, otherwise the resource data.
+		*/
+		auto operator*() -> T&;
+		/**
+		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
 		 * @return If the resource load failed nullptr, otherwise the resource data.
 		*/
 		auto get() -> T*;
+
 		/**
 		 * @brief Checks if the resource id is invalid
 		*/
@@ -285,6 +292,13 @@ namespace aby::rhi {
 		}
 
 		return m_Cached;
+	}
+
+	template <typename T, EResource ResourceType>
+	auto ResourcePtr<T, ResourceType>::operator*() -> T& {
+		auto* ptr = get();
+		aby_rhi_assert(ptr != nullptr, "attempted to dereference a null ResourcePtr");
+		return *ptr;
 	}
 
 	template <typename T, EResource ResourceType>

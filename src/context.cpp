@@ -27,11 +27,7 @@ namespace aby::rhi {
 			{
 				aby_rhi_profile("context renderer initialization");
 
-				GraphicsParams graphics{
-					.aliasing = m_Params.aliasing
-				};
-
-				if (m_Renderer = Renderer::create(m_Params.renderer_backend, graphics); !m_Renderer) return false;
+				if (m_Renderer = Renderer::create(m_Params.renderer_backend, m_Params.graphics); !m_Renderer) return false;
 				if (!m_Renderer->init(m_Params.native_window)) return false;
 			}
 		}

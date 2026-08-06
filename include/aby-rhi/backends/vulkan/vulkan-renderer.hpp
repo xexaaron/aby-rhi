@@ -53,7 +53,7 @@ namespace aby::rhi::vulkan {
 		auto add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void override;
 
 		auto immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool;
-		auto register_texture(vk::ImageView view, vk::Sampler smapler) -> uint32_t;
+		auto register_texture(ResourceID id, vk::ImageView view, vk::Sampler smapler) -> uint32_t;
 
 		auto on_begin() -> bool override;
 		auto on_end() -> bool override;

@@ -14,7 +14,7 @@ namespace aby::rhi {
 		ERenderer renderer_backend;
 		EWindow window_backend;
 		void* native_window; // needed for surface creation
-		EAntiAliasing aliasing;
+		GraphicsParams graphics;
 	};
 
 	class Context {

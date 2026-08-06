@@ -9,7 +9,7 @@
 
 namespace aby::rhi::vulkan {
 
-	Texture::Texture(const fs::path& path, const TextureParams& params) :
+	Texture::Texture(ResourceID id, const fs::path& path, const TextureParams& params) :
 	    m_ID(INVALID_ID),
 	    m_Width(0),
 	    m_Height(0),
@@ -247,7 +247,7 @@ namespace aby::rhi::vulkan {
 			return true;
 		});
 
-		m_ID = r->register_texture(m_View, m_Sampler);
+		m_ID = r->register_texture(id, m_View, m_Sampler);
 	}
 
 	Texture::~Texture() {
