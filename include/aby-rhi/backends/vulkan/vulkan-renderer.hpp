@@ -1,5 +1,6 @@
 #pragma once
 #include "backends/vulkan/vulkan-descriptors.hpp"
+#include "backends/vulkan/vulkan-frame.hpp"
 #include "backends/vulkan/vulkan-gc.hpp"
 #include "backends/vulkan/vulkan-image.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
@@ -15,19 +16,6 @@
 
 namespace aby::rhi::vulkan {
 
-	struct SwapchainImage {
-		vk::Image img                 = VK_NULL_HANDLE;
-		vk::ImageView view            = VK_NULL_HANDLE;
-		vk::Semaphore render_finished = VK_NULL_HANDLE;
-	};
-
-	struct FrameData {
-		vk::CommandPool pool   = VK_NULL_HANDLE;
-		vk::CommandBuffer cmd  = VK_NULL_HANDLE;
-		vk::Semaphore acquire  = VK_NULL_HANDLE;
-		vk::Fence render_fence = VK_NULL_HANDLE;
-	};
-
 	struct ImmediateCommands {
 		~ImmediateCommands();
 
@@ -39,8 +27,6 @@ namespace aby::rhi::vulkan {
 		vk::CommandPool pool  = VK_NULL_HANDLE;
 		std::once_flag m_CreateFlag;
 	};
-
-	static constexpr size_t MAX_FRAMES_IN_FLIGHT = 2;
 
 	class Renderer : public aby::rhi::Renderer {
 	public:
@@ -72,14 +58,11 @@ namespace aby::rhi::vulkan {
 		auto antialiasing_enabled() const -> bool;
 	private:
 		auto init_vulkan(void* native_window) -> bool;
-		auto init_commands() -> bool;
 		auto init_vma() -> bool;
 		auto init_draw_image() -> bool;
 		auto init_descriptors() -> bool;
 	protected:
 		auto recreate_swapchain() -> bool;
-		auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
-		auto get_current_frame() -> FrameData&;
 		auto get_immediate() -> ImmediateCommands&;
 	private:
 		GraphicsParams m_Graphics;
@@ -117,7 +100,7 @@ namespace aby::rhi::vulkan {
 		GarbageCollector m_GC;
 
 		std::vector<std::pair<Image, vk::Semaphore>> m_SwapchainImages;
-		std::array<FrameData, MAX_FRAMES_IN_FLIGHT> m_Frames;
+		Frames m_Frames;
 
 		std::vector<std::shared_ptr<RenderPass>> m_RenderPasses;
 	};

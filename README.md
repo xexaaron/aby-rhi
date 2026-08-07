@@ -146,6 +146,9 @@ auto* renderer = ctx.renderer();
 
 while (running) {
     ///// event loop logic
+    // make sure to call renderer->on_resize(...) when the resize event is signaled
+    // this will only set the width and height for the renderer and at a later time
+    // the swapchain will be recreated.  
 
     if (!running)
         break;
@@ -174,15 +177,15 @@ ctx.deinit();
 The library provides multiple interfaces to control the logic of what happens inside the context.
 All of them are optional and default interfaces are provided that can be extended. 
 
-There are currently 4 [interfaces](include\aby-rhi\interfaces\interfaces.hpp) that can be override.
+There are currently 4 [interfaces](include/aby-rhi/interfaces/interfaces.hpp) that can be override.
 They can be set by calling `Context::get().set_interface<YourInterfaceClass>();`
 
 | Interfaces    | Description                                                        | Default            |
 | ------------- | ------------------------------------------------------------------ | ------------------ |
-| `ILogger`     | Recieves log message with a log level                              | [DefaultLogger](include\aby-rhi\interfaces\default_logger.hpp)      |
-| `IAllocator`  | Manages aligned allocations and frees                              | [DefaultAllocator](include\aby-rhi\interfaces\default_allocator.hpp)   |           
-| `IFileIO`     | Reads and writes files. As well as managing the CWD and cache dir  | [DefaultFileIO](include\aby-rhi\interfaces\default_fileio.hpp)      |                                   
-| `IJobSystem`  | Handles running arbitrary work on multiple threads                 | [DefaultJobSystem](include\aby-rhi\interfaces\default_job_system.hpp)   |                      
+| `ILogger`     | Recieves log message with a log level                              | [DefaultLogger](include/aby-rhi/interfaces/default_logger.hpp)      |
+| `IAllocator`  | Manages aligned allocations and frees                              | [DefaultAllocator](include/aby-rhi/interfaces/default_allocator.hpp)   |           
+| `IFileIO`     | Reads and writes files. As well as managing the CWD and cache dir  | [DefaultFileIO](include/aby-rhi/interfaces/default_fileio.hpp)      |                                   
+| `IJobSystem`  | Handles running arbitrary work on multiple threads                 | [DefaultJobSystem](include/aby-rhi/interfaces/default_job_system.hpp)   |                      
 
 
 # Textures

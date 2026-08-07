@@ -26,7 +26,17 @@ namespace aby::rhi {
 		return _aligned_realloc(ptr, bytes, alignment);
 #	endif
 #else
-		return std::aligned_realloc(ptr, alignment, bytes);
+		if (!ptr)
+			return alloc(bytes, alignment, type);
+
+		void* new_ptr = alloc(bytes, alignment, type);
+		if (!new_ptr)
+			return nullptr;
+
+		std::memcpy(new_ptr, ptr, bytes);
+
+		free(ptr, type);
+		return new_ptr;
 #endif
 	};
 

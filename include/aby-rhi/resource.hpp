@@ -297,7 +297,11 @@ namespace aby::rhi {
 	template <typename T, EResource ResourceType>
 	auto ResourcePtr<T, ResourceType>::operator*() -> T& {
 		auto* ptr = get();
-		aby_rhi_assert(ptr != nullptr, "attempted to dereference a null ResourcePtr");
+		if (ptr == nullptr) {
+			// cant assert here because context.hpp needs to know about resource
+			std::fprintf(stderr, "attempted to dereference a null ResourcePtr\n");
+			ABY_RHI_DEBUG_BREAK();
+		}
 		return *ptr;
 	}
 

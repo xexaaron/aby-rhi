@@ -45,6 +45,15 @@
 #define vkassert(result, msg, ...) __vkcheck__(result, aby_rhi_assert(res == VK_SUCCESS, "vkassert failed"), msg __VA_OPT__(, ) __VA_ARGS__)
 
 /**
+ * @brief vulkan result check macro that propogates the error to the caller
+ * @param result VkResult from a function or variable
+ * @param msg formattable message to log
+ * @param ... format msg arguments
+ * @return error that was logged, otherwise nothing
+ */
+#define vkpropagate(result, msg, ...) __vkcheck__(result, return static_cast<vk::Result>(res), msg __VA_OPT__(, ) __VA_ARGS__)
+
+/**
  * @brief vulkan bootstrap check macro 
  * @param obj The Result<T> object from a vkb:: Builder
  * @param msg The message to log as the header for the error

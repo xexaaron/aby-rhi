@@ -24,25 +24,75 @@ namespace aby::rhi::vulkan {
 	auto create_surface(void* native_window, VkInstance instance, VkSurfaceKHR* surface) -> bool {
 		auto& ctx = Context::get();
 		switch (ctx.window_backend()) {
+#ifdef _WIN32
 			case EWindow::win32: {
-				VkWin32SurfaceCreateInfoKHR create_info{ VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR };
-				create_info.pNext     = nullptr;
+				VkWin32SurfaceCreateInfoKHR create_info{
+					VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR
+				};
 				create_info.hinstance = GetModuleHandle(NULL);
-				create_info.hwnd      = (HWND)native_window;
-				create_info.flags     = 0;
-				return vkCreateWin32SurfaceKHR(instance, &create_info, allocator(), surface) == VK_SUCCESS;
-			} break;
-			case EWindow::x11:
-				break;
-			case EWindow::xcb:
-				break;
-			case EWindow::wayland:
-				break;
-			case EWindow::metal:
-				break;
+				create_info.hwnd      = static_cast<HWND>(native_window);
+				return vkCreateWin32SurfaceKHR(
+				           instance,
+				           &create_info,
+				           allocator(),
+				           surface) == VK_SUCCESS;
+			}
+#elif defined(__linux__)
+			case EWindow::x11: {
+				auto& [display, window] = *static_cast<std::pair<Display*, Window>*>(native_window);
+				VkXlibSurfaceCreateInfoKHR create_info{
+					VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR
+				};
+				create_info.dpy    = display;
+				create_info.window = window;
+				return vkCreateXlibSurfaceKHR(
+				           instance,
+				           &create_info,
+				           allocator(),
+				           surface) == VK_SUCCESS;
+			}
+			case EWindow::xcb: {
+				auto& [connection, window] = *static_cast<std::pair<xcb_connection_t*, xcb_window_t>*>(native_window);
+				VkXcbSurfaceCreateInfoKHR create_info{
+					VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR
+				};
+				create_info.connection = connection;
+				create_info.window     = window;
+				return vkCreateXcbSurfaceKHR(
+				           instance,
+				           &create_info,
+				           allocator(),
+				           surface) == VK_SUCCESS;
+			}
+			case EWindow::wayland: {
+				auto& [display, wl_surface] = *static_cast<std::pair<wl_display*, wl_surface*>*>(native_window);
+				VkWaylandSurfaceCreateInfoKHR create_info{
+					VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR
+				};
+				create_info.display = display;
+				create_info.surface = wl_surface;
+				return vkCreateWaylandSurfaceKHR(
+				           instance,
+				           &create_info,
+				           allocator(),
+				           surface) == VK_SUCCESS;
+			}
+#elif defined(__APPLE__)
+			case EWindow::metal: {
+				VkMetalSurfaceCreateInfoEXT create_info{
+					VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT
+				};
+				create_info.pLayer = static_cast<CAMetalLayer*>(native_window);
+				return vkCreateMetalSurfaceEXT(
+				           instance,
+				           &create_info,
+				           allocator(),
+				           surface) == VK_SUCCESS;
+			}
+#endif
 			default:
 				break;
-		};
+		}
 		aby_rhi_assert(false, "unimplemented windowing backend: {}", ctx.window_backend());
 		return false;
 	}
@@ -81,6 +131,22 @@ namespace aby::rhi::vulkan {
 		};
 
 		return true;
+	}
+
+	auto get_device_extensions() -> std::vector<const char*> {
+		std::vector<const char*> dev_exts;
+		dev_exts.reserve(5);
+		dev_exts.push_back(VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME);
+		dev_exts.push_back(VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME);
+		dev_exts.push_back(VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME);
+		dev_exts.push_back(VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME);
+		dev_exts.push_back(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME);
+		return dev_exts;
+	}
+
+	auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool {
+		*dev_exts = get_device_extensions();
+		return get_instance_extensions(inst_exts);
 	}
 
 } // namespace aby::rhi::vulkan

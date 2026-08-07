@@ -83,6 +83,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-common.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-descriptors.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-frame.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-gc.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-image.hpp
@@ -97,6 +98,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-callbacks.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-descriptors.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-frame.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-gc.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-helpers.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-image.cpp

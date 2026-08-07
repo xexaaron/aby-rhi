@@ -11,9 +11,20 @@
 namespace aby::rhi {
 
 	struct ContextParams {
+		/// @brief The renderer backend to create
 		ERenderer renderer_backend;
+		/// @brief The window backend to use (provided because their are multiple windowing backends on linux)
 		EWindow window_backend;
-		void* native_window; // needed for surface creation
+		/**
+		 * @brief The native window handle(s)
+		 * @param Win32   HWND
+		 * @param X11 	  std::pair<Display*, Window>
+		 * @param XCB     std::pair<xcb_connection_t*, xcb_window_t>
+		 * @param Wayland std::pair<wl_display*, wl_surface*>
+		 * @param Metal   CAMetalLayer*
+		*/
+		void* native_window;
+		/// @brief The graphics configuraton to pass to the renderer.
 		GraphicsParams graphics;
 	};
 
@@ -25,9 +36,7 @@ namespace aby::rhi {
 		static auto get() -> Context&;
 		/**
          * @brief initialize the context. this must be called before anything else relating to the aby::rhi API
-         * @param renderer_backend which renderer to create
-         * @param window_backend platform specific window backend
-         * @param native_window Windows: HWND, ...
+         * @param context_params context parameters structure
          * @return true on success otherwise false
          */
 		auto init(const ContextParams& params) -> bool;
