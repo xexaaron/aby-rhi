@@ -1,5 +1,6 @@
 # Abyss Renderer Hardware Interface
 
+
 ## Table of Contents
 
 - [Cloning](#cloning)
@@ -7,10 +8,18 @@
   - [Options](#options)
   - [CMake](#cmake)
 - [Quick Start](#quick-start)
-- [Interfaces](#interfaces)
+- [Features](#features)
+    - [Interfaces](#interfaces)
 - [Textures](#textures)
 
 ---
+
+## Platforms
+| Platform  | Status |
+| --------- | ------ |
+| [![Windows](https://custom-icon-badges.demolab.com/badge/Windows-0078D6?logo=windows11&logoColor=white)](#) |  ![Platform](https://img.shields.io/badge/platform-Passing-green)
+| [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#) | ![Platform](https://img.shields.io/badge/platform-Unknown-yellow)
+| [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0)](#) | ![Platform](https://img.shields.io/badge/platform-Unknown-yellow)
 
 ## Cloning
 
@@ -43,12 +52,12 @@ This will get the proper dependencies for shaderc.
 
 | Option                     | Description                                                       | Default |
 | -------------------------- | ----------------------------------------------------------------- | ------- |
-| `ABY_RHI_BUILD_TESTS`      | build aby-rhi tests for the specific platform                     | OFF     |
-| `ABY_RHI_ENABLE_LOG_INFO`  | enable info logging                                               | ON      |
-| `ABY_RHI_ENABLE_LOG_TRACE` | enable trace logging                                              | ON      |
-| `ABY_RHI_ENABLE_LOG_WARN`  | enable warning logging                                            | ON      |
-| `ABY_RHI_ENABLE_ASSERT`    | enable assertions. if turned off then only errors will be logged. | ON      |
-| `ABY_RHI_ENABLE_PROFILING` | enable profiling of initialization scopes                         | OFF     |
+| `ABY_RHI_BUILD_TESTS`      | build aby-rhi tests for the specific platform                     | ![value](https://img.shields.io/badge/value-OFF-red)     |
+| `ABY_RHI_ENABLE_LOG_INFO`  | enable info logging                                               | ![value](https://img.shields.io/badge/value-ON-green)      |
+| `ABY_RHI_ENABLE_LOG_TRACE` | enable trace logging                                              | ![value](https://img.shields.io/badge/value-ON-green)      |
+| `ABY_RHI_ENABLE_LOG_WARN`  | enable warning logging                                            | ![value](https://img.shields.io/badge/value-ON-green)      |
+| `ABY_RHI_ENABLE_ASSERT`    | enable assertions. if turned off then only errors will be logged. | ![value](https://img.shields.io/badge/value-ON-green)      |
+| `ABY_RHI_ENABLE_PROFILING` | enable profiling of initialization scopes                         | ![value](https://img.shields.io/badge/value-OFF-red)     |
 
 ### CMake
 
@@ -172,7 +181,18 @@ while (running) {
 ctx.deinit();
 ```
 
-# Interfaces
+# Features
+
+| Feature     | Description                                           | Status   |
+| ----------- | ----------------------------------------------------- | -------- |
+| Interfaces  | Context interfaces that can be overridden             | ![status](https://img.shields.io/badge/status-Complete-green)_ |
+| Shaders     | Shader compilation, uniforms, etc...                  | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
+| Textures    | Texture reading, mipmaps, anisotropy, etc...          | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
+| RenderPass  | Draw command, uniforms, and per pass shaders          | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
+| Backends    | Vulkan, D3D12, Metal                                  | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
+
+
+## Interfaces 
 
 The library provides multiple interfaces to control the logic of what happens inside the context.
 All of them are optional and default interfaces are provided that can be extended. 
