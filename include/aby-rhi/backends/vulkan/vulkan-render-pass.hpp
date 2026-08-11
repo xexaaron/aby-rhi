@@ -50,12 +50,17 @@ namespace aby::rhi::vulkan {
 		auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
 		auto add_shader(Resource shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
+		auto add_color_attachment(rhi::Texture* texture) -> RenderPassBuilder& override;
 
 		auto set_topology(ETopology topology) -> RenderPassBuilder& override;
-		auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder& override;
+		auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& override;
 		auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& override;
-		auto set_color_attachment_format(EFormat format) -> RenderPassBuilder& override;
 		auto set_depth_format(EFormat format) -> RenderPassBuilder& override;
+		auto set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& override;
+		auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& override;
+		auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& override;
+		auto set_blend_alpha(Blend blend) -> RenderPassBuilder& override;
+		auto set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder& override;
 
 		auto disable_blending() -> RenderPassBuilder& override;
 		auto disable_depthtest() -> RenderPassBuilder& override;
@@ -76,6 +81,7 @@ namespace aby::rhi::vulkan {
 		std::vector<vk::PipelineShaderStageCreateInfo> m_ShaderStages;
 		std::vector<vk::DescriptorSetLayout> m_DescriptorSetLayouts;
 		std::vector<vk::DescriptorSet> m_DescriptorSets;
+		std::vector<vk::Format> m_ColorAttachments;
 		std::unordered_map<std::string, vk::DescriptorSetLayoutBinding> m_UniformBindings;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 	};

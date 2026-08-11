@@ -142,6 +142,47 @@ namespace aby::rhi {
 		msaa8x
 	};
 
+	enum class ECompareOp {
+		never,
+		less,
+		eq,
+		less_eq,
+		greater,
+		neq,
+		greater_eq,
+		always
+	};
+
+	enum class EBlendFactor {
+		zero,
+		one,
+		src_color,
+		one_minus_src_color,
+		dst_color,
+		one_minus_dst_color,
+		src_alpha,
+		one_minus_src_alpha,
+		dst_alpha,
+		one_minus_dst_alpha,
+		constant_color,
+		one_minus_constant_color,
+		constant_alpha,
+		one_minus_constant_alpha,
+		src_alpha_saturate,
+		src_one_color,
+		one_minus_src_one_color,
+		src_one_alpha,
+		one_minus_src_one_alpha,
+	};
+
+	enum class EBlendOp {
+		add,
+		sub,
+		reverse_sub,
+		min,
+		max,
+	};
+
 } // namespace aby::rhi
 
 /**
@@ -741,6 +782,162 @@ namespace std {
 					break;
 				case aby::rhi::EAntiAliasing::msaa8x:
 					str = "msaa 8x";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::ECompareOp, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::ECompareOp value, FmtContext& ctx) const {
+			std::string_view str = "<unknown>";
+			switch (value) {
+				case aby::rhi::ECompareOp::never:
+					str = "never";
+					break;
+				case aby::rhi::ECompareOp::less:
+					str = "less";
+					break;
+				case aby::rhi::ECompareOp::eq:
+					str = "eq";
+					break;
+				case aby::rhi::ECompareOp::less_eq:
+					str = "less_eq";
+					break;
+				case aby::rhi::ECompareOp::greater:
+					str = "greater";
+					break;
+				case aby::rhi::ECompareOp::neq:
+					str = "neq";
+					break;
+				case aby::rhi::ECompareOp::greater_eq:
+					str = "greater_eq";
+					break;
+				case aby::rhi::ECompareOp::always:
+					str = "always";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EBlendFactor, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EBlendFactor value, FmtContext& ctx) const {
+			std::string_view str = "<unknown>";
+			switch (value) {
+				case aby::rhi::EBlendFactor::zero:
+					str = "zero";
+					break;
+				case aby::rhi::EBlendFactor::one:
+					str = "one";
+					break;
+				case aby::rhi::EBlendFactor::src_color:
+					str = "src_color";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_src_color:
+					str = "one_minus_src_color";
+					break;
+				case aby::rhi::EBlendFactor::dst_color:
+					str = "dst_color";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_dst_color:
+					str = "one_minus_dst_color";
+					break;
+				case aby::rhi::EBlendFactor::src_alpha:
+					str = "src_alpha";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_src_alpha:
+					str = "one_minus_src_alpha";
+					break;
+				case aby::rhi::EBlendFactor::dst_alpha:
+					str = "dst_alpha";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_dst_alpha:
+					str = "one_minus_dst_alpha";
+					break;
+				case aby::rhi::EBlendFactor::constant_color:
+					str = "constant_color";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_constant_color:
+					str = "one_minus_constant_color";
+					break;
+				case aby::rhi::EBlendFactor::constant_alpha:
+					str = "constant_alpha";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_constant_alpha:
+					str = "one_minus_constant_alpha";
+					break;
+				case aby::rhi::EBlendFactor::src_alpha_saturate:
+					str = "src_alpha_saturate";
+					break;
+				case aby::rhi::EBlendFactor::src_one_color:
+					str = "src_one_color";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_src_one_color:
+					str = "one_minus_src_one_color";
+					break;
+				case aby::rhi::EBlendFactor::src_one_alpha:
+					str = "src_one_alpha";
+					break;
+				case aby::rhi::EBlendFactor::one_minus_src_one_alpha:
+					str = "one_minus_src_one_alpha";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EBlendOp, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EBlendOp value, FmtContext& ctx) const {
+			std::string_view str = "<unknown>";
+			switch (value) {
+				case aby::rhi::EBlendOp::add:
+					str = "add";
+					break;
+				case aby::rhi::EBlendOp::sub:
+					str = "sub";
+					break;
+				case aby::rhi::EBlendOp::reverse_sub:
+					str = "reverse_sub";
+					break;
+				case aby::rhi::EBlendOp::min:
+					str = "min";
+					break;
+				case aby::rhi::EBlendOp::max:
+					str = "max";
 					break;
 			}
 

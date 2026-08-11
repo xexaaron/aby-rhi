@@ -3,6 +3,7 @@
 #include "backends/vulkan/vulkan-frame.hpp"
 #include "backends/vulkan/vulkan-gc.hpp"
 #include "backends/vulkan/vulkan-image.hpp"
+#include "backends/vulkan/vulkan-immediate-cmd.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-render-pass.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
@@ -16,17 +17,6 @@
 
 namespace aby::rhi::vulkan {
 
-	struct ImmediateCommands {
-		~ImmediateCommands();
-
-		auto create(uint32_t queue_family) -> bool;
-		auto destroy() -> void;
-
-		vk::Fence fence       = VK_NULL_HANDLE;
-		vk::CommandBuffer cmd = VK_NULL_HANDLE;
-		vk::CommandPool pool  = VK_NULL_HANDLE;
-		std::once_flag m_CreateFlag;
-	};
 
 	class Renderer : public aby::rhi::Renderer {
 	public:

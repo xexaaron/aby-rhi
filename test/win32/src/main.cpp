@@ -56,7 +56,7 @@ auto create_mvp(float angle) -> MVP {
 		          c, 0, -s, 0,
 		          0,  1, 0, 0,
 		          s, 0,		             c,  0,
-		          0, 0,		                      -3, 1		                                                             },
+		          0, 0,		                    -7.5, 1		                                                             },
 
 		.view = {          1, 0,  0, 0, 0,  1, 0, 0, 0, 0,                     1,  0, 0, 0,                               0, 1 },
 
@@ -126,16 +126,21 @@ int main(int argc, char** argv) {
 
 	auto rpsb = RenderPassBuilder::create();
 	rpsb->add_shader("test_vertex.vert")
+	    .add_shader("test_frag.frag")
 	    .add_uniform("mvp", 0, EShader::vert)
 	    .add_uniform("texs", 1, EShader::vert)
 	    .vertex_description_builder()
-	    .add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
-	    .build()
-	    ->add_shader("test_frag.frag")
-	    .use_all_defaults()
+	    /**/.add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
+	    /**/.build()
+	    ->set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
-	    .disable_blending()
-	    .disable_depthtest();
+	    .set_polygon_mode(EPolygonMode::fill, 1.f)
+	    .set_blend_mask(true, true, true, true)
+	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha })
+	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha })
+	    .set_depth(true, true, ECompareOp::less)
+	    .set_stencil(true, ECompareOp::always)
+	    .use_default_attachment_formats();
 
 	TextureParams texture_params{
 		.mip_levels           = 0,
@@ -143,7 +148,10 @@ int main(int argc, char** argv) {
 		.filtering            = EFiltering::nearest,
 		.repeat_mode          = ERepeatMode::repeat
 	};
-	tex_albedo    = Texture::create("Cobblestone.png", texture_params);
+
+	tex_albedo = Texture::create("Cobblestone.png", texture_params);
+	// tex_albedo = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png", texture_params);
+
 	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
 	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
 	tex_normal    = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
@@ -232,7 +240,7 @@ int main(int argc, char** argv) {
 	pass->set_uniform("texs", material);
 
 	MSG msg;
-	DrawCmd cmd(vbuff, ibuff, 1);
+	DrawCmd cmd(vbuff, ibuff, 27);
 
 	bool running = true;
 

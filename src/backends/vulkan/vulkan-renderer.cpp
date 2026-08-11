@@ -20,6 +20,318 @@ namespace aby::rhi::vulkan {
 	    m_Graphics(params) {
 	}
 
+	auto Renderer::on_begin() -> bool {
+		if (!m_Frames->begin(m_Swapchain.swapchain, &m_SwapchainImgIndex)) {
+			return false;
+		}
+
+		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
+
+		m_DrawImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
+
+		if (antialiasing_enabled()) {
+			m_ResolveImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
+		}
+
+		vk::RenderingAttachmentInfo color_attachment(
+		    m_DrawImage.view(),
+		    vk::ImageLayout::eColorAttachmentOptimal,
+		    antialiasing_enabled()
+		        ? vk::ResolveModeFlagBits::eAverage
+		        : vk::ResolveModeFlagBits::eNone,
+		    m_ResolveImage.view(),
+		    antialiasing_enabled()
+		        ? vk::ImageLayout::eColorAttachmentOptimal
+		        : vk::ImageLayout::eUndefined,
+		    vk::AttachmentLoadOp::eClear,
+		    vk::AttachmentStoreOp::eStore,
+		    m_ClearColor);
+
+		vk::RenderingInfo render_info(
+		    vk::RenderingFlags{},
+		    vk::Rect2D(
+		        vk::Offset2D{},
+		        m_DrawImage.extent2d()),
+		    1, /* layer count*/
+		    0, /* view mask */
+		    1, /* color attachment count */
+		    &color_attachment);
+
+		vkCmdBeginRendering(m_Frames->cmd(), vkcast(render_info));
+		return true;
+	}
+
+	auto Renderer::on_end() -> bool {
+		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
+
+		for (auto& render_pass : m_RenderPasses) {
+			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
+			render_pass->set_cmd_buffer(m_Frames->cmd());
+			render_pass->bind();
+			render_pass->set_viewport({ static_cast<float>(m_DrawImage.width()),
+			                            static_cast<float>(m_DrawImage.height()) });
+			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_DrawImage.width()),
+			                                         static_cast<float>(m_DrawImage.height()) });
+			render_pass->run();
+			render_pass->clear();
+		}
+
+		vkCmdEndRendering(m_Frames->cmd());
+
+		Image& present_image = antialiasing_enabled() ? m_ResolveImage : m_DrawImage;
+
+		present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
+		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eTransferDstOptimal);
+		present_image.copy_to(m_Frames->cmd(), swapchain_img);
+		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::ePresentSrcKHR);
+
+		vk::Result result = m_Frames->end(m_Swapchain.swapchain, m_GraphicsQueue, render_finished_semaphore, m_SwapchainImgIndex);
+
+		if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR) {
+			if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
+				return false;
+
+			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]",
+			            m_Width, m_Height, vk::to_string(result));
+
+			recreate_swapchain();
+			return false;
+		}
+
+		m_Frames++;
+
+		return true;
+	}
+
+	auto Renderer::on_resize(uint32_t width, uint32_t height) -> void {
+		m_Width  = width;
+		m_Height = height;
+	}
+
+	auto Renderer::recreate_swapchain() -> bool {
+		aby_rhi_profile("[vulkan] recreate swapchain");
+
+		if (m_Swapchain) { // fast init first time
+			while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS)
+				;
+		}
+
+		vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
+		auto swapchain_result = swapchain_builder
+		                            .set_desired_extent(m_Width, m_Height)
+		                            .set_desired_format(VkSurfaceFormatKHR{ .format = VK_FORMAT_R8G8B8A8_UNORM })
+		                            .set_allocation_callbacks(allocator())
+		                            .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
+		                            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+		                            .add_image_usage_flags(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
+		                            .set_desired_min_image_count(MAX_FRAMES_IN_FLIGHT)
+		                            .set_old_swapchain(m_Swapchain)
+		                            .build();
+
+		vkbcheck(swapchain_result, "failed to recreate swapchain");
+
+		if (m_Swapchain) {
+			vkb::destroy_swapchain(m_Swapchain);
+		}
+
+		m_Swapchain        = swapchain_result.value();
+		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
+		for (auto& [img, _] : m_SwapchainImages) {
+			img.destroy();
+		}
+
+		if (m_SwapchainImages.size() < imgs.size()) {
+			m_SwapchainImages.resize(imgs.size());
+		}
+
+		for (size_t i = 0; i < imgs.size(); i++) {
+			m_SwapchainImages[i].first.wrap(
+			    imgs[i],
+			    views[i],
+			    vk::Extent3D(m_Swapchain.extent.width, m_Swapchain.extent.height, 1),
+			    static_cast<vk::Format>(m_Swapchain.image_format),
+			    vk::SampleCountFlagBits::e1,
+			    static_cast<vk::ImageUsageFlags>(m_Swapchain.image_usage_flags));
+
+			if (!m_SwapchainImages[i].second) {
+				vk::SemaphoreCreateInfo semaphore_ci;
+				vkcheck(vkCreateSemaphore(
+				            m_Device.device,
+				            vkcast(semaphore_ci),
+				            allocator(),
+				            vkcast(m_SwapchainImages[i].second)),
+				        "failed to create wait semaphore");
+			}
+		}
+
+		return true;
+	}
+
+	auto Renderer::get_immediate() -> ImmediateCommands& {
+		thread_local ImmediateCommands cmds;
+		cmds.create(m_GraphicsQueueFamily);
+		return cmds;
+	}
+
+	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
+		std::scoped_lock lock(m_ImmediateSubmitMutex);
+		auto& immediate = get_immediate();
+
+		if (!immediate.begin()) {
+			aby_rhi_err("failed to begin immediate command submission");
+			return false;
+		}
+
+		fn(immediate.cmd());
+
+		if (!immediate.end(m_GraphicsQueue)) {
+			aby_rhi_err("failed to end immediate command submission");
+			return false;
+		}
+
+		return true;
+	}
+
+	auto Renderer::register_texture(ResourceID id, vk::ImageView view, vk::Sampler sampler) -> uint32_t {
+		uint32_t texture_id = static_cast<uint32_t>(id);
+		vk::DescriptorImageInfo info(sampler, view, vk::ImageLayout::eShaderReadOnlyOptimal);
+		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
+		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
+		return texture_id;
+	}
+
+	auto Renderer::set_clear_color(Color color) -> void {
+		switch (m_Swapchain.image_format) {
+			case VK_FORMAT_R8_UINT:
+			case VK_FORMAT_R8G8_UINT:
+			case VK_FORMAT_R8G8B8_UINT:
+			case VK_FORMAT_R8G8B8A8_UINT:
+				m_ClearColor.uint32[0] = uint32_t(color.r * UINT8_MAX + 0.5f);
+				m_ClearColor.uint32[1] = uint32_t(color.g * UINT8_MAX + 0.5f);
+				m_ClearColor.uint32[2] = uint32_t(color.b * UINT8_MAX + 0.5f);
+				m_ClearColor.uint32[3] = uint32_t(color.a * UINT8_MAX + 0.5f);
+				break;
+			case VK_FORMAT_R16_UINT:
+			case VK_FORMAT_R16G16_UINT:
+			case VK_FORMAT_R16G16B16_UINT:
+			case VK_FORMAT_R16G16B16A16_UINT:
+				m_ClearColor.uint32[0] = uint32_t(color.r * UINT16_MAX + 0.5f);
+				m_ClearColor.uint32[1] = uint32_t(color.g * UINT16_MAX + 0.5f);
+				m_ClearColor.uint32[2] = uint32_t(color.b * UINT16_MAX + 0.5f);
+				m_ClearColor.uint32[3] = uint32_t(color.a * UINT16_MAX + 0.5f);
+				break;
+			case VK_FORMAT_R32_UINT:
+			case VK_FORMAT_R32G32_UINT:
+			case VK_FORMAT_R32G32B32_UINT:
+			case VK_FORMAT_R32G32B32A32_UINT:
+			case VK_FORMAT_R64_UINT:
+			case VK_FORMAT_R64G64_UINT:
+			case VK_FORMAT_R64G64B64_UINT:
+			case VK_FORMAT_R64G64B64A64_UINT:
+				m_ClearColor.uint32[0] = uint32_t(color.r * float(UINT32_MAX));
+				m_ClearColor.uint32[1] = uint32_t(color.g * float(UINT32_MAX));
+				m_ClearColor.uint32[2] = uint32_t(color.b * float(UINT32_MAX));
+				m_ClearColor.uint32[3] = uint32_t(color.a * float(UINT32_MAX));
+				break;
+			case VK_FORMAT_R8_SINT:
+			case VK_FORMAT_R8G8_SINT:
+			case VK_FORMAT_R8G8B8_SINT:
+			case VK_FORMAT_R8G8B8A8_SINT:
+				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT8_MAX));
+				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT8_MAX));
+				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT8_MAX));
+				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT8_MAX));
+				break;
+			case VK_FORMAT_R16_SINT:
+			case VK_FORMAT_R16G16_SINT:
+			case VK_FORMAT_R16G16B16_SINT:
+			case VK_FORMAT_R16G16B16A16_SINT:
+				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT16_MAX));
+				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT16_MAX));
+				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT16_MAX));
+				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT16_MAX));
+				break;
+			case VK_FORMAT_R32_SINT:
+			case VK_FORMAT_R32G32_SINT:
+			case VK_FORMAT_R32G32B32_SINT:
+			case VK_FORMAT_R32G32B32A32_SINT:
+			case VK_FORMAT_R64_SINT:
+			case VK_FORMAT_R64G64_SINT:
+			case VK_FORMAT_R64G64B64_SINT:
+			case VK_FORMAT_R64G64B64A64_SINT:
+				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT32_MAX));
+				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT32_MAX));
+				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT32_MAX));
+				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT32_MAX));
+				// normalzie from -128 -> +128
+				break;
+			default:
+				m_ClearColor.float32[0] = color.r;
+				m_ClearColor.float32[1] = color.g;
+				m_ClearColor.float32[2] = color.b;
+				m_ClearColor.float32[3] = color.a;
+				break;
+		}
+	}
+
+	auto Renderer::device() -> vkb::Device& {
+		return m_Device;
+	}
+
+	auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {
+		m_RenderPasses.push_back(std::static_pointer_cast<RenderPass>(render_pass));
+	}
+
+	auto Renderer::vma() -> VmaAllocator& {
+		return m_VMA;
+	}
+
+	auto Renderer::color_format() -> vk::Format {
+		return m_DrawImage.format();
+	}
+
+	auto Renderer::gc() -> GarbageCollector& {
+		return m_GC;
+	}
+
+	auto Renderer::desc_alloc() -> DescriptorAllocator& {
+		return m_DescAllocator;
+	}
+
+	auto Renderer::tex_desc_set() -> vk::DescriptorSet {
+		return m_TextureDescriptors;
+	}
+
+	auto Renderer::tex_desc_layout() -> vk::DescriptorSetLayout {
+		return m_TextureDescriptorLayout;
+	}
+
+	auto Renderer::max_sampler_anisotropy() -> float {
+		return m_Limits.maxSamplerAnisotropy;
+	}
+
+	auto Renderer::graphics() const -> const GraphicsParams& {
+		return m_Graphics;
+	}
+
+	auto Renderer::render_target_sample_count() -> vk::SampleCountFlagBits {
+		switch (m_Graphics.aliasing) {
+			case EAntiAliasing::none:
+				return vk::SampleCountFlagBits::e1;
+			case EAntiAliasing::msaa2x:
+				return vk::SampleCountFlagBits::e2;
+			case EAntiAliasing::msaa4x:
+				return vk::SampleCountFlagBits::e4;
+			case EAntiAliasing::msaa8x:
+				return vk::SampleCountFlagBits::e8;
+		}
+		return vk::SampleCountFlagBits::e1;
+	}
+
+	auto Renderer::antialiasing_enabled() const -> bool {
+		return m_Graphics.aliasing != EAntiAliasing::none;
+	}
+
 	auto Renderer::init(void* native_window) -> bool {
 		auto& ctx = Context::get();
 		auto* log = ctx.logger();
@@ -298,394 +610,6 @@ namespace aby::rhi::vulkan {
 		m_Device.device                  = VK_NULL_HANDLE;
 		m_Device.physical_device.surface = VK_NULL_HANDLE;
 		m_Instance.instance              = VK_NULL_HANDLE;
-	}
-
-	auto Renderer::on_begin() -> bool {
-		if (!m_Frames->begin(m_Swapchain.swapchain, &m_SwapchainImgIndex)) {
-			return false;
-		}
-
-		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
-
-		m_DrawImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
-
-		if (antialiasing_enabled()) {
-			m_ResolveImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
-		}
-
-		vk::RenderingAttachmentInfo color_attachment(
-		    m_DrawImage.view(),
-		    vk::ImageLayout::eColorAttachmentOptimal,
-		    antialiasing_enabled()
-		        ? vk::ResolveModeFlagBits::eAverage
-		        : vk::ResolveModeFlagBits::eNone,
-		    m_ResolveImage.view(),
-		    antialiasing_enabled()
-		        ? vk::ImageLayout::eColorAttachmentOptimal
-		        : vk::ImageLayout::eUndefined,
-		    vk::AttachmentLoadOp::eClear,
-		    vk::AttachmentStoreOp::eStore,
-		    m_ClearColor);
-
-		vk::RenderingInfo render_info(
-		    vk::RenderingFlags{},
-		    vk::Rect2D(
-		        vk::Offset2D{},
-		        m_DrawImage.extent2d()),
-		    1, /* layer count*/
-		    0, /* view mask */
-		    1, /* color attachment count */
-		    &color_attachment);
-
-		vkCmdBeginRendering(m_Frames->cmd(), vkcast(render_info));
-		return true;
-	}
-
-	auto Renderer::on_end() -> bool {
-		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
-
-		for (auto& render_pass : m_RenderPasses) {
-			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
-			render_pass->set_cmd_buffer(m_Frames->cmd());
-			render_pass->bind();
-			render_pass->set_viewport({ static_cast<float>(m_DrawImage.width()),
-			                            static_cast<float>(m_DrawImage.height()) });
-			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_DrawImage.width()),
-			                                         static_cast<float>(m_DrawImage.height()) });
-			render_pass->run();
-			render_pass->clear();
-		}
-
-		vkCmdEndRendering(m_Frames->cmd());
-
-		Image& present_image = antialiasing_enabled() ? m_ResolveImage : m_DrawImage;
-
-		present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
-		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eTransferDstOptimal);
-		present_image.copy_to(m_Frames->cmd(), swapchain_img);
-		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::ePresentSrcKHR);
-
-		vk::Result result = m_Frames->end(m_Swapchain.swapchain, m_GraphicsQueue, render_finished_semaphore, m_SwapchainImgIndex);
-
-		if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR) {
-			if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
-				return false;
-
-			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]",
-			            m_Width, m_Height, vk::to_string(result));
-
-			recreate_swapchain();
-			return false;
-		}
-
-		m_Frames++;
-
-		return true;
-	}
-
-	auto Renderer::on_resize(uint32_t width, uint32_t height) -> void {
-		m_Width  = width;
-		m_Height = height;
-	}
-
-	auto Renderer::recreate_swapchain() -> bool {
-		aby_rhi_profile("[vulkan] recreate swapchain");
-
-		if (m_Swapchain) { // fast init first time
-			while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS)
-				;
-		}
-
-		vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
-		auto swapchain_result = swapchain_builder
-		                            .set_desired_extent(m_Width, m_Height)
-		                            .set_desired_format(VkSurfaceFormatKHR{ .format = VK_FORMAT_R8G8B8A8_UNORM })
-		                            .set_allocation_callbacks(allocator())
-		                            .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
-		                            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-		                            .add_image_usage_flags(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
-		                            .set_desired_min_image_count(MAX_FRAMES_IN_FLIGHT)
-		                            .set_old_swapchain(m_Swapchain)
-		                            .build();
-
-		vkbcheck(swapchain_result, "failed to recreate swapchain");
-
-		if (m_Swapchain) {
-			vkb::destroy_swapchain(m_Swapchain);
-		}
-
-		m_Swapchain        = swapchain_result.value();
-		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
-		for (auto& [img, _] : m_SwapchainImages) {
-			img.destroy();
-		}
-
-		if (m_SwapchainImages.size() < imgs.size()) {
-			m_SwapchainImages.resize(imgs.size());
-		}
-
-		for (size_t i = 0; i < imgs.size(); i++) {
-			m_SwapchainImages[i].first.wrap(
-			    imgs[i],
-			    views[i],
-			    vk::Extent3D(m_Swapchain.extent.width, m_Swapchain.extent.height, 1),
-			    static_cast<vk::Format>(m_Swapchain.image_format),
-			    vk::SampleCountFlagBits::e1,
-			    static_cast<vk::ImageUsageFlags>(m_Swapchain.image_usage_flags));
-
-			if (!m_SwapchainImages[i].second) {
-				vk::SemaphoreCreateInfo semaphore_ci;
-				vkcheck(vkCreateSemaphore(
-				            m_Device.device,
-				            vkcast(semaphore_ci),
-				            allocator(),
-				            vkcast(m_SwapchainImages[i].second)),
-				        "failed to create wait semaphore");
-			}
-		}
-
-		return true;
-	}
-
-	auto Renderer::get_immediate() -> ImmediateCommands& {
-		thread_local ImmediateCommands cmds;
-		cmds.create(m_GraphicsQueueFamily);
-		return cmds;
-	}
-
-	auto Renderer::immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool {
-		std::scoped_lock lock(m_ImmediateSubmitMutex);
-
-		auto& immediate = get_immediate();
-
-		vkcheck(vkResetFences(m_Device.device, 1, vkcast(immediate.fence)), "failed to reset immediate submit fence");
-		vkcheck(vkResetCommandBuffer(immediate.cmd, 0), "failed to reset immedaite submit command buffer");
-
-		vk::CommandBufferBeginInfo begin_info(vk::CommandBufferUsageFlagBits::eOneTimeSubmit);
-		vkcheck(vkBeginCommandBuffer(immediate.cmd, vkcast(begin_info)), "failed to begin immediate submit command buffer");
-
-		fn(immediate.cmd);
-
-		vkcheck(vkEndCommandBuffer(immediate.cmd),
-		        "failed to end immediate submit command buffer");
-
-		vk::CommandBufferSubmitInfo submit_info(immediate.cmd);
-		vk::SubmitInfo2 submit(vk::SubmitFlags(), 0, nullptr, 1, &submit_info);
-
-		vkcheck(vkQueueSubmit2(
-		            m_GraphicsQueue,
-		            1, /* submit count */
-		            vkcast(submit),
-		            immediate.fence),
-		        "failed to submit immediate submit command buffer");
-
-		vkcheck(vkWaitForFences(
-		            m_Device.device,
-		            1, /* fence count */
-		            vkcast(immediate.fence),
-		            vk::True,
-		            9999999999 /* timeout */
-		            ),
-		        "failed to wait for immediate submit fence");
-
-		return true;
-	}
-
-	auto Renderer::register_texture(ResourceID id, vk::ImageView view, vk::Sampler sampler) -> uint32_t {
-		uint32_t texture_id = static_cast<uint32_t>(id);
-		vk::DescriptorImageInfo info(sampler, view, vk::ImageLayout::eShaderReadOnlyOptimal);
-		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
-		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
-		return texture_id;
-	}
-
-	auto Renderer::set_clear_color(Color color) -> void {
-		switch (m_Swapchain.image_format) {
-			case VK_FORMAT_R8_UINT:
-			case VK_FORMAT_R8G8_UINT:
-			case VK_FORMAT_R8G8B8_UINT:
-			case VK_FORMAT_R8G8B8A8_UINT:
-				m_ClearColor.uint32[0] = uint32_t(color.r * UINT8_MAX + 0.5f);
-				m_ClearColor.uint32[1] = uint32_t(color.g * UINT8_MAX + 0.5f);
-				m_ClearColor.uint32[2] = uint32_t(color.b * UINT8_MAX + 0.5f);
-				m_ClearColor.uint32[3] = uint32_t(color.a * UINT8_MAX + 0.5f);
-				break;
-			case VK_FORMAT_R16_UINT:
-			case VK_FORMAT_R16G16_UINT:
-			case VK_FORMAT_R16G16B16_UINT:
-			case VK_FORMAT_R16G16B16A16_UINT:
-				m_ClearColor.uint32[0] = uint32_t(color.r * UINT16_MAX + 0.5f);
-				m_ClearColor.uint32[1] = uint32_t(color.g * UINT16_MAX + 0.5f);
-				m_ClearColor.uint32[2] = uint32_t(color.b * UINT16_MAX + 0.5f);
-				m_ClearColor.uint32[3] = uint32_t(color.a * UINT16_MAX + 0.5f);
-				break;
-			case VK_FORMAT_R32_UINT:
-			case VK_FORMAT_R32G32_UINT:
-			case VK_FORMAT_R32G32B32_UINT:
-			case VK_FORMAT_R32G32B32A32_UINT:
-			case VK_FORMAT_R64_UINT:
-			case VK_FORMAT_R64G64_UINT:
-			case VK_FORMAT_R64G64B64_UINT:
-			case VK_FORMAT_R64G64B64A64_UINT:
-				m_ClearColor.uint32[0] = uint32_t(color.r * float(UINT32_MAX));
-				m_ClearColor.uint32[1] = uint32_t(color.g * float(UINT32_MAX));
-				m_ClearColor.uint32[2] = uint32_t(color.b * float(UINT32_MAX));
-				m_ClearColor.uint32[3] = uint32_t(color.a * float(UINT32_MAX));
-				break;
-			case VK_FORMAT_R8_SINT:
-			case VK_FORMAT_R8G8_SINT:
-			case VK_FORMAT_R8G8B8_SINT:
-			case VK_FORMAT_R8G8B8A8_SINT:
-				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT8_MAX));
-				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT8_MAX));
-				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT8_MAX));
-				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT8_MAX));
-				break;
-			case VK_FORMAT_R16_SINT:
-			case VK_FORMAT_R16G16_SINT:
-			case VK_FORMAT_R16G16B16_SINT:
-			case VK_FORMAT_R16G16B16A16_SINT:
-				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT16_MAX));
-				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT16_MAX));
-				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT16_MAX));
-				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT16_MAX));
-				break;
-			case VK_FORMAT_R32_SINT:
-			case VK_FORMAT_R32G32_SINT:
-			case VK_FORMAT_R32G32B32_SINT:
-			case VK_FORMAT_R32G32B32A32_SINT:
-			case VK_FORMAT_R64_SINT:
-			case VK_FORMAT_R64G64_SINT:
-			case VK_FORMAT_R64G64B64_SINT:
-			case VK_FORMAT_R64G64B64A64_SINT:
-				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT32_MAX));
-				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT32_MAX));
-				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT32_MAX));
-				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT32_MAX));
-				// normalzie from -128 -> +128
-				break;
-			default:
-				m_ClearColor.float32[0] = color.r;
-				m_ClearColor.float32[1] = color.g;
-				m_ClearColor.float32[2] = color.b;
-				m_ClearColor.float32[3] = color.a;
-				break;
-		}
-	}
-
-	auto Renderer::device() -> vkb::Device& {
-		return m_Device;
-	}
-
-	auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {
-		m_RenderPasses.push_back(std::static_pointer_cast<RenderPass>(render_pass));
-	}
-
-	auto Renderer::vma() -> VmaAllocator& {
-		return m_VMA;
-	}
-
-	auto Renderer::color_format() -> vk::Format {
-		return m_DrawImage.format();
-	}
-
-	auto Renderer::gc() -> GarbageCollector& {
-		return m_GC;
-	}
-
-	auto Renderer::desc_alloc() -> DescriptorAllocator& {
-		return m_DescAllocator;
-	}
-
-	auto Renderer::tex_desc_set() -> vk::DescriptorSet {
-		return m_TextureDescriptors;
-	}
-
-	auto Renderer::tex_desc_layout() -> vk::DescriptorSetLayout {
-		return m_TextureDescriptorLayout;
-	}
-
-	auto Renderer::max_sampler_anisotropy() -> float {
-		return m_Limits.maxSamplerAnisotropy;
-	}
-
-	auto Renderer::graphics() const -> const GraphicsParams& {
-		return m_Graphics;
-	}
-
-	auto Renderer::render_target_sample_count() -> vk::SampleCountFlagBits {
-		switch (m_Graphics.aliasing) {
-			case EAntiAliasing::none:
-				return vk::SampleCountFlagBits::e1;
-			case EAntiAliasing::msaa2x:
-				return vk::SampleCountFlagBits::e2;
-			case EAntiAliasing::msaa4x:
-				return vk::SampleCountFlagBits::e4;
-			case EAntiAliasing::msaa8x:
-				return vk::SampleCountFlagBits::e8;
-		}
-		return vk::SampleCountFlagBits::e1;
-	}
-
-	auto Renderer::antialiasing_enabled() const -> bool {
-		return m_Graphics.aliasing != EAntiAliasing::none;
-	}
-
-} // namespace aby::rhi::vulkan
-
-namespace aby::rhi::vulkan {
-
-	ImmediateCommands::~ImmediateCommands() {
-		destroy();
-	}
-
-	auto ImmediateCommands::create(uint32_t queue_family) -> bool {
-		std::call_once(m_CreateFlag, [&]() {
-			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
-			vk::CommandPoolCreateInfo command_pool_ci(
-			    vk::CommandPoolCreateFlagBits::eResetCommandBuffer,
-			    queue_family);
-
-			vkassert(vkCreateCommandPool(
-			             r->device(),
-			             vkcast(command_pool_ci),
-			             allocator(),
-			             vkcast(this->pool)),
-			         "failed to create immediate submit command pool");
-
-			vk::CommandBufferAllocateInfo cmd_alloc_info(
-			    this->pool,
-			    vk::CommandBufferLevel::ePrimary,
-			    1);
-
-			vkassert(vkAllocateCommandBuffers(
-			             r->device(),
-			             vkcast(cmd_alloc_info),
-			             vkcast(this->cmd)),
-			         "failed to allocate immediate submit command buffer");
-
-			vk::FenceCreateInfo fence_ci(vk::FenceCreateFlagBits::eSignaled);
-
-			vkassert(vkCreateFence(
-			             r->device(),
-			             vkcast(fence_ci),
-			             allocator(),
-			             vkcast(this->fence)),
-			         "failed to create immediate submit fence");
-		});
-
-		return true;
-	}
-
-	auto ImmediateCommands::destroy() -> void {
-		if (this->pool) {
-			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-			vkDestroyCommandPool(r->device(), this->pool, allocator());
-			vkDestroyFence(r->device(), this->fence, allocator());
-			this->pool  = VK_NULL_HANDLE;
-			this->fence = VK_NULL_HANDLE;
-		}
 	}
 
 } // namespace aby::rhi::vulkan

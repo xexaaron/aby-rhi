@@ -2,6 +2,7 @@
 #include "common.hpp"
 #include "draw-cmd.hpp"
 #include "shader.hpp"
+#include "texture.hpp"
 
 namespace aby::rhi {
 
@@ -126,6 +127,12 @@ namespace aby::rhi {
 		size_t m_Stride;
 	};
 
+	struct Blend {
+		EBlendOp op      = EBlendOp::add;
+		EBlendFactor src = EBlendFactor::zero;
+		EBlendFactor dst = EBlendFactor::zero;
+	};
+
 	class RenderPassBuilder {
 	public:
 		static auto create() -> std::unique_ptr<RenderPassBuilder>;
@@ -139,14 +146,19 @@ namespace aby::rhi {
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                = 0;
 		virtual auto add_shader(Resource shader) -> RenderPassBuilder&                                         = 0;
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& = 0;
+		virtual auto add_color_attachment(Texture* texture) -> RenderPassBuilder&                              = 0;
 
 		auto vertex_description_builder() -> VertexInputDescriptionBuilder&;
 
-		virtual auto set_topology(ETopology topology) -> RenderPassBuilder&                     = 0;
-		virtual auto set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder&                  = 0;
-		virtual auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& = 0;
-		virtual auto set_color_attachment_format(EFormat format) -> RenderPassBuilder&          = 0;
-		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                     = 0;
+		virtual auto set_topology(ETopology topology) -> RenderPassBuilder&                                      = 0;
+		virtual auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder&                 = 0;
+		virtual auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder&                  = 0;
+		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                                      = 0;
+		virtual auto set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& = 0;
+		virtual auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder&                       = 0;
+		virtual auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder&                             = 0;
+		virtual auto set_blend_alpha(Blend blend) -> RenderPassBuilder&                                          = 0;
+		virtual auto set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder&                        = 0;
 
 		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
 		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;

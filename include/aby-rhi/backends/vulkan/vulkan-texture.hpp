@@ -14,6 +14,8 @@ namespace aby::rhi::vulkan {
 		~Texture();
 
 		auto destroy() -> void override;
+
+		auto format() -> vk::Format;
 		auto id() -> uint32_t override;
 		auto width() -> uint32_t override;
 		auto height() -> uint32_t override;
@@ -22,6 +24,7 @@ namespace aby::rhi::vulkan {
 		auto bytes() -> size_t override;
 	private:
 		auto load(const fs::path& path) -> bool;
+		auto create(const TextureParams& params) -> bool;
 	private:
 		uint32_t m_ID;
 		uint32_t m_Width;

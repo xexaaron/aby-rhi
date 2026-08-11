@@ -76,7 +76,7 @@ namespace aby::rhi {
 	}
 
 	auto RenderPassBuilder::use_default_polygon_mode() -> RenderPassBuilder& {
-		return set_polygon_mode(EPolygonMode::fill);
+		return set_polygon_mode(EPolygonMode::fill, 1.f);
 	}
 
 	auto RenderPassBuilder::use_default_cull_mode() -> RenderPassBuilder& {

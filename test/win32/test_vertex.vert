@@ -26,7 +26,26 @@ layout(location = 1) out vec2 outUV;
 layout(location = 2) flat out uint outAlbedo;
 
 void main() {
-    gl_Position = mvp.projection * mvp.view * mvp.model * vec4(inPosition, 1.0);
+    uint instance = gl_InstanceIndex;
+
+    const float spacing = 1.5;
+
+    float x = float(instance % 3u) - 1.0;
+    float y = float((instance / 3u) % 3u) - 1.0;
+    float z = float(instance / 9u) - 1.0;
+
+    vec3 offset = vec3(x, y, z) * spacing;
+
+    vec4 world_position =
+        mvp.model * vec4(inPosition, 1.0);
+
+    world_position.xyz += offset;
+
+    gl_Position =
+        mvp.projection *
+        mvp.view *
+        world_position;
+
     outColor = inColor;
     outUV = inUV;
     outAlbedo = texs.albedo;

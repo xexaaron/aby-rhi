@@ -87,6 +87,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-gc.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-image.hpp
+    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-immediate-cmd.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-pipeline.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-platform.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-renderer.hpp
@@ -102,6 +103,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-gc.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-helpers.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-image.cpp
+    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-immediate-cmd.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-pipeline.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-platform.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-renderer.cpp

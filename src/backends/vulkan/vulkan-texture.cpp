@@ -18,6 +18,100 @@ namespace aby::rhi::vulkan {
 			return;
 		}
 
+		if (!create(params)) {
+			aby_rhi_err("failed to create texture for: {}", path.string());
+			return;
+		}
+
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+		m_ID    = r->register_texture(id, m_View, m_Sampler);
+	}
+
+	Texture::~Texture() {
+		destroy();
+	}
+
+	auto Texture::destroy() -> void {
+		if (m_Image != VK_NULL_HANDLE) {
+			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+			std::memset(&m_AllocInfo, 0, sizeof(VmaAllocationInfo));
+			vkDestroySampler(r->device(), m_Sampler, allocator());
+			vkDestroyImageView(r->device(), m_View, allocator());
+			vmaDestroyImage(r->vma(), m_Image, m_Alloc);
+			m_Image   = VK_NULL_HANDLE;
+			m_Alloc   = VK_NULL_HANDLE;
+			m_Sampler = VK_NULL_HANDLE;
+			m_View    = VK_NULL_HANDLE;
+			m_Data.clear();
+		}
+	}
+
+	auto Texture::format() -> vk::Format {
+		switch (m_Channels) {
+			case 1:
+				return vk::Format::eR8Srgb;
+			case 2:
+				return vk::Format::eR8G8Srgb;
+			case 3:
+				return vk::Format::eR8G8B8Srgb;
+			case 4:
+				return vk::Format::eR8G8B8A8Srgb;
+		}
+		return vk::Format::eUndefined;
+	}
+
+	auto Texture::id() -> uint32_t {
+		return m_ID;
+	}
+
+	auto Texture::width() -> uint32_t {
+		return m_Width;
+	}
+
+	auto Texture::height() -> uint32_t {
+		return m_Height;
+	}
+
+	auto Texture::channels() -> uint32_t {
+		return m_Channels;
+	}
+
+	auto Texture::data() -> uint8_t* {
+		return m_Data.data();
+	}
+
+	auto Texture::bytes() -> size_t {
+		return m_Data.size();
+	}
+
+	auto Texture::load(const fs::path& path) -> bool {
+		auto* io = Context::get().file_io();
+		if (!io->read(path, &m_Data)) {
+			aby_rhi_err("failed to read texture file: {}", path.string());
+			return false;
+		}
+
+		int32_t w, h, c;
+		stbi_uc* data = stbi_load_from_memory(m_Data.data(), m_Data.size(), &w, &h, &c, 4);
+		if (!data) {
+			aby_rhi_err("failed to load texture from memory: {}. ({})", stbi_failure_reason(), path.string());
+			return false;
+		}
+
+		m_Width    = w;
+		m_Height   = h;
+		m_Channels = 4;
+		auto bytes = m_Width * m_Height * m_Channels;
+
+		m_Data.clear();
+		m_Data.resize(bytes);
+		m_Data.assign(data, data + bytes);
+
+		stbi_image_free(data);
+		return true;
+	}
+
+	auto Texture::create(const TextureParams& params) -> bool {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
 		uint32_t max_mip_levels = 1 + static_cast<uint32_t>(std::floor(std::log2(std::max(m_Width, m_Height))));
@@ -73,7 +167,7 @@ namespace aby::rhi::vulkan {
 		vk::ImageCreateInfo image_create_info(
 		    vk::ImageCreateFlags(0),
 		    vk::ImageType::e2D,
-		    vk::Format::eR8G8B8A8Srgb,
+		    format(),
 		    vk::Extent3D(m_Width, m_Height, 1),
 		    mip_levels, /* mip levels */
 		    1,          /* array layers*/
@@ -94,7 +188,7 @@ namespace aby::rhi::vulkan {
 		             vkcast(m_Image),
 		             &m_Alloc,
 		             &m_AllocInfo),
-		         "failed to create image for: {}", path.string());
+		         "failed to create image");
 
 		vk::ImageViewCreateInfo image_view_create_info(
 		    vk::ImageViewCreateFlags(0),
@@ -115,7 +209,7 @@ namespace aby::rhi::vulkan {
 		             vkcast(image_view_create_info),
 		             allocator(),
 		             vkcast(m_View)),
-		         "failed to create image view for: {}", path.string());
+		         "failed to create image view");
 
 		vk::SamplerCreateInfo sampler_create_info(
 		    vk::SamplerCreateFlags(),
@@ -141,7 +235,7 @@ namespace aby::rhi::vulkan {
 		             vkcast(sampler_create_info),
 		             allocator(),
 		             vkcast(m_Sampler)),
-		         "failed to create texture sampler for: {}", path.string());
+		         "failed to create texture sampler");
 
 		auto staging = Buffer(
 		    this->bytes(),
@@ -247,76 +341,6 @@ namespace aby::rhi::vulkan {
 			return true;
 		});
 
-		m_ID = r->register_texture(id, m_View, m_Sampler);
-	}
-
-	Texture::~Texture() {
-		destroy();
-	}
-
-	auto Texture::destroy() -> void {
-		if (m_Image != VK_NULL_HANDLE) {
-			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-			std::memset(&m_AllocInfo, 0, sizeof(VmaAllocationInfo));
-			vkDestroySampler(r->device(), m_Sampler, allocator());
-			vkDestroyImageView(r->device(), m_View, allocator());
-			vmaDestroyImage(r->vma(), m_Image, m_Alloc);
-			m_Image   = VK_NULL_HANDLE;
-			m_Alloc   = VK_NULL_HANDLE;
-			m_Sampler = VK_NULL_HANDLE;
-			m_View    = VK_NULL_HANDLE;
-			m_Data.clear();
-		}
-	}
-
-	auto Texture::id() -> uint32_t {
-		return m_ID;
-	}
-
-	auto Texture::width() -> uint32_t {
-		return m_Width;
-	}
-
-	auto Texture::height() -> uint32_t {
-		return m_Height;
-	}
-
-	auto Texture::channels() -> uint32_t {
-		return m_Channels;
-	}
-
-	auto Texture::data() -> uint8_t* {
-		return m_Data.data();
-	}
-
-	auto Texture::bytes() -> size_t {
-		return m_Data.size();
-	}
-
-	auto Texture::load(const fs::path& path) -> bool {
-		auto* io = Context::get().file_io();
-		if (!io->read(path, &m_Data)) {
-			aby_rhi_err("failed to read texture file: {}", path.string());
-			return false;
-		}
-
-		int32_t w, h, c;
-		stbi_uc* data = stbi_load_from_memory(m_Data.data(), m_Data.size(), &w, &h, &c, 4);
-		if (!data) {
-			aby_rhi_err("failed to load texture from memory: {}", stbi_failure_reason());
-			return false;
-		}
-
-		m_Width    = w;
-		m_Height   = h;
-		m_Channels = 4;
-		auto bytes = m_Width * m_Height * m_Channels;
-
-		m_Data.clear();
-		m_Data.resize(bytes);
-		m_Data.assign(data, data + bytes);
-
-		stbi_image_free(data);
 		return true;
 	}
 

@@ -139,6 +139,12 @@ namespace aby::rhi::vulkan {
 			}
 		}
 
+		if (!m_ColorAttachments.empty()) {
+			m_RenderInfo.setColorAttachmentFormats(m_ColorAttachments);
+		} else {
+			use_default_attachment_formats();
+		}
+
 		for (Resource shader : m_Shaders) {
 			if (!shader_container.wait_for(shader)) {
 				aby_rhi_err("failed to wait for shader: {}", shader.id());
@@ -373,6 +379,24 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
+	auto RenderPassBuilder::add_color_attachment(Texture* texture) -> RenderPassBuilder& {
+		switch (texture->channels()) {
+			case 1:
+				m_ColorAttachments.push_back(vk::Format::eR16Sfloat);
+				break;
+			case 2:
+				m_ColorAttachments.push_back(vk::Format::eR16G16Sfloat);
+				break;
+			case 3:
+				m_ColorAttachments.push_back(vk::Format::eR16G16B16Sfloat);
+				break;
+			case 4:
+				m_ColorAttachments.push_back(vk::Format::eR16G16B16A16Sfloat);
+				break;
+		}
+		return *this;
+	}
+
 	auto RenderPassBuilder::set_topology(ETopology topology) -> RenderPassBuilder& {
 		vk::PrimitiveTopology t;
 		switch (topology) {
@@ -400,7 +424,7 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_polygon_mode(EPolygonMode mode) -> RenderPassBuilder& {
+	auto RenderPassBuilder::set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& {
 		vk::PolygonMode m;
 		switch (mode) {
 			case EPolygonMode::fill:
@@ -414,7 +438,7 @@ namespace aby::rhi::vulkan {
 				break;
 		}
 		m_Rasterizer.setPolygonMode(m);
-		m_Rasterizer.setLineWidth(1.f);
+		m_Rasterizer.setLineWidth(line_width);
 		return *this;
 	}
 
@@ -451,15 +475,397 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_color_attachment_format(EFormat format) -> RenderPassBuilder& {
-		m_ColorAttachmentFormat = eformat_to_vkformat(format);
-		m_RenderInfo.setColorAttachmentCount(1);
-		m_RenderInfo.setPColorAttachmentFormats(&m_ColorAttachmentFormat);
+	auto RenderPassBuilder::set_depth_format(EFormat format) -> RenderPassBuilder& {
+		m_RenderInfo.setDepthAttachmentFormat(eformat_to_vkformat(format));
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_depth_format(EFormat format) -> RenderPassBuilder& {
-		m_RenderInfo.setDepthAttachmentFormat(eformat_to_vkformat(format));
+	auto RenderPassBuilder::set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& {
+		vk::CompareOp op;
+		switch (compare_op) {
+			case ECompareOp::never:
+				op = vk::CompareOp::eNever;
+				break;
+			case ECompareOp::less:
+				op = vk::CompareOp::eLess;
+				break;
+			case ECompareOp::eq:
+				op = vk::CompareOp::eEqual;
+				break;
+			case ECompareOp::less_eq:
+				op = vk::CompareOp::eLessOrEqual;
+				break;
+			case ECompareOp::greater:
+				op = vk::CompareOp::eGreater;
+				break;
+			case ECompareOp::neq:
+				op = vk::CompareOp::eNotEqual;
+				break;
+			case ECompareOp::greater_eq:
+				op = vk::CompareOp::eGreaterOrEqual;
+				break;
+			case ECompareOp::always:
+				op = vk::CompareOp::eAlways;
+				break;
+		}
+		m_DepthStencil.setDepthTestEnable(enable_test);
+		m_DepthStencil.setDepthWriteEnable(enable_write);
+		m_DepthStencil.setDepthCompareOp(op);
+		m_DepthStencil.setMinDepthBounds(0.f);
+		m_DepthStencil.setMaxDepthBounds(1.f);
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& {
+		vk::CompareOp op;
+		switch (compare_op) {
+			case ECompareOp::never:
+				op = vk::CompareOp::eNever;
+				break;
+			case ECompareOp::less:
+				op = vk::CompareOp::eLess;
+				break;
+			case ECompareOp::eq:
+				op = vk::CompareOp::eEqual;
+				break;
+			case ECompareOp::less_eq:
+				op = vk::CompareOp::eLessOrEqual;
+				break;
+			case ECompareOp::greater:
+				op = vk::CompareOp::eGreater;
+				break;
+			case ECompareOp::neq:
+				op = vk::CompareOp::eNotEqual;
+				break;
+			case ECompareOp::greater_eq:
+				op = vk::CompareOp::eGreaterOrEqual;
+				break;
+			case ECompareOp::always:
+				op = vk::CompareOp::eAlways;
+				break;
+		}
+
+		vk::StencilOpState op_state(
+		    vk::StencilOp::eKeep, /* fail op*/
+		    vk::StencilOp::eKeep, /* pass op */
+		    vk::StencilOp::eKeep, /* depth fail op */
+		    op,
+		    0xFF,
+		    0xFF,
+		    0);
+
+		m_DepthStencil.setStencilTestEnable(enable);
+		m_DepthStencil.setFront(op_state);
+		m_DepthStencil.setBack(op_state);
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& {
+		vk::BlendOp op;
+		vk::BlendFactor src_blend_factor;
+		vk::BlendFactor dst_blend_factor;
+
+		switch (blend.op) {
+			case EBlendOp::add:
+				op = vk::BlendOp::eAdd;
+				break;
+			case EBlendOp::sub:
+				op = vk::BlendOp::eSubtract;
+				break;
+			case EBlendOp::reverse_sub:
+				op = vk::BlendOp::eReverseSubtract;
+				break;
+			case EBlendOp::min:
+				op = vk::BlendOp::eMin;
+				break;
+			case EBlendOp::max:
+				op = vk::BlendOp::eMax;
+				break;
+		}
+
+		switch (blend.src) {
+			case EBlendFactor::zero:
+				src_blend_factor = vk::BlendFactor::eZero;
+				break;
+			case EBlendFactor::one:
+				src_blend_factor = vk::BlendFactor::eOne;
+				break;
+			case EBlendFactor::src_color:
+				src_blend_factor = vk::BlendFactor::eSrcColor;
+				break;
+			case EBlendFactor::one_minus_src_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
+				break;
+			case EBlendFactor::dst_color:
+				src_blend_factor = vk::BlendFactor::eDstColor;
+				break;
+			case EBlendFactor::one_minus_dst_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusDstColor;
+				break;
+			case EBlendFactor::src_alpha:
+				src_blend_factor = vk::BlendFactor::eSrcAlpha;
+				break;
+			case EBlendFactor::one_minus_src_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
+				break;
+			case EBlendFactor::dst_alpha:
+				src_blend_factor = vk::BlendFactor::eDstAlpha;
+				break;
+			case EBlendFactor::one_minus_dst_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
+				break;
+			case EBlendFactor::constant_color:
+				src_blend_factor = vk::BlendFactor::eConstantColor;
+				break;
+			case EBlendFactor::one_minus_constant_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
+				break;
+			case EBlendFactor::constant_alpha:
+				src_blend_factor = vk::BlendFactor::eConstantAlpha;
+				break;
+			case EBlendFactor::one_minus_constant_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
+				break;
+			case EBlendFactor::src_alpha_saturate:
+				src_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
+				break;
+			case EBlendFactor::src_one_color:
+				src_blend_factor = vk::BlendFactor::eSrc1Color;
+				break;
+			case EBlendFactor::one_minus_src_one_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
+				break;
+			case EBlendFactor::src_one_alpha:
+				src_blend_factor = vk::BlendFactor::eSrc1Alpha;
+				break;
+			case EBlendFactor::one_minus_src_one_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
+				break;
+		}
+
+		switch (blend.dst) {
+			case EBlendFactor::zero:
+				dst_blend_factor = vk::BlendFactor::eZero;
+				break;
+			case EBlendFactor::one:
+				dst_blend_factor = vk::BlendFactor::eOne;
+				break;
+			case EBlendFactor::src_color:
+				dst_blend_factor = vk::BlendFactor::eSrcColor;
+				break;
+			case EBlendFactor::one_minus_src_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
+				break;
+			case EBlendFactor::dst_color:
+				dst_blend_factor = vk::BlendFactor::eDstColor;
+				break;
+			case EBlendFactor::one_minus_dst_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusDstColor;
+				break;
+			case EBlendFactor::src_alpha:
+				dst_blend_factor = vk::BlendFactor::eSrcAlpha;
+				break;
+			case EBlendFactor::one_minus_src_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
+				break;
+			case EBlendFactor::dst_alpha:
+				dst_blend_factor = vk::BlendFactor::eDstAlpha;
+				break;
+			case EBlendFactor::one_minus_dst_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
+				break;
+			case EBlendFactor::constant_color:
+				dst_blend_factor = vk::BlendFactor::eConstantColor;
+				break;
+			case EBlendFactor::one_minus_constant_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
+				break;
+			case EBlendFactor::constant_alpha:
+				dst_blend_factor = vk::BlendFactor::eConstantAlpha;
+				break;
+			case EBlendFactor::one_minus_constant_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
+				break;
+			case EBlendFactor::src_alpha_saturate:
+				dst_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
+				break;
+			case EBlendFactor::src_one_color:
+				dst_blend_factor = vk::BlendFactor::eSrc1Color;
+				break;
+			case EBlendFactor::one_minus_src_one_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
+				break;
+			case EBlendFactor::src_one_alpha:
+				dst_blend_factor = vk::BlendFactor::eSrc1Alpha;
+				break;
+			case EBlendFactor::one_minus_src_one_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
+				break;
+		}
+
+		m_ColorBlendAttachment.setBlendEnable(enable);
+		m_ColorBlendAttachment.setColorBlendOp(op);
+		m_ColorBlendAttachment.setSrcColorBlendFactor(src_blend_factor);
+		m_ColorBlendAttachment.setDstColorBlendFactor(dst_blend_factor);
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_blend_alpha(Blend blend) -> RenderPassBuilder& {
+		vk::BlendOp op;
+		vk::BlendFactor src_blend_factor;
+		vk::BlendFactor dst_blend_factor;
+
+		switch (blend.op) {
+			case EBlendOp::add:
+				op = vk::BlendOp::eAdd;
+				break;
+			case EBlendOp::sub:
+				op = vk::BlendOp::eSubtract;
+				break;
+			case EBlendOp::reverse_sub:
+				op = vk::BlendOp::eReverseSubtract;
+				break;
+			case EBlendOp::min:
+				op = vk::BlendOp::eMin;
+				break;
+			case EBlendOp::max:
+				op = vk::BlendOp::eMax;
+				break;
+		}
+
+		switch (blend.src) {
+			case EBlendFactor::zero:
+				src_blend_factor = vk::BlendFactor::eZero;
+				break;
+			case EBlendFactor::one:
+				src_blend_factor = vk::BlendFactor::eOne;
+				break;
+			case EBlendFactor::src_color:
+				src_blend_factor = vk::BlendFactor::eSrcColor;
+				break;
+			case EBlendFactor::one_minus_src_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
+				break;
+			case EBlendFactor::dst_color:
+				src_blend_factor = vk::BlendFactor::eDstColor;
+				break;
+			case EBlendFactor::one_minus_dst_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusDstColor;
+				break;
+			case EBlendFactor::src_alpha:
+				src_blend_factor = vk::BlendFactor::eSrcAlpha;
+				break;
+			case EBlendFactor::one_minus_src_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
+				break;
+			case EBlendFactor::dst_alpha:
+				src_blend_factor = vk::BlendFactor::eDstAlpha;
+				break;
+			case EBlendFactor::one_minus_dst_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
+				break;
+			case EBlendFactor::constant_color:
+				src_blend_factor = vk::BlendFactor::eConstantColor;
+				break;
+			case EBlendFactor::one_minus_constant_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
+				break;
+			case EBlendFactor::constant_alpha:
+				src_blend_factor = vk::BlendFactor::eConstantAlpha;
+				break;
+			case EBlendFactor::one_minus_constant_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
+				break;
+			case EBlendFactor::src_alpha_saturate:
+				src_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
+				break;
+			case EBlendFactor::src_one_color:
+				src_blend_factor = vk::BlendFactor::eSrc1Color;
+				break;
+			case EBlendFactor::one_minus_src_one_color:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
+				break;
+			case EBlendFactor::src_one_alpha:
+				src_blend_factor = vk::BlendFactor::eSrc1Alpha;
+				break;
+			case EBlendFactor::one_minus_src_one_alpha:
+				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
+				break;
+		}
+
+		switch (blend.dst) {
+			case EBlendFactor::zero:
+				dst_blend_factor = vk::BlendFactor::eZero;
+				break;
+			case EBlendFactor::one:
+				dst_blend_factor = vk::BlendFactor::eOne;
+				break;
+			case EBlendFactor::src_color:
+				dst_blend_factor = vk::BlendFactor::eSrcColor;
+				break;
+			case EBlendFactor::one_minus_src_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
+				break;
+			case EBlendFactor::dst_color:
+				dst_blend_factor = vk::BlendFactor::eDstColor;
+				break;
+			case EBlendFactor::one_minus_dst_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusDstColor;
+				break;
+			case EBlendFactor::src_alpha:
+				dst_blend_factor = vk::BlendFactor::eSrcAlpha;
+				break;
+			case EBlendFactor::one_minus_src_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
+				break;
+			case EBlendFactor::dst_alpha:
+				dst_blend_factor = vk::BlendFactor::eDstAlpha;
+				break;
+			case EBlendFactor::one_minus_dst_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
+				break;
+			case EBlendFactor::constant_color:
+				dst_blend_factor = vk::BlendFactor::eConstantColor;
+				break;
+			case EBlendFactor::one_minus_constant_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
+				break;
+			case EBlendFactor::constant_alpha:
+				dst_blend_factor = vk::BlendFactor::eConstantAlpha;
+				break;
+			case EBlendFactor::one_minus_constant_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
+				break;
+			case EBlendFactor::src_alpha_saturate:
+				dst_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
+				break;
+			case EBlendFactor::src_one_color:
+				dst_blend_factor = vk::BlendFactor::eSrc1Color;
+				break;
+			case EBlendFactor::one_minus_src_one_color:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
+				break;
+			case EBlendFactor::src_one_alpha:
+				dst_blend_factor = vk::BlendFactor::eSrc1Alpha;
+				break;
+			case EBlendFactor::one_minus_src_one_alpha:
+				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
+				break;
+		}
+
+		m_ColorBlendAttachment.setAlphaBlendOp(op);
+		m_ColorBlendAttachment.setSrcAlphaBlendFactor(src_blend_factor);
+		m_ColorBlendAttachment.setDstAlphaBlendFactor(dst_blend_factor);
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder& {
+		vk::ColorComponentFlags flags;
+		if (r) flags |= vk::ColorComponentFlagBits::eR;
+		if (g) flags |= vk::ColorComponentFlagBits::eG;
+		if (b) flags |= vk::ColorComponentFlagBits::eB;
+		if (a) flags |= vk::ColorComponentFlagBits::eA;
+		m_ColorBlendAttachment.setColorWriteMask(flags);
 		return *this;
 	}
 
