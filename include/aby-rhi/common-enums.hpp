@@ -23,11 +23,11 @@ namespace aby::rhi {
 	};
 
 	enum class EWindow {
-		win32,
-		x11,
-		xcb,
-		wayland,
-		metal
+		win32,   // windows
+		x11,     // linux
+		xcb,     // linux
+		wayland, // linux
+		metal    // macos
 	};
 
 	enum class EShader {

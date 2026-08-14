@@ -114,8 +114,7 @@ int main(int argc, char** argv) {
 		.renderer_backend = ERenderer::vulkan,
 		.window_backend   = EWindow::win32,
 		.native_window    = window,
-		.graphics         = GraphicsParams{
-		    .aliasing = EAntiAliasing::none }
+		.graphics         = GraphicsParams{}
 	};
 
 	if (!ctx.init(context_params))
@@ -140,6 +139,7 @@ int main(int argc, char** argv) {
 	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha })
 	    .set_depth(true, true, ECompareOp::less)
 	    .set_stencil(true, ECompareOp::always)
+	    .set_antialiasing(EAntiAliasing::msaa8x)
 	    .use_default_attachment_formats();
 
 	TextureParams texture_params{

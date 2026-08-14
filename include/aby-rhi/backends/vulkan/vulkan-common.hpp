@@ -93,4 +93,33 @@ namespace aby::rhi::vulkan {
 		return reinterpret_cast<typename U::NativeType*>(obj);
 	}
 
+	template <typename T>
+	auto vkconvert(T value) {
+		if constexpr (std::same_as<T, EFormat>) {
+			return eformat_to_vkformat(value);
+		} else if constexpr (std::same_as<T, ERepeatMode>) {
+			return erepeatmode_to_vkrepeatmode(value);
+		} else if constexpr (std::same_as<T, EFiltering>) {
+			return efiltering_to_vkfilter(value);
+		} else if constexpr (std::same_as<T, EBlendOp>) {
+			return eblendop_to_vkblendop(value);
+		} else if constexpr (std::same_as<T, EBlendFactor>) {
+			return eblendfactor_to_vkblendfactor(value);
+		} else if constexpr (std::same_as<T, ECompareOp>) {
+			return ecompareop_to_vkcompareop(value);
+		} else if constexpr (std::same_as<T, ECullMode>) {
+			return ecullmode_to_vkcullmode(value);
+		} else if constexpr (std::same_as<T, EFrontFace>) {
+			return efrontface_to_vkfrontface(value);
+		} else if constexpr (std::same_as<T, ETopology>) {
+			return etopology_to_vktopology(value);
+		} else if constexpr (std::same_as<T, EPolygonMode>) {
+			return epolygonmode_to_vkpolygonmode(value);
+		} else if constexpr (std::same_as<T, EShader>) {
+			return eshader_to_vkshader(value);
+		} else {
+			static_assert(std::false_type::value, "No Vulkan conversion available for type");
+		}
+	}
+
 } // namespace aby::rhi::vulkan

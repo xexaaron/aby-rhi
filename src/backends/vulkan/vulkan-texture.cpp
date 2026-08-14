@@ -26,7 +26,7 @@ namespace aby::rhi::vulkan {
 		                            : std::min(params.mip_levels, max_mip_levels);
 
 		vk::Format img_format;
-		switch (params.texture_type) {
+		switch (params.texture_usage) {
 			case ETextureUsage::albedo: {
 				switch (m_Channels) {
 					case 1:
@@ -143,7 +143,7 @@ namespace aby::rhi::vulkan {
 		m_ID = r->register_texture(id, m_Image.view(), m_Sampler);
 	}
 
-	Texture::Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels) :
+	Texture::Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels, vk::SampleCountFlagBits samples) :
 	    m_ID(INVALID_ID),
 	    m_Channels(channels),
 	    m_Sampler(VK_NULL_HANDLE) {
@@ -152,7 +152,7 @@ namespace aby::rhi::vulkan {
 		if (!m_Image.create(
 		        vk::Extent3D(width, height, 1),
 		        r->color_format(),
-		        r->render_target_sample_count(),
+		        samples,
 		        vk::ImageUsageFlagBits::eTransferDst |
 		            vk::ImageUsageFlagBits::eTransferSrc |
 		            vk::ImageUsageFlagBits::eSampled |

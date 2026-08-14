@@ -7,7 +7,6 @@
 namespace aby::rhi {
 
 	struct GraphicsParams {
-		EAntiAliasing aliasing;
 	};
 
 	class Renderer {

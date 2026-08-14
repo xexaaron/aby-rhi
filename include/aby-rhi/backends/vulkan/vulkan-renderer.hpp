@@ -43,8 +43,6 @@ namespace aby::rhi::vulkan {
 		auto tex_desc_layout() -> vk::DescriptorSetLayout;
 		auto max_sampler_anisotropy() -> float;
 		auto graphics() const -> const GraphicsParams&;
-		auto render_target_sample_count() -> vk::SampleCountFlagBits;
-		auto antialiasing_enabled() const -> bool;
 		auto width() const -> uint32_t;
 		auto height() const -> uint32_t;
 		auto clear_color() const -> vk::ClearColorValue;

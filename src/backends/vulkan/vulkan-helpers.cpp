@@ -7,72 +7,6 @@
 
 namespace aby::rhi::vulkan {
 
-	auto transition_image(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout src, vk::ImageLayout dst,
-	                      uint32_t mip_levels, uint32_t base_mip, uint32_t array_layers, uint32_t base_layer) -> void {
-		vk::ImageMemoryBarrier2 image_barrier(
-		    vk::PipelineStageFlagBits2::eAllCommands,
-		    vk::AccessFlagBits2::eMemoryWrite,
-		    vk::PipelineStageFlagBits2::eAllCommands,
-		    vk::AccessFlagBits2::eMemoryWrite | vk::AccessFlagBits2::eMemoryRead,
-		    src,
-		    dst,
-		    0, /* src queue */
-		    0, /* dst queue */
-		    image,
-		    vk::ImageSubresourceRange(
-		        dst == vk::ImageLayout::eDepthAttachmentOptimal ? vk::ImageAspectFlagBits::eDepth : vk::ImageAspectFlagBits::eColor,
-		        base_mip,
-		        mip_levels,
-		        base_layer,
-		        array_layers));
-
-		vk::DependencyInfo dep_info({}, 0, nullptr, 0, nullptr, 1, &image_barrier);
-
-		vkCmdPipelineBarrier2(cmd, vkcast(dep_info));
-	}
-
-	auto copy_image_to_image(vk::CommandBuffer cmd, vk::Image src, vk::Extent2D src_sz, vk::Image dst, vk::Extent2D dst_sz) -> void {
-		VkImageBlit2 blit_region{ .sType = VK_STRUCTURE_TYPE_IMAGE_BLIT_2, .pNext = nullptr };
-
-		blit_region.srcOffsets[1].x = src_sz.width;
-		blit_region.srcOffsets[1].y = src_sz.height;
-		blit_region.srcOffsets[1].z = 1;
-
-		blit_region.dstOffsets[1].x = dst_sz.width;
-		blit_region.dstOffsets[1].y = dst_sz.height;
-		blit_region.dstOffsets[1].z = 1;
-
-		blit_region.srcSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-		blit_region.srcSubresource.baseArrayLayer = 0;
-		blit_region.srcSubresource.layerCount     = 1;
-		blit_region.srcSubresource.mipLevel       = 0;
-		blit_region.dstSubresource.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-		blit_region.dstSubresource.baseArrayLayer = 0;
-		blit_region.dstSubresource.layerCount     = 1;
-		blit_region.dstSubresource.mipLevel       = 0;
-
-		VkBlitImageInfo2 blit_info{ .sType = VK_STRUCTURE_TYPE_BLIT_IMAGE_INFO_2, .pNext = nullptr };
-		blit_info.dstImage       = dst;
-		blit_info.dstImageLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-		blit_info.srcImage       = src;
-		blit_info.srcImageLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-		blit_info.filter         = VK_FILTER_LINEAR;
-		blit_info.regionCount    = 1;
-		blit_info.pRegions       = &blit_region;
-
-		vkCmdBlitImage2(cmd, &blit_info);
-	}
-
-	auto clear_screen(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout layout, vk::ClearColorValue& color, vk::ImageSubresourceRange& range) -> void {
-		vkCmdClearColorImage(
-		    cmd,
-		    image,
-		    static_cast<VkImageLayout>(layout),
-		    vkcast(color),
-		    1,
-		    vkcast(range));
-	}
-
 	auto log_error(const std::string& message, const vkb::Error& error) -> void {
 		aby_rhi_err("[vulkan] {}: {}", message, string_VkResult(error.vk_result));
 		for (size_t i = 0; i < error.detailed_failure_reasons.size(); i++) {
@@ -153,6 +87,233 @@ namespace aby::rhi::vulkan {
 				break;
 		}
 		return std::make_pair(vk::Filter::eLinear, vk::SamplerMipmapMode::eLinear);
+	}
+
+	auto eblendop_to_vkblendop(EBlendOp blend_op) -> vk::BlendOp {
+		switch (blend_op) {
+			case EBlendOp::add:
+				return vk::BlendOp::eAdd;
+				break;
+			case EBlendOp::sub:
+				return vk::BlendOp::eSubtract;
+				break;
+			case EBlendOp::reverse_sub:
+				return vk::BlendOp::eReverseSubtract;
+				break;
+			case EBlendOp::min:
+				return vk::BlendOp::eMin;
+				break;
+			case EBlendOp::max:
+				return vk::BlendOp::eMax;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented blend operation");
+				break;
+		}
+		return vk::BlendOp::eAdd;
+	}
+
+	auto eblendfactor_to_vkblendfactor(EBlendFactor blend_factor) -> vk::BlendFactor {
+		switch (blend_factor) {
+			case EBlendFactor::zero:
+				return vk::BlendFactor::eZero;
+				break;
+			case EBlendFactor::one:
+				return vk::BlendFactor::eOne;
+				break;
+			case EBlendFactor::src_color:
+				return vk::BlendFactor::eSrcColor;
+				break;
+			case EBlendFactor::one_minus_src_color:
+				return vk::BlendFactor::eOneMinusSrcColor;
+				break;
+			case EBlendFactor::dst_color:
+				return vk::BlendFactor::eDstColor;
+				break;
+			case EBlendFactor::one_minus_dst_color:
+				return vk::BlendFactor::eOneMinusDstColor;
+				break;
+			case EBlendFactor::src_alpha:
+				return vk::BlendFactor::eSrcAlpha;
+				break;
+			case EBlendFactor::one_minus_src_alpha:
+				return vk::BlendFactor::eOneMinusSrcAlpha;
+				break;
+			case EBlendFactor::dst_alpha:
+				return vk::BlendFactor::eDstAlpha;
+				break;
+			case EBlendFactor::one_minus_dst_alpha:
+				return vk::BlendFactor::eOneMinusDstAlpha;
+				break;
+			case EBlendFactor::constant_color:
+				return vk::BlendFactor::eConstantColor;
+				break;
+			case EBlendFactor::one_minus_constant_color:
+				return vk::BlendFactor::eOneMinusConstantColor;
+				break;
+			case EBlendFactor::constant_alpha:
+				return vk::BlendFactor::eConstantAlpha;
+				break;
+			case EBlendFactor::one_minus_constant_alpha:
+				return vk::BlendFactor::eOneMinusConstantAlpha;
+				break;
+			case EBlendFactor::src_alpha_saturate:
+				return vk::BlendFactor::eSrcAlphaSaturate;
+				break;
+			case EBlendFactor::src_one_color:
+				return vk::BlendFactor::eSrc1Color;
+				break;
+			case EBlendFactor::one_minus_src_one_color:
+				return vk::BlendFactor::eOneMinusSrc1Color;
+				break;
+			case EBlendFactor::src_one_alpha:
+				return vk::BlendFactor::eSrc1Alpha;
+				break;
+			case EBlendFactor::one_minus_src_one_alpha:
+				return vk::BlendFactor::eOneMinusSrc1Alpha;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented blend factor");
+				break;
+		}
+		return vk::BlendFactor::eZero;
+	}
+
+	auto ecompareop_to_vkcompareop(ECompareOp compare_op) -> vk::CompareOp {
+		switch (compare_op) {
+			case ECompareOp::never:
+				return vk::CompareOp::eNever;
+				break;
+			case ECompareOp::less:
+				return vk::CompareOp::eLess;
+				break;
+			case ECompareOp::eq:
+				return vk::CompareOp::eEqual;
+				break;
+			case ECompareOp::less_eq:
+				return vk::CompareOp::eLessOrEqual;
+				break;
+			case ECompareOp::greater:
+				return vk::CompareOp::eGreater;
+				break;
+			case ECompareOp::neq:
+				return vk::CompareOp::eNotEqual;
+				break;
+			case ECompareOp::greater_eq:
+				return vk::CompareOp::eGreaterOrEqual;
+				break;
+			case ECompareOp::always:
+				return vk::CompareOp::eAlways;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented compare operation");
+				break;
+		}
+		return vk::CompareOp::eNever;
+	}
+
+	auto ecullmode_to_vkcullmode(ECullMode cull_mode) -> vk::CullModeFlags {
+		switch (cull_mode) {
+			case ECullMode::none:
+				return vk::CullModeFlagBits::eNone;
+				break;
+			case ECullMode::front:
+				return vk::CullModeFlagBits::eFront;
+				break;
+			case ECullMode::back:
+				return vk::CullModeFlagBits::eBack;
+				break;
+			case ECullMode::front_and_back:
+				return vk::CullModeFlagBits::eFrontAndBack;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented cull mode");
+				break;
+		}
+		return vk::CullModeFlagBits::eNone;
+	}
+
+	auto efrontface_to_vkfrontface(EFrontFace front_face) -> vk::FrontFace {
+		switch (front_face) {
+			case EFrontFace::clockwise:
+				return vk::FrontFace::eClockwise;
+				break;
+			case EFrontFace::counter_clockwise:
+				return vk::FrontFace::eCounterClockwise;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented front face");
+				break;
+		}
+		return vk::FrontFace::eClockwise;
+	}
+
+	auto etopology_to_vktopology(ETopology topology) -> vk::PrimitiveTopology {
+		switch (topology) {
+			case ETopology::point_list:
+				return vk::PrimitiveTopology::ePointList;
+				break;
+			case ETopology::line_list:
+				return vk::PrimitiveTopology::eLineList;
+				break;
+			case ETopology::line_strip:
+				return vk::PrimitiveTopology::eLineStrip;
+				break;
+			case ETopology::triangle_list:
+				return vk::PrimitiveTopology::eTriangleList;
+				break;
+			case ETopology::triangle_strip:
+				return vk::PrimitiveTopology::eTriangleStrip;
+				break;
+			case ETopology::triangle_fan:
+				return vk::PrimitiveTopology::eTriangleFan;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented topology");
+				break;
+		}
+		return vk::PrimitiveTopology::eTriangleList;
+	}
+
+	auto epolygonmode_to_vkpolygonmode(EPolygonMode polygon_mode) -> vk::PolygonMode {
+		switch (polygon_mode) {
+			case EPolygonMode::fill:
+				return vk::PolygonMode::eFill;
+				break;
+			case EPolygonMode::line:
+				return vk::PolygonMode::eLine;
+				break;
+			case EPolygonMode::point:
+				return vk::PolygonMode::ePoint;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented polygon mode");
+				break;
+		}
+		return vk::PolygonMode::eFill;
+	}
+
+	auto eshader_to_vkshader(EShader shader) -> vk::ShaderStageFlags {
+		switch (shader) {
+			case EShader::none:
+				return vk::ShaderStageFlagBits::eAll;
+				break;
+			case EShader::vert:
+				return vk::ShaderStageFlagBits::eVertex;
+				break;
+			case EShader::frag:
+				return vk::ShaderStageFlagBits::eFragment;
+				break;
+			case EShader::comp:
+				return vk::ShaderStageFlagBits::eCompute;
+				break;
+			case EShader::geom:
+				return vk::ShaderStageFlagBits::eGeometry;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented shader stage");
+		}
+		return vk::ShaderStageFlagBits::eAll;
 	}
 
 } // namespace aby::rhi::vulkan

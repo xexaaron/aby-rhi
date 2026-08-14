@@ -12,7 +12,7 @@ namespace aby::rhi::vulkan {
 	class Texture : public rhi::Texture {
 	public:
 		Texture(ResourceID id, const fs::path& path, const TextureParams& params);
-		Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels);
+		Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels, vk::SampleCountFlagBits samples = vk::SampleCountFlagBits::e1);
 		~Texture();
 
 		auto destroy() -> void override;

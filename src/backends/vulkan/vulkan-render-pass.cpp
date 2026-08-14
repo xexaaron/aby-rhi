@@ -13,6 +13,7 @@ namespace aby::rhi::vulkan {
 	    const std::vector<Resource>& shaders,
 	    const std::unordered_map<std::string, Uniform>& uniforms,
 	    const std::vector<rhi::Texture*>& color_attachments,
+	    const std::vector<rhi::Texture*>& resolve_attachments,
 	    rhi::Texture* present_attachment) :
 	    m_BindPoint(vk::PipelineBindPoint::eGraphics),
 	    m_Cmd(VK_NULL_HANDLE),
@@ -20,7 +21,11 @@ namespace aby::rhi::vulkan {
 	    m_Shaders(shaders),
 	    m_Uniforms(uniforms),
 	    m_ColorAttachments(color_attachments),
-	    m_PresentAttachment(present_attachment) {
+	    m_PresentAttachment(present_attachment),
+	    m_ResolveAttachments(resolve_attachments) {
+		if (!resolve_attachments.empty()) {
+			aby_rhi_assert(resolve_attachments.size() == color_attachments.size(), "each color attachment must have a corresponding resolve attachment at the respective index");
+		}
 	}
 
 	auto RenderPass::set_uniform(std::string_view name, void* data, size_t bytes) -> void {
@@ -60,18 +65,41 @@ namespace aby::rhi::vulkan {
 	auto RenderPass::begin() -> void {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 		std::vector<vk::RenderingAttachmentInfo> attachments;
-		for (auto& tex : m_ColorAttachments) {
-			auto* a = static_cast<vulkan::Texture*>(tex);
-			// for now dont support msaa // TODO: Support msaa
-			attachments.push_back(vk::RenderingAttachmentInfo(
-			    a->view(),
-			    vk::ImageLayout::eColorAttachmentOptimal,
-			    vk::ResolveModeFlagBits::eNone,
-			    nullptr,
-			    vk::ImageLayout::eUndefined,
-			    vk::AttachmentLoadOp::eClear,
-			    vk::AttachmentStoreOp::eStore,
-			    r->clear_color()));
+
+		if (m_ResolveAttachments.empty()) {
+			for (size_t i = 0; i < m_ColorAttachments.size(); ++i) {
+				auto* color_attachment = static_cast<vulkan::Texture*>(m_ColorAttachments[i]);
+
+				color_attachment->image().transition(m_Cmd, vk::ImageLayout::eColorAttachmentOptimal);
+
+				attachments.push_back(vk::RenderingAttachmentInfo(
+				    color_attachment->view(),
+				    color_attachment->image().layout(),
+				    vk::ResolveModeFlagBits::eNone,
+				    nullptr,
+				    vk::ImageLayout::eUndefined,
+				    vk::AttachmentLoadOp::eClear,
+				    vk::AttachmentStoreOp::eStore,
+				    r->clear_color()));
+			}
+		} else {
+			for (size_t i = 0; i < m_ColorAttachments.size(); ++i) {
+				auto* color_attachment   = static_cast<vulkan::Texture*>(m_ColorAttachments[i]);
+				auto* resolve_attachment = static_cast<vulkan::Texture*>(m_ResolveAttachments[i]);
+
+				color_attachment->image().transition(m_Cmd, vk::ImageLayout::eColorAttachmentOptimal);
+				resolve_attachment->image().transition(m_Cmd, vk::ImageLayout::eColorAttachmentOptimal);
+
+				attachments.push_back(vk::RenderingAttachmentInfo(
+				    color_attachment->view(),
+				    color_attachment->image().layout(),
+				    vk::ResolveModeFlagBits::eAverage,
+				    resolve_attachment->view(),
+				    resolve_attachment->image().layout(),
+				    vk::AttachmentLoadOp::eClear,
+				    vk::AttachmentStoreOp::eStore,
+				    r->clear_color()));
+			}
 		}
 
 		// TODO: Render targets should have their own sizes. for now default to window size
@@ -90,6 +118,15 @@ namespace aby::rhi::vulkan {
 
 	auto RenderPass::end() -> void {
 		vkCmdEndRendering(m_Cmd);
+		for (auto& color_attachment : m_ColorAttachments) {
+			auto* attachment = static_cast<vulkan::Texture*>(color_attachment);
+			attachment->image().transition(m_Cmd, vk::ImageLayout::eTransferSrcOptimal);
+		}
+
+		for (auto& resolve_attachment : m_ResolveAttachments) {
+			auto* attachment = static_cast<vulkan::Texture*>(resolve_attachment);
+			attachment->image().transition(m_Cmd, vk::ImageLayout::eTransferSrcOptimal);
+		}
 	}
 
 	auto RenderPass::run() -> void {
@@ -155,6 +192,14 @@ namespace aby::rhi::vulkan {
 		return m_PresentAttachment;
 	}
 
+	auto RenderPass::color_attachments() -> std::vector<rhi::Texture*>& {
+		return m_ColorAttachments;
+	}
+
+	auto RenderPass::resolve_attachments() -> std::vector<rhi::Texture*>& {
+		return m_ResolveAttachments;
+	}
+
 } // namespace aby::rhi::vulkan
 
 namespace aby::rhi::vulkan {
@@ -186,18 +231,6 @@ namespace aby::rhi::vulkan {
 				    inputs[i].offset));
 			}
 		}
-		std::vector<rhi::Texture*> textures;
-		if (!m_ColorAttachments.empty()) {
-			for (auto resource : m_ColorAttachments) {
-				auto& texs = Context::get().textures();
-				textures.push_back(texs[resource]);
-				m_ColorAttachmentFormats.push_back(static_cast<vulkan::Texture*>(texs[resource])->format());
-			}
-
-			m_RenderInfo.setColorAttachmentFormats(m_ColorAttachmentFormats);
-		} else {
-			use_default_attachment_formats();
-		}
 
 		for (Resource shader : m_Shaders) {
 			if (!shader_container.wait_for(shader)) {
@@ -214,6 +247,9 @@ namespace aby::rhi::vulkan {
 			vk::ShaderStageFlagBits stage;
 
 			switch (s->type()) {
+				case EShader::none:
+					stage = vk::ShaderStageFlagBits::eAll;
+					break;
 				case EShader::vert:
 					stage = vk::ShaderStageFlagBits::eVertex;
 					break;
@@ -284,6 +320,58 @@ namespace aby::rhi::vulkan {
 			}
 		}
 
+		m_Multisampling.setRasterizationSamples(m_SampleCount)
+		    .setSampleShadingEnable(vk::False)
+		    .setMinSampleShading(1.0f)
+		    .setPSampleMask(VK_NULL_HANDLE)
+		    .setAlphaToCoverageEnable(vk::False)
+		    .setAlphaToOneEnable(vk::False);
+
+		EAntiAliasing aliasing = EAntiAliasing::none;
+		switch (m_SampleCount) {
+			case vk::SampleCountFlagBits::e1:
+				aliasing = EAntiAliasing::none;
+				break;
+			case vk::SampleCountFlagBits::e2:
+				aliasing = EAntiAliasing::msaa2x;
+				break;
+			case vk::SampleCountFlagBits::e4:
+				aliasing = EAntiAliasing::msaa4x;
+				break;
+			case vk::SampleCountFlagBits::e8:
+				aliasing = EAntiAliasing::msaa8x;
+				break;
+		}
+
+		// We want to do this as late as possible because textures may still be loading
+		// and this forces us to wait for them
+		std::vector<rhi::Texture*> textures;
+		std::vector<rhi::Texture*> resolve_attachments;
+		if (!m_ColorAttachments.empty()) {
+			for (size_t i = 0; i < m_ColorAttachments.size(); i++) {
+				auto resource = m_ColorAttachments[i];
+				auto& texs    = Context::get().textures();
+				auto* tex     = texs[resource];
+
+				aby_rhi_assert(static_cast<Texture*>(tex)->image().samples() == m_SampleCount,
+				               "color attachment ({}) sample count does not match render pass anti aliasing sample count: {}", i, aliasing);
+
+				textures.push_back(tex);
+				m_ColorAttachmentFormats.push_back(static_cast<vulkan::Texture*>(tex)->format());
+
+				if (m_SampleCount != vk::SampleCountFlagBits::e1) {
+					// create a resolve texture with 1 sample count bit.
+					// TODO: change this to load the textures in two phases. storing the resource handles first
+					auto resolve_resource = Texture::create_render_target(tex->width(), tex->height(), tex->channels(), aby::rhi::EAntiAliasing::none);
+					resolve_attachments.push_back(resolve_resource.get());
+				}
+			}
+
+			m_RenderInfo.setColorAttachmentFormats(m_ColorAttachmentFormats);
+		} else {
+			use_default_attachment_formats();
+		}
+
 		vk::PipelineVertexInputStateCreateInfo vertex_input_info(
 		    vk::PipelineVertexInputStateCreateFlags(),
 		    m_VertexInputBindings.size(),
@@ -322,13 +410,6 @@ namespace aby::rhi::vulkan {
 		    0,      /* push constant ranges count */
 		    nullptr /*  push constant ranges      */
 		);
-
-		m_Multisampling.setRasterizationSamples(r->render_target_sample_count())
-		    .setSampleShadingEnable(vk::False)
-		    .setMinSampleShading(1.0f)
-		    .setPSampleMask(VK_NULL_HANDLE)
-		    .setAlphaToCoverageEnable(vk::False)
-		    .setAlphaToOneEnable(vk::False);
 
 		vkassert(vkCreatePipelineLayout(
 		             r->device(),
@@ -374,12 +455,22 @@ namespace aby::rhi::vulkan {
 			present_attachment = texs[m_PresentAttachment];
 		}
 
+		rhi::Texture* present = nullptr;
+		if (m_PresentAttachmentIdx != SIZE_MAX) {
+			if (m_SampleCount != vk::SampleCountFlagBits::e1) {
+				present = resolve_attachments[m_PresentAttachmentIdx];
+			} else {
+				present = present_attachment;
+			}
+		}
+
 		return std::make_shared<RenderPass>(
 		    std::make_unique<Pipeline>(pipeline, m_PipelineLayout, m_DescriptorSets),
 		    m_Shaders,
 		    m_Uniforms,
 		    textures,
-		    present_attachment);
+		    resolve_attachments,
+		    present);
 	}
 
 	auto RenderPassBuilder::clear() -> void {
@@ -392,6 +483,8 @@ namespace aby::rhi::vulkan {
 		m_Multisampling         = vk::PipelineMultisampleStateCreateInfo();
 		m_DepthStencil          = vk::PipelineDepthStencilStateCreateInfo();
 		m_RenderInfo            = vk::PipelineRenderingCreateInfo();
+		m_SampleCount           = vk::SampleCountFlagBits::e1;
+		m_PresentAttachmentIdx  = SIZE_MAX;
 		m_Shaders.clear();
 		m_VertexInputBindings.clear();
 		m_VertexAttributes.clear();
@@ -416,25 +509,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& {
-		vk::ShaderStageFlags stage_flags;
-
-		switch (stage) {
-			case EShader::none:
-				stage_flags |= vk::ShaderStageFlagBits::eAll;
-				break;
-			case EShader::vert:
-				stage_flags |= vk::ShaderStageFlagBits::eVertex;
-				break;
-			case EShader::frag:
-				stage_flags |= vk::ShaderStageFlagBits::eFragment;
-				break;
-			case EShader::comp:
-				stage_flags |= vk::ShaderStageFlagBits::eCompute;
-				break;
-			case EShader::geom:
-				stage_flags |= vk::ShaderStageFlagBits::eGeometry;
-				break;
-		}
+		vk::ShaderStageFlags stage_flags = eshader_to_vkshader(stage);
 
 		m_UniformBindings[std::string(name)] = vk::DescriptorSetLayoutBinding(
 		    binding,
@@ -455,83 +530,31 @@ namespace aby::rhi::vulkan {
 		m_ColorAttachments.push_back(texture);
 		if (is_present_target) {
 			aby_rhi_assert(!m_PresentAttachment, "render pass cannot have multiple present attachments. previously set attachment: {}", m_PresentAttachment.id());
-			m_PresentAttachment = texture;
+			m_PresentAttachment    = texture;
+			m_PresentAttachmentIdx = m_ColorAttachments.size() - 1;
 		}
 		return *this;
 	}
 
 	auto RenderPassBuilder::set_topology(ETopology topology) -> RenderPassBuilder& {
-		vk::PrimitiveTopology t;
-		switch (topology) {
-			case ETopology::point_list:
-				t = vk::PrimitiveTopology::ePointList;
-				break;
-			case ETopology::line_list:
-				t = vk::PrimitiveTopology::eLineList;
-				break;
-			case ETopology::line_strip:
-				t = vk::PrimitiveTopology::eLineStrip;
-				break;
-			case ETopology::triangle_list:
-				t = vk::PrimitiveTopology::eTriangleList;
-				break;
-			case ETopology::triangle_strip:
-				t = vk::PrimitiveTopology::eTriangleStrip;
-				break;
-			case ETopology::triangle_fan:
-				t = vk::PrimitiveTopology::eTriangleFan;
-				break;
-		}
+		vk::PrimitiveTopology t = etopology_to_vktopology(topology);
+
 		m_InputAssembly.setTopology(t);
 		m_InputAssembly.setPrimitiveRestartEnable(vk::False);
 		return *this;
 	}
 
 	auto RenderPassBuilder::set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& {
-		vk::PolygonMode m;
-		switch (mode) {
-			case EPolygonMode::fill:
-				m = vk::PolygonMode::eFill;
-				break;
-			case EPolygonMode::line:
-				m = vk::PolygonMode::eLine;
-				break;
-			case EPolygonMode::point:
-				m = vk::PolygonMode::ePoint;
-				break;
-		}
+		vk::PolygonMode m = epolygonmode_to_vkpolygonmode(mode);
+
 		m_Rasterizer.setPolygonMode(m);
 		m_Rasterizer.setLineWidth(line_width);
 		return *this;
 	}
 
 	auto RenderPassBuilder::set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& {
-		vk::CullModeFlags m;
-		vk::FrontFace f;
-
-		switch (mode) {
-			case ECullMode::none:
-				m = vk::CullModeFlagBits::eNone;
-				break;
-			case ECullMode::front:
-				m = vk::CullModeFlagBits::eFront;
-				break;
-			case ECullMode::back:
-				m = vk::CullModeFlagBits::eBack;
-				break;
-			case ECullMode::front_and_back:
-				m = vk::CullModeFlagBits::eFrontAndBack;
-				break;
-		}
-
-		switch (front_face) {
-			case EFrontFace::clockwise:
-				f = vk::FrontFace::eClockwise;
-				break;
-			case EFrontFace::counter_clockwise:
-				f = vk::FrontFace::eCounterClockwise;
-				break;
-		}
+		vk::CullModeFlags m = ecullmode_to_vkcullmode(mode);
+		vk::FrontFace f     = efrontface_to_vkfrontface(front_face);
 
 		m_Rasterizer.setCullMode(m);
 		m_Rasterizer.setFrontFace(f);
@@ -544,33 +567,8 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& {
-		vk::CompareOp op;
-		switch (compare_op) {
-			case ECompareOp::never:
-				op = vk::CompareOp::eNever;
-				break;
-			case ECompareOp::less:
-				op = vk::CompareOp::eLess;
-				break;
-			case ECompareOp::eq:
-				op = vk::CompareOp::eEqual;
-				break;
-			case ECompareOp::less_eq:
-				op = vk::CompareOp::eLessOrEqual;
-				break;
-			case ECompareOp::greater:
-				op = vk::CompareOp::eGreater;
-				break;
-			case ECompareOp::neq:
-				op = vk::CompareOp::eNotEqual;
-				break;
-			case ECompareOp::greater_eq:
-				op = vk::CompareOp::eGreaterOrEqual;
-				break;
-			case ECompareOp::always:
-				op = vk::CompareOp::eAlways;
-				break;
-		}
+		vk::CompareOp op = ecompareop_to_vkcompareop(compare_op);
+
 		m_DepthStencil.setDepthTestEnable(enable_test);
 		m_DepthStencil.setDepthWriteEnable(enable_write);
 		m_DepthStencil.setDepthCompareOp(op);
@@ -580,33 +578,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& {
-		vk::CompareOp op;
-		switch (compare_op) {
-			case ECompareOp::never:
-				op = vk::CompareOp::eNever;
-				break;
-			case ECompareOp::less:
-				op = vk::CompareOp::eLess;
-				break;
-			case ECompareOp::eq:
-				op = vk::CompareOp::eEqual;
-				break;
-			case ECompareOp::less_eq:
-				op = vk::CompareOp::eLessOrEqual;
-				break;
-			case ECompareOp::greater:
-				op = vk::CompareOp::eGreater;
-				break;
-			case ECompareOp::neq:
-				op = vk::CompareOp::eNotEqual;
-				break;
-			case ECompareOp::greater_eq:
-				op = vk::CompareOp::eGreaterOrEqual;
-				break;
-			case ECompareOp::always:
-				op = vk::CompareOp::eAlways;
-				break;
-		}
+		vk::CompareOp op = ecompareop_to_vkcompareop(compare_op);
 
 		vk::StencilOpState op_state(
 		    vk::StencilOp::eKeep, /* fail op*/
@@ -624,147 +596,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& {
-		vk::BlendOp op;
-		vk::BlendFactor src_blend_factor;
-		vk::BlendFactor dst_blend_factor;
-
-		switch (blend.op) {
-			case EBlendOp::add:
-				op = vk::BlendOp::eAdd;
-				break;
-			case EBlendOp::sub:
-				op = vk::BlendOp::eSubtract;
-				break;
-			case EBlendOp::reverse_sub:
-				op = vk::BlendOp::eReverseSubtract;
-				break;
-			case EBlendOp::min:
-				op = vk::BlendOp::eMin;
-				break;
-			case EBlendOp::max:
-				op = vk::BlendOp::eMax;
-				break;
-		}
-
-		switch (blend.src) {
-			case EBlendFactor::zero:
-				src_blend_factor = vk::BlendFactor::eZero;
-				break;
-			case EBlendFactor::one:
-				src_blend_factor = vk::BlendFactor::eOne;
-				break;
-			case EBlendFactor::src_color:
-				src_blend_factor = vk::BlendFactor::eSrcColor;
-				break;
-			case EBlendFactor::one_minus_src_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
-				break;
-			case EBlendFactor::dst_color:
-				src_blend_factor = vk::BlendFactor::eDstColor;
-				break;
-			case EBlendFactor::one_minus_dst_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusDstColor;
-				break;
-			case EBlendFactor::src_alpha:
-				src_blend_factor = vk::BlendFactor::eSrcAlpha;
-				break;
-			case EBlendFactor::one_minus_src_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
-				break;
-			case EBlendFactor::dst_alpha:
-				src_blend_factor = vk::BlendFactor::eDstAlpha;
-				break;
-			case EBlendFactor::one_minus_dst_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
-				break;
-			case EBlendFactor::constant_color:
-				src_blend_factor = vk::BlendFactor::eConstantColor;
-				break;
-			case EBlendFactor::one_minus_constant_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
-				break;
-			case EBlendFactor::constant_alpha:
-				src_blend_factor = vk::BlendFactor::eConstantAlpha;
-				break;
-			case EBlendFactor::one_minus_constant_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
-				break;
-			case EBlendFactor::src_alpha_saturate:
-				src_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
-				break;
-			case EBlendFactor::src_one_color:
-				src_blend_factor = vk::BlendFactor::eSrc1Color;
-				break;
-			case EBlendFactor::one_minus_src_one_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
-				break;
-			case EBlendFactor::src_one_alpha:
-				src_blend_factor = vk::BlendFactor::eSrc1Alpha;
-				break;
-			case EBlendFactor::one_minus_src_one_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
-				break;
-		}
-
-		switch (blend.dst) {
-			case EBlendFactor::zero:
-				dst_blend_factor = vk::BlendFactor::eZero;
-				break;
-			case EBlendFactor::one:
-				dst_blend_factor = vk::BlendFactor::eOne;
-				break;
-			case EBlendFactor::src_color:
-				dst_blend_factor = vk::BlendFactor::eSrcColor;
-				break;
-			case EBlendFactor::one_minus_src_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
-				break;
-			case EBlendFactor::dst_color:
-				dst_blend_factor = vk::BlendFactor::eDstColor;
-				break;
-			case EBlendFactor::one_minus_dst_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusDstColor;
-				break;
-			case EBlendFactor::src_alpha:
-				dst_blend_factor = vk::BlendFactor::eSrcAlpha;
-				break;
-			case EBlendFactor::one_minus_src_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
-				break;
-			case EBlendFactor::dst_alpha:
-				dst_blend_factor = vk::BlendFactor::eDstAlpha;
-				break;
-			case EBlendFactor::one_minus_dst_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
-				break;
-			case EBlendFactor::constant_color:
-				dst_blend_factor = vk::BlendFactor::eConstantColor;
-				break;
-			case EBlendFactor::one_minus_constant_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
-				break;
-			case EBlendFactor::constant_alpha:
-				dst_blend_factor = vk::BlendFactor::eConstantAlpha;
-				break;
-			case EBlendFactor::one_minus_constant_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
-				break;
-			case EBlendFactor::src_alpha_saturate:
-				dst_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
-				break;
-			case EBlendFactor::src_one_color:
-				dst_blend_factor = vk::BlendFactor::eSrc1Color;
-				break;
-			case EBlendFactor::one_minus_src_one_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
-				break;
-			case EBlendFactor::src_one_alpha:
-				dst_blend_factor = vk::BlendFactor::eSrc1Alpha;
-				break;
-			case EBlendFactor::one_minus_src_one_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
-				break;
-		}
+		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
+		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
+		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
 
 		m_ColorBlendAttachment.setBlendEnable(enable);
 		m_ColorBlendAttachment.setColorBlendOp(op);
@@ -774,147 +608,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_blend_alpha(Blend blend) -> RenderPassBuilder& {
-		vk::BlendOp op;
-		vk::BlendFactor src_blend_factor;
-		vk::BlendFactor dst_blend_factor;
-
-		switch (blend.op) {
-			case EBlendOp::add:
-				op = vk::BlendOp::eAdd;
-				break;
-			case EBlendOp::sub:
-				op = vk::BlendOp::eSubtract;
-				break;
-			case EBlendOp::reverse_sub:
-				op = vk::BlendOp::eReverseSubtract;
-				break;
-			case EBlendOp::min:
-				op = vk::BlendOp::eMin;
-				break;
-			case EBlendOp::max:
-				op = vk::BlendOp::eMax;
-				break;
-		}
-
-		switch (blend.src) {
-			case EBlendFactor::zero:
-				src_blend_factor = vk::BlendFactor::eZero;
-				break;
-			case EBlendFactor::one:
-				src_blend_factor = vk::BlendFactor::eOne;
-				break;
-			case EBlendFactor::src_color:
-				src_blend_factor = vk::BlendFactor::eSrcColor;
-				break;
-			case EBlendFactor::one_minus_src_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
-				break;
-			case EBlendFactor::dst_color:
-				src_blend_factor = vk::BlendFactor::eDstColor;
-				break;
-			case EBlendFactor::one_minus_dst_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusDstColor;
-				break;
-			case EBlendFactor::src_alpha:
-				src_blend_factor = vk::BlendFactor::eSrcAlpha;
-				break;
-			case EBlendFactor::one_minus_src_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
-				break;
-			case EBlendFactor::dst_alpha:
-				src_blend_factor = vk::BlendFactor::eDstAlpha;
-				break;
-			case EBlendFactor::one_minus_dst_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
-				break;
-			case EBlendFactor::constant_color:
-				src_blend_factor = vk::BlendFactor::eConstantColor;
-				break;
-			case EBlendFactor::one_minus_constant_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
-				break;
-			case EBlendFactor::constant_alpha:
-				src_blend_factor = vk::BlendFactor::eConstantAlpha;
-				break;
-			case EBlendFactor::one_minus_constant_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
-				break;
-			case EBlendFactor::src_alpha_saturate:
-				src_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
-				break;
-			case EBlendFactor::src_one_color:
-				src_blend_factor = vk::BlendFactor::eSrc1Color;
-				break;
-			case EBlendFactor::one_minus_src_one_color:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
-				break;
-			case EBlendFactor::src_one_alpha:
-				src_blend_factor = vk::BlendFactor::eSrc1Alpha;
-				break;
-			case EBlendFactor::one_minus_src_one_alpha:
-				src_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
-				break;
-		}
-
-		switch (blend.dst) {
-			case EBlendFactor::zero:
-				dst_blend_factor = vk::BlendFactor::eZero;
-				break;
-			case EBlendFactor::one:
-				dst_blend_factor = vk::BlendFactor::eOne;
-				break;
-			case EBlendFactor::src_color:
-				dst_blend_factor = vk::BlendFactor::eSrcColor;
-				break;
-			case EBlendFactor::one_minus_src_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrcColor;
-				break;
-			case EBlendFactor::dst_color:
-				dst_blend_factor = vk::BlendFactor::eDstColor;
-				break;
-			case EBlendFactor::one_minus_dst_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusDstColor;
-				break;
-			case EBlendFactor::src_alpha:
-				dst_blend_factor = vk::BlendFactor::eSrcAlpha;
-				break;
-			case EBlendFactor::one_minus_src_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrcAlpha;
-				break;
-			case EBlendFactor::dst_alpha:
-				dst_blend_factor = vk::BlendFactor::eDstAlpha;
-				break;
-			case EBlendFactor::one_minus_dst_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusDstAlpha;
-				break;
-			case EBlendFactor::constant_color:
-				dst_blend_factor = vk::BlendFactor::eConstantColor;
-				break;
-			case EBlendFactor::one_minus_constant_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusConstantColor;
-				break;
-			case EBlendFactor::constant_alpha:
-				dst_blend_factor = vk::BlendFactor::eConstantAlpha;
-				break;
-			case EBlendFactor::one_minus_constant_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusConstantAlpha;
-				break;
-			case EBlendFactor::src_alpha_saturate:
-				dst_blend_factor = vk::BlendFactor::eSrcAlphaSaturate;
-				break;
-			case EBlendFactor::src_one_color:
-				dst_blend_factor = vk::BlendFactor::eSrc1Color;
-				break;
-			case EBlendFactor::one_minus_src_one_color:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Color;
-				break;
-			case EBlendFactor::src_one_alpha:
-				dst_blend_factor = vk::BlendFactor::eSrc1Alpha;
-				break;
-			case EBlendFactor::one_minus_src_one_alpha:
-				dst_blend_factor = vk::BlendFactor::eOneMinusSrc1Alpha;
-				break;
-		}
+		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
+		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
+		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
 
 		m_ColorBlendAttachment.setAlphaBlendOp(op);
 		m_ColorBlendAttachment.setSrcAlphaBlendFactor(src_blend_factor);
@@ -929,6 +625,27 @@ namespace aby::rhi::vulkan {
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::b)) != 0) flags |= vk::ColorComponentFlagBits::eB;
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::a)) != 0) flags |= vk::ColorComponentFlagBits::eA;
 		m_ColorBlendAttachment.setColorWriteMask(flags);
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder& {
+		switch (aliasing) {
+			case EAntiAliasing::none:
+				m_SampleCount = vk::SampleCountFlagBits::e1;
+				break;
+			case EAntiAliasing::msaa2x:
+				m_SampleCount = vk::SampleCountFlagBits::e2;
+				break;
+			case EAntiAliasing::msaa4x:
+				m_SampleCount = vk::SampleCountFlagBits::e4;
+				break;
+			case EAntiAliasing::msaa8x:
+				m_SampleCount = vk::SampleCountFlagBits::e8;
+				break;
+			default:
+				m_SampleCount = vk::SampleCountFlagBits::e1;
+				break;
+		}
 		return *this;
 	}
 
@@ -961,7 +678,25 @@ namespace aby::rhi::vulkan {
 		m_RenderInfo.setColorAttachmentCount(1);
 		m_RenderInfo.setPColorAttachmentFormats(&m_ColorAttachmentFormat);
 		set_depth_format(EFormat::none);
-		add_color_attachment(Texture::create_render_target(r->width(), r->height(), 4), true);
+
+		EAntiAliasing aliasing = EAntiAliasing::none;
+		switch (m_SampleCount) {
+			case vk::SampleCountFlagBits::e1:
+				aliasing = EAntiAliasing::none;
+				break;
+			case vk::SampleCountFlagBits::e2:
+				aliasing = EAntiAliasing::msaa2x;
+				break;
+			case vk::SampleCountFlagBits::e4:
+				aliasing = EAntiAliasing::msaa4x;
+				break;
+			case vk::SampleCountFlagBits::e8:
+				aliasing = EAntiAliasing::msaa8x;
+				break;
+		}
+
+		add_color_attachment(Texture::create_render_target(r->width(), r->height(), 4, aliasing), true);
+
 		return *this;
 	}
 

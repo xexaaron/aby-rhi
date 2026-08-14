@@ -167,6 +167,7 @@ namespace aby::rhi {
 		virtual auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder&                             = 0;
 		virtual auto set_blend_alpha(Blend blend) -> RenderPassBuilder&                                          = 0;
 		virtual auto set_blend_mask(EChannels mask) -> RenderPassBuilder&                                        = 0;
+		virtual auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder&                              = 0;
 
 		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
 		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;

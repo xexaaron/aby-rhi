@@ -28,9 +28,15 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/test_vertex.vert
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_vertex.vert
 
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/Cobblestone.png
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Cobblestone.png
+
+
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/cobblestone_pavement_2k
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/cobblestone_pavement_2k
+
 
     COMMENT "[test:win32] Copying test shaders"
 )

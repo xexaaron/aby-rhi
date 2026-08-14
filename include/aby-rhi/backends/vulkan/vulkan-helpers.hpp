@@ -6,15 +6,19 @@
 
 namespace aby::rhi::vulkan {
 
-	auto transition_image(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout src, vk::ImageLayout dst,
-	                      uint32_t mip_levels = VK_REMAINING_MIP_LEVELS, uint32_t base_mip = 0,
-	                      uint32_t array_layers = VK_REMAINING_ARRAY_LAYERS, uint32_t base_layer = 0) -> void;
-	auto copy_image_to_image(vk::CommandBuffer cmd, vk::Image src, vk::Extent2D src_sz, vk::Image dst, vk::Extent2D dst_sz) -> void;
-	auto clear_screen(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout layout, vk::ClearColorValue& color, vk::ImageSubresourceRange& range) -> void;
 	auto log_error(const std::string& message, const vkb::Error& error) -> void;
 
 	auto eformat_to_vkformat(EFormat format) -> vk::Format;
 	auto erepeatmode_to_vkrepeatmode(ERepeatMode repeat_mode) -> vk::SamplerAddressMode;
 	auto efiltering_to_vkfilter(EFiltering filtering) -> std::pair<vk::Filter, vk::SamplerMipmapMode>;
+	auto eblendop_to_vkblendop(EBlendOp blend_op) -> vk::BlendOp;
+	auto eblendfactor_to_vkblendfactor(EBlendFactor blend_factor) -> vk::BlendFactor;
+	auto ecompareop_to_vkcompareop(ECompareOp compare_op) -> vk::CompareOp;
+	auto ecullmode_to_vkcullmode(ECullMode cull_mode) -> vk::CullModeFlags;
+	auto efrontface_to_vkfrontface(EFrontFace front_face) -> vk::FrontFace;
+	auto etopology_to_vktopology(ETopology topology) -> vk::PrimitiveTopology;
+	auto epolygonmode_to_vkpolygonmode(EPolygonMode polygon_mode) -> vk::PolygonMode;
+	auto eshader_to_vkshader(EShader shader) -> vk::ShaderStageFlags;
+
 
 } // namespace aby::rhi::vulkan

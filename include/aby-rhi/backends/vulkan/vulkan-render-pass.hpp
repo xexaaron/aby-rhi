@@ -22,6 +22,7 @@ namespace aby::rhi::vulkan {
 		           const std::vector<Resource>& shaders,
 		           const std::unordered_map<std::string, Uniform>& uniforms,
 		           const std::vector<rhi::Texture*>& color_attachments,
+				   const std::vector<rhi::Texture*>& resolve_attachments,
 		           rhi::Texture* present_attachment);
 
 		auto set_uniform(std::string_view name, void* data, size_t bytes) -> void override;
@@ -35,6 +36,8 @@ namespace aby::rhi::vulkan {
 		auto set_scissor(vec2<float> offset, vec2<float> size) -> void override;
 		auto is_present() const -> bool;
 		auto present_attachment() -> rhi::Texture*;
+		auto color_attachments() -> std::vector<rhi::Texture*>&;
+		auto resolve_attachments() -> std::vector<rhi::Texture*>&;
 
 		auto set_bind_point(vk::PipelineBindPoint point) -> RenderPass&;
 		auto set_cmd_buffer(vk::CommandBuffer cmd) -> RenderPass&;
@@ -45,6 +48,7 @@ namespace aby::rhi::vulkan {
 		std::vector<Resource> m_Shaders;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 		std::vector<rhi::Texture*> m_ColorAttachments;
+		std::vector<rhi::Texture*> m_ResolveAttachments;
 		rhi::Texture* m_PresentAttachment;
 	};
 
@@ -69,6 +73,7 @@ namespace aby::rhi::vulkan {
 		auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& override;
 		auto set_blend_alpha(Blend blend) -> RenderPassBuilder& override;
 		auto set_blend_mask(EChannels mask) -> RenderPassBuilder& override;
+		auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder& override;
 
 		auto disable_blending() -> RenderPassBuilder& override;
 		auto disable_depthtest() -> RenderPassBuilder& override;
@@ -76,6 +81,7 @@ namespace aby::rhi::vulkan {
 		auto use_default_attachment_formats() -> RenderPassBuilder& override;
 	private:
 		Resource m_PresentAttachment;
+		size_t m_PresentAttachmentIdx;
 		vk::Format m_ColorAttachmentFormat;
 		vk::PipelineLayout m_PipelineLayout;
 		vk::PipelineInputAssemblyStateCreateInfo m_InputAssembly;
@@ -84,6 +90,7 @@ namespace aby::rhi::vulkan {
 		vk::PipelineMultisampleStateCreateInfo m_Multisampling;
 		vk::PipelineDepthStencilStateCreateInfo m_DepthStencil;
 		vk::PipelineRenderingCreateInfo m_RenderInfo;
+		vk::SampleCountFlagBits m_SampleCount;
 		std::vector<Resource> m_Shaders;
 		std::vector<vk::VertexInputBindingDescription> m_VertexInputBindings;
 		std::vector<vk::VertexInputAttributeDescription> m_VertexAttributes;

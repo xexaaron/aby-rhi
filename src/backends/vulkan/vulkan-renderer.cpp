@@ -28,9 +28,6 @@ namespace aby::rhi::vulkan {
 
 		aby_rhi_assert(m_PresentPass, "renderer does not have a present pass");
 
-		auto* present_attachment = static_cast<vulkan::Texture*>(m_PresentPass->present_attachment());
-		present_attachment->image().transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
-
 		return true;
 	}
 
@@ -48,10 +45,11 @@ namespace aby::rhi::vulkan {
 			render_pass->clear();
 			render_pass->end();
 		}
+
 		auto* present_attachment = static_cast<vulkan::Texture*>(m_PresentPass->present_attachment());
 		auto& present_image      = present_attachment->image();
 
-		present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
+		// present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eTransferDstOptimal);
 		present_image.copy_to(m_Frames->cmd(), swapchain_img);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::ePresentSrcKHR);
@@ -294,24 +292,6 @@ namespace aby::rhi::vulkan {
 
 	auto Renderer::graphics() const -> const GraphicsParams& {
 		return m_Graphics;
-	}
-
-	auto Renderer::render_target_sample_count() -> vk::SampleCountFlagBits {
-		switch (m_Graphics.aliasing) {
-			case EAntiAliasing::none:
-				return vk::SampleCountFlagBits::e1;
-			case EAntiAliasing::msaa2x:
-				return vk::SampleCountFlagBits::e2;
-			case EAntiAliasing::msaa4x:
-				return vk::SampleCountFlagBits::e4;
-			case EAntiAliasing::msaa8x:
-				return vk::SampleCountFlagBits::e8;
-		}
-		return vk::SampleCountFlagBits::e1;
-	}
-
-	auto Renderer::antialiasing_enabled() const -> bool {
-		return m_Graphics.aliasing != EAntiAliasing::none;
 	}
 
 	auto Renderer::width() const -> uint32_t {
