@@ -13,6 +13,8 @@ namespace aby::rhi {
 		float anisotropy_filtering = 0.f; // if 0, then disabled, otherwise clamped between the value and the devices maximum supported.
 		EFiltering filtering       = EFiltering::linear;
 		ERepeatMode repeat_mode    = ERepeatMode::repeat;
+		ETextureUsage texture_type = ETextureUsage::albedo; // color space of texture
+		EChannels channels         = EChannels::rgba;
 	};
 
 	class Texture {
@@ -20,6 +22,7 @@ namespace aby::rhi {
 		static constexpr uint32_t INVALID_ID = UINT32_MAX;
 	public:
 		static auto create(const fs::path& rel_path, const TextureParams& params = {}) -> ResourcePtr<Texture, EResource::texture>;
+		static auto create_render_target(uint32_t width, uint32_t height, uint8_t channels) -> ResourcePtr<Texture, EResource::texture>;
 		virtual ~Texture() = default;
 
 		virtual auto destroy() -> void      = 0;

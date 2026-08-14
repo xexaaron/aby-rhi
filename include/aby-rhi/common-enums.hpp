@@ -183,6 +183,50 @@ namespace aby::rhi {
 		max,
 	};
 
+	enum class ETextureUsage {
+		albedo,   // srgb format for base color.
+		material, // unorm format, for normals, etc...
+	};
+
+	enum class EChannels : uint8_t {
+		none = 0,
+
+		r = 1 << 0,
+		g = 1 << 1,
+		b = 1 << 2,
+		a = 1 << 3,
+
+		rg = r | g,
+		rb = r | b,
+		ra = r | a,
+
+		gb = g | b,
+		ga = g | a,
+		ba = b | a,
+
+		rgb = r | g | b,
+		rga = r | g | a,
+		rba = r | b | a,
+		gba = g | b | a,
+
+		rgba = r | g | b | a
+	};
+
+} // namespace aby::rhi
+
+/**
+ * @brief Operators for enum classes
+ */
+namespace aby::rhi {
+
+	constexpr aby::rhi::EChannels operator|(EChannels lhs, EChannels rhs) {
+		return static_cast<EChannels>(static_cast<uint8_t>(lhs) | static_cast<uint8_t>(rhs));
+	}
+
+	constexpr EChannels operator&(EChannels lhs, EChannels rhs) {
+		return static_cast<EChannels>(static_cast<uint8_t>(lhs) & static_cast<uint8_t>(rhs));
+	}
+
 } // namespace aby::rhi
 
 /**
@@ -945,5 +989,66 @@ namespace std {
 		}
 	};
 
-} // namespace std
+	template <>
+	struct formatter<aby::rhi::ETextureUsage, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
 
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::ETextureUsage value, FmtContext& ctx) const {
+			std::string_view str = "<unknown>";
+
+			switch (value) {
+				case aby::rhi::ETextureUsage::albedo:
+					str = "albedo";
+					break;
+				case aby::rhi::ETextureUsage::material:
+					str = "material";
+					break;
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+	template <>
+	struct formatter<aby::rhi::EChannels, char> {
+		template <class ParseContext>
+		constexpr ParseContext::iterator parse(ParseContext& ctx) {
+			auto it = ctx.begin();
+			if (it != ctx.end() && *it != '}')
+				throw format_error("invalid format");
+			return it;
+		}
+
+		template <class FmtContext>
+		FmtContext::iterator format(aby::rhi::EChannels value, FmtContext& ctx) const {
+			std::string str = "";
+
+			if ((value & aby::rhi::EChannels::r) != aby::rhi::EChannels::none) {
+				str += "r";
+			}
+			if ((value & aby::rhi::EChannels::g) != aby::rhi::EChannels::none) {
+				str += "g";
+			}
+			if ((value & aby::rhi::EChannels::b) != aby::rhi::EChannels::none) {
+				str += "b";
+			}
+			if ((value & aby::rhi::EChannels::a) != aby::rhi::EChannels::none) {
+				str += "a";
+			}
+
+			if (str.empty()) {
+				str = "<unknown>";
+			}
+
+			return std::ranges::copy(str, ctx.out()).out;
+		}
+	};
+
+} // namespace std

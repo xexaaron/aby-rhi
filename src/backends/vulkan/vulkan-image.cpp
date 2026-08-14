@@ -3,22 +3,24 @@
 #include "backends/vulkan/vulkan-renderer.hpp"
 #include "context.hpp"
 
+#include <algorithm>
 namespace aby::rhi::vulkan {
 
 	Image::Image(Image&& other) noexcept {
 		*this = std::move(other);
 	}
 
-	auto Image::create(vk::Extent3D extent, vk::Format format, vk::SampleCountFlagBits samples, vk::ImageUsageFlags usage) -> bool {
+	auto Image::create(vk::Extent3D extent, vk::Format format, vk::SampleCountFlagBits samples, vk::ImageUsageFlags usage, uint32_t mip_levels) -> bool {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
 		m_Extent      = extent;
 		m_Format      = format;
 		m_Samples     = samples;
 		m_Usage       = usage;
-		m_MipLevels   = 1;
+		m_MipLevels   = mip_levels;
 		m_ArrayLayers = 1;
 		bOwnsImage    = true;
+		m_Layouts.resize(mip_levels, vk::ImageLayout::eUndefined);
 
 		vk::ImageCreateInfo image_create_info(
 		    vk::ImageCreateFlags(0),
@@ -68,11 +70,11 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Image::wrap(vk::Image img, vk::ImageView view, vk::Extent3D extent, vk::Format format, vk::SampleCountFlagBits samples, vk::ImageUsageFlags usage) -> bool {
-		m_Img         = img;
-		m_View        = view;
-		m_Extent      = extent;
-		m_Format      = format;
-		m_Layout      = vk::ImageLayout::eUndefined;
+		m_Img    = img;
+		m_View   = view;
+		m_Extent = extent;
+		m_Format = format;
+		m_Layouts.assign(1, vk::ImageLayout::eUndefined);
 		m_Alloc       = VK_NULL_HANDLE;
 		m_Samples     = samples;
 		m_Usage       = usage;
@@ -88,11 +90,11 @@ namespace aby::rhi::vulkan {
 			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 			vkDestroyImageView(r->device(), m_View, allocator());
 			vmaDestroyImage(r->vma(), m_Img, m_Alloc);
-			m_Img         = VK_NULL_HANDLE;
-			m_View        = VK_NULL_HANDLE;
-			m_Extent      = vk::Extent3D(0, 0, 1);
-			m_Format      = vk::Format::eUndefined;
-			m_Layout      = vk::ImageLayout::eUndefined;
+			m_Img    = VK_NULL_HANDLE;
+			m_View   = VK_NULL_HANDLE;
+			m_Extent = vk::Extent3D(0, 0, 1);
+			m_Format = vk::Format::eUndefined;
+			m_Layouts.clear();
 			m_Alloc       = VK_NULL_HANDLE;
 			m_Samples     = vk::SampleCountFlagBits::e1;
 			m_Usage       = {};
@@ -106,31 +108,47 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Image::transition(vk::CommandBuffer cmd, vk::ImageLayout dst_layout) -> void {
-		vk::ImageMemoryBarrier2 image_barrier(
-		    vk::PipelineStageFlagBits2::eAllCommands,
-		    vk::AccessFlagBits2::eMemoryWrite,
-		    vk::PipelineStageFlagBits2::eAllCommands,
-		    vk::AccessFlagBits2::eMemoryWrite | vk::AccessFlagBits2::eMemoryRead,
-		    m_Layout,
-		    dst_layout,
-		    0, /* src queue */
-		    0, /* dst queue */
-		    m_Img,
-		    vk::ImageSubresourceRange(
-		        m_Aspect,
-		        0,
-		        m_MipLevels,
-		        0,
-		        m_ArrayLayers));
+		transition(cmd, dst_layout, m_MipLevels, 0);
+	}
 
-		vk::DependencyInfo dep_info({}, 0, nullptr, 0, nullptr, 1, &image_barrier);
-		vkCmdPipelineBarrier2(cmd, vkcast(dep_info));
+	auto Image::transition(vk::CommandBuffer cmd, vk::ImageLayout dst_layout, uint32_t mip_levels, uint32_t base_mip) -> void {
+		aby_rhi_assert(base_mip + mip_levels <= m_MipLevels, "image mip transition range exceeds mip levels");
 
-		m_Layout = dst_layout;
+		for (uint32_t i = 0; i < mip_levels; ++i) {
+			auto mip = base_mip + i;
+
+			vk::ImageMemoryBarrier2 image_barrier(
+			    vk::PipelineStageFlagBits2::eAllCommands,
+			    vk::AccessFlagBits2::eMemoryWrite,
+			    vk::PipelineStageFlagBits2::eAllCommands,
+			    vk::AccessFlagBits2::eMemoryWrite |
+			        vk::AccessFlagBits2::eMemoryRead,
+			    m_Layouts[mip],
+			    dst_layout,
+			    0,
+			    0,
+			    m_Img,
+			    vk::ImageSubresourceRange(
+			        m_Aspect,
+			        mip,
+			        1,
+			        0,
+			        m_ArrayLayers));
+
+			vk::DependencyInfo dep_info(
+			    {},
+			    0, nullptr,
+			    0, nullptr,
+			    1, &image_barrier);
+
+			vkCmdPipelineBarrier2(cmd, vkcast(dep_info));
+
+			m_Layouts[mip] = dst_layout;
+		}
 	}
 
 	auto Image::copy_to(vk::CommandBuffer cmd, vk::Image dst, vk::Extent2D dst_sz) -> void {
-		aby_rhi_assert(m_Layout == vk::ImageLayout::eTransferSrcOptimal, "src image was not transitioned before copy");
+		aby_rhi_assert(m_Layouts[0] == vk::ImageLayout::eTransferSrcOptimal, "src image was not transitioned before copy");
 
 		VkImageBlit2 blit_region{ .sType = VK_STRUCTURE_TYPE_IMAGE_BLIT_2, .pNext = nullptr };
 
@@ -164,8 +182,8 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Image::copy_to(vk::CommandBuffer cmd, Image& image) -> void {
-		aby_rhi_assert(m_Layout == vk::ImageLayout::eTransferSrcOptimal, "src image was not transitioned before copy");
-		aby_rhi_assert(image.m_Layout == vk::ImageLayout::eTransferDstOptimal, "dst image was not transitioned before copy");
+		aby_rhi_assert(m_Layouts[0] == vk::ImageLayout::eTransferSrcOptimal, "src image was not transitioned before copy");
+		aby_rhi_assert(image.m_Layouts[0] == vk::ImageLayout::eTransferDstOptimal, "dst image was not transitioned before copy");
 
 		VkImageBlit2 blit_region{ .sType = VK_STRUCTURE_TYPE_IMAGE_BLIT_2, .pNext = nullptr };
 
@@ -194,8 +212,72 @@ namespace aby::rhi::vulkan {
 		blit_info.filter         = VK_FILTER_LINEAR;
 		blit_info.regionCount    = 1;
 		blit_info.pRegions       = &blit_region;
-
 		vkCmdBlitImage2(cmd, &blit_info);
+	}
+
+	auto Image::copy_to(vk::CommandBuffer cmd, Buffer& buffer, uint32_t mip_level) -> void {
+		aby_rhi_assert(m_Layouts[mip_level] == vk::ImageLayout::eTransferDstOptimal, "destination mip was not transitioned to transfer destination");
+
+		auto mip_extent = vk::Extent3D{
+			std::max(1u, m_Extent.width >> mip_level),
+			std::max(1u, m_Extent.height >> mip_level),
+			std::max(1u, m_Extent.depth >> mip_level)
+		};
+
+		vk::BufferImageCopy copy(
+		    0,
+		    0,
+		    0,
+		    vk::ImageSubresourceLayers(
+		        vk::ImageAspectFlagBits::eColor,
+		        mip_level, // mip 0
+		        0,
+		        1),
+		    vk::Offset3D(0, 0, 0),
+		    mip_extent);
+
+		vkCmdCopyBufferToImage(
+		    cmd,
+		    buffer,
+		    m_Img,
+		    static_cast<VkImageLayout>(m_Layouts[mip_level]),
+		    1,
+		    vkcast(copy));
+	}
+
+	auto Image::copy_to(vk::CommandBuffer cmd, uint32_t width, uint32_t height, uint32_t mip_level, vk::Filter filter_mode) -> void {
+		aby_rhi_assert(mip_level > 0, "mip level must be greater than zero when generating mipmaps");
+		aby_rhi_assert(m_Layouts[mip_level - 1] == vk::ImageLayout::eTransferSrcOptimal, "source mip was not transitioned to transfer source");
+		aby_rhi_assert(m_Layouts[mip_level] == vk::ImageLayout::eTransferDstOptimal, "destination mip was not transitioned to transfer destination");
+
+		vk::ImageBlit blit(
+		    vk::ImageSubresourceLayers(
+		        vk::ImageAspectFlagBits::eColor,
+		        mip_level - 1,
+		        0,
+		        1),
+		    { vk::Offset3D(0, 0, 0),
+		      vk::Offset3D(width, height, 1) },
+		    vk::ImageSubresourceLayers(
+		        vk::ImageAspectFlagBits::eColor,
+		        mip_level,
+		        0,
+		        1),
+		    { vk::Offset3D(0, 0, 0),
+		      vk::Offset3D(
+		          std::max<int32_t>(1, width / 2),
+		          std::max<int32_t>(1, height / 2),
+		          1) });
+
+		vkCmdBlitImage(
+		    cmd,
+		    m_Img,
+		    VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+		    m_Img,
+		    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+		    1,
+		    vkcast(blit),
+		    static_cast<VkFilter>(filter_mode));
 	}
 
 	auto Image::img() -> vk::Image {
@@ -234,8 +316,8 @@ namespace aby::rhi::vulkan {
 		return m_Format;
 	}
 
-	auto Image::layout() const -> vk::ImageLayout {
-		return m_Layout;
+	auto Image::layout(uint32_t mip_level) const -> vk::ImageLayout {
+		return m_Layouts[mip_level];
 	}
 
 	auto Image::usage() const -> vk::ImageUsageFlags {
@@ -272,11 +354,12 @@ namespace aby::rhi::vulkan {
 
 	Image& Image::operator=(Image&& other) noexcept {
 		if (this != &other) {
-			m_Img         = std::exchange(other.m_Img, VK_NULL_HANDLE);
-			m_View        = std::exchange(other.m_View, VK_NULL_HANDLE);
-			m_Extent      = other.m_Extent;
-			m_Format      = other.m_Format;
-			m_Layout      = other.m_Layout;
+			m_Img     = std::exchange(other.m_Img, VK_NULL_HANDLE);
+			m_View    = std::exchange(other.m_View, VK_NULL_HANDLE);
+			m_Extent  = other.m_Extent;
+			m_Format  = other.m_Format;
+			m_Layouts = other.m_Layouts;
+			other.m_Layouts.clear();
 			m_Alloc       = std::exchange(other.m_Alloc, VK_NULL_HANDLE);
 			m_Samples     = other.m_Samples;
 			m_Usage       = other.m_Usage;
