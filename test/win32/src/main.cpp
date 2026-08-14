@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
 		.window_backend   = EWindow::win32,
 		.native_window    = window,
 		.graphics         = GraphicsParams{
-		    .aliasing = EAntiAliasing::msaa8x }
+		    .aliasing = EAntiAliasing::none }
 	};
 
 	if (!ctx.init(context_params))
@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
 	    ->set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	    .set_polygon_mode(EPolygonMode::fill, 1.f)
-	    .set_blend_mask(true, true, true, true)
+	    .set_blend_mask(EChannels::rgba)
 	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha })
 	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha })
 	    .set_depth(true, true, ECompareOp::less)

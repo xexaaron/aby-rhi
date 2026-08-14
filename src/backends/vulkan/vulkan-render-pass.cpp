@@ -4,18 +4,23 @@
 #include "backends/vulkan/vulkan-common.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
+#include "backends/vulkan/vulkan-texture.hpp"
 
 namespace aby::rhi::vulkan {
 
 	RenderPass::RenderPass(
 	    std::unique_ptr<Pipeline> pipeline,
 	    const std::vector<Resource>& shaders,
-	    const std::unordered_map<std::string, Uniform>& uniforms) :
+	    const std::unordered_map<std::string, Uniform>& uniforms,
+	    const std::vector<rhi::Texture*>& color_attachments,
+	    rhi::Texture* present_attachment) :
 	    m_BindPoint(vk::PipelineBindPoint::eGraphics),
 	    m_Cmd(VK_NULL_HANDLE),
 	    m_Pipeline(std::move(pipeline)),
 	    m_Shaders(shaders),
-	    m_Uniforms(uniforms) {
+	    m_Uniforms(uniforms),
+	    m_ColorAttachments(color_attachments),
+	    m_PresentAttachment(present_attachment) {
 	}
 
 	auto RenderPass::set_uniform(std::string_view name, void* data, size_t bytes) -> void {
@@ -50,6 +55,41 @@ namespace aby::rhi::vulkan {
 
 	auto RenderPass::bind() -> void {
 		m_Pipeline->bind(m_Cmd, m_BindPoint);
+	}
+
+	auto RenderPass::begin() -> void {
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+		std::vector<vk::RenderingAttachmentInfo> attachments;
+		for (auto& tex : m_ColorAttachments) {
+			auto* a = static_cast<vulkan::Texture*>(tex);
+			// for now dont support msaa // TODO: Support msaa
+			attachments.push_back(vk::RenderingAttachmentInfo(
+			    a->view(),
+			    vk::ImageLayout::eColorAttachmentOptimal,
+			    vk::ResolveModeFlagBits::eNone,
+			    nullptr,
+			    vk::ImageLayout::eUndefined,
+			    vk::AttachmentLoadOp::eClear,
+			    vk::AttachmentStoreOp::eStore,
+			    r->clear_color()));
+		}
+
+		// TODO: Render targets should have their own sizes. for now default to window size
+		vk::RenderingInfo render_info(
+		    vk::RenderingFlags{},
+		    vk::Rect2D(
+		        vk::Offset2D{},
+		        vk::Extent2D{ r->width(), r->height() }),
+		    1,                  /* layer count*/
+		    0,                  /* view mask */
+		    attachments.size(), /* color attachment count */
+		    attachments.data());
+
+		vkCmdBeginRendering(m_Cmd, vkcast(render_info));
+	}
+
+	auto RenderPass::end() -> void {
+		vkCmdEndRendering(m_Cmd);
 	}
 
 	auto RenderPass::run() -> void {
@@ -107,6 +147,14 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
+	auto RenderPass::is_present() const -> bool {
+		return m_PresentAttachment != nullptr;
+	}
+
+	auto RenderPass::present_attachment() -> rhi::Texture* {
+		return m_PresentAttachment;
+	}
+
 } // namespace aby::rhi::vulkan
 
 namespace aby::rhi::vulkan {
@@ -138,9 +186,15 @@ namespace aby::rhi::vulkan {
 				    inputs[i].offset));
 			}
 		}
-
+		std::vector<rhi::Texture*> textures;
 		if (!m_ColorAttachments.empty()) {
-			m_RenderInfo.setColorAttachmentFormats(m_ColorAttachments);
+			for (auto resource : m_ColorAttachments) {
+				auto& texs = Context::get().textures();
+				textures.push_back(texs[resource]);
+				m_ColorAttachmentFormats.push_back(static_cast<vulkan::Texture*>(texs[resource])->format());
+			}
+
+			m_RenderInfo.setColorAttachmentFormats(m_ColorAttachmentFormats);
 		} else {
 			use_default_attachment_formats();
 		}
@@ -314,13 +368,23 @@ namespace aby::rhi::vulkan {
 		             vkcast(pipeline)),
 		         "failed to create graphics pipeline");
 
+		rhi::Texture* present_attachment = nullptr;
+		if (m_PresentAttachment) {
+			auto& texs         = Context::get().textures();
+			present_attachment = texs[m_PresentAttachment];
+		}
+
 		return std::make_shared<RenderPass>(
 		    std::make_unique<Pipeline>(pipeline, m_PipelineLayout, m_DescriptorSets),
 		    m_Shaders,
-		    m_Uniforms);
+		    m_Uniforms,
+		    textures,
+		    present_attachment);
 	}
 
 	auto RenderPassBuilder::clear() -> void {
+		m_PresentAttachment     = Resource();
+		m_ColorAttachmentFormat = vk::Format::eUndefined;
 		m_PipelineLayout        = vk::PipelineLayout();
 		m_InputAssembly         = vk::PipelineInputAssemblyStateCreateInfo();
 		m_Rasterizer            = vk::PipelineRasterizationStateCreateInfo();
@@ -328,8 +392,16 @@ namespace aby::rhi::vulkan {
 		m_Multisampling         = vk::PipelineMultisampleStateCreateInfo();
 		m_DepthStencil          = vk::PipelineDepthStencilStateCreateInfo();
 		m_RenderInfo            = vk::PipelineRenderingCreateInfo();
-		m_ColorAttachmentFormat = vk::Format::eUndefined;
+		m_Shaders.clear();
+		m_VertexInputBindings.clear();
+		m_VertexAttributes.clear();
 		m_ShaderStages.clear();
+		m_DescriptorSetLayouts.clear();
+		m_DescriptorSets.clear();
+		m_ColorAttachmentFormats.clear();
+		m_ColorAttachments.clear();
+		m_UniformBindings.clear();
+		m_Uniforms.clear();
 	}
 
 	auto RenderPassBuilder::add_shader(const fs::path& rel_path) -> RenderPassBuilder& {
@@ -379,20 +451,11 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
-	auto RenderPassBuilder::add_color_attachment(Texture* texture) -> RenderPassBuilder& {
-		switch (texture->channels()) {
-			case 1:
-				m_ColorAttachments.push_back(vk::Format::eR16Sfloat);
-				break;
-			case 2:
-				m_ColorAttachments.push_back(vk::Format::eR16G16Sfloat);
-				break;
-			case 3:
-				m_ColorAttachments.push_back(vk::Format::eR16G16B16Sfloat);
-				break;
-			case 4:
-				m_ColorAttachments.push_back(vk::Format::eR16G16B16A16Sfloat);
-				break;
+	auto RenderPassBuilder::add_color_attachment(Resource texture, bool is_present_target) -> RenderPassBuilder& {
+		m_ColorAttachments.push_back(texture);
+		if (is_present_target) {
+			aby_rhi_assert(!m_PresentAttachment, "render pass cannot have multiple present attachments. previously set attachment: {}", m_PresentAttachment.id());
+			m_PresentAttachment = texture;
 		}
 		return *this;
 	}
@@ -859,12 +922,12 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder& {
+	auto RenderPassBuilder::set_blend_mask(EChannels mask) -> RenderPassBuilder& {
 		vk::ColorComponentFlags flags;
-		if (r) flags |= vk::ColorComponentFlagBits::eR;
-		if (g) flags |= vk::ColorComponentFlagBits::eG;
-		if (b) flags |= vk::ColorComponentFlagBits::eB;
-		if (a) flags |= vk::ColorComponentFlagBits::eA;
+		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::r)) != 0) flags |= vk::ColorComponentFlagBits::eR;
+		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::g)) != 0) flags |= vk::ColorComponentFlagBits::eG;
+		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::b)) != 0) flags |= vk::ColorComponentFlagBits::eB;
+		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::a)) != 0) flags |= vk::ColorComponentFlagBits::eA;
 		m_ColorBlendAttachment.setColorWriteMask(flags);
 		return *this;
 	}
@@ -898,6 +961,7 @@ namespace aby::rhi::vulkan {
 		m_RenderInfo.setColorAttachmentCount(1);
 		m_RenderInfo.setPColorAttachmentFormats(&m_ColorAttachmentFormat);
 		set_depth_format(EFormat::none);
+		add_color_attachment(Texture::create_render_target(r->width(), r->height(), 4), true);
 		return *this;
 	}
 

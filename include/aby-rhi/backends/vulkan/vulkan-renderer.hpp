@@ -17,7 +17,6 @@
 
 namespace aby::rhi::vulkan {
 
-
 	class Renderer : public aby::rhi::Renderer {
 	public:
 		Renderer(GraphicsParams params);
@@ -46,10 +45,12 @@ namespace aby::rhi::vulkan {
 		auto graphics() const -> const GraphicsParams&;
 		auto render_target_sample_count() -> vk::SampleCountFlagBits;
 		auto antialiasing_enabled() const -> bool;
+		auto width() const -> uint32_t;
+		auto height() const -> uint32_t;
+		auto clear_color() const -> vk::ClearColorValue;
 	private:
 		auto init_vulkan(void* native_window) -> bool;
 		auto init_vma() -> bool;
-		auto init_draw_image() -> bool;
 		auto init_descriptors() -> bool;
 	protected:
 		auto recreate_swapchain() -> bool;
@@ -75,8 +76,6 @@ namespace aby::rhi::vulkan {
 		vkb::Instance m_Instance         = {};
 		vk::ClearColorValue m_ClearColor = vk::ClearColorValue(0.15f, 0.15f, 0.15f, 1.f);
 
-		Image m_DrawImage                                   = {};
-		Image m_ResolveImage                                = {};
 		vk::DescriptorSet m_DrawImageDescriptors            = VK_NULL_HANDLE;
 		vk::DescriptorSetLayout m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
 
@@ -93,6 +92,7 @@ namespace aby::rhi::vulkan {
 		Frames m_Frames;
 
 		std::vector<std::shared_ptr<RenderPass>> m_RenderPasses;
+		RenderPass* m_PresentPass = nullptr;
 	};
 
 } // namespace aby::rhi::vulkan

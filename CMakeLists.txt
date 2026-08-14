@@ -17,7 +17,7 @@ option(ABY_RHI_ENABLE_LOG_INFO "enable info logging" ON)
 option(ABY_RHI_ENABLE_LOG_TRACE "enable trace logging" ON)
 option(ABY_RHI_ENABLE_LOG_WARN "enable warning logging" ON)
 option(ABY_RHI_ENABLE_ASSERT "enable assertions. if turned off then only errors will be logged." ON)
-option(ABY_RHI_ENABLE_PROFILING "enable profiling of initialization scopes" ON)
+option(ABY_RHI_ENABLE_PROFILING "enable profiling of initialization scopes" OFF)
 
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FILEPATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)

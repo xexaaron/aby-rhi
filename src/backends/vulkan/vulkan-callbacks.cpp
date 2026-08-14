@@ -42,9 +42,23 @@ namespace aby::rhi::vulkan {
 			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
 				log->log(ELogLevel::error, data->pMessage);
 				break;
-			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT: {
+				std::string msg(data->pMessage);
+
+				// layer name X does not conform to naming standard
+				if (msg.contains("Policy #LLP_LAYER_3")) {
+					break;
+				}
+
+				// Older obs hook
+				if (msg.contains("API version 1.3 which is older")) {
+					break;
+				}
+
 				log->log(ELogLevel::warn, data->pMessage);
+
 				break;
+			}
 			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT: {
 				std::string msg(data->pMessage);
 				if (msg.contains("debugPrintf")) {

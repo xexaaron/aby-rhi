@@ -34,6 +34,14 @@ namespace aby::rhi {
          */
 		virtual auto bind() -> void                                                                                                   = 0;
 		/**
+		 * @brief begin rendering using attachments
+		*/
+		virtual auto begin() -> void                                                                                                  = 0;
+		/** 
+		 * @brief end rendering using attachments
+		*/
+		virtual auto end() -> void                                                                                                    = 0;
+		/**
          * @brief executes each draw command.
          */
 		virtual auto run() -> void                                                                                                    = 0;
@@ -143,10 +151,10 @@ namespace aby::rhi {
 		virtual auto clear() -> void                        = 0;
 
 		/// @brief The render pass will own the created shader
-		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                = 0;
-		virtual auto add_shader(Resource shader) -> RenderPassBuilder&                                         = 0;
-		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& = 0;
-		virtual auto add_color_attachment(Texture* texture) -> RenderPassBuilder&                              = 0;
+		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                   = 0;
+		virtual auto add_shader(Resource shader) -> RenderPassBuilder&                                            = 0;
+		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;
+		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& = 0;
 
 		auto vertex_description_builder() -> VertexInputDescriptionBuilder&;
 
@@ -158,12 +166,12 @@ namespace aby::rhi {
 		virtual auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder&                       = 0;
 		virtual auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder&                             = 0;
 		virtual auto set_blend_alpha(Blend blend) -> RenderPassBuilder&                                          = 0;
-		virtual auto set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder&                        = 0;
+		virtual auto set_blend_mask(EChannels mask) -> RenderPassBuilder&                                        = 0;
 
 		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
 		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;
 
-		// use_default_topology, use_default_polygon_mode, ... etc.
+		// use_default_topology, use_default_polygon_mode, not present, ... etc.
 		auto use_all_defaults() -> RenderPassBuilder&;
 		/// @brief ETopologoy::triangle_list
 		auto use_default_topology() -> RenderPassBuilder&;

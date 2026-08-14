@@ -64,13 +64,13 @@ namespace aby::rhi::vulkan {
 
 	auto Frame::begin(vk::SwapchainKHR swapchain, uint32_t* out_swapchain_index) -> bool {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-		vkcheck(vkWaitForFences(
-		            r->device(),
-		            1,
-		            vkcast(m_RenderFence),
-		            true,
-		            1000000000),
-		        "failed to wait for render fence");
+		vkassert(vkWaitForFences(
+		             r->device(),
+		             1,
+		             vkcast(m_RenderFence),
+		             true,
+		             1000000000),
+		         "failed to wait for render fence");
 
 		vkcheck(vkResetFences(
 		            r->device(),

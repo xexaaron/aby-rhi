@@ -20,15 +20,21 @@ namespace aby::rhi::vulkan {
 	public:
 		RenderPass(std::unique_ptr<Pipeline> pipeline,
 		           const std::vector<Resource>& shaders,
-		           const std::unordered_map<std::string, Uniform>& uniforms);
+		           const std::unordered_map<std::string, Uniform>& uniforms,
+		           const std::vector<rhi::Texture*>& color_attachments,
+		           rhi::Texture* present_attachment);
 
 		auto set_uniform(std::string_view name, void* data, size_t bytes) -> void override;
 
 		auto bind() -> void override;
+		auto begin() -> void override;
+		auto end() -> void override;
 		auto run() -> void override;
 		auto destroy() -> void override;
 		auto set_viewport(vec2<float> size, vec2<float> loc = { 0.f, 0.f }, vec2<float> min_max_depth = { 0.f, 1.f }) -> void override;
 		auto set_scissor(vec2<float> offset, vec2<float> size) -> void override;
+		auto is_present() const -> bool;
+		auto present_attachment() -> rhi::Texture*;
 
 		auto set_bind_point(vk::PipelineBindPoint point) -> RenderPass&;
 		auto set_cmd_buffer(vk::CommandBuffer cmd) -> RenderPass&;
@@ -38,6 +44,8 @@ namespace aby::rhi::vulkan {
 		std::unique_ptr<Pipeline> m_Pipeline;
 		std::vector<Resource> m_Shaders;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
+		std::vector<rhi::Texture*> m_ColorAttachments;
+		rhi::Texture* m_PresentAttachment;
 	};
 
 	class RenderPassBuilder : public rhi::RenderPassBuilder {
@@ -50,7 +58,7 @@ namespace aby::rhi::vulkan {
 		auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
 		auto add_shader(Resource shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
-		auto add_color_attachment(rhi::Texture* texture) -> RenderPassBuilder& override;
+		auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& override;
 
 		auto set_topology(ETopology topology) -> RenderPassBuilder& override;
 		auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& override;
@@ -60,14 +68,15 @@ namespace aby::rhi::vulkan {
 		auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& override;
 		auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& override;
 		auto set_blend_alpha(Blend blend) -> RenderPassBuilder& override;
-		auto set_blend_mask(bool r, bool g, bool b, bool a) -> RenderPassBuilder& override;
+		auto set_blend_mask(EChannels mask) -> RenderPassBuilder& override;
 
 		auto disable_blending() -> RenderPassBuilder& override;
 		auto disable_depthtest() -> RenderPassBuilder& override;
 
 		auto use_default_attachment_formats() -> RenderPassBuilder& override;
 	private:
-		std::vector<Resource> m_Shaders;
+		Resource m_PresentAttachment;
+		vk::Format m_ColorAttachmentFormat;
 		vk::PipelineLayout m_PipelineLayout;
 		vk::PipelineInputAssemblyStateCreateInfo m_InputAssembly;
 		vk::PipelineRasterizationStateCreateInfo m_Rasterizer;
@@ -75,13 +84,14 @@ namespace aby::rhi::vulkan {
 		vk::PipelineMultisampleStateCreateInfo m_Multisampling;
 		vk::PipelineDepthStencilStateCreateInfo m_DepthStencil;
 		vk::PipelineRenderingCreateInfo m_RenderInfo;
-		vk::Format m_ColorAttachmentFormat;
+		std::vector<Resource> m_Shaders;
 		std::vector<vk::VertexInputBindingDescription> m_VertexInputBindings;
 		std::vector<vk::VertexInputAttributeDescription> m_VertexAttributes;
 		std::vector<vk::PipelineShaderStageCreateInfo> m_ShaderStages;
 		std::vector<vk::DescriptorSetLayout> m_DescriptorSetLayouts;
 		std::vector<vk::DescriptorSet> m_DescriptorSets;
-		std::vector<vk::Format> m_ColorAttachments;
+		std::vector<vk::Format> m_ColorAttachmentFormats;
+		std::vector<Resource> m_ColorAttachments;
 		std::unordered_map<std::string, vk::DescriptorSetLayoutBinding> m_UniformBindings;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 	};

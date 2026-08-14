@@ -2,6 +2,7 @@
 
 #include "backends/vulkan/vulkan-common.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
+#include "backends/vulkan/vulkan-texture.hpp"
 #include "context.hpp"
 
 #include <VkBootstrap.h>
@@ -25,39 +26,11 @@ namespace aby::rhi::vulkan {
 			return false;
 		}
 
-		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
+		aby_rhi_assert(m_PresentPass, "renderer does not have a present pass");
 
-		m_DrawImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
+		auto* present_attachment = static_cast<vulkan::Texture*>(m_PresentPass->present_attachment());
+		present_attachment->image().transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
 
-		if (antialiasing_enabled()) {
-			m_ResolveImage.transition(m_Frames->cmd(), vk::ImageLayout::eColorAttachmentOptimal);
-		}
-
-		vk::RenderingAttachmentInfo color_attachment(
-		    m_DrawImage.view(),
-		    vk::ImageLayout::eColorAttachmentOptimal,
-		    antialiasing_enabled()
-		        ? vk::ResolveModeFlagBits::eAverage
-		        : vk::ResolveModeFlagBits::eNone,
-		    m_ResolveImage.view(),
-		    antialiasing_enabled()
-		        ? vk::ImageLayout::eColorAttachmentOptimal
-		        : vk::ImageLayout::eUndefined,
-		    vk::AttachmentLoadOp::eClear,
-		    vk::AttachmentStoreOp::eStore,
-		    m_ClearColor);
-
-		vk::RenderingInfo render_info(
-		    vk::RenderingFlags{},
-		    vk::Rect2D(
-		        vk::Offset2D{},
-		        m_DrawImage.extent2d()),
-		    1, /* layer count*/
-		    0, /* view mask */
-		    1, /* color attachment count */
-		    &color_attachment);
-
-		vkCmdBeginRendering(m_Frames->cmd(), vkcast(render_info));
 		return true;
 	}
 
@@ -67,23 +40,23 @@ namespace aby::rhi::vulkan {
 		for (auto& render_pass : m_RenderPasses) {
 			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
 			render_pass->set_cmd_buffer(m_Frames->cmd());
+			render_pass->begin();
 			render_pass->bind();
-			render_pass->set_viewport({ static_cast<float>(m_DrawImage.width()),
-			                            static_cast<float>(m_DrawImage.height()) });
-			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_DrawImage.width()),
-			                                         static_cast<float>(m_DrawImage.height()) });
+			render_pass->set_viewport({ static_cast<float>(m_Width), static_cast<float>(m_Height) });
+			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_Width), static_cast<float>(m_Height) });
 			render_pass->run();
 			render_pass->clear();
+			render_pass->end();
 		}
-
-		vkCmdEndRendering(m_Frames->cmd());
-
-		Image& present_image = antialiasing_enabled() ? m_ResolveImage : m_DrawImage;
+		auto* present_attachment = static_cast<vulkan::Texture*>(m_PresentPass->present_attachment());
+		auto& present_image      = present_attachment->image();
 
 		present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eTransferDstOptimal);
 		present_image.copy_to(m_Frames->cmd(), swapchain_img);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::ePresentSrcKHR);
+
+		// swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eUndefined);
 
 		vk::Result result = m_Frames->end(m_Swapchain.swapchain, m_GraphicsQueue, render_finished_semaphore, m_SwapchainImgIndex);
 
@@ -119,7 +92,9 @@ namespace aby::rhi::vulkan {
 		vkb::SwapchainBuilder swapchain_builder(m_Device.physical_device, m_Device.device, m_Surface, m_GraphicsQueueFamily, m_PresentQueueFamily);
 		auto swapchain_result = swapchain_builder
 		                            .set_desired_extent(m_Width, m_Height)
-		                            .set_desired_format(VkSurfaceFormatKHR{ .format = VK_FORMAT_R8G8B8A8_UNORM })
+		                            .set_desired_format(VkSurfaceFormatKHR{
+		                                .format = VK_FORMAT_R16G16B16A16_SFLOAT,
+		                            })
 		                            .set_allocation_callbacks(allocator())
 		                            .set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
 		                            .add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
@@ -134,7 +109,8 @@ namespace aby::rhi::vulkan {
 			vkb::destroy_swapchain(m_Swapchain);
 		}
 
-		m_Swapchain        = swapchain_result.value();
+		m_Swapchain = swapchain_result.value();
+
 		auto [imgs, views] = m_Swapchain.get_images_and_image_views().value();
 		for (auto& [img, _] : m_SwapchainImages) {
 			img.destroy();
@@ -279,7 +255,12 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {
-		m_RenderPasses.push_back(std::static_pointer_cast<RenderPass>(render_pass));
+		auto rpass = std::static_pointer_cast<RenderPass>(render_pass);
+		if (rpass->is_present()) {
+			aby_rhi_assert(!m_PresentPass, "renderer cannot have multiple passes marked as present");
+			m_PresentPass = rpass.get();
+		}
+		m_RenderPasses.push_back(rpass);
 	}
 
 	auto Renderer::vma() -> VmaAllocator& {
@@ -287,7 +268,8 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::color_format() -> vk::Format {
-		return m_DrawImage.format();
+		return vk::Format::eR16G16B16A16Sfloat;
+		// return static_cast<vk::Format>(m_Swapchain.image_format);
 	}
 
 	auto Renderer::gc() -> GarbageCollector& {
@@ -332,6 +314,18 @@ namespace aby::rhi::vulkan {
 		return m_Graphics.aliasing != EAntiAliasing::none;
 	}
 
+	auto Renderer::width() const -> uint32_t {
+		return m_Width;
+	}
+
+	auto Renderer::height() const -> uint32_t {
+		return m_Height;
+	}
+
+	auto Renderer::clear_color() const -> vk::ClearColorValue {
+		return m_ClearColor;
+	}
+
 	auto Renderer::init(void* native_window) -> bool {
 		auto& ctx = Context::get();
 		auto* log = ctx.logger();
@@ -353,11 +347,6 @@ namespace aby::rhi::vulkan {
 
 		if (!init_vma()) {
 			aby_rhi_err("failed to init vulkan memory allocator");
-			return false;
-		}
-
-		if (!init_draw_image()) {
-			aby_rhi_err("failed to init draw image");
 			return false;
 		}
 
@@ -493,24 +482,6 @@ namespace aby::rhi::vulkan {
 		return true;
 	}
 
-	auto Renderer::init_draw_image() -> bool {
-		aby_rhi_profile("[vulkan] init draw image");
-		auto sample_count = render_target_sample_count();
-		auto extent       = vk::Extent3D(m_Width, m_Height, 1);
-		auto format       = vk::Format::eR16G16B16A16Sfloat;
-		auto usage        = vk::ImageUsageFlagBits::eTransferSrc |
-		                    vk::ImageUsageFlagBits::eTransferDst |
-		                    vk::ImageUsageFlagBits::eColorAttachment;
-
-		m_DrawImage.create(extent, format, sample_count, usage);
-
-		if (antialiasing_enabled()) {
-			m_ResolveImage.create(extent, format, vk::SampleCountFlagBits::e1, usage);
-		}
-
-		return true;
-	}
-
 	auto Renderer::init_descriptors() -> bool {
 		aby_rhi_profile("[vulkan] init descriptors");
 		{
@@ -581,9 +552,6 @@ namespace aby::rhi::vulkan {
 		}
 
 		m_Frames.destroy();
-
-		m_DrawImage.destroy();
-		m_ResolveImage.destroy();
 
 		vkb::destroy_swapchain(m_Swapchain);
 		m_Swapchain.swapchain = VK_NULL_HANDLE;

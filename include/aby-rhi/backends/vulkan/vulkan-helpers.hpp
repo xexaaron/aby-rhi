@@ -12,6 +12,9 @@ namespace aby::rhi::vulkan {
 	auto copy_image_to_image(vk::CommandBuffer cmd, vk::Image src, vk::Extent2D src_sz, vk::Image dst, vk::Extent2D dst_sz) -> void;
 	auto clear_screen(vk::CommandBuffer cmd, vk::Image image, vk::ImageLayout layout, vk::ClearColorValue& color, vk::ImageSubresourceRange& range) -> void;
 	auto log_error(const std::string& message, const vkb::Error& error) -> void;
+
 	auto eformat_to_vkformat(EFormat format) -> vk::Format;
+	auto erepeatmode_to_vkrepeatmode(ERepeatMode repeat_mode) -> vk::SamplerAddressMode;
+	auto efiltering_to_vkfilter(EFiltering filtering) -> std::pair<vk::Filter, vk::SamplerMipmapMode>;
 
 } // namespace aby::rhi::vulkan

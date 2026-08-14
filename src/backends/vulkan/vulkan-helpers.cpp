@@ -114,4 +114,45 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
+	auto erepeatmode_to_vkrepeatmode(ERepeatMode repeat_mode) -> vk::SamplerAddressMode {
+		switch (repeat_mode) {
+			case ERepeatMode::repeat:
+				return vk::SamplerAddressMode::eRepeat;
+				break;
+			case ERepeatMode::mirrored:
+				return vk::SamplerAddressMode::eMirroredRepeat;
+				break;
+			case ERepeatMode::clamp_to_edge:
+				return vk::SamplerAddressMode::eClampToEdge;
+				break;
+			case ERepeatMode::clamp_to_border:
+				return vk::SamplerAddressMode::eClampToBorder;
+				break;
+			case ERepeatMode::mirrored_clamp_to_edge:
+				return vk::SamplerAddressMode::eMirrorClampToEdge;
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented ERepeatMode in Vulkan backend: {}", repeat_mode);
+		}
+		return vk::SamplerAddressMode::eRepeat;
+	}
+
+	auto efiltering_to_vkfilter(EFiltering filtering) -> std::pair<vk::Filter, vk::SamplerMipmapMode> {
+		switch (filtering) {
+			case EFiltering::linear:
+				return std::make_pair(vk::Filter::eLinear, vk::SamplerMipmapMode::eLinear);
+				break;
+			case EFiltering::nearest:
+				return std::make_pair(vk::Filter::eNearest, vk::SamplerMipmapMode::eNearest);
+				break;
+			case EFiltering::cubic:
+				return std::make_pair(vk::Filter::eCubicIMG, vk::SamplerMipmapMode::eLinear);
+				break;
+			default:
+				aby_rhi_assert(false, "unimplemented EFiltering mode in Vulkan backend: {}", filtering);
+				break;
+		}
+		return std::make_pair(vk::Filter::eLinear, vk::SamplerMipmapMode::eLinear);
+	}
+
 } // namespace aby::rhi::vulkan
