@@ -280,6 +280,9 @@ int main(int argc, char** argv) {
 	aby_rhi_log("green: (0, 0): [{}, {}, {}, {}] -> [{}, {}, {}, {}]", expand_vec4(green_color), expand_vec4(green_color1));
 	aby_rhi_log("blue: (0, 0): [{}, {}, {}, {}] -> [{}, {}, {}, {}]", expand_vec4(blue_color), expand_vec4(blue_color1));
 
+	tex_red->resize(256, 256);
+	tex_red->write("red_2.png");
+	
 	while (running) {
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {

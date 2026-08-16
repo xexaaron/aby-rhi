@@ -698,8 +698,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Texture::resize(uint32_t w, uint32_t h) -> void {
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
 		if (bIsRenderTarget) {
-			auto* r     = static_cast<vulkan::Renderer*>(Context::get().renderer());
 			auto layout = m_Image.layout();
 			m_Image.destroy();
 			if (!m_Image.create(
@@ -719,7 +720,80 @@ namespace aby::rhi::vulkan {
 			m_Data.clear();
 			m_FrameID = SIZE_MAX;
 		} else {
-			aby_rhi_assert("texture resizing not implemented for non render targets currently");
+			constexpr size_t stride = 0; /* packed contiguously in memory */
+			stbi_uc* data           = stbir_resize_uint8_srgb(
+			    m_Data.data(), m_Image.width(), m_Image.height(),
+			    stride,
+			    nullptr,
+			    w, h,
+			    stride,
+			    STBIR_RGBA);
+
+			aby_rhi_assert(data != nullptr, "failed to resize texture");
+
+			size_t size = w * h * STBIR_RGBA;
+			m_Data.clear();
+			m_Data.assign(data, data + size);
+			stbi_image_free(data);
+
+			auto layout = m_Image.layout();
+			auto mips   = m_Image.mip_levels();
+			auto format = m_Image.format();
+
+			m_Image.destroy();
+
+			if (!m_Image.create(
+			        vk::Extent3D(w, h, 1),
+			        format,
+			        m_Samples,
+			        vk::ImageUsageFlagBits::eTransferDst |
+			            vk::ImageUsageFlagBits::eTransferSrc |
+			            vk::ImageUsageFlagBits::eSampled,
+			        mips)) {
+				aby_rhi_err("failed to create image for texture: {}", m_ID);
+			}
+
+			r->immediate_submit([this, layout](vk::CommandBuffer cmd) {
+				m_Image.transition(cmd, layout);
+			});
+			r->update_texture(m_ID, m_Image.view(), m_Sampler);
+		}
+	}
+
+	auto Texture::write(const fs::path& rel_path) -> void {
+		// assume rel path always, we will use stbi to load but we must concat the path
+		auto io   = Context::get().file_io();
+		auto path = io->cwd() / rel_path;
+
+		auto path_str = path.string();
+		auto ext      = path.extension().string();
+		std::transform(ext.begin(), ext.end(), ext.begin(), [](char c) {
+			return std::tolower(c);
+		});
+
+		auto w     = m_Image.width();
+		auto h     = m_Image.height();
+		int result = 0;
+
+		if (ext == ".bmp") {
+			result = stbi_write_bmp(path_str.c_str(), w, h, m_Channels, m_Data.data());
+		} else if (ext == ".hdr") {
+			aby_rhi_assert(false, "HDR texture writing currently not supported");
+		} else if (ext == ".jpeg" || ext == ".jpg") {
+			aby_rhi_assert(m_Channels <= 3, "JPEG does not support {} channels", m_Channels);
+			// TODO: should probably make this controllable quality level for jpegs.
+			// 90 is a good middleground high quality while drastically cutting file size.
+			result = stbi_write_jpg(path_str.c_str(), w, h, m_Channels, m_Data.data(), 90);
+		} else if (ext == ".png") {
+			result = stbi_write_png(path_str.c_str(), w, h, m_Channels, m_Data.data(), 0); /* contigous memory */
+		} else if (ext == ".tga") {
+			result = stbi_write_tga(path_str.c_str(), w, h, m_Channels, m_Data.data());
+		} else {
+			aby_rhi_err("unsupported texture output format: {}", ext);
+		}
+
+		if (result == 0) {
+			aby_rhi_err("failed to write texture: {} to {}", m_ID, path.string());
 		}
 	}
 

@@ -52,9 +52,17 @@ namespace aby::rhi {
 		 * @return CPU side rgba8 pixel data
 		 */
 		virtual auto read_px(uint32_t x, uint32_t y) -> vec4<uint8_t> = 0;
-
-		virtual auto resize(uint32_t x, uint32_t y) -> void = 0;
-
+		/**
+		 * @brief Resize the texture
+		 * @param w new width
+		 * @param h new height
+		 */
+		virtual auto resize(uint32_t w, uint32_t h) -> void = 0;
+		/**
+		 * @brief Write the image to a file.
+		 * @param path Output image type determined by path extension.
+		 */
+		virtual auto write(const fs::path& rel_path) -> void    = 0;
 		/**
 		 * @brief An id to the texture within an array or descriptor set that 
 		 * 		  can be sent to the GPU to access bindless textures
