@@ -400,8 +400,8 @@ namespace aby::rhi::vulkan {
 		    vk::PipelineColorBlendStateCreateFlags(),
 		    vk::False, /* logic op enable */
 		    vk::LogicOp::eCopy,
-		    1, /* attachment count */
-		    &m_ColorBlendAttachment);
+		    m_ColorBlendAttachments.size(),
+		    m_ColorBlendAttachments.data());
 
 		vk::PipelineLayoutCreateInfo layout_create_info(
 		    vk::PipelineLayoutCreateFlags(),
@@ -479,7 +479,6 @@ namespace aby::rhi::vulkan {
 		m_PipelineLayout        = vk::PipelineLayout();
 		m_InputAssembly         = vk::PipelineInputAssemblyStateCreateInfo();
 		m_Rasterizer            = vk::PipelineRasterizationStateCreateInfo();
-		m_ColorBlendAttachment  = vk::PipelineColorBlendAttachmentState();
 		m_Multisampling         = vk::PipelineMultisampleStateCreateInfo();
 		m_DepthStencil          = vk::PipelineDepthStencilStateCreateInfo();
 		m_RenderInfo            = vk::PipelineRenderingCreateInfo();
@@ -495,6 +494,7 @@ namespace aby::rhi::vulkan {
 		m_ColorAttachments.clear();
 		m_UniformBindings.clear();
 		m_Uniforms.clear();
+		m_ColorBlendAttachments.clear();
 	}
 
 	auto RenderPassBuilder::add_shader(const fs::path& rel_path) -> RenderPassBuilder& {
@@ -595,36 +595,49 @@ namespace aby::rhi::vulkan {
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& {
+	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend, size_t attachment) -> RenderPassBuilder& {
 		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
 		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
 		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
 
-		m_ColorBlendAttachment.setBlendEnable(enable);
-		m_ColorBlendAttachment.setColorBlendOp(op);
-		m_ColorBlendAttachment.setSrcColorBlendFactor(src_blend_factor);
-		m_ColorBlendAttachment.setDstColorBlendFactor(dst_blend_factor);
+		if ((attachment + 1) > m_ColorBlendAttachments.size()) {
+			m_ColorBlendAttachments.resize(attachment + 1);
+		}
+
+		m_ColorBlendAttachments[attachment].setBlendEnable(enable);
+		m_ColorBlendAttachments[attachment].setColorBlendOp(op);
+		m_ColorBlendAttachments[attachment].setSrcColorBlendFactor(src_blend_factor);
+		m_ColorBlendAttachments[attachment].setDstColorBlendFactor(dst_blend_factor);
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_blend_alpha(Blend blend) -> RenderPassBuilder& {
+	auto RenderPassBuilder::set_blend_alpha(Blend blend, size_t attachment) -> RenderPassBuilder& {
 		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
 		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
 		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
 
-		m_ColorBlendAttachment.setAlphaBlendOp(op);
-		m_ColorBlendAttachment.setSrcAlphaBlendFactor(src_blend_factor);
-		m_ColorBlendAttachment.setDstAlphaBlendFactor(dst_blend_factor);
+		if ((attachment + 1) > m_ColorBlendAttachments.size()) {
+			m_ColorBlendAttachments.resize(attachment + 1);
+		}
+
+		m_ColorBlendAttachments[attachment].setAlphaBlendOp(op);
+		m_ColorBlendAttachments[attachment].setSrcAlphaBlendFactor(src_blend_factor);
+		m_ColorBlendAttachments[attachment].setDstAlphaBlendFactor(dst_blend_factor);
 		return *this;
 	}
 
-	auto RenderPassBuilder::set_blend_mask(EChannels mask) -> RenderPassBuilder& {
+	auto RenderPassBuilder::set_blend_mask(EChannels mask, size_t attachment) -> RenderPassBuilder& {
 		vk::ColorComponentFlags flags;
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::r)) != 0) flags |= vk::ColorComponentFlagBits::eR;
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::g)) != 0) flags |= vk::ColorComponentFlagBits::eG;
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::b)) != 0) flags |= vk::ColorComponentFlagBits::eB;
 		if ((static_cast<uint8_t>(mask) & static_cast<uint8_t>(EChannels::a)) != 0) flags |= vk::ColorComponentFlagBits::eA;
-		m_ColorBlendAttachment.setColorWriteMask(flags);
+
+		if ((attachment + 1) > m_ColorBlendAttachments.size()) {
+			m_ColorBlendAttachments.resize(attachment + 1);
+		}
+
+		m_ColorBlendAttachments[attachment].setColorWriteMask(flags);
 		return *this;
 	}
 
@@ -650,12 +663,14 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::disable_blending() -> RenderPassBuilder& {
-		m_ColorBlendAttachment.setColorWriteMask(
-		    vk::ColorComponentFlagBits::eR |
-		    vk::ColorComponentFlagBits::eG |
-		    vk::ColorComponentFlagBits::eB |
-		    vk::ColorComponentFlagBits::eA);
-		m_ColorBlendAttachment.setBlendEnable(vk::False);
+		m_ColorBlendAttachments.resize(m_ColorAttachments.size());
+		for (auto& attachment : m_ColorBlendAttachments) {
+			attachment.setColorWriteMask(vk::ColorComponentFlagBits::eR |
+			                             vk::ColorComponentFlagBits::eG |
+			                             vk::ColorComponentFlagBits::eB |
+			                             vk::ColorComponentFlagBits::eA);
+			attachment.setBlendEnable(vk::False);
+		}
 		return *this;
 	}
 

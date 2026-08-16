@@ -76,9 +76,8 @@ namespace aby::rhi::vulkan {
 
 		vk::DescriptorSet m_DrawImageDescriptors            = VK_NULL_HANDLE;
 		vk::DescriptorSetLayout m_DrawImageDescriptorLayout = VK_NULL_HANDLE;
-
-		vk::DescriptorSet m_TextureDescriptors            = VK_NULL_HANDLE;
-		vk::DescriptorSetLayout m_TextureDescriptorLayout = VK_NULL_HANDLE;
+		vk::DescriptorSet m_TextureDescriptors              = VK_NULL_HANDLE;
+		vk::DescriptorSetLayout m_TextureDescriptorLayout   = VK_NULL_HANDLE;
 
 		std::mutex m_ImmediateSubmitMutex;
 

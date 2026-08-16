@@ -4,6 +4,8 @@
 #include "shader.hpp"
 #include "texture.hpp"
 
+#include <set>
+
 namespace aby::rhi {
 
 	/// @brief Use the RenderPassBuilder to construct this.
@@ -164,10 +166,13 @@ namespace aby::rhi {
 		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                                      = 0;
 		virtual auto set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& = 0;
 		virtual auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder&                       = 0;
-		virtual auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder&                             = 0;
-		virtual auto set_blend_alpha(Blend blend) -> RenderPassBuilder&                                          = 0;
-		virtual auto set_blend_mask(EChannels mask) -> RenderPassBuilder&                                        = 0;
-		virtual auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder&                              = 0;
+		virtual auto set_blend_color(bool enable, Blend blend, size_t attachment = 0) -> RenderPassBuilder&      = 0;
+		auto set_blend_color(bool enable, Blend blend, std::set<size_t> attachments) -> RenderPassBuilder&;
+		virtual auto set_blend_alpha(Blend blend, size_t attachment = 0) -> RenderPassBuilder& = 0;
+		auto set_blend_alpha(Blend blend, std::set<size_t> attachments) -> RenderPassBuilder&;
+		virtual auto set_blend_mask(EChannels mask, size_t attachment = 0) -> RenderPassBuilder& = 0;
+		auto set_blend_mask(EChannels mask, std::set<size_t> attachments) -> RenderPassBuilder&;
+		virtual auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder& = 0;
 
 		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
 		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;

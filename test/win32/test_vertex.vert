@@ -24,6 +24,7 @@ layout(set = 1, binding = 1) uniform TEXTURES {
 layout(location = 0) out vec4 outColor;
 layout(location = 1) out vec2 outUV;
 layout(location = 2) flat out uint outAlbedo;
+layout(location = 3) flat out uint outNormal;
 
 void main() {
     uint instance = gl_InstanceIndex;
@@ -49,4 +50,5 @@ void main() {
     outColor = inColor;
     outUV = inUV;
     outAlbedo = texs.albedo;
+    outNormal = texs.normal;
 }

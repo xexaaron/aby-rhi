@@ -22,7 +22,7 @@ namespace aby::rhi::vulkan {
 		           const std::vector<Resource>& shaders,
 		           const std::unordered_map<std::string, Uniform>& uniforms,
 		           const std::vector<rhi::Texture*>& color_attachments,
-				   const std::vector<rhi::Texture*>& resolve_attachments,
+		           const std::vector<rhi::Texture*>& resolve_attachments,
 		           rhi::Texture* present_attachment);
 
 		auto set_uniform(std::string_view name, void* data, size_t bytes) -> void override;
@@ -70,9 +70,9 @@ namespace aby::rhi::vulkan {
 		auto set_depth_format(EFormat format) -> RenderPassBuilder& override;
 		auto set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& override;
 		auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& override;
-		auto set_blend_color(bool enable, Blend blend) -> RenderPassBuilder& override;
-		auto set_blend_alpha(Blend blend) -> RenderPassBuilder& override;
-		auto set_blend_mask(EChannels mask) -> RenderPassBuilder& override;
+		auto set_blend_color(bool enable, Blend blend, size_t attachment = 0) -> RenderPassBuilder& override;
+		auto set_blend_alpha(Blend blend, size_t attachment = 0) -> RenderPassBuilder& override;
+		auto set_blend_mask(EChannels mask, size_t attachment = 0) -> RenderPassBuilder& override;
 		auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder& override;
 
 		auto disable_blending() -> RenderPassBuilder& override;
@@ -86,7 +86,6 @@ namespace aby::rhi::vulkan {
 		vk::PipelineLayout m_PipelineLayout;
 		vk::PipelineInputAssemblyStateCreateInfo m_InputAssembly;
 		vk::PipelineRasterizationStateCreateInfo m_Rasterizer;
-		vk::PipelineColorBlendAttachmentState m_ColorBlendAttachment;
 		vk::PipelineMultisampleStateCreateInfo m_Multisampling;
 		vk::PipelineDepthStencilStateCreateInfo m_DepthStencil;
 		vk::PipelineRenderingCreateInfo m_RenderInfo;
@@ -99,6 +98,7 @@ namespace aby::rhi::vulkan {
 		std::vector<vk::DescriptorSet> m_DescriptorSets;
 		std::vector<vk::Format> m_ColorAttachmentFormats;
 		std::vector<Resource> m_ColorAttachments;
+		std::vector<vk::PipelineColorBlendAttachmentState> m_ColorBlendAttachments;
 		std::unordered_map<std::string, vk::DescriptorSetLayoutBinding> m_UniformBindings;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 	};

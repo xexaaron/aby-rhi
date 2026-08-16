@@ -134,29 +134,39 @@ int main(int argc, char** argv) {
 	    ->set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	    .set_polygon_mode(EPolygonMode::fill, 1.f)
-	    .set_blend_mask(EChannels::rgba)
-	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha })
-	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha })
+	    .set_blend_mask(EChannels::rgba, { 0 })
+	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha }, { 0 })
+	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha }, { 0 })
+	    // .set_blend_mask(EChannels::rgba, { 0, 1 })
+	    // .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
+	    // .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
 	    .set_depth(true, true, ECompareOp::less)
 	    .set_stencil(true, ECompareOp::always)
 	    .set_antialiasing(EAntiAliasing::msaa8x)
-	    .use_default_attachment_formats();
+	    .add_color_attachment(Texture::create_render_target(800, 600, 4, EAntiAliasing::msaa8x), true)
+	    // .add_color_attachment(Texture::create_render_target(width, height, 4, EAntiAliasing::msaa8x), false)
+	    .set_depth_format(EFormat::none);
 
 	TextureParams texture_params{
 		.mip_levels           = 0,
 		.anisotropy_filtering = 16.f,
 		.filtering            = EFiltering::nearest,
-		.repeat_mode          = ERepeatMode::repeat
+		.repeat_mode          = ERepeatMode::repeat,
+		.texture_usage        = ETextureUsage::albedo,
+		.channels             = EChannels::rgba
 	};
 
-	tex_albedo = Texture::create("Cobblestone.png", texture_params);
-	// tex_albedo = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png", texture_params);
+	// tex_albedo = Texture::create("Cobblestone.png", texture_params);
 
-	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
-	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
-	tex_normal    = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
-	tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png");
-	tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png");
+	tex_albedo = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png", texture_params);
+
+	texture_params.set_texture_usage(ETextureUsage::material);
+	tex_normal = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
+
+	// 	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
+	// 	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
+	//	tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png");
+	//	tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png");
 
 	vbuff = VertexBuffer::create(100, sizeof(Vertex));
 	ibuff = IndexBuffer::create(60);
@@ -220,11 +230,11 @@ int main(int argc, char** argv) {
 
 	material = Material{
 		.albedo    = tex_albedo->id(),
-		.ao        = tex_ao->id(),
-		.height    = tex_ao->id(),
+		.ao        = 0,
+		.height    = 0,
 		.normal    = tex_normal->id(),
-		.roughness = tex_roughness->id(),
-		.orm       = tex_orm->id()
+		.roughness = 0,
+		.orm       = 0
 	};
 
 	angle     = 0.785398f; // 45 degrees

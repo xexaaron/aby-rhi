@@ -63,6 +63,27 @@ namespace aby::rhi {
 		return m_VIDB;
 	}
 
+	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend, std::set<size_t> attachments) -> RenderPassBuilder& {
+		for (auto& attachment : attachments) {
+			set_blend_color(enable, blend, attachment);
+		}
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_blend_alpha(Blend blend, std::set<size_t> attachments) -> RenderPassBuilder& {
+		for (auto& attachment : attachments) {
+			set_blend_alpha(blend, attachment);
+		}
+		return *this;
+	}
+
+	auto RenderPassBuilder::set_blend_mask(EChannels mask, std::set<size_t> attachments) -> RenderPassBuilder& {
+		for (auto& attachment : attachments) {
+			set_blend_mask(mask, attachment);
+		}
+		return *this;
+	}
+
 	auto RenderPassBuilder::use_all_defaults() -> RenderPassBuilder& {
 		use_default_topology();
 		use_default_polygon_mode();

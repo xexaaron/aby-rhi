@@ -4,13 +4,16 @@
 layout(location = 0) in vec4 inColor;
 layout(location = 1) in vec2 inUV;
 layout(location = 2) flat in uint inAlbedo;
+layout(location = 3) flat in uint inNormal;
 
 layout(location = 0) out vec4 outColor;
+layout(location = 1) out vec4 outNormal;
 
 layout(set = 0, binding = 0) uniform sampler2D textures[];
 
 void main() {
     vec4 tex = texture(textures[inAlbedo], inUV);
     outColor = inColor * tex;
+    outNormal = texture(textures[inNormal], inUV);
 }
 

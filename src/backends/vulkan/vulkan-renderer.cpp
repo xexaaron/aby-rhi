@@ -49,12 +49,9 @@ namespace aby::rhi::vulkan {
 		auto* present_attachment = static_cast<vulkan::Texture*>(m_PresentPass->present_attachment());
 		auto& present_image      = present_attachment->image();
 
-		// present_image.transition(m_Frames->cmd(), vk::ImageLayout::eTransferSrcOptimal);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eTransferDstOptimal);
 		present_image.copy_to(m_Frames->cmd(), swapchain_img);
 		swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::ePresentSrcKHR);
-
-		// swapchain_img.transition(m_Frames->cmd(), vk::ImageLayout::eUndefined);
 
 		vk::Result result = m_Frames->end(m_Swapchain.swapchain, m_GraphicsQueue, render_finished_semaphore, m_SwapchainImgIndex);
 
@@ -62,8 +59,7 @@ namespace aby::rhi::vulkan {
 			if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
 				return false;
 
-			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]",
-			            m_Width, m_Height, vk::to_string(result));
+			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]", m_Width, m_Height, vk::to_string(result));
 
 			recreate_swapchain();
 			return false;
