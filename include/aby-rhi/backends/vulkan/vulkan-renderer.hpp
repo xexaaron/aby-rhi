@@ -29,10 +29,10 @@ namespace aby::rhi::vulkan {
 
 		auto immediate_submit(std::function<void(vk::CommandBuffer)>&& fn) -> bool;
 		auto register_texture(ResourceID id, vk::ImageView view, vk::Sampler smapler) -> uint32_t;
+		auto update_texture(uint32_t texture_id, vk::ImageView view, vk::Sampler sampler) -> void;
 
 		auto on_begin() -> bool override;
 		auto on_end() -> bool override;
-		auto on_resize(uint32_t width, uint32_t height) -> void override;
 	public:
 		auto device() -> vkb::Device&;
 		auto vma() -> VmaAllocator&;
@@ -46,6 +46,8 @@ namespace aby::rhi::vulkan {
 		auto width() const -> uint32_t;
 		auto height() const -> uint32_t;
 		auto clear_color() const -> vk::ClearColorValue;
+		auto frame_index() const -> size_t;
+		auto get_resolve_attachment(rhi::Texture* color_attachment) -> rhi::Texture*;
 	private:
 		auto init_vulkan(void* native_window) -> bool;
 		auto init_vma() -> bool;
@@ -55,6 +57,7 @@ namespace aby::rhi::vulkan {
 		auto get_immediate() -> ImmediateCommands&;
 	private:
 		GraphicsParams m_Graphics;
+		void* m_Window;
 
 		uint32_t m_GraphicsQueueFamily = UINT32_MAX;
 		uint32_t m_PresentQueueFamily  = UINT32_MAX;
@@ -89,6 +92,8 @@ namespace aby::rhi::vulkan {
 		Frames m_Frames;
 
 		std::vector<std::shared_ptr<RenderPass>> m_RenderPasses;
+		std::unordered_map<rhi::Texture*, rhi::Texture*> m_ColorToResolveAttachment;
+
 		RenderPass* m_PresentPass = nullptr;
 	};
 

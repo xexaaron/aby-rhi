@@ -32,6 +32,17 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/Cobblestone.png
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Cobblestone.png
 
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/green.png
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/green.png
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/blue.png
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/blue.png
+
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/red.png
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/red.png
 
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/cobblestone_pavement_2k

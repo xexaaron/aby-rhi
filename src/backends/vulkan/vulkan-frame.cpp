@@ -156,6 +156,11 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
+	auto Frames::idx() const -> size_t {
+		// this will loop around anyways
+		return m_CurrentFrame;
+	}
+
 	auto Frames::operator->() -> Frame* {
 		return &m_Frames[m_CurrentFrame % MAX_FRAMES_IN_FLIGHT];
 	}

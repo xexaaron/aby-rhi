@@ -16,7 +16,7 @@ namespace aby::rhi {
         */
 		Buffer(size_t size, size_t stride);
 		virtual ~Buffer() = default;
-
+		
 		/**
          * @brief Upload the buffers cpu data to the GPU
         */

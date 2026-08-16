@@ -149,4 +149,78 @@ namespace aby::rhi::vulkan {
 		return get_instance_extensions(inst_exts);
 	}
 
+	auto get_window_size(void* native_window, uint32_t* x, uint32_t* y) -> void {
+		auto& ctx = Context::get();
+
+		switch (ctx.window_backend()) {
+#ifdef _WIN32
+			case EWindow::win32: {
+				auto hwnd = static_cast<HWND>(native_window);
+				RECT rect{};
+				if (!GetClientRect(hwnd, &rect)) {
+					*x = 0;
+					*y = 0;
+					return;
+				}
+				*x = static_cast<uint32_t>(rect.right - rect.left);
+				*y = static_cast<uint32_t>(rect.bottom - rect.top);
+				return;
+			}
+#elif defined(__linux__)
+			case EWindow::x11: {
+				auto& [display, window] = *static_cast<std::pair<Display*, Window>*>(native_window);
+
+				XWindowAttributes attributes{};
+				XGetWindowAttributes(display, window, &attributes);
+
+				*x = static_cast<uint32_t>(attributes.width);
+				*y = static_cast<uint32_t>(attributes.height);
+
+				return;
+			}
+
+			case EWindow::xcb: {
+				auto& [connection, window] = *static_cast<std::pair<xcb_connection_t*, xcb_window_t>*>(native_window);
+				auto cookie                = xcb_get_geometry(connection, window);
+				auto* geometry             = xcb_get_geometry_reply(connection, cookie, nullptr);
+
+				if (!geometry) {
+					*x = 0;
+					*y = 0;
+					return;
+				}
+
+				*x = geometry->width;
+				*y = geometry->height;
+
+				free(geometry);
+
+				return;
+			}
+
+			// Wayland does not provide a generic synchronous
+			// "get surface size" API. Track the configured
+			// surface size from your configure events.
+			case EWindow::wayland:
+				aby_rhi_assert(false, "Wayland window size must be tracked from configure events");
+				return;
+
+#elif defined(__APPLE__)
+			case EWindow::metal: {
+				auto layer         = static_cast<CAMetalLayer*>(native_window);
+				auto drawable_size = layer.drawableSize;
+				*x                 = static_cast<uint32_t>(drawable_size.width);
+				*y                 = static_cast<uint32_t>(drawable_size.height);
+
+				return;
+			}
+#endif
+
+			default:
+				break;
+		}
+
+		aby_rhi_assert(false, "unimplemented windowing backend: {}", ctx.window_backend());
+	}
+
 } // namespace aby::rhi::vulkan

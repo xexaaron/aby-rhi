@@ -29,6 +29,8 @@ namespace aby::rhi::vulkan {
 		auto create(uint32_t graphics_queue_family) -> bool;
 		auto destroy() -> void;
 
+		auto idx() const -> size_t;
+
 		auto operator->() -> Frame*;
 		auto operator++() -> Frames&;
 		auto operator++(int) -> Frames&;

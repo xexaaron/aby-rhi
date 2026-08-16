@@ -21,15 +21,26 @@ struct Material {
 	uint32_t orm;
 };
 
+aby::rhi::TexturePtr s_ColorAttachment;
+
+#define expand_vec4(v) v.x, v.y, v.z, v.w
+
+struct MouseMoved {
+	uint32_t x, y;
+	bool moved;
+} s_MouseMoved;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	auto* ren = reinterpret_cast<aby::rhi::Renderer*>(
 	    GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (msg) {
-		case WM_SIZE: {
-			if (ren) {
-				ren->on_resize(LOWORD(lParam), HIWORD(lParam));
-			}
+		case WM_MOUSEMOVE: {
+			s_MouseMoved = {
+				.x     = LOWORD(lParam),
+				.y     = HIWORD(lParam),
+				.moved = true
+			};
 			break;
 		}
 		case WM_DESTROY:
@@ -79,6 +90,9 @@ int main(int argc, char** argv) {
 	TexturePtr tex_normal    = nullptr;
 	TexturePtr tex_roughness = nullptr;
 	TexturePtr tex_orm       = nullptr;
+	TexturePtr tex_red       = nullptr;
+	TexturePtr tex_green     = nullptr;
+	TexturePtr tex_blue      = nullptr;
 
 	Material material = {};
 
@@ -123,6 +137,8 @@ int main(int argc, char** argv) {
 	ctx.file_io()->set_cwd(fs::path(argv[0]).parent_path());
 	ctx.file_io()->set_cache_dir(ctx.file_io()->cwd() / "cache");
 
+	s_ColorAttachment = Texture::create_render_target(4, EAntiAliasing::msaa8x);
+
 	auto rpsb = RenderPassBuilder::create();
 	rpsb->add_shader("test_vertex.vert")
 	    .add_shader("test_frag.frag")
@@ -134,17 +150,14 @@ int main(int argc, char** argv) {
 	    ->set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	    .set_polygon_mode(EPolygonMode::fill, 1.f)
-	    .set_blend_mask(EChannels::rgba, { 0 })
-	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha }, { 0 })
-	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha }, { 0 })
-	    // .set_blend_mask(EChannels::rgba, { 0, 1 })
-	    // .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
-	    // .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
+	    .set_blend_mask(EChannels::rgba, { 0, 1 })
+	    .set_blend_color(true, Blend{ .op = EBlendOp::add, .src = EBlendFactor::src_alpha, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
+	    .set_blend_alpha(Blend{ .op = EBlendOp::add, .src = EBlendFactor::one, .dst = EBlendFactor::one_minus_src_alpha }, { 0, 1 })
 	    .set_depth(true, true, ECompareOp::less)
 	    .set_stencil(true, ECompareOp::always)
 	    .set_antialiasing(EAntiAliasing::msaa8x)
-	    .add_color_attachment(Texture::create_render_target(800, 600, 4, EAntiAliasing::msaa8x), true)
-	    // .add_color_attachment(Texture::create_render_target(width, height, 4, EAntiAliasing::msaa8x), false)
+	    .add_color_attachment(s_ColorAttachment, true)
+	    .add_color_attachment(Texture::create_render_target(4, EAntiAliasing::msaa8x), false)
 	    .set_depth_format(EFormat::none);
 
 	TextureParams texture_params{
@@ -161,12 +174,15 @@ int main(int argc, char** argv) {
 	tex_albedo = Texture::create("cobblestone_pavement_2k/Cobblestone_BaseColor_2K.png", texture_params);
 
 	texture_params.set_texture_usage(ETextureUsage::material);
-	tex_normal = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png");
+	tex_normal = Texture::create("cobblestone_pavement_2k/Cobblestone_Normal_2K.png", texture_params);
 
-	// 	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png");
-	// 	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png");
-	//	tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png");
-	//	tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png");
+	tex_red       = Texture::create("red.png");
+	tex_green     = Texture::create("green.png");
+	tex_blue      = Texture::create("blue.png");
+	tex_ao        = Texture::create("cobblestone_pavement_2k/Cobblestone_AO_2K.png", texture_params);
+	tex_height    = Texture::create("cobblestone_pavement_2k/Cobblestone_Height_2K.png", texture_params);
+	tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png", texture_params);
+	tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png", texture_params);
 
 	vbuff = VertexBuffer::create(100, sizeof(Vertex));
 	ibuff = IndexBuffer::create(60);
@@ -254,6 +270,16 @@ int main(int argc, char** argv) {
 
 	bool running = true;
 
+	auto red_color    = tex_red->read_px(0, 0);
+	auto green_color  = tex_green->read_px(0, 0);
+	auto blue_color   = tex_blue->read_px(0, 0);
+	auto red_color1   = tex_red->read_px(127, 127);
+	auto green_color1 = tex_green->read_px(127, 127);
+	auto blue_color1  = tex_blue->read_px(127, 127);
+	aby_rhi_log("red: (0, 0): [{}, {}, {}, {}] -> [{}, {}, {}, {}]", expand_vec4(red_color), expand_vec4(red_color1));
+	aby_rhi_log("green: (0, 0): [{}, {}, {}, {}] -> [{}, {}, {}, {}]", expand_vec4(green_color), expand_vec4(green_color1));
+	aby_rhi_log("blue: (0, 0): [{}, {}, {}, {}] -> [{}, {}, {}, {}]", expand_vec4(blue_color), expand_vec4(blue_color1));
+
 	while (running) {
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {
@@ -276,8 +302,15 @@ int main(int argc, char** argv) {
 		auto mvp = create_mvp(angle);
 		pass->set_uniform("mvp", mvp);
 		pass->submit(cmd);
-
 		ren->on_end();
+
+		s_ColorAttachment->sync();
+
+		if (s_MouseMoved.moved) {
+			auto color = s_ColorAttachment->read_px(s_MouseMoved.x, s_MouseMoved.y);
+			aby_rhi_log("mouse px color: [{}, {}, {}, {}]", expand_vec4(color));
+			s_MouseMoved.moved = false;
+		}
 	}
 
 	ctx.deinit();

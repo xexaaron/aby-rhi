@@ -32,7 +32,6 @@ namespace aby::rhi::vulkan {
 		    m_Samples,
 		    vk::ImageTiling::eOptimal,
 		    m_Usage);
-
 		VmaAllocationCreateInfo image_alloc_info = {};
 		image_alloc_info.usage                   = VMA_MEMORY_USAGE_GPU_ONLY;
 		image_alloc_info.requiredFlags           = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
@@ -216,7 +215,36 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Image::copy_to(vk::CommandBuffer cmd, Buffer& buffer, uint32_t mip_level) -> void {
-		aby_rhi_assert(m_Layouts[mip_level] == vk::ImageLayout::eTransferDstOptimal, "destination mip was not transitioned to transfer destination");
+		aby_rhi_assert(m_Layouts[mip_level] == vk::ImageLayout::eTransferSrcOptimal, "destination mip was not transitioned to transfer src");
+		auto mip_extent = vk::Extent3D{
+			std::max(1u, m_Extent.width >> mip_level),
+			std::max(1u, m_Extent.height >> mip_level),
+			std::max(1u, m_Extent.depth >> mip_level)
+		};
+
+		vk::BufferImageCopy copy(
+		    0,
+		    0,
+		    0,
+		    vk::ImageSubresourceLayers(
+		        vk::ImageAspectFlagBits::eColor,
+		        mip_level, // mip 0
+		        0,
+		        1),
+		    vk::Offset3D(0, 0, 0),
+		    mip_extent);
+
+		vkCmdCopyImageToBuffer(
+			cmd,
+			m_Img,
+			static_cast<VkImageLayout>(m_Layouts[mip_level]),
+			buffer,
+			1,
+			vkcast(copy));
+	}
+
+	auto Image::copy_from(vk::CommandBuffer cmd, Buffer& buffer, uint32_t mip_level) -> void {
+		aby_rhi_assert(m_Layouts[mip_level] == vk::ImageLayout::eTransferDstOptimal, "destination mip was not transitioned to transfer dst");
 
 		auto mip_extent = vk::Extent3D{
 			std::max(1u, m_Extent.width >> mip_level),
@@ -338,6 +366,82 @@ namespace aby::rhi::vulkan {
 
 	auto Image::aspect() const -> vk::ImageAspectFlags {
 		return m_Aspect;
+	}
+
+	auto Image::bpp() const -> uint8_t {
+		switch (m_Format) {
+			// 8-bit
+			case vk::Format::eR8Unorm:
+			case vk::Format::eR8Snorm:
+			case vk::Format::eR8Uint:
+			case vk::Format::eR8Sint:
+			case vk::Format::eR8Srgb:
+				return 1;
+
+			// 16-bit
+			case vk::Format::eR8G8Unorm:
+			case vk::Format::eR8G8Snorm:
+			case vk::Format::eR8G8Uint:
+			case vk::Format::eR8G8Sint:
+			case vk::Format::eR8G8Srgb:
+				return 2;
+
+			case vk::Format::eR16Unorm:
+			case vk::Format::eR16Snorm:
+			case vk::Format::eR16Uint:
+			case vk::Format::eR16Sint:
+			case vk::Format::eR16Sfloat:
+				return 2;
+
+			// 24-bit
+			case vk::Format::eR8G8B8Unorm:
+			case vk::Format::eR8G8B8Srgb:
+			case vk::Format::eR8G8B8Snorm:
+			case vk::Format::eR8G8B8Uint:
+			case vk::Format::eR8G8B8Sint:
+				return 3;
+
+			// 32-bit
+			case vk::Format::eR8G8B8A8Unorm:
+			case vk::Format::eR8G8B8A8Srgb:
+			case vk::Format::eR8G8B8A8Snorm:
+			case vk::Format::eR8G8B8A8Uint:
+			case vk::Format::eR8G8B8A8Sint:
+
+			case vk::Format::eB8G8R8A8Unorm:
+			case vk::Format::eB8G8R8A8Srgb:
+
+			case vk::Format::eR16G16Unorm:
+			case vk::Format::eR16G16Snorm:
+			case vk::Format::eR16G16Uint:
+			case vk::Format::eR16G16Sint:
+			case vk::Format::eR16G16Sfloat:
+
+			case vk::Format::eR32Uint:
+			case vk::Format::eR32Sint:
+			case vk::Format::eR32Sfloat:
+				return 4;
+
+			// 64-bit
+			case vk::Format::eR16G16B16A16Sfloat:
+			case vk::Format::eR16G16B16A16Uint:
+			case vk::Format::eR16G16B16A16Sint:
+				return 8;
+
+			// 128-bit
+			case vk::Format::eR32G32B32A32Sfloat:
+			case vk::Format::eR32G32B32A32Uint:
+			case vk::Format::eR32G32B32A32Sint:
+				return 16;
+
+			default:
+				aby_rhi_assert(false,
+				               "unsupported Vulkan format for bpp calculation: {}",
+				               vk::to_string(m_Format));
+
+				return 0;
+		}
+		return 0;
 	}
 
 	auto Image::is_multisampled() const -> bool {

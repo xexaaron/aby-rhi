@@ -23,6 +23,7 @@ namespace aby::rhi::vulkan {
 		auto copy_to(vk::CommandBuffer cmd, Image& image) -> void;
 		auto copy_to(vk::CommandBuffer cmd, uint32_t width, uint32_t height, uint32_t mip_level, vk::Filter filter_mode) -> void;
 		auto copy_to(vk::CommandBuffer cmd, Buffer& buffer, uint32_t mip_level = 0) -> void;
+		auto copy_from(vk::CommandBuffer cmd, Buffer& buffer, uint32_t mip_level = 0) -> void;
 
 		auto img() -> vk::Image;
 		auto view() -> vk::ImageView;
@@ -39,6 +40,7 @@ namespace aby::rhi::vulkan {
 		auto mip_levels() const -> uint32_t;
 		auto array_layers() const -> uint32_t;
 		auto aspect() const -> vk::ImageAspectFlags;
+		auto bpp() const -> uint8_t;
 
 		auto is_multisampled() const -> bool;
 		auto is_color() const -> bool;

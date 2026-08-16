@@ -6,6 +6,7 @@
 namespace aby::rhi {
 
 	auto Texture::create(const fs::path& rel_path, const TextureParams& params) -> ResourcePtr<Texture, EResource::texture> {
+		aby_rhi_assert(Context::get().job_sys(), "context was not initialized");
 		auto backend = Context::get().renderer_backend();
 		auto* jobs   = Context::get().job_sys();
 		auto& texs   = Context::get().textures();
@@ -35,7 +36,8 @@ namespace aby::rhi {
 		return ResourcePtr<Texture, EResource::texture>();
 	}
 
-	auto Texture::create_render_target(uint32_t width, uint32_t height, uint8_t channels, EAntiAliasing aliasing) -> ResourcePtr<Texture, EResource::texture> {
+	auto Texture::create_render_target(uint8_t channels, EAntiAliasing aliasing) -> ResourcePtr<Texture, EResource::texture> {
+		aby_rhi_assert(Context::get().job_sys(), "context was not initialized");
 		auto backend = Context::get().renderer_backend();
 		auto* jobs   = Context::get().job_sys();
 		auto& texs   = Context::get().textures();
@@ -43,10 +45,10 @@ namespace aby::rhi {
 			case ERenderer::vulkan: {
 				Resource resource = texs.reserve();
 
-				jobs->add_job(EJobPriority::high, [resource, width, height, channels, aliasing]() {
+				jobs->add_job(EJobPriority::high, [resource, channels, aliasing]() {
 					auto& texs = Context::get().textures();
 					auto* r    = static_cast<vulkan::Renderer*>(Context::get().renderer());
-					
+
 					vk::SampleCountFlagBits samples;
 					switch (aliasing) {
 						case EAntiAliasing::none:
@@ -62,8 +64,8 @@ namespace aby::rhi {
 							samples = vk::SampleCountFlagBits::e8;
 							break;
 					}
-					
-					auto tex = new vulkan::Texture(resource.id(), width, height, channels, samples);
+
+					auto tex = new vulkan::Texture(resource.id(), r->width(), r->height(), channels, samples);
 
 					r->gc().push([p = tex] {
 						if (p) {

@@ -362,7 +362,7 @@ namespace aby::rhi::vulkan {
 				if (m_SampleCount != vk::SampleCountFlagBits::e1) {
 					// create a resolve texture with 1 sample count bit.
 					// TODO: change this to load the textures in two phases. storing the resource handles first
-					auto resolve_resource = Texture::create_render_target(tex->width(), tex->height(), tex->channels(), aby::rhi::EAntiAliasing::none);
+					auto resolve_resource = Texture::create_render_target(tex->channels(), aby::rhi::EAntiAliasing::none);
 					resolve_attachments.push_back(resolve_resource.get());
 				}
 			}
@@ -710,7 +710,7 @@ namespace aby::rhi::vulkan {
 				break;
 		}
 
-		add_color_attachment(Texture::create_render_target(r->width(), r->height(), 4, aliasing), true);
+		add_color_attachment(Texture::create_render_target(4, aliasing), true);
 
 		return *this;
 	}

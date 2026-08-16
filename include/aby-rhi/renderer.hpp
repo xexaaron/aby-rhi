@@ -25,7 +25,6 @@ namespace aby::rhi {
 		virtual auto set_clear_color(Color color) -> void                      = 0;
 		virtual auto on_begin() -> bool                                        = 0;
 		virtual auto on_end() -> bool                                          = 0;
-		virtual auto on_resize(uint32_t x, uint32_t y) -> void                 = 0;
 	private:
 	};
 

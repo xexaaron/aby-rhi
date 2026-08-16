@@ -59,20 +59,27 @@ namespace aby::rhi::vulkan {
 			if (m_Width == 0 || m_Height == 0 || !m_Swapchain)
 				return false;
 
+			get_window_size(m_Window, &m_Width, &m_Height);
+
 			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]", m_Width, m_Height, vk::to_string(result));
 
 			recreate_swapchain();
+
+			for (auto& render_pass : m_RenderPasses) {
+				for (auto& color_attachment : render_pass->color_attachments()) {
+					color_attachment->resize(m_Width, m_Height);
+				}
+				for (auto& resolve_attachment : render_pass->resolve_attachments()) {
+					resolve_attachment->resize(m_Width, m_Height);
+				}
+			}
+
 			return false;
 		}
 
 		m_Frames++;
 
 		return true;
-	}
-
-	auto Renderer::on_resize(uint32_t width, uint32_t height) -> void {
-		m_Width  = width;
-		m_Height = height;
 	}
 
 	auto Renderer::recreate_swapchain() -> bool {
@@ -170,6 +177,12 @@ namespace aby::rhi::vulkan {
 		return texture_id;
 	}
 
+	auto Renderer::update_texture(uint32_t texture_id, vk::ImageView view, vk::Sampler sampler) -> void {
+		vk::DescriptorImageInfo info(sampler, view, vk::ImageLayout::eShaderReadOnlyOptimal);
+		vk::WriteDescriptorSet write(m_TextureDescriptors, 0, texture_id, 1, vk::DescriptorType::eCombinedImageSampler, &info);
+		vkUpdateDescriptorSets(m_Device.device, 1, vkcast(write), 0, nullptr);
+	}
+
 	auto Renderer::set_clear_color(Color color) -> void {
 		switch (m_Swapchain.image_format) {
 			case VK_FORMAT_R8_UINT:
@@ -254,6 +267,15 @@ namespace aby::rhi::vulkan {
 			aby_rhi_assert(!m_PresentPass, "renderer cannot have multiple passes marked as present");
 			m_PresentPass = rpass.get();
 		}
+
+		if (!rpass->resolve_attachments().empty()) {
+			auto& color_attachments   = rpass->color_attachments();
+			auto& resolve_attachments = rpass->resolve_attachments();
+			for (size_t i = 0; i < rpass->color_attachments().size(); i++) {
+				m_ColorToResolveAttachment[color_attachments[i]] = resolve_attachments[i];
+			}
+		}
+
 		m_RenderPasses.push_back(rpass);
 	}
 
@@ -302,9 +324,28 @@ namespace aby::rhi::vulkan {
 		return m_ClearColor;
 	}
 
+	auto Renderer::frame_index() const -> size_t {
+		return m_Frames.idx();
+	}
+
+	auto Renderer::get_resolve_attachment(rhi::Texture* color_attachment) -> rhi::Texture* {
+#ifndef NDEBUG
+		auto it = m_ColorToResolveAttachment.find(color_attachment);
+		if (it != m_ColorToResolveAttachment.end()) {
+			return it->second;
+		}
+		return nullptr;
+#else
+		return m_ColorToResolveAttachment[color_attachment];
+#endif
+	}
+
 	auto Renderer::init(void* native_window) -> bool {
 		auto& ctx = Context::get();
 		auto* log = ctx.logger();
+		m_Window  = native_window;
+
+		get_window_size(native_window, &m_Width, &m_Height);
 
 		if (!init_vulkan(native_window)) {
 			aby_rhi_err("failed to init vulkan");

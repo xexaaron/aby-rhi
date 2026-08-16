@@ -44,6 +44,7 @@ namespace aby::rhi {
 	};
 
 	auto Shader::create(const fs::path& rel_path) -> Resource {
+		aby_rhi_assert(Context::get().job_sys(), "context was not initialized");
 		// Officially we do not support using precompiled shaders here.
 		// We want to cache them ourselves.
 		// For vertex shaders we want to build a descriptor layout from them; That is in the future.
