@@ -102,7 +102,6 @@ namespace aby::rhi::vulkan {
 			}
 		}
 
-		// TODO: Render targets should have their own sizes. for now default to window size
 		vk::RenderingInfo render_info(
 		    vk::RenderingFlags{},
 		    vk::Rect2D(
