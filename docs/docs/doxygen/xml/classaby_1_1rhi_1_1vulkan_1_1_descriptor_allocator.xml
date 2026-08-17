@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::DescriptorAllocator</compoundname>
+    <includes refid="vulkan-descriptors_8hpp" local="no">vulkan-descriptors.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab939104695bef13fea6e6d0ab94cf4d0" prot="private" static="no" mutable="no">
+        <type>vk::DescriptorPool</type>
+        <definition>vk::DescriptorPool aby::rhi::vulkan::DescriptorAllocator::m_Pool</definition>
+        <argsstring></argsstring>
+        <name>m_Pool</name>
+        <qualifiedname>aby::rhi::vulkan::DescriptorAllocator::m_Pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="34" column="20" bodyfile="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab726e2b1e62a0ea2ab7d5a8d38f58733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::DescriptorAllocator::init</definition>
+        <argsstring>(uint32_t max_sets, std::span&lt; PoolSizeRatio &gt; pool_ratios, vk::DescriptorPoolCreateFlags flags)</argsstring>
+        <name>init</name>
+        <qualifiedname>aby::rhi::vulkan::DescriptorAllocator::init</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_sets</declname>
+        </param>
+        <param>
+          <type>std::span&lt; <ref refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" kindref="compound">PoolSizeRatio</ref> &gt;</type>
+          <declname>pool_ratios</declname>
+        </param>
+        <param>
+          <type>vk::DescriptorPoolCreateFlags</type>
+          <declname>flags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="29" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a50527903e77a2bd28d7700191a45eeef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::DescriptorSet</type>
+        <definition>vk::DescriptorSet aby::rhi::vulkan::DescriptorAllocator::alloc</definition>
+        <argsstring>(vk::DescriptorSetLayout layout)</argsstring>
+        <name>alloc</name>
+        <qualifiedname>aby::rhi::vulkan::DescriptorAllocator::alloc</qualifiedname>
+        <param>
+          <type>vk::DescriptorSetLayout</type>
+          <declname>layout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="30" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a624ede8eb3f7d8d40f7f155d5f18830b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::DescriptorAllocator::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>aby::rhi::vulkan::DescriptorAllocator::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="31" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a26dc2a575253bef22688625712e83b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::DescriptorAllocator::deinit</definition>
+        <argsstring>()</argsstring>
+        <name>deinit</name>
+        <qualifiedname>aby::rhi::vulkan::DescriptorAllocator::deinit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="32" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="27" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a50527903e77a2bd28d7700191a45eeef" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::DescriptorAllocator</scope><name>alloc</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a624ede8eb3f7d8d40f7f155d5f18830b" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::DescriptorAllocator</scope><name>clear</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a26dc2a575253bef22688625712e83b10" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::DescriptorAllocator</scope><name>deinit</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab726e2b1e62a0ea2ab7d5a8d38f58733" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::DescriptorAllocator</scope><name>init</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab939104695bef13fea6e6d0ab94cf4d0" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::DescriptorAllocator</scope><name>m_Pool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

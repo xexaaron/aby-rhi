@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="context_8hpp" kind="file" language="C++">
+    <compoundname>context.hpp</compoundname>
+    <includes refid="interfaces_8hpp" local="yes">interfaces/interfaces.hpp</includes>
+    <includes refid="renderer_8hpp" local="yes">renderer.hpp</includes>
+    <includes refid="resource_8hpp" local="yes">resource.hpp</includes>
+    <includes refid="texture_8hpp" local="yes">texture.hpp</includes>
+    <includes local="no">concepts</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="aby-rhi_8hpp" local="yes">include/aby-rhi/aby-rhi.hpp</includedby>
+    <includedby refid="vulkan-common_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-common.hpp</includedby>
+    <includedby refid="vulkan-texture_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-texture.hpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>buffer.hpp</label>
+        <link refid="buffer_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>common-types.hpp</label>
+        <link refid="common-types_8hpp_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>common.hpp</label>
+        <link refid="common_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/context.hpp</label>
+        <link refid="context_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>draw-cmd.hpp</label>
+        <link refid="draw-cmd_8hpp_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>interfaces/interfaces.hpp</label>
+        <link refid="interfaces_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>render-pass.hpp</label>
+        <link refid="render-pass_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>renderer.hpp</label>
+        <link refid="renderer_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>resource.hpp</label>
+        <link refid="resource_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>shader.hpp</label>
+        <link refid="shader_8hpp_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>texture.hpp</label>
+        <link refid="texture_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="27">
+        <label>array</label>
+      </node>
+      <node id="19">
+        <label>cassert</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="30">
+        <label>concepts</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="24">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="6">
+        <label>format</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>memory</label>
+      </node>
+      <node id="25">
+        <label>mutex</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="29">
+        <label>set</label>
+      </node>
+      <node id="13">
+        <label>span</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>string_view</label>
+      </node>
+      <node id="31">
+        <label>type_traits</label>
+      </node>
+      <node id="21">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aby-rhi/aby-rhi.hpp</label>
+        <link refid="aby-rhi_8hpp_source"/>
+      </node>
+      <node id="3">
+        <label>include/aby-rhi/backends/vulkan/vulkan-common.hpp</label>
+        <link refid="vulkan-common_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/aby-rhi/backends/vulkan/vulkan-frame.hpp</label>
+        <link refid="vulkan-frame_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/aby-rhi/backends/vulkan/vulkan-image.hpp</label>
+        <link refid="vulkan-image_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/aby-rhi/backends/vulkan/vulkan-immediate-cmd.hpp</label>
+        <link refid="vulkan-immediate-cmd_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp_source"/>
+      </node>
+      <node id="7">
+        <label>include/aby-rhi/backends/vulkan/vulkan-texture.hpp</label>
+        <link refid="vulkan-texture_8hpp_source"/>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/context.hpp</label>
+        <link refid="context_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structaby_1_1rhi_1_1_context_params" prot="public">aby::rhi::ContextParams</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1_context" prot="public">aby::rhi::Context</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;interfaces/interfaces.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;renderer.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;resource.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;texture.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;concepts&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi" kindref="compound">aby::rhi</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="structaby_1_1rhi_1_1_context_params" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structaby_1_1rhi_1_1_context_params" kindref="compound">ContextParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="15" refid="structaby_1_1rhi_1_1_context_params_1a03a07cc59359f2caf2ac2e44d62d0a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ERenderer<sp/><ref refid="structaby_1_1rhi_1_1_context_params_1a03a07cc59359f2caf2ac2e44d62d0a3d" kindref="member">renderer_backend</ref>;</highlight></codeline>
+<codeline lineno="17" refid="structaby_1_1rhi_1_1_context_params_1ae454085f523aeb8dde70b42e41173721" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EWindow<sp/><ref refid="structaby_1_1rhi_1_1_context_params_1ae454085f523aeb8dde70b42e41173721" kindref="member">window_backend</ref>;</highlight></codeline>
+<codeline lineno="26" refid="structaby_1_1rhi_1_1_context_params_1a76cdea12a9508bbff3b783a706b2068a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="structaby_1_1rhi_1_1_context_params_1a76cdea12a9508bbff3b783a706b2068a" kindref="member">native_window</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structaby_1_1rhi_1_1_context_params_1aebd6af8e57d8e06d8b51a62ae09d7704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structaby_1_1rhi_1_1_graphics_params" kindref="compound">GraphicsParams</ref><sp/><ref refid="structaby_1_1rhi_1_1_context_params_1aebd6af8e57d8e06d8b51a62ae09d7704" kindref="member">graphics</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classaby_1_1rhi_1_1_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1_context" kindref="compound">Context</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36" refid="classaby_1_1rhi_1_1_context_1a243368881baa9b7c39fbc83fa12ba16f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_context_1a243368881baa9b7c39fbc83fa12ba16f" kindref="member">get</ref>()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_context" kindref="compound">Context</ref>&amp;;</highlight></codeline>
+<codeline lineno="42" refid="classaby_1_1rhi_1_1_context_1a8607a07ab5e6d154e4b5de6b60f3b2a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_context_1a8607a07ab5e6d154e4b5de6b60f3b2a8" kindref="member">init</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structaby_1_1rhi_1_1_context_params" kindref="compound">ContextParams</ref>&amp;<sp/>params)<sp/>-&gt;<sp/>bool;</highlight></codeline>
+<codeline lineno="46" refid="classaby_1_1rhi_1_1_context_1aba02ef780650c855c0d444073785d940" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_context_1aba02ef780650c855c0d444073785d940" kindref="member">deinit</ref>()<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>renderer_backend()<sp/>const<sp/>-&gt;<sp/>ERenderer;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>window_backend()<sp/>const<sp/>-&gt;<sp/>EWindow;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>renderer()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_renderer" kindref="compound">Renderer</ref>*;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>logger()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_i_logger" kindref="compound">ILogger</ref>*;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>allocator()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_i_allocator" kindref="compound">IAllocator</ref>*;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>file_io()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_i_file_i_o" kindref="compound">IFileIO</ref>*;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>job_sys()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_i_job_system" kindref="compound">IJobSystem</ref>*;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>textures()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_resource_container" kindref="compound">ResourceContainer</ref>&lt;<ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">Texture</ref>,<sp/>EResource::texture&gt;&amp;;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>shaders()<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1_resource_container" kindref="compound">ResourceContainer</ref>&lt;<ref refid="classaby_1_1rhi_1_1_shader" kindref="compound">Shader</ref>,<sp/>EResource::shader&gt;&amp;;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>template<sp/>&lt;typename<sp/>T&gt;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requires(<ref refid="namespacestd" kindref="compound">std</ref>::derived_from&lt;T,<sp/><ref refid="classaby_1_1rhi_1_1_i_interface" kindref="compound">IInterface</ref>&gt;)</highlight></codeline>
+<codeline lineno="66" refid="classaby_1_1rhi_1_1_context_1ad7aac01962b69336e20bbc018c139174" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/><ref refid="classaby_1_1rhi_1_1_context_1ad7aac01962b69336e20bbc018c139174" kindref="member">set_interface</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(std::is_base_of_v&lt;ILogger,<sp/>T&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_Logger<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>T();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(std::is_base_of_v&lt;IAllocator,<sp/>T&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_Allocator<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>T();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(std::is_base_of_v&lt;IFileIO,<sp/>T&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_FileIO<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>T();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(std::is_base_of_v&lt;IJobSystem,<sp/>T&gt;)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_JobSystem<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>T();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::false_type::value,<sp/></highlight><highlight class="stringliteral">&quot;unimplemented<sp/>interface<sp/>type&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_i_logger" kindref="compound">ILogger</ref>*<sp/>m_Logger;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_i_allocator" kindref="compound">IAllocator</ref>*<sp/>m_Allocator;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_i_file_i_o" kindref="compound">IFileIO</ref>*<sp/>m_FileIO;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_i_job_system" kindref="compound">IJobSystem</ref>*<sp/>m_JobSystem;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_renderer" kindref="compound">Renderer</ref>*<sp/>m_Renderer;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structaby_1_1rhi_1_1_context_params" kindref="compound">ContextParams</ref><sp/>m_Params;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_resource_container" kindref="compound">ResourceContainer&lt;Texture, EResource::texture&gt;</ref><sp/>m_Textures;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_resource_container" kindref="compound">ResourceContainer&lt;Shader, EResource::shader&gt;</ref><sp/>m_Shaders;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/context.hpp"/>
+  </compounddef>
+</doxygen>

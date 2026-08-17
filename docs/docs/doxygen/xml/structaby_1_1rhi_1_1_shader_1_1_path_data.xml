@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structaby_1_1rhi_1_1_shader_1_1_path_data" kind="struct" language="C++" prot="protected">
+    <compoundname>aby::rhi::Shader::PathData</compoundname>
+    <includes refid="shader_8hpp" local="no">shader.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_shader_1_1_path_data_1ab4b74eabe48ab3358fa9ae48d339c5c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string aby::rhi::Shader::PathData::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>aby::rhi::Shader::PathData::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="46" column="13" bodyfile="include/aby-rhi/shader.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_shader_1_1_path_data_1a299d2c1df95ef70d6fa31aa6bf16c65a" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path aby::rhi::Shader::PathData::ext</definition>
+        <argsstring></argsstring>
+        <name>ext</name>
+        <qualifiedname>aby::rhi::Shader::PathData::ext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="47" column="10" bodyfile="include/aby-rhi/shader.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_shader_1_1_path_data_1a03c64183d675950d716ac4c1d6a6a512" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool aby::rhi::Shader::PathData::is_compiled</definition>
+        <argsstring></argsstring>
+        <name>is_compiled</name>
+        <qualifiedname>aby::rhi::Shader::PathData::is_compiled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="48" column="6" bodyfile="include/aby-rhi/shader.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/shader.hpp" line="45" column="1" bodyfile="include/aby-rhi/shader.hpp" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1a299d2c1df95ef70d6fa31aa6bf16c65a" prot="public" virt="non-virtual"><scope>aby::rhi::Shader::PathData</scope><name>ext</name></member>
+      <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1a03c64183d675950d716ac4c1d6a6a512" prot="public" virt="non-virtual"><scope>aby::rhi::Shader::PathData</scope><name>is_compiled</name></member>
+      <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1ab4b74eabe48ab3358fa9ae48d339c5c9" prot="public" virt="non-virtual"><scope>aby::rhi::Shader::PathData</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

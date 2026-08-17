@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_shader" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>aby::rhi::Shader</compoundname>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1vulkan_1_1_shader" prot="public" virt="non-virtual">aby::rhi::vulkan::Shader</derivedcompoundref>
+    <includes refid="shader_8hpp" local="no">shader.hpp</includes>
+    <innerclass refid="structaby_1_1rhi_1_1_shader_1_1_path_data" prot="protected">aby::rhi::Shader::PathData</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a4f3e74a618b0b04774290b8a1811ec5d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+        <definition>static Resource aby::rhi::Shader::create</definition>
+        <argsstring>(const fs::path &amp;rel_path)</argsstring>
+        <name>create</name>
+        <qualifiedname>aby::rhi::Shader::create</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+<para>The type of shader will be determined by the path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>Do not use precompiled shaders. For vertex shaders we want to be able to parse a description. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500add992be5859bfc12e59d4c15b4c17cf8" kindref="member">.geom</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Geometry shader </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500ac9b416167392c2b301810695b92efa12" kindref="member">.vert</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vertex shader </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a43cf0c43c2b82750b67586fe559677a1" kindref="member">.frag</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fragment shader </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a005480c8a6a0357d17cff2e8eb7e060d" kindref="member">.comp</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compute shader </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="37" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1ad1ccc266c889d51aa71bb25b34f48dfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual aby::rhi::Shader::~Shader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Shader</name>
+        <qualifiedname>aby::rhi::Shader::~Shader</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a0a5c478b221fff1cae3d6020ca5efce6">~Shader</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="38" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a7e6a00e7b70d47401a04b84d2e172988" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::span&lt; uint32_t &gt;</type>
+        <definition>virtual std::span&lt; uint32_t &gt; aby::rhi::Shader::data</definition>
+        <argsstring>()=0</argsstring>
+        <name>data</name>
+        <qualifiedname>aby::rhi::Shader::data</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a495cc59f2a1d017e55348ac87a7d7283">data</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="40" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a4f0268fe77b47f850e909cde86edd86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void aby::rhi::Shader::bind</definition>
+        <argsstring>()=0</argsstring>
+        <name>bind</name>
+        <qualifiedname>aby::rhi::Shader::bind</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ad1c67333add71c0d1a3e6b70bdc7144e">bind</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="41" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a0e6e1c084676dbe1eacf80f62c7d0255" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void aby::rhi::Shader::destroy</definition>
+        <argsstring>()=0</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::Shader::destroy</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a15f00fd3885ae25811cee8b23c4f27e6">destroy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="42" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a962cb15a9cf71e3cc5a9676fc5f6c03a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref></type>
+        <definition>virtual EShader aby::rhi::Shader::type</definition>
+        <argsstring>() const=0</argsstring>
+        <name>type</name>
+        <qualifiedname>aby::rhi::Shader::type</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1aef16cc54c20b273f635ba8538f367fb6">type</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="43" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a140bff6553220771839ecfb70170acbe" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref></type>
+        <definition>static EShader aby::rhi::Shader::ext_to_eshader</definition>
+        <argsstring>(const fs::path &amp;ext)</argsstring>
+        <name>ext_to_eshader</name>
+        <qualifiedname>aby::rhi::Shader::ext_to_eshader</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>ext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="51" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a80999463004e04c44a9bbae8c907576b" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_shader_1_1_path_data" kindref="compound">PathData</ref></type>
+        <definition>static PathData aby::rhi::Shader::get_path_data</definition>
+        <argsstring>(const fs::path &amp;rel_path)</argsstring>
+        <name>get_path_data</name>
+        <qualifiedname>aby::rhi::Shader::get_path_data</qualifiedname>
+        <param>
+          <type>const fs::path &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="52" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1a3506036a8773f83c4d15566506bf7e76" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool aby::rhi::Shader::is_cached_shader</definition>
+        <argsstring>(fs::path rel_path)</argsstring>
+        <name>is_cached_shader</name>
+        <qualifiedname>aby::rhi::Shader::is_cached_shader</qualifiedname>
+        <param>
+          <type>fs::path</type>
+          <declname>rel_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="53" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_shader_1ab3de78365958bf1c95e4bae46e8cd2a8" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t aby::rhi::Shader::size_of_glsl_type</definition>
+        <argsstring>(const std::string &amp;glsl_type)</argsstring>
+        <name>size_of_glsl_type</name>
+        <qualifiedname>aby::rhi::Shader::size_of_glsl_type</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>glsl_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/shader.hpp" line="54" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>aby::rhi::Shader</label>
+        <link refid="classaby_1_1rhi_1_1_shader"/>
+      </node>
+      <node id="2">
+        <label>aby::rhi::vulkan::Shader</label>
+        <link refid="classaby_1_1rhi_1_1vulkan_1_1_shader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/aby-rhi/shader.hpp" line="27" column="1" bodyfile="include/aby-rhi/shader.hpp" bodystart="27" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_shader_1a4f0268fe77b47f850e909cde86edd86c" prot="public" virt="pure-virtual"><scope>aby::rhi::Shader</scope><name>bind</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a4f3e74a618b0b04774290b8a1811ec5d" prot="public" virt="non-virtual"><scope>aby::rhi::Shader</scope><name>create</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a7e6a00e7b70d47401a04b84d2e172988" prot="public" virt="pure-virtual"><scope>aby::rhi::Shader</scope><name>data</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a0e6e1c084676dbe1eacf80f62c7d0255" prot="public" virt="pure-virtual"><scope>aby::rhi::Shader</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a140bff6553220771839ecfb70170acbe" prot="protected" virt="non-virtual"><scope>aby::rhi::Shader</scope><name>ext_to_eshader</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a80999463004e04c44a9bbae8c907576b" prot="protected" virt="non-virtual"><scope>aby::rhi::Shader</scope><name>get_path_data</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a3506036a8773f83c4d15566506bf7e76" prot="protected" virt="non-virtual"><scope>aby::rhi::Shader</scope><name>is_cached_shader</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1ab3de78365958bf1c95e4bae46e8cd2a8" prot="protected" virt="non-virtual"><scope>aby::rhi::Shader</scope><name>size_of_glsl_type</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1a962cb15a9cf71e3cc5a9676fc5f6c03a" prot="public" virt="pure-virtual"><scope>aby::rhi::Shader</scope><name>type</name></member>
+      <member refid="classaby_1_1rhi_1_1_shader_1ad1ccc266c889d51aa71bb25b34f48dfe" prot="public" virt="virtual"><scope>aby::rhi::Shader</scope><name>~Shader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

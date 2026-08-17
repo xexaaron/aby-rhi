@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-gc_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-gc.hpp</compoundname>
+    <includes refid="common_8hpp" local="yes">common.hpp</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">stack</includes>
+    <includedby refid="vulkan-renderer_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-gc.hpp</label>
+        <link refid="vulkan-gc_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>common-types.hpp</label>
+        <link refid="common-types_8hpp_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>common.hpp</label>
+        <link refid="common_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>format</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>stack</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-gc.hpp</label>
+        <link refid="vulkan-gc_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" prot="public">aby::rhi::vulkan::GarbageCollector</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;common.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stack&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">aby::rhi::vulkan<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" kindref="compound">GarbageCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Dtor<sp/>=<sp/>std::function&lt;void()&gt;;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>push(Dtor&amp;&amp;<sp/>dtor)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>run()<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::stack&lt;Dtor&gt;<sp/>m_Dtors;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp"/>
+  </compounddef>
+</doxygen>

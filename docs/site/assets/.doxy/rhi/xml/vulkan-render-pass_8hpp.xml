@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-render-pass_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-render-pass.hpp</compoundname>
+    <includes refid="vulkan-buffer_8hpp" local="yes">backends/vulkan/vulkan-buffer.hpp</includes>
+    <includes refid="vulkan-descriptors_8hpp" local="yes">backends/vulkan/vulkan-descriptors.hpp</includes>
+    <includes refid="vulkan-pipeline_8hpp" local="yes">backends/vulkan/vulkan-pipeline.hpp</includes>
+    <includes refid="render-pass_8hpp" local="yes">render-pass.hpp</includes>
+    <includes refid="resource_8hpp" local="yes">resource.hpp</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="vulkan-renderer_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>backends/vulkan/vulkan-buffer.hpp</label>
+        <link refid="vulkan-buffer_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>backends/vulkan/vulkan-descriptors.hpp</label>
+        <link refid="vulkan-descriptors_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>backends/vulkan/vulkan-pipeline.hpp</label>
+        <link refid="vulkan-pipeline_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp</label>
+        <link refid="vulkan-render-pass_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>buffer.hpp</label>
+        <link refid="buffer_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>common-types.hpp</label>
+        <link refid="common-types_8hpp_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>common.hpp</label>
+        <link refid="common_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>draw-cmd.hpp</label>
+        <link refid="draw-cmd_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>interfaces/interfaces.hpp</label>
+        <link refid="interfaces_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>render-pass.hpp</label>
+        <link refid="render-pass_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>resource.hpp</label>
+        <link refid="resource_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>shader.hpp</label>
+        <link refid="shader_8hpp_source"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>texture.hpp</label>
+        <link refid="texture_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="32">
+        <label>array</label>
+      </node>
+      <node id="12">
+        <label>cassert</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>deque</label>
+      </node>
+      <node id="24">
+        <label>filesystem</label>
+      </node>
+      <node id="7">
+        <label>format</label>
+      </node>
+      <node id="25">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="30">
+        <label>mutex</label>
+      </node>
+      <node id="31">
+        <label>queue</label>
+      </node>
+      <node id="34">
+        <label>set</label>
+      </node>
+      <node id="26">
+        <label>span</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="27">
+        <label>string_view</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+      <node id="15">
+        <label>vk_mem_alloc.h</label>
+      </node>
+      <node id="16">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp</label>
+        <link refid="vulkan-render-pass_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" prot="public">aby::rhi::vulkan::Uniform</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" prot="public">aby::rhi::vulkan::RenderPass</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder" prot="public">aby::rhi::vulkan::RenderPassBuilder</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;backends/vulkan/vulkan-buffer.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;backends/vulkan/vulkan-descriptors.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;backends/vulkan/vulkan-pipeline.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;render-pass.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;resource.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">aby::rhi::vulkan<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" kindref="compound">Uniform</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>binding;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::ShaderStageFlags<sp/>stages;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::DescriptorSet<sp/>set;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" kindref="compound">vulkan::Buffer</ref><sp/>buffer;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RenderPass<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_render_pass" kindref="compound">rhi::RenderPass</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RenderPass(std::unique_ptr&lt;Pipeline&gt;<sp/>pipeline,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Resource&gt;&amp;<sp/>shaders,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>Uniform&gt;&amp;<sp/>uniforms,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;rhi::Texture*&gt;&amp;<sp/>color_attachments,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;rhi::Texture*&gt;&amp;<sp/>resolve_attachments,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref>*<sp/>present_attachment);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_uniform(std::string_view<sp/>name,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa877357824f04e74593c7bcc8d30c803" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa877357824f04e74593c7bcc8d30c803" kindref="member">bind</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a25846b6866aa8c29c39819f8ea24532f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a25846b6866aa8c29c39819f8ea24532f" kindref="member">begin</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8c6e1a0289f368d660ba3ce472242452" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8c6e1a0289f368d660ba3ce472242452" kindref="member">end</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a29b096ec9b891427118d13c99eda8058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a29b096ec9b891427118d13c99eda8058" kindref="member">run</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a54ed5978ebc0c09641c5b0f1a5b2495f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a54ed5978ebc0c09641c5b0f1a5b2495f" kindref="member">destroy</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa07195462a3067e6ce971abb493bff61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa07195462a3067e6ce971abb493bff61" kindref="member">set_viewport</ref>(vec2&lt;float&gt;<sp/>size,<sp/>vec2&lt;float&gt;<sp/>loc<sp/>=<sp/>{<sp/>0.f,<sp/>0.f<sp/>},<sp/>vec2&lt;float&gt;<sp/>min_max_depth<sp/>=<sp/>{<sp/>0.f,<sp/>1.f<sp/>})<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a9c9eefe431ec68db688ef355f488e27e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a9c9eefe431ec68db688ef355f488e27e" kindref="member">set_scissor</ref>(vec2&lt;float&gt;<sp/>offset,<sp/>vec2&lt;float&gt;<sp/>size)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>is_present()<sp/>const<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>present_attachment()<sp/>-&gt;<sp/><ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>color_attachments()<sp/>-&gt;<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*&gt;&amp;;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>resolve_attachments()<sp/>-&gt;<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*&gt;&amp;;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>set_bind_point(vk::PipelineBindPoint<sp/>point)<sp/>-&gt;<sp/>RenderPass&amp;;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/>set_cmd_buffer(vk::CommandBuffer<sp/>cmd)<sp/>-&gt;<sp/>RenderPass&amp;;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineBindPoint<sp/>m_BindPoint;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::CommandBuffer<sp/>m_Cmd;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::unique_ptr&lt;<ref refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline" kindref="compound">Pipeline</ref>&gt;<sp/>m_Pipeline;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref>&gt;<sp/>m_Shaders;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::unordered_map&lt;<ref refid="namespacestd" kindref="compound">std</ref>::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" kindref="compound">Uniform</ref>&gt;<sp/>m_Uniforms;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*&gt;<sp/>m_ColorAttachments;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*&gt;<sp/>m_ResolveAttachments;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::<ref refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kindref="compound">Texture</ref>*<sp/>m_PresentAttachment;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/>RenderPassBuilder<sp/>:<sp/>public<sp/><ref refid="namespaceaby_1_1rhi" kindref="compound">rhi</ref>::RenderPassBuilder<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RenderPassBuilder();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>build()<sp/>-&gt;<sp/>std::shared_ptr&lt;rhi::RenderPass&gt;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_render_pass_1a0e40d3c1f53599cc96655057f945db4f" kindref="member">clear</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a8d153520c2d7967ee5263e9b49680e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a8d153520c2d7967ee5263e9b49680e91" kindref="member">add_shader</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path&amp;<sp/>rel_path)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a8d153520c2d7967ee5263e9b49680e91" kindref="member">add_shader</ref>(<ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref><sp/>shader)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>add_uniform(std::string_view<sp/>name,<sp/>uint32_t<sp/>binding,<sp/>EShader<sp/>stage)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>add_color_attachment(<ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref><sp/>texture,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_present_target<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_topology(ETopology<sp/>topology)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_polygon_mode(EPolygonMode<sp/>mode,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>line_width)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_cull_mode(ECullMode<sp/>mode,<sp/>EFrontFace<sp/>front_face)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_depth_format(EFormat<sp/>format)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_depth(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_test,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable_write,<sp/>ECompareOp<sp/>compare_op)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_stencil(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable,<sp/>ECompareOp<sp/>compare_op)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_blend_color(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable,<sp/><ref refid="structaby_1_1rhi_1_1_blend" kindref="compound">Blend</ref><sp/>blend,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attachment<sp/>=<sp/>0)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_blend_alpha(<ref refid="structaby_1_1rhi_1_1_blend" kindref="compound">Blend</ref><sp/>blend,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attachment<sp/>=<sp/>0)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_blend_mask(EChannels<sp/>mask,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>attachment<sp/>=<sp/>0)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_antialiasing(EAntiAliasing<sp/>aliasing)<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>disable_blending()<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>disable_depthtest()<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a3ac0160b6acdc6731e0175b993e04ec1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a3ac0160b6acdc6731e0175b993e04ec1" kindref="member">use_default_attachment_formats</ref>()<sp/>-&gt;<sp/>RenderPassBuilder&amp;<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref><sp/>m_PresentAttachment;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>m_PresentAttachmentIdx;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::Format<sp/>m_ColorAttachmentFormat;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineLayout<sp/>m_PipelineLayout;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineInputAssemblyStateCreateInfo<sp/>m_InputAssembly;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineRasterizationStateCreateInfo<sp/>m_Rasterizer;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineMultisampleStateCreateInfo<sp/>m_Multisampling;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineDepthStencilStateCreateInfo<sp/>m_DepthStencil;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::PipelineRenderingCreateInfo<sp/>m_RenderInfo;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::SampleCountFlagBits<sp/>m_SampleCount;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Resource&gt;<sp/>m_Shaders;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::VertexInputBindingDescription&gt;<sp/>m_VertexInputBindings;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::VertexInputAttributeDescription&gt;<sp/>m_VertexAttributes;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::PipelineShaderStageCreateInfo&gt;<sp/>m_ShaderStages;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::DescriptorSetLayout&gt;<sp/>m_DescriptorSetLayouts;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::DescriptorSet&gt;<sp/>m_DescriptorSets;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::Format&gt;<sp/>m_ColorAttachmentFormats;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Resource&gt;<sp/>m_ColorAttachments;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::PipelineColorBlendAttachmentState&gt;<sp/>m_ColorBlendAttachments;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>vk::DescriptorSetLayoutBinding&gt;<sp/>m_UniformBindings;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Uniform&gt;<sp/>m_Uniforms;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp"/>
+  </compounddef>
+</doxygen>

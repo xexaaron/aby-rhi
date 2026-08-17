@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-helpers_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-helpers.hpp</compoundname>
+    <includes refid="common-enums_8hpp" local="yes">common-enums.hpp</includes>
+    <includes local="no">VkBootstrap.h</includes>
+    <includes local="no">vulkan/vulkan.hpp</includes>
+    <includedby refid="vulkan-common_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-common.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-helpers.hpp</label>
+        <link refid="vulkan-helpers_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>VkBootstrap.h</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>format</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-common.hpp</label>
+        <link refid="vulkan-common_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/aby-rhi/backends/vulkan/vulkan-frame.hpp</label>
+        <link refid="vulkan-frame_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-helpers.hpp</label>
+        <link refid="vulkan-helpers_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/aby-rhi/backends/vulkan/vulkan-image.hpp</label>
+        <link refid="vulkan-image_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aby-rhi/backends/vulkan/vulkan-immediate-cmd.hpp</label>
+        <link refid="vulkan-immediate-cmd_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp"/>
+      </node>
+      <node id="6">
+        <label>include/aby-rhi/backends/vulkan/vulkan-texture.hpp</label>
+        <link refid="vulkan-texture_8hpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="common-enums_8hpp" kindref="compound">common-enums.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;VkBootstrap.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi_1_1vulkan" kindref="compound">aby::rhi::vulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="namespaceaby_1_1rhi_1_1vulkan_1a84e0d3a6aba99a1b4561ed06c5eb18fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a84e0d3a6aba99a1b4561ed06c5eb18fe" kindref="member">log_error</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vkb::Error&amp;<sp/><ref refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237facb5e100e5a9a3e7f6d1fd97512215282" kindref="member">error</ref>)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="namespaceaby_1_1rhi_1_1vulkan_1a0f8b2baae0836eee3b7bc1cfd58dcd0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a0f8b2baae0836eee3b7bc1cfd58dcd0c" kindref="member">eformat_to_vkformat</ref>(<ref refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126e" kindref="member">EFormat</ref><sp/>format)<sp/>-&gt;<sp/>vk::Format;</highlight></codeline>
+<codeline lineno="12" refid="namespaceaby_1_1rhi_1_1vulkan_1ac9618924bc323a23e4d33c85dc2587df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ac9618924bc323a23e4d33c85dc2587df" kindref="member">erepeatmode_to_vkrepeatmode</ref>(<ref refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61c" kindref="member">ERepeatMode</ref><sp/>repeat_mode)<sp/>-&gt;<sp/>vk::SamplerAddressMode;</highlight></codeline>
+<codeline lineno="13" refid="namespaceaby_1_1rhi_1_1vulkan_1aa1b1d8a99d2e1a3d40d0bd04ff273ea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1aa1b1d8a99d2e1a3d40d0bd04ff273ea1" kindref="member">efiltering_to_vkfilter</ref>(<ref refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9" kindref="member">EFiltering</ref><sp/>filtering)<sp/>-&gt;<sp/>std::pair&lt;vk::Filter,<sp/>vk::SamplerMipmapMode&gt;;</highlight></codeline>
+<codeline lineno="14" refid="namespaceaby_1_1rhi_1_1vulkan_1acc42a7bf4c7788604d164b590dc980c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1acc42a7bf4c7788604d164b590dc980c4" kindref="member">eblendop_to_vkblendop</ref>(<ref refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5c" kindref="member">EBlendOp</ref><sp/>blend_op)<sp/>-&gt;<sp/>vk::BlendOp;</highlight></codeline>
+<codeline lineno="15" refid="namespaceaby_1_1rhi_1_1vulkan_1ae02aeb834c399b9e556b41093702b24b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ae02aeb834c399b9e556b41093702b24b" kindref="member">eblendfactor_to_vkblendfactor</ref>(<ref refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983" kindref="member">EBlendFactor</ref><sp/>blend_factor)<sp/>-&gt;<sp/>vk::BlendFactor;</highlight></codeline>
+<codeline lineno="16" refid="namespaceaby_1_1rhi_1_1vulkan_1a9e687ca4e42dbfc0645c1e8105c58d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a9e687ca4e42dbfc0645c1e8105c58d39" kindref="member">ecompareop_to_vkcompareop</ref>(<ref refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5" kindref="member">ECompareOp</ref><sp/>compare_op)<sp/>-&gt;<sp/>vk::CompareOp;</highlight></codeline>
+<codeline lineno="17" refid="namespaceaby_1_1rhi_1_1vulkan_1a834f5bb79464d027ab63d218c8d49ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a834f5bb79464d027ab63d218c8d49ade" kindref="member">ecullmode_to_vkcullmode</ref>(<ref refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250f" kindref="member">ECullMode</ref><sp/>cull_mode)<sp/>-&gt;<sp/>vk::CullModeFlags;</highlight></codeline>
+<codeline lineno="18" refid="namespaceaby_1_1rhi_1_1vulkan_1ad6a5db0483992266010854f566356481" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ad6a5db0483992266010854f566356481" kindref="member">efrontface_to_vkfrontface</ref>(<ref refid="namespaceaby_1_1rhi_1a55cd0fa75cc403cc5353e6516552b6f0" kindref="member">EFrontFace</ref><sp/>front_face)<sp/>-&gt;<sp/>vk::FrontFace;</highlight></codeline>
+<codeline lineno="19" refid="namespaceaby_1_1rhi_1_1vulkan_1ad7d1969dab917264b10e8e4a6f53d39d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ad7d1969dab917264b10e8e4a6f53d39d" kindref="member">etopology_to_vktopology</ref>(<ref refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719" kindref="member">ETopology</ref><sp/>topology)<sp/>-&gt;<sp/>vk::PrimitiveTopology;</highlight></codeline>
+<codeline lineno="20" refid="namespaceaby_1_1rhi_1_1vulkan_1ac91dd866c0c16415f0f05b49a667fdfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ac91dd866c0c16415f0f05b49a667fdfd" kindref="member">epolygonmode_to_vkpolygonmode</ref>(<ref refid="namespaceaby_1_1rhi_1a50b739c595e66fca5ab7139e2f54f1d5" kindref="member">EPolygonMode</ref><sp/>polygon_mode)<sp/>-&gt;<sp/>vk::PolygonMode;</highlight></codeline>
+<codeline lineno="21" refid="namespaceaby_1_1rhi_1_1vulkan_1a44a2af6a09a9e773905bbba869e42fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a44a2af6a09a9e773905bbba869e42fde" kindref="member">eshader_to_vkshader</ref>(<ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref><sp/><ref refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59a842e3e5fe6c1b834705abd4bcb213342" kindref="member">shader</ref>)<sp/>-&gt;<sp/>vk::ShaderStageFlags;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp"/>
+  </compounddef>
+</doxygen>

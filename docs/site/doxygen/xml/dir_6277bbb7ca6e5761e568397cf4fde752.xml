@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_6277bbb7ca6e5761e568397cf4fde752" kind="dir">
+    <compoundname>include/aby-rhi/interfaces</compoundname>
+    <innerfile refid="default__allocator_8hpp">default_allocator.hpp</innerfile>
+    <innerfile refid="default__fileio_8hpp">default_fileio.hpp</innerfile>
+    <innerfile refid="default__interfaces_8hpp">default_interfaces.hpp</innerfile>
+    <innerfile refid="default__job__system_8hpp">default_job_system.hpp</innerfile>
+    <innerfile refid="default__logger_8hpp">default_logger.hpp</innerfile>
+    <innerfile refid="interfaces_8hpp">interfaces.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/interfaces/"/>
+  </compounddef>
+</doxygen>

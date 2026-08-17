@@ -1,7 +1,9 @@
+
 site_name: Abyss Render Hardware Interface
 site_description: aby-rhi documentation
 site_author: xexaaron
-site_dir: bin/docs
+site_dir: docs/site
+docs_dir: docs/docs 
 copyright: Copyright &copy; 2026 xexaaron
 repo_url: https://github.com/xexaaron/aby-rhi
 
@@ -13,15 +15,15 @@ nav:
   - Api Overview:
     - Interfaces: api/interfaces.md
   - Api: 
-    - Class Table Of Contents: rhi\annotated.md
-    - Files: rhi\files.md
-    - Namespaces: rhi\namespaces.md
-    - Classes: rhi\classes.md
-    - Functions: rhi\namespace_member_functions.md
-    - Globals/Constants: rhi\namespace_member_variables.md
-    - Typdefs: rhi\namespace_member_typedefs.md
-    - Enums: rhi\namespace_member_enums.md
-    - Macros: rhi\macros.md
+    - Class Table Of Contents: rhi/annotated.md
+    - Files: rhi/files.md
+    - Namespaces: rhi/namespaces.md
+    - Classes: rhi/classes.md
+    - Functions: rhi/namespace_member_functions.md
+    - Globals/Constants: rhi/namespace_member_variables.md
+    - Typdefs: rhi/namespace_member_typedefs.md
+    - Enums: rhi/namespace_member_enums.md
+    - Macros: rhi/macros.md
 
 theme:
   name: material
@@ -58,10 +60,10 @@ theme:
     - json
 
 extra_css:
-  - stylesheets/extra.css
+  - docs/docs/stylesheets/extra.css
 
 hooks:
-  - docs/hooks/repo_url.py
+  - docs/docs/hooks/repo_url.py
 
 markdown_extensions:
   - pymdownx.highlight:

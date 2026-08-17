@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="buffer_8hpp" kind="file" language="C++">
+    <compoundname>buffer.hpp</compoundname>
+    <includes refid="common_8hpp" local="yes">common.hpp</includes>
+    <includes local="no">cassert</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="aby-rhi_8hpp" local="yes">include/aby-rhi/aby-rhi.hpp</includedby>
+    <includedby refid="vulkan-buffer_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-buffer.hpp</includedby>
+    <includedby refid="draw-cmd_8hpp" local="yes">include/aby-rhi/draw-cmd.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>common-types.hpp</label>
+        <link refid="common-types_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>common.hpp</label>
+        <link refid="common_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>cassert</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>format</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aby-rhi/aby-rhi.hpp</label>
+        <link refid="aby-rhi_8hpp"/>
+      </node>
+      <node id="3">
+        <label>include/aby-rhi/backends/vulkan/vulkan-buffer.hpp</label>
+        <link refid="vulkan-buffer_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/aby-rhi/backends/vulkan/vulkan-common.hpp</label>
+        <link refid="vulkan-common_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/aby-rhi/backends/vulkan/vulkan-frame.hpp</label>
+        <link refid="vulkan-frame_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/aby-rhi/backends/vulkan/vulkan-image.hpp</label>
+        <link refid="vulkan-image_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/aby-rhi/backends/vulkan/vulkan-immediate-cmd.hpp</label>
+        <link refid="vulkan-immediate-cmd_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp</label>
+        <link refid="vulkan-render-pass_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp"/>
+      </node>
+      <node id="6">
+        <label>include/aby-rhi/backends/vulkan/vulkan-texture.hpp</label>
+        <link refid="vulkan-texture_8hpp"/>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/buffer.hpp</label>
+        <link refid="buffer_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/aby-rhi/context.hpp</label>
+        <link refid="context_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/aby-rhi/draw-cmd.hpp</label>
+        <link refid="draw-cmd_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/aby-rhi/render-pass.hpp</label>
+        <link refid="render-pass_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/aby-rhi/renderer.hpp</label>
+        <link refid="renderer_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classaby_1_1rhi_1_1_buffer" prot="public">aby::rhi::Buffer</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1_vertex_buffer" prot="public">aby::rhi::VertexBuffer</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1_index_buffer" prot="public">aby::rhi::IndexBuffer</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="common_8hpp" kindref="compound">common.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cassert&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi" kindref="compound">aby::rhi</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="classaby_1_1rhi_1_1_buffer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" kindref="member">Buffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17" refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" kindref="member">Buffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" kindref="member">stride</ref>);</highlight></codeline>
+<codeline lineno="18" refid="classaby_1_1rhi_1_1_buffer_1a40a1583abaee1aac8d46c58ac18a6a95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a40a1583abaee1aac8d46c58ac18a6a95" kindref="member">~Buffer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classaby_1_1rhi_1_1_buffer_1a8ed8bb779df662db652fcbbadcac97da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a8ed8bb779df662db652fcbbadcac97da" kindref="member">upload</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="27" refid="classaby_1_1rhi_1_1_buffer_1a1b057ac4138d4abb903564fe89379b1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a1b057ac4138d4abb903564fe89379b1e" kindref="member">destroy</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31" refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" kindref="member">stride</ref>()<sp/>const<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="classaby_1_1rhi_1_1_buffer_1aba604b89eba5a2f634ce9052c7839a77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1aba604b89eba5a2f634ce9052c7839a77" kindref="member">capacity_bytes</ref>()<sp/>const<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40" refid="classaby_1_1rhi_1_1_buffer_1a85a0959e2dadf66b7c0eff8a02c9e2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a85a0959e2dadf66b7c0eff8a02c9e2c2" kindref="member">used_bytes</ref>()<sp/>const<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="classaby_1_1rhi_1_1_buffer_1afc5ab1e474fab38d90d06cc44368f074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1afc5ab1e474fab38d90d06cc44368f074" kindref="member">count</ref>()<sp/>const<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="classaby_1_1rhi_1_1_buffer_1a857d26b9455b44c422ee57c73b9a0b73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a857d26b9455b44c422ee57c73b9a0b73" kindref="member">clear</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>protected:</highlight></codeline>
+<codeline lineno="51" refid="classaby_1_1rhi_1_1_buffer_1abf6b0f3c370379eed661f9e9562cf957" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1abf6b0f3c370379eed661f9e9562cf957" kindref="member">m_Stride</ref>;</highlight></codeline>
+<codeline lineno="52" refid="classaby_1_1rhi_1_1_buffer_1af2ee19c849a2a8f2931d2a6ed0f2d8a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1af2ee19c849a2a8f2931d2a6ed0f2d8a0" kindref="member">m_Size</ref>;</highlight></codeline>
+<codeline lineno="53" refid="classaby_1_1rhi_1_1_buffer_1ad0116fd6fb97e06ab0d29401c9027e80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1ad0116fd6fb97e06ab0d29401c9027e80" kindref="member">m_Count</ref>;</highlight></codeline>
+<codeline lineno="54" refid="classaby_1_1rhi_1_1_buffer_1aea2f9da2c688342d879a6d11229bfbf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t*<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1aea2f9da2c688342d879a6d11229bfbf3" kindref="member">m_Data</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classaby_1_1rhi_1_1_vertex_buffer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1a288977ebca8fe8b0d5eb853026dedf33" kindref="member">VertexBuffer</ref><sp/>:<sp/>public<sp/><ref refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" kindref="member">Buffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64" refid="classaby_1_1rhi_1_1_vertex_buffer_1a318f602f3b14a6b6a274de58a7df54f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1a318f602f3b14a6b6a274de58a7df54f3" kindref="member">create</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" kindref="member">stride</ref>)<sp/>-&gt;<sp/>std::shared_ptr&lt;VertexBuffer&gt;;</highlight></codeline>
+<codeline lineno="70" refid="classaby_1_1rhi_1_1_vertex_buffer_1a288977ebca8fe8b0d5eb853026dedf33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1a288977ebca8fe8b0d5eb853026dedf33" kindref="member">VertexBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" kindref="member">stride</ref>);</highlight></codeline>
+<codeline lineno="74" refid="classaby_1_1rhi_1_1_vertex_buffer_1ae451b8b5e820445a35376727a25320b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1ae451b8b5e820445a35376727a25320b6" kindref="member">upload</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78" refid="classaby_1_1rhi_1_1_vertex_buffer_1af41b70d48f7c52a3feb1d2aedf128fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1af41b70d48f7c52a3feb1d2aedf128fec" kindref="member">destroy</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83" refid="classaby_1_1rhi_1_1_vertex_buffer_1a47d9cc04974c655ebd9ca9f34382e1df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_vertex_buffer_1a47d9cc04974c655ebd9ca9f34382e1df" kindref="member">push</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>v)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classaby_1_1rhi_1_1_index_buffer" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" kindref="member">IndexBuffer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" kindref="member">Buffer</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classaby_1_1rhi_1_1_index_buffer_1aa5527d4cd1b252febc4b8c4a16462269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_index_buffer_1aa5527d4cd1b252febc4b8c4a16462269" kindref="member">create</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>-&gt;<sp/>std::shared_ptr&lt;IndexBuffer&gt;;</highlight></codeline>
+<codeline lineno="98" refid="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" kindref="member">IndexBuffer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="102" refid="classaby_1_1rhi_1_1_index_buffer_1ab5e5c9acd7e513da7f0758f9ef92deda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_index_buffer_1ab5e5c9acd7e513da7f0758f9ef92deda" kindref="member">upload</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="classaby_1_1rhi_1_1_index_buffer_1afb1181820527e8cec5d7d57e6bb70add" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_index_buffer_1afb1181820527e8cec5d7d57e6bb70add" kindref="member">destroy</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111" refid="classaby_1_1rhi_1_1_index_buffer_1a1d94959609484c3bdffc284a1b11dac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_index_buffer_1a1d94959609484c3bdffc284a1b11dac9" kindref="member">push</ref>(uint32_t<sp/>index)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/buffer.hpp"/>
+  </compounddef>
+</doxygen>

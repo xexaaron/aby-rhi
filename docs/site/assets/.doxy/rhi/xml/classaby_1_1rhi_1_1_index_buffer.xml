@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_index_buffer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>aby::rhi::IndexBuffer</compoundname>
+    <basecompoundref refid="classaby_1_1rhi_1_1_buffer" prot="public" virt="non-virtual">aby::rhi::Buffer</basecompoundref>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer" prot="public" virt="non-virtual">aby::rhi::vulkan::IndexBuffer</derivedcompoundref>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_index_buffer_1aa5527d4cd1b252febc4b8c4a16462269" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classaby_1_1rhi_1_1_index_buffer" kindref="compound">IndexBuffer</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; IndexBuffer &gt; aby::rhi::IndexBuffer::create</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>create</name>
+        <qualifiedname>aby::rhi::IndexBuffer::create</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Create an Index buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The desired index count of the buffer (uint32_t indices) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/buffer.hpp" line="93" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::IndexBuffer::IndexBuffer</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>IndexBuffer</name>
+        <qualifiedname>aby::rhi::IndexBuffer::IndexBuffer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classaby_1_1rhi_1_1_index_buffer" kindref="compound">IndexBuffer</ref> constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The desired index count of the buffer (uint32_t indices) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/buffer.hpp" line="98" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_index_buffer_1ab5e5c9acd7e513da7f0758f9ef92deda" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void aby::rhi::IndexBuffer::upload</definition>
+        <argsstring>()=0</argsstring>
+        <name>upload</name>
+        <qualifiedname>aby::rhi::IndexBuffer::upload</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_buffer_1a8ed8bb779df662db652fcbbadcac97da">upload</reimplements>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1a5e2a8c6cd1626b2a9bd081f0ab7d29e7">upload</reimplementedby>
+        <briefdescription>
+<para>Upload the buffers cpu data to the GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/buffer.hpp" line="102" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_index_buffer_1afb1181820527e8cec5d7d57e6bb70add" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void aby::rhi::IndexBuffer::destroy</definition>
+        <argsstring>()=0</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::IndexBuffer::destroy</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_buffer_1a1b057ac4138d4abb903564fe89379b1e">destroy</reimplements>
+        <reimplementedby refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1ab355875499e61f622d9cf80925e36b3a">destroy</reimplementedby>
+        <briefdescription>
+<para>Cleanup all resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/buffer.hpp" line="106" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_index_buffer_1a1d94959609484c3bdffc284a1b11dac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::IndexBuffer::push</definition>
+        <argsstring>(uint32_t index)</argsstring>
+        <name>push</name>
+        <qualifiedname>aby::rhi::IndexBuffer::push</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Push an index into the cpu buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/buffer.hpp" line="111" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>aby::rhi::Buffer</label>
+        <link refid="classaby_1_1rhi_1_1_buffer"/>
+      </node>
+      <node id="1">
+        <label>aby::rhi::IndexBuffer</label>
+        <link refid="classaby_1_1rhi_1_1_index_buffer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::vulkan::IndexBuffer</label>
+        <link refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>aby::rhi::Buffer</label>
+        <link refid="classaby_1_1rhi_1_1_buffer"/>
+      </node>
+      <node id="1">
+        <label>aby::rhi::IndexBuffer</label>
+        <link refid="classaby_1_1rhi_1_1_index_buffer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/buffer.hpp" line="87" column="1" bodyfile="include/aby-rhi/buffer.hpp" bodystart="87" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>Buffer</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1aba604b89eba5a2f634ce9052c7839a77" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>capacity_bytes</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1a857d26b9455b44c422ee57c73b9a0b73" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>clear</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1afc5ab1e474fab38d90d06cc44368f074" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>count</name></member>
+      <member refid="classaby_1_1rhi_1_1_index_buffer_1aa5527d4cd1b252febc4b8c4a16462269" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>create</name></member>
+      <member refid="classaby_1_1rhi_1_1_index_buffer_1afb1181820527e8cec5d7d57e6bb70add" prot="public" virt="pure-virtual"><scope>aby::rhi::IndexBuffer</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>IndexBuffer</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1ad0116fd6fb97e06ab0d29401c9027e80" prot="protected" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>m_Count</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1aea2f9da2c688342d879a6d11229bfbf3" prot="protected" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>m_Data</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1af2ee19c849a2a8f2931d2a6ed0f2d8a0" prot="protected" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>m_Size</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1abf6b0f3c370379eed661f9e9562cf957" prot="protected" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>m_Stride</name></member>
+      <member refid="classaby_1_1rhi_1_1_index_buffer_1a1d94959609484c3bdffc284a1b11dac9" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>push</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>stride</name></member>
+      <member refid="classaby_1_1rhi_1_1_index_buffer_1ab5e5c9acd7e513da7f0758f9ef92deda" prot="public" virt="pure-virtual"><scope>aby::rhi::IndexBuffer</scope><name>upload</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1a85a0959e2dadf66b7c0eff8a02c9e2c2" prot="public" virt="non-virtual"><scope>aby::rhi::IndexBuffer</scope><name>used_bytes</name></member>
+      <member refid="classaby_1_1rhi_1_1_buffer_1a40a1583abaee1aac8d46c58ac18a6a95" prot="public" virt="virtual"><scope>aby::rhi::IndexBuffer</scope><name>~Buffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

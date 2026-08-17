@@ -174,12 +174,12 @@ if (ABY_RHI_BUILD_DOCS)
     find_package(Doxygen REQUIRED)
 
    file(MAKE_DIRECTORY
-        ${CMAKE_CURRENT_SOURCE_DIR}/docs/doxygen/xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/docs/docs/doxygen/xml
         ${CMAKE_CURRENT_SOURCE_DIR}/bin/docs
     )
 
     add_custom_target(aby-rhi-docs ALL
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/docs/Doxyfile
 
         COMMAND ${Python3_EXECUTABLE} -m mkdocs build
 

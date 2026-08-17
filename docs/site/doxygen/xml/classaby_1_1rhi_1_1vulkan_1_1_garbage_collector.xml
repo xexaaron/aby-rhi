@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::GarbageCollector</compoundname>
+    <includes refid="vulkan-gc_8hpp" local="no">vulkan-gc.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af17d2ff2582cb6b9db2681cd37997132" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using aby::rhi::vulkan::GarbageCollector::Dtor =  std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Dtor</name>
+        <qualifiedname>aby::rhi::vulkan::GarbageCollector::Dtor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" line="11" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1ab64d6fb61a2cb18269a0dee5f0977f91" prot="private" static="no" mutable="no">
+        <type>std::stack&lt; <ref refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af17d2ff2582cb6b9db2681cd37997132" kindref="member">Dtor</ref> &gt;</type>
+        <definition>std::stack&lt;Dtor&gt; aby::rhi::vulkan::GarbageCollector::m_Dtors</definition>
+        <argsstring></argsstring>
+        <name>m_Dtors</name>
+        <qualifiedname>aby::rhi::vulkan::GarbageCollector::m_Dtors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" line="16" column="12" bodyfile="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1a47d2324fbffbed1dc156dcaab1e670a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::GarbageCollector::push</definition>
+        <argsstring>(Dtor &amp;&amp;dtor)</argsstring>
+        <name>push</name>
+        <qualifiedname>aby::rhi::vulkan::GarbageCollector::push</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af17d2ff2582cb6b9db2681cd37997132" kindref="member">Dtor</ref> &amp;&amp;</type>
+          <declname>dtor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" line="13" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af3b782baff3874dfcc29fdfec2082125" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::GarbageCollector::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>aby::rhi::vulkan::GarbageCollector::run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" line="14" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" line="9" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-gc.hpp" bodystart="9" bodyend="17"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af17d2ff2582cb6b9db2681cd37997132" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::GarbageCollector</scope><name>Dtor</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1ab64d6fb61a2cb18269a0dee5f0977f91" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::GarbageCollector</scope><name>m_Dtors</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1a47d2324fbffbed1dc156dcaab1e670a6" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::GarbageCollector</scope><name>push</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af3b782baff3874dfcc29fdfec2082125" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::GarbageCollector</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

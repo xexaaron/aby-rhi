@@ -1,0 +1,621 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="namespaceaby_1_1rhi_1_1vulkan" kind="namespace" language="C++">
+    <compoundname>aby::rhi::vulkan</compoundname>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" prot="public">aby::rhi::vulkan::Buffer</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" prot="public">aby::rhi::vulkan::DescriptorAllocator</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" prot="public">aby::rhi::vulkan::DescriptorLayoutBuilder</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_frame" prot="public">aby::rhi::vulkan::Frame</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_frames" prot="public">aby::rhi::vulkan::Frames</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" prot="public">aby::rhi::vulkan::GarbageCollector</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_image" prot="public">aby::rhi::vulkan::Image</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands" prot="public">aby::rhi::vulkan::ImmediateCommands</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer" prot="public">aby::rhi::vulkan::IndexBuffer</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline" prot="public">aby::rhi::vulkan::Pipeline</innerclass>
+    <innerclass refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" prot="public">aby::rhi::vulkan::PoolSizeRatio</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_renderer" prot="public">aby::rhi::vulkan::Renderer</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" prot="public">aby::rhi::vulkan::RenderPass</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder" prot="public">aby::rhi::vulkan::RenderPassBuilder</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_shader" prot="public">aby::rhi::vulkan::Shader</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_texture" prot="public">aby::rhi::vulkan::Texture</innerclass>
+    <innerclass refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" prot="public">aby::rhi::vulkan::Uniform</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer" prot="public">aby::rhi::vulkan::VertexBuffer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="vulkan-frame_8hpp_1a3b53df09b05c6ea8d4b794b9575c4970" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::vulkan::MAX_FRAMES_IN_FLIGHT</definition>
+        <argsstring></argsstring>
+        <name>MAX_FRAMES_IN_FLIGHT</name>
+        <qualifiedname>aby::rhi::vulkan::MAX_FRAMES_IN_FLIGHT</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="6" column="25" bodyfile="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" bodystart="6" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="vulkan-callbacks_8hpp_1ad5bc8e7072a9835dfcf92a9fcdccbeaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>VkAllocationCallbacks *</type>
+        <definition>VkAllocationCallbacks * aby::rhi::vulkan::allocator</definition>
+        <argsstring>()</argsstring>
+        <name>allocator</name>
+        <qualifiedname>aby::rhi::vulkan::allocator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" line="6" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-callbacks_8hpp_1a54be09a75e9165ba194f3f8e00c2ffbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto VKAPI_PTR</type>
+        <definition>auto VKAPI_PTR aby::rhi::vulkan::vk_alloc_callback</definition>
+        <argsstring>(void *pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope) -&gt; void *</argsstring>
+        <name>vk_alloc_callback</name>
+        <qualifiedname>aby::rhi::vulkan::vk_alloc_callback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>pUserData</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>VkSystemAllocationScope</type>
+          <declname>allocationScope</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" line="8" column="16" declfile="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" declline="8" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-callbacks_8hpp_1af6cbb0fbc1b1a08b0887cac79711938e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto VKAPI_PTR</type>
+        <definition>auto VKAPI_PTR aby::rhi::vulkan::vk_realloc_callback</definition>
+        <argsstring>(void *pUserData, void *pOriginal, size_t size, size_t alignment, VkSystemAllocationScope allocationScope) -&gt; void *</argsstring>
+        <name>vk_realloc_callback</name>
+        <qualifiedname>aby::rhi::vulkan::vk_realloc_callback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>pUserData</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>pOriginal</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>VkSystemAllocationScope</type>
+          <declname>allocationScope</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" line="9" column="16" declfile="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" declline="9" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-callbacks_8hpp_1ab389da76da4a5b80d9f5c8106971e094" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>auto VKAPI_PTR</type>
+        <definition>auto VKAPI_PTR aby::rhi::vulkan::vk_free_callback</definition>
+        <argsstring>(void *pUserData, void *pMemory) -&gt; void</argsstring>
+        <name>vk_free_callback</name>
+        <qualifiedname>aby::rhi::vulkan::vk_free_callback</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>pUserData</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>pMemory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" line="10" column="16" declfile="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" declline="10" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-callbacks_8hpp_1ac50b536f53dfc0f0bc26aa0c5f37132f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>VKAPI_ATTR VkBool32 VKAPI_CALL</type>
+        <definition>VKAPI_ATTR VkBool32 VKAPI_CALL aby::rhi::vulkan::vk_debug_callback</definition>
+        <argsstring>(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT type, const VkDebugUtilsMessengerCallbackDataEXT *data, void *user_data)</argsstring>
+        <name>vk_debug_callback</name>
+        <qualifiedname>aby::rhi::vulkan::vk_debug_callback</qualifiedname>
+        <param>
+          <type>VkDebugUtilsMessageSeverityFlagBitsEXT</type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>VkDebugUtilsMessageTypeFlagsEXT</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const VkDebugUtilsMessengerCallbackDataEXT *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>user_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" line="11" column="32" declfile="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp" declline="11" declcolumn="32"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-common_8hpp_1ae1f7f4396a5ac61d7a3e4b0bc3c0502d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>typename std::remove_cvref_t&lt; T &gt;::NativeType *</type>
+        <definition>typename std::remove_cvref_t&lt; T &gt;::NativeType * aby::rhi::vulkan::vkcast</definition>
+        <argsstring>(T &amp;obj)</argsstring>
+        <name>vkcast</name>
+        <qualifiedname>aby::rhi::vulkan::vkcast</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Helper function for converting vk:: namespaced types from vulkan.hpp to their Vulkan C counterparts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>reference to a vk:: namespaced object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vulkan-C pointee </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-common.hpp" line="79" column="6" bodyfile="include/aby-rhi/backends/vulkan/vulkan-common.hpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-common_8hpp_1af1aa442d6ddfb7d18a1d401b3a0b66f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>typename std::remove_cvref_t&lt; T &gt;::NativeType *</type>
+        <definition>typename std::remove_cvref_t&lt; T &gt;::NativeType * aby::rhi::vulkan::vkcast</definition>
+        <argsstring>(T *obj)</argsstring>
+        <name>vkcast</name>
+        <qualifiedname>aby::rhi::vulkan::vkcast</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Helper function for converting vk:: namespaced types from vulkan.hpp to their Vulkan C counterparts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>pointer to a vk:: namespaced object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vulkan-C pointee </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-common.hpp" line="91" column="6" bodyfile="include/aby-rhi/backends/vulkan/vulkan-common.hpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-common_8hpp_1a2e34e2ab77d94f628473db22be8d304b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto aby::rhi::vulkan::vkconvert</definition>
+        <argsstring>(T value)</argsstring>
+        <name>vkconvert</name>
+        <qualifiedname>aby::rhi::vulkan::vkconvert</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-common.hpp" line="97" column="6" bodyfile="include/aby-rhi/backends/vulkan/vulkan-common.hpp" bodystart="97" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-dispatch_8hpp_1afa3882630a99da0410152d563c51854e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::load_functions</definition>
+        <argsstring>(vk::Instance instance, vk::Device device)</argsstring>
+        <name>load_functions</name>
+        <qualifiedname>aby::rhi::vulkan::load_functions</qualifiedname>
+        <param>
+          <type>vk::Instance</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>vk::Device</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-dispatch.hpp" line="6" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-dispatch.hpp" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1a84e0d3a6aba99a1b4561ed06c5eb18fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::log_error</definition>
+        <argsstring>(const std::string &amp;message, const vkb::Error &amp;error)</argsstring>
+        <name>log_error</name>
+        <qualifiedname>aby::rhi::vulkan::log_error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const vkb::Error &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="9" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="9" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1a0f8b2baae0836eee3b7bc1cfd58dcd0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::Format</type>
+        <definition>vk::Format aby::rhi::vulkan::eformat_to_vkformat</definition>
+        <argsstring>(EFormat format)</argsstring>
+        <name>eformat_to_vkformat</name>
+        <qualifiedname>aby::rhi::vulkan::eformat_to_vkformat</qualifiedname>
+        <param>
+          <type>EFormat</type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="11" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="11" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1ac9618924bc323a23e4d33c85dc2587df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::SamplerAddressMode</type>
+        <definition>vk::SamplerAddressMode aby::rhi::vulkan::erepeatmode_to_vkrepeatmode</definition>
+        <argsstring>(ERepeatMode repeat_mode)</argsstring>
+        <name>erepeatmode_to_vkrepeatmode</name>
+        <qualifiedname>aby::rhi::vulkan::erepeatmode_to_vkrepeatmode</qualifiedname>
+        <param>
+          <type>ERepeatMode</type>
+          <declname>repeat_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="12" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="12" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1aa1b1d8a99d2e1a3d40d0bd04ff273ea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; vk::Filter, vk::SamplerMipmapMode &gt;</type>
+        <definition>std::pair&lt; vk::Filter, vk::SamplerMipmapMode &gt; aby::rhi::vulkan::efiltering_to_vkfilter</definition>
+        <argsstring>(EFiltering filtering)</argsstring>
+        <name>efiltering_to_vkfilter</name>
+        <qualifiedname>aby::rhi::vulkan::efiltering_to_vkfilter</qualifiedname>
+        <param>
+          <type>EFiltering</type>
+          <declname>filtering</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="13" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="13" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1acc42a7bf4c7788604d164b590dc980c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::BlendOp</type>
+        <definition>vk::BlendOp aby::rhi::vulkan::eblendop_to_vkblendop</definition>
+        <argsstring>(EBlendOp blend_op)</argsstring>
+        <name>eblendop_to_vkblendop</name>
+        <qualifiedname>aby::rhi::vulkan::eblendop_to_vkblendop</qualifiedname>
+        <param>
+          <type>EBlendOp</type>
+          <declname>blend_op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="14" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="14" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1ae02aeb834c399b9e556b41093702b24b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::BlendFactor</type>
+        <definition>vk::BlendFactor aby::rhi::vulkan::eblendfactor_to_vkblendfactor</definition>
+        <argsstring>(EBlendFactor blend_factor)</argsstring>
+        <name>eblendfactor_to_vkblendfactor</name>
+        <qualifiedname>aby::rhi::vulkan::eblendfactor_to_vkblendfactor</qualifiedname>
+        <param>
+          <type>EBlendFactor</type>
+          <declname>blend_factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="15" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="15" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1a9e687ca4e42dbfc0645c1e8105c58d39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::CompareOp</type>
+        <definition>vk::CompareOp aby::rhi::vulkan::ecompareop_to_vkcompareop</definition>
+        <argsstring>(ECompareOp compare_op)</argsstring>
+        <name>ecompareop_to_vkcompareop</name>
+        <qualifiedname>aby::rhi::vulkan::ecompareop_to_vkcompareop</qualifiedname>
+        <param>
+          <type>ECompareOp</type>
+          <declname>compare_op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="16" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="16" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1a834f5bb79464d027ab63d218c8d49ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::CullModeFlags</type>
+        <definition>vk::CullModeFlags aby::rhi::vulkan::ecullmode_to_vkcullmode</definition>
+        <argsstring>(ECullMode cull_mode)</argsstring>
+        <name>ecullmode_to_vkcullmode</name>
+        <qualifiedname>aby::rhi::vulkan::ecullmode_to_vkcullmode</qualifiedname>
+        <param>
+          <type>ECullMode</type>
+          <declname>cull_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="17" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="17" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1ad6a5db0483992266010854f566356481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::FrontFace</type>
+        <definition>vk::FrontFace aby::rhi::vulkan::efrontface_to_vkfrontface</definition>
+        <argsstring>(EFrontFace front_face)</argsstring>
+        <name>efrontface_to_vkfrontface</name>
+        <qualifiedname>aby::rhi::vulkan::efrontface_to_vkfrontface</qualifiedname>
+        <param>
+          <type>EFrontFace</type>
+          <declname>front_face</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="18" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="18" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1ad7d1969dab917264b10e8e4a6f53d39d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::PrimitiveTopology</type>
+        <definition>vk::PrimitiveTopology aby::rhi::vulkan::etopology_to_vktopology</definition>
+        <argsstring>(ETopology topology)</argsstring>
+        <name>etopology_to_vktopology</name>
+        <qualifiedname>aby::rhi::vulkan::etopology_to_vktopology</qualifiedname>
+        <param>
+          <type>ETopology</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="19" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="19" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1ac91dd866c0c16415f0f05b49a667fdfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::PolygonMode</type>
+        <definition>vk::PolygonMode aby::rhi::vulkan::epolygonmode_to_vkpolygonmode</definition>
+        <argsstring>(EPolygonMode polygon_mode)</argsstring>
+        <name>epolygonmode_to_vkpolygonmode</name>
+        <qualifiedname>aby::rhi::vulkan::epolygonmode_to_vkpolygonmode</qualifiedname>
+        <param>
+          <type>EPolygonMode</type>
+          <declname>polygon_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="20" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="20" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-helpers_8hpp_1a44a2af6a09a9e773905bbba869e42fde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::ShaderStageFlags</type>
+        <definition>vk::ShaderStageFlags aby::rhi::vulkan::eshader_to_vkshader</definition>
+        <argsstring>(EShader shader)</argsstring>
+        <name>eshader_to_vkshader</name>
+        <qualifiedname>aby::rhi::vulkan::eshader_to_vkshader</qualifiedname>
+        <param>
+          <type>EShader</type>
+          <declname>shader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" line="21" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-helpers.hpp" declline="21" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-platform_8hpp_1a88b9bd3742f2448394062ec12f6caa84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::create_surface</definition>
+        <argsstring>(void *native_window, VkInstance instance, VkSurfaceKHR *surface)</argsstring>
+        <name>create_surface</name>
+        <qualifiedname>aby::rhi::vulkan::create_surface</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>native_window</declname>
+        </param>
+        <param>
+          <type>VkInstance</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>VkSurfaceKHR *</type>
+          <declname>surface</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" line="7" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" declline="7" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-platform_8hpp_1a759a3c46f139e416b98728c897ebd7eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::get_instance_extensions</definition>
+        <argsstring>(std::vector&lt; const char * &gt; *inst_exts)</argsstring>
+        <name>get_instance_extensions</name>
+        <qualifiedname>aby::rhi::vulkan::get_instance_extensions</qualifiedname>
+        <param>
+          <type>std::vector&lt; const char * &gt; *</type>
+          <declname>inst_exts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" line="8" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" declline="8" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-platform_8hpp_1aa0b00d92960d33ad3f20f6ca59257fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const char * &gt;</type>
+        <definition>std::vector&lt; const char * &gt; aby::rhi::vulkan::get_device_extensions</definition>
+        <argsstring>()</argsstring>
+        <name>get_device_extensions</name>
+        <qualifiedname>aby::rhi::vulkan::get_device_extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" line="9" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" declline="9" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-platform_8hpp_1a186a9631c98a57d6dcf6fcfecfeaeb05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::get_extensions</definition>
+        <argsstring>(std::vector&lt; const char * &gt; *inst_exts, std::vector&lt; const char * &gt; *dev_exts)</argsstring>
+        <name>get_extensions</name>
+        <qualifiedname>aby::rhi::vulkan::get_extensions</qualifiedname>
+        <param>
+          <type>std::vector&lt; const char * &gt; *</type>
+          <declname>inst_exts</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; const char * &gt; *</type>
+          <declname>dev_exts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" line="10" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" declline="10" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="vulkan-platform_8hpp_1a1dbf774e9325cba59e71441808039294" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::get_window_size</definition>
+        <argsstring>(void *native_window, uint32_t *x, uint32_t *y)</argsstring>
+        <name>get_window_size</name>
+        <qualifiedname>aby::rhi::vulkan::get_window_size</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>native_window</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" line="11" column="6" declfile="include/aby-rhi/backends/vulkan/vulkan-platform.hpp" declline="11" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-buffer.hpp" line="7" column="1"/>
+  </compounddef>
+</doxygen>

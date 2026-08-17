@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_resource" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::Resource</compoundname>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1_resource_ptr" prot="public" virt="non-virtual">aby::rhi::ResourcePtr&lt; Shader, EResource::shader &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1_resource_ptr" prot="public" virt="non-virtual">aby::rhi::ResourcePtr&lt; Texture, EResource::texture &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1_resource_ptr" prot="public" virt="non-virtual">aby::rhi::ResourcePtr&lt; T, ResourceType &gt;</derivedcompoundref>
+    <includes refid="resource_8hpp" local="no">resource.hpp</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_1ad707284f79e113e502c965fc846f9169" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59" kindref="member">EResource</ref></type>
+        <definition>EResource aby::rhi::Resource::m_Type</definition>
+        <argsstring></argsstring>
+        <name>m_Type</name>
+        <qualifiedname>aby::rhi::Resource::m_Type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="35" column="11" bodyfile="include/aby-rhi/resource.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_1a1042ae5c3c104cb81fbe280724d2e435" prot="private" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2ecc" kindref="member">ResourceID</ref></type>
+        <definition>ResourceID aby::rhi::Resource::m_ID</definition>
+        <argsstring></argsstring>
+        <name>m_ID</name>
+        <qualifiedname>aby::rhi::Resource::m_ID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="36" column="12" bodyfile="include/aby-rhi/resource.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1a28f0dd688a1be7bb7a3f4ce9b096e1de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::Resource::Resource</definition>
+        <argsstring>(EResource type=EResource::none, ResourceID id=ResourceID::invalid)</argsstring>
+        <name>Resource</name>
+        <qualifiedname>aby::rhi::Resource::Resource</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59" kindref="member">EResource</ref></type>
+          <declname>type</declname>
+          <defval><ref refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59a334c4a4c42fdb79d7ebc3e73b517e6f8" kindref="member">EResource::none</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2ecc" kindref="member">ResourceID</ref></type>
+          <declname>id</declname>
+          <defval><ref refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2eccafedb2d84cafe20862cb4399751a8a7e3" kindref="member">ResourceID::invalid</ref></defval>
+        </param>
+        <briefdescription>
+<para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> constructor. Users should not construct Resources themselves and use the appropriate resource Create method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An id given by the <ref refid="classaby_1_1rhi_1_1_context" kindref="compound">Context</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="24" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1ae10b3765b78d0cd5ce0fcc3e2a5a2369" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59" kindref="member">EResource</ref></type>
+        <definition>EResource aby::rhi::Resource::type</definition>
+        <argsstring>() const</argsstring>
+        <name>type</name>
+        <qualifiedname>aby::rhi::Resource::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="26" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1afc4a4494ed7d63ae803e66d87743b5dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2ecc" kindref="member">ResourceID</ref></type>
+        <definition>ResourceID aby::rhi::Resource::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>aby::rhi::Resource::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="27" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1a1c4ce1b27f81e12e22c038efa5a29317" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::Resource::operator ResourceID</definition>
+        <argsstring>() const</argsstring>
+        <name>operator ResourceID</name>
+        <qualifiedname>aby::rhi::Resource::operator ResourceID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="29" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1a5c6075a6feea48a01375ddc46b36fb71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::Resource::operator std::pair&lt; EResource, ResourceID &gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator std::pair&lt; EResource, ResourceID &gt;</name>
+        <qualifiedname>aby::rhi::Resource::pair&lt; EResource, ResourceID &gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="30" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1a422d0fa299cb526fc956558f84e3265c" prot="public" static="no" const="yes" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::Resource::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>aby::rhi::Resource::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="32" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_1ac51832d0e49038f46459c0e33da98c0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::Resource::operator==</definition>
+        <argsstring>(Resource other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>aby::rhi::Resource::operator==</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="33" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A resource is a handle to the resource data contained with the <ref refid="classaby_1_1rhi_1_1_context" kindref="compound">Context</ref>. This is used for loading data asynchronously while still being able to give out valid usable IDs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>aby::rhi::Resource</label>
+        <link refid="classaby_1_1rhi_1_1_resource"/>
+      </node>
+      <node id="4">
+        <label>aby::rhi::ResourcePtr&lt; T, ResourceType &gt;</label>
+        <link refid="classaby_1_1rhi_1_1_resource_ptr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>aby::rhi::ResourcePtr&lt; Shader, EResource::shader &gt;</label>
+        <link refid="classaby_1_1rhi_1_1_resource_ptr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::ResourcePtr&lt; Texture, EResource::texture &gt;</label>
+        <link refid="classaby_1_1rhi_1_1_resource_ptr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/aby-rhi/resource.hpp" line="16" column="1" bodyfile="include/aby-rhi/resource.hpp" bodystart="16" bodyend="37"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_resource_1afc4a4494ed7d63ae803e66d87743b5dc" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>id</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1a1042ae5c3c104cb81fbe280724d2e435" prot="private" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>m_ID</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1ad707284f79e113e502c965fc846f9169" prot="private" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>m_Type</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1a422d0fa299cb526fc956558f84e3265c" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>operator bool</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1a1c4ce1b27f81e12e22c038efa5a29317" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>operator ResourceID</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1a5c6075a6feea48a01375ddc46b36fb71" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>operator std::pair&lt; EResource, ResourceID &gt;</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1ac51832d0e49038f46459c0e33da98c0a" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>operator==</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1a28f0dd688a1be7bb7a3f4ce9b096e1de" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>Resource</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_1ae10b3765b78d0cd5ce0fcc3e2a5a2369" prot="public" virt="non-virtual"><scope>aby::rhi::Resource</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_b2e089009e3d6019946b366985df1d18" kind="dir">
+    <compoundname>include/aby-rhi/backends</compoundname>
+    <innerdir refid="dir_8ecac3f6860031a9c88024a6c0dd2404">include/aby-rhi/backends/vulkan</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/"/>
+  </compounddef>
+</doxygen>

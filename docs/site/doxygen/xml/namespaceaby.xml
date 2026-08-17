@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="namespaceaby" kind="namespace" language="C++">
+    <compoundname>aby</compoundname>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-buffer.hpp" line="7" column="1"/>
+  </compounddef>
+</doxygen>

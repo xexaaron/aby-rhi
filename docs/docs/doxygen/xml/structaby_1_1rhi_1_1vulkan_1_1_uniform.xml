@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structaby_1_1rhi_1_1vulkan_1_1_uniform" kind="struct" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::Uniform</compoundname>
+    <includes refid="vulkan-render-pass_8hpp" local="no">vulkan-render-pass.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a7345cf10c726564117678efd9f26f430" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::vulkan::Uniform::binding</definition>
+        <argsstring></argsstring>
+        <name>binding</name>
+        <qualifiedname>aby::rhi::vulkan::Uniform::binding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="13" column="8" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a880daccf07c94967acb74eaa999a8f5e" prot="public" static="no" mutable="no">
+        <type>vk::ShaderStageFlags</type>
+        <definition>vk::ShaderStageFlags aby::rhi::vulkan::Uniform::stages</definition>
+        <argsstring></argsstring>
+        <name>stages</name>
+        <qualifiedname>aby::rhi::vulkan::Uniform::stages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="14" column="22" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a81ec9aeb11bafebb537a5c71bcc9405e" prot="public" static="no" mutable="no">
+        <type>vk::DescriptorSet</type>
+        <definition>vk::DescriptorSet aby::rhi::vulkan::Uniform::set</definition>
+        <argsstring></argsstring>
+        <name>set</name>
+        <qualifiedname>aby::rhi::vulkan::Uniform::set</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="15" column="19" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a85422ada02f8ca5669f3576c9e7f3fab" prot="public" static="no" mutable="no">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" kindref="compound">vulkan::Buffer</ref></type>
+        <definition>vulkan::Buffer aby::rhi::vulkan::Uniform::buffer</definition>
+        <argsstring></argsstring>
+        <name>buffer</name>
+        <qualifiedname>aby::rhi::vulkan::Uniform::buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="16" column="16" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>aby::rhi::vulkan::Buffer</label>
+        <link refid="classaby_1_1rhi_1_1vulkan_1_1_buffer"/>
+      </node>
+      <node id="1">
+        <label>aby::rhi::vulkan::Uniform</label>
+        <link refid="structaby_1_1rhi_1_1vulkan_1_1_uniform"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>buffer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="12" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="12" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a7345cf10c726564117678efd9f26f430" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Uniform</scope><name>binding</name></member>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a85422ada02f8ca5669f3576c9e7f3fab" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Uniform</scope><name>buffer</name></member>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a81ec9aeb11bafebb537a5c71bcc9405e" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Uniform</scope><name>set</name></member>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a880daccf07c94967acb74eaa999a8f5e" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Uniform</scope><name>stages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

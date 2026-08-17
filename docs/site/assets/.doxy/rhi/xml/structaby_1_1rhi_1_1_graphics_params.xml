@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structaby_1_1rhi_1_1_graphics_params" kind="struct" language="C++" prot="public">
+    <compoundname>aby::rhi::GraphicsParams</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/renderer.hpp" line="9" column="1" bodyfile="include/aby-rhi/renderer.hpp" bodystart="9" bodyend="10"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

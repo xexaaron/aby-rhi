@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1vulkan_1_1_frames" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::Frames</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1afb0a1e5c8f5bb8cc3e4ee3a57cc57b6e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::vulkan::Frames::m_CurrentFrame</definition>
+        <argsstring></argsstring>
+        <name>m_CurrentFrame</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::m_CurrentFrame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="38" column="8" bodyfile="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1a93c319992c35ed61325fa09b29f57ef2" prot="private" static="no" mutable="no">
+        <type>std::array&lt; <ref refid="classaby_1_1rhi_1_1vulkan_1_1_frame" kindref="compound">Frame</ref>, MAX_FRAMES_IN_FLIGHT &gt;</type>
+        <definition>std::array&lt;Frame, MAX_FRAMES_IN_FLIGHT&gt; aby::rhi::vulkan::Frames::m_Frames</definition>
+        <argsstring></argsstring>
+        <name>m_Frames</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::m_Frames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="39" column="12" bodyfile="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1a83bb9c9cff1ebda8396122d0a89cdcba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Frames::create</definition>
+        <argsstring>(uint32_t graphics_queue_family)</argsstring>
+        <name>create</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::create</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>graphics_queue_family</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="29" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1ac547064507ccc40886a8e853cb607c1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Frames::destroy</definition>
+        <argsstring>()</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::destroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="30" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1a68824984c25158469279b659b7ddfcc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::vulkan::Frames::idx</definition>
+        <argsstring>() const</argsstring>
+        <name>idx</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::idx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="32" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1a698107790dd853b21909d00a42db4e70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_frame" kindref="compound">Frame</ref> *</type>
+        <definition>Frame * aby::rhi::vulkan::Frames::operator-&gt;</definition>
+        <argsstring>()</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="34" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1a317e6b1be9b61ea38738811a08ec2494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_frames" kindref="compound">Frames</ref> &amp;</type>
+        <definition>Frames &amp; aby::rhi::vulkan::Frames::operator++</definition>
+        <argsstring>()</argsstring>
+        <name>operator++</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::operator++</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="35" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_frames_1abb2c69359bf87a5024fde016d1f78d9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_frames" kindref="compound">Frames</ref> &amp;</type>
+        <definition>Frames &amp; aby::rhi::vulkan::Frames::operator++</definition>
+        <argsstring>(int)</argsstring>
+        <name>operator++</name>
+        <qualifiedname>aby::rhi::vulkan::Frames::operator++</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="36" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" line="27" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-frame.hpp" bodystart="27" bodyend="40"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a83bb9c9cff1ebda8396122d0a89cdcba" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>create</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1ac547064507ccc40886a8e853cb607c1e" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a68824984c25158469279b659b7ddfcc0" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>idx</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1afb0a1e5c8f5bb8cc3e4ee3a57cc57b6e" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>m_CurrentFrame</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a93c319992c35ed61325fa09b29f57ef2" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>m_Frames</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a317e6b1be9b61ea38738811a08ec2494" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>operator++</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1abb2c69359bf87a5024fde016d1f78d9d" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>operator++</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a698107790dd853b21909d00a42db4e70" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Frames</scope><name>operator-&gt;</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

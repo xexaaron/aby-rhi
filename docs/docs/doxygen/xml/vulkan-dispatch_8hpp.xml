@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-dispatch_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-dispatch.hpp</compoundname>
+    <includes local="no">vulkan/vulkan.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-dispatch.hpp</label>
+        <link refid="vulkan-dispatch_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi_1_1vulkan" kindref="compound">aby::rhi::vulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="namespaceaby_1_1rhi_1_1vulkan_1afa3882630a99da0410152d563c51854e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1afa3882630a99da0410152d563c51854e" kindref="member">load_functions</ref>(vk::Instance<sp/>instance,<sp/>vk::Device<sp/>device)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-dispatch.hpp"/>
+  </compounddef>
+</doxygen>

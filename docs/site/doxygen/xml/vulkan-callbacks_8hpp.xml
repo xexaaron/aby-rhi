@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-callbacks_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-callbacks.hpp</compoundname>
+    <includes local="no">vulkan/vulkan.hpp</includes>
+    <includedby refid="vulkan-common_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-common.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp</label>
+        <link refid="vulkan-callbacks_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp</label>
+        <link refid="vulkan-callbacks_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-common.hpp</label>
+        <link refid="vulkan-common_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/aby-rhi/backends/vulkan/vulkan-frame.hpp</label>
+        <link refid="vulkan-frame_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/aby-rhi/backends/vulkan/vulkan-image.hpp</label>
+        <link refid="vulkan-image_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/aby-rhi/backends/vulkan/vulkan-immediate-cmd.hpp</label>
+        <link refid="vulkan-immediate-cmd_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp"/>
+      </node>
+      <node id="6">
+        <label>include/aby-rhi/backends/vulkan/vulkan-texture.hpp</label>
+        <link refid="vulkan-texture_8hpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi_1_1vulkan" kindref="compound">aby::rhi::vulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="namespaceaby_1_1rhi_1_1vulkan_1ad5bc8e7072a9835dfcf92a9fcdccbeaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ad5bc8e7072a9835dfcf92a9fcdccbeaf" kindref="member">allocator</ref>()<sp/>-&gt;<sp/>VkAllocationCallbacks*;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="namespaceaby_1_1rhi_1_1vulkan_1a54be09a75e9165ba194f3f8e00c2ffbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>VKAPI_PTR<sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1a54be09a75e9165ba194f3f8e00c2ffbc" kindref="member">vk_alloc_callback</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pUserData,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alignment,<sp/>VkSystemAllocationScope<sp/>allocationScope)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*;</highlight></codeline>
+<codeline lineno="9" refid="namespaceaby_1_1rhi_1_1vulkan_1af6cbb0fbc1b1a08b0887cac79711938e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>VKAPI_PTR<sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1af6cbb0fbc1b1a08b0887cac79711938e" kindref="member">vk_realloc_callback</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pUserData,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pOriginal,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alignment,<sp/>VkSystemAllocationScope<sp/>allocationScope)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*;</highlight></codeline>
+<codeline lineno="10" refid="namespaceaby_1_1rhi_1_1vulkan_1ab389da76da4a5b80d9f5c8106971e094" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>VKAPI_PTR<sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ab389da76da4a5b80d9f5c8106971e094" kindref="member">vk_free_callback</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pUserData,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pMemory)<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="11" refid="namespaceaby_1_1rhi_1_1vulkan_1ac50b536f53dfc0f0bc26aa0c5f37132f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>VKAPI_ATTR<sp/>VkBool32<sp/>VKAPI_CALL<sp/><ref refid="namespaceaby_1_1rhi_1_1vulkan_1ac50b536f53dfc0f0bc26aa0c5f37132f" kindref="member">vk_debug_callback</ref>(</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkDebugUtilsMessageSeverityFlagBitsEXT<sp/>severity,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VkDebugUtilsMessageTypeFlagsEXT<sp/>type,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VkDebugUtilsMessengerCallbackDataEXT*<sp/>data,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>user_data);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-callbacks.hpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_default_job_system" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::DefaultJobSystem</compoundname>
+    <basecompoundref refid="classaby_1_1rhi_1_1_i_job_system" prot="public" virt="non-virtual">aby::rhi::IJobSystem</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_default_job_system_1a23b5ae1f38524710017d1de92e7f384f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="structaby_1_1rhi_1_1_default_job_queue" kindref="compound">DefaultJobQueue</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;DefaultJobQueue&gt; &gt; aby::rhi::DefaultJobSystem::m_Queues</definition>
+        <argsstring></argsstring>
+        <name>m_Queues</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::m_Queues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="46" column="13" bodyfile="include/aby-rhi/interfaces/default_job_system.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_default_job_system_1a460134843d7c5899ff6e52cd10898217" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::DefaultJobSystem::m_NextQueue</definition>
+        <argsstring></argsstring>
+        <name>m_NextQueue</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::m_NextQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="47" column="8" bodyfile="include/aby-rhi/interfaces/default_job_system.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1af671bdbcde21669369f9507cd502baf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::DefaultJobSystem::DefaultJobSystem</definition>
+        <argsstring>()</argsstring>
+        <name>DefaultJobSystem</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::DefaultJobSystem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="37" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1add26f242327f7551fa8d8f31e06b3050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::DefaultJobSystem::~DefaultJobSystem</definition>
+        <argsstring>()</argsstring>
+        <name>~DefaultJobSystem</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::~DefaultJobSystem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="38" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1a799eb0691acacd67775e57c42b6e94bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view aby::rhi::DefaultJobSystem::name</definition>
+        <argsstring>() override</argsstring>
+        <name>name</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::name</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_interface_1a42636ed5df2a1792cad63ce1b763819b">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="40" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1a01c438b6da8c3ba4cc88a8be77578586" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t aby::rhi::DefaultJobSystem::thread_count</definition>
+        <argsstring>() override</argsstring>
+        <name>thread_count</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::thread_count</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_job_system_1a10deaa88522ddf207594dcab1d4cfa28">thread_count</reimplements>
+        <briefdescription>
+<para>Get the number of threads that jobs can be run on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="42" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1ae8a8026c9208a28be299c7d95074a52b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::DefaultJobSystem::add_job</definition>
+        <argsstring>(EJobPriority priority, Job &amp;&amp;job) override</argsstring>
+        <name>add_job</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::add_job</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_job_system_1aa2b18692e5f8eb46737bb65b10a88c21">add_job</reimplements>
+        <param>
+          <type>EJobPriority</type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type>Job &amp;&amp;</type>
+          <declname>job</declname>
+        </param>
+        <briefdescription>
+<para>Add a job to be ran asynchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The order in which the jobs should be completed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="43" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_job_system_1a24428c4bdc55ce9e27f6b8217f035ea7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::DefaultJobSystem::destroy</definition>
+        <argsstring>() override</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::DefaultJobSystem::destroy</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_job_system_1a37c8757bef713e0cb5190ff5bd530152">destroy</reimplements>
+        <briefdescription>
+<para>Should cleanup any resources the JobSystem uses and finish all jobs currently running. The jobs must finish because they could be jobs such as caching data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="44" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>aby::rhi::DefaultJobSystem</label>
+        <link refid="classaby_1_1rhi_1_1_default_job_system"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+      <node id="2">
+        <label>aby::rhi::IJobSystem</label>
+        <link refid="classaby_1_1rhi_1_1_i_job_system"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>aby::rhi::DefaultJobSystem</label>
+        <link refid="classaby_1_1rhi_1_1_default_job_system"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+      <node id="2">
+        <label>aby::rhi::IJobSystem</label>
+        <link refid="classaby_1_1rhi_1_1_i_job_system"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/interfaces/default_job_system.hpp" line="35" column="1" bodyfile="include/aby-rhi/interfaces/default_job_system.hpp" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1ae8a8026c9208a28be299c7d95074a52b" prot="public" virt="virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>add_job</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1af671bdbcde21669369f9507cd502baf5" prot="public" virt="non-virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>DefaultJobSystem</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1a24428c4bdc55ce9e27f6b8217f035ea7" prot="public" virt="virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_job_system_1a5cad892b8d73fda4f6170195b5e9cfd8" prot="public" virt="non-virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>Job</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1a460134843d7c5899ff6e52cd10898217" prot="private" virt="non-virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>m_NextQueue</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1a23b5ae1f38524710017d1de92e7f384f" prot="private" virt="non-virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>m_Queues</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1a799eb0691acacd67775e57c42b6e94bc" prot="public" virt="virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>name</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1a01c438b6da8c3ba4cc88a8be77578586" prot="public" virt="virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>thread_count</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_job_system_1add26f242327f7551fa8d8f31e06b3050" prot="public" virt="non-virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>~DefaultJobSystem</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_interface_1a8c95f6d497f91c6dd277308fb2f6c957" prot="public" virt="virtual"><scope>aby::rhi::DefaultJobSystem</scope><name>~IInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

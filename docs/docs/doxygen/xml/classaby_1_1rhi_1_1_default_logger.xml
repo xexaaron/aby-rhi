@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_default_logger" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>aby::rhi::DefaultLogger</compoundname>
+    <basecompoundref refid="classaby_1_1rhi_1_1_i_logger" prot="public" virt="non-virtual">aby::rhi::ILogger</basecompoundref>
+    <includes refid="default__logger_8hpp" local="no">default_logger.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_logger_1a4c0accc128f42607790597fb401c6333" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view aby::rhi::DefaultLogger::name</definition>
+        <argsstring>() override</argsstring>
+        <name>name</name>
+        <qualifiedname>aby::rhi::DefaultLogger::name</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_interface_1a42636ed5df2a1792cad63ce1b763819b">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_logger.hpp" line="8" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_default_logger_1ab25d5309aa2b491553512cc22105c01f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::DefaultLogger::log</definition>
+        <argsstring>(ELogLevel level, const std::string &amp;msg) override</argsstring>
+        <name>log</name>
+        <qualifiedname>aby::rhi::DefaultLogger::log</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_logger_1a2f229e246b9fb48ed2ff6408f1008189">log</reimplements>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237f" kindref="member">ELogLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/default_logger.hpp" line="9" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>aby::rhi::DefaultLogger</label>
+        <link refid="classaby_1_1rhi_1_1_default_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+      <node id="2">
+        <label>aby::rhi::ILogger</label>
+        <link refid="classaby_1_1rhi_1_1_i_logger"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>aby::rhi::DefaultLogger</label>
+        <link refid="classaby_1_1rhi_1_1_default_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+      <node id="2">
+        <label>aby::rhi::ILogger</label>
+        <link refid="classaby_1_1rhi_1_1_i_logger"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/interfaces/default_logger.hpp" line="6" column="1" bodyfile="include/aby-rhi/interfaces/default_logger.hpp" bodystart="6" bodyend="11"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_default_logger_1ab25d5309aa2b491553512cc22105c01f" prot="public" virt="virtual"><scope>aby::rhi::DefaultLogger</scope><name>log</name></member>
+      <member refid="classaby_1_1rhi_1_1_default_logger_1a4c0accc128f42607790597fb401c6333" prot="public" virt="virtual"><scope>aby::rhi::DefaultLogger</scope><name>name</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_interface_1a8c95f6d497f91c6dd277308fb2f6c957" prot="public" virt="virtual"><scope>aby::rhi::DefaultLogger</scope><name>~IInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

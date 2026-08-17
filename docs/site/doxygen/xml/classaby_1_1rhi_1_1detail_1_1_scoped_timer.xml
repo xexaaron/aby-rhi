@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1detail_1_1_scoped_timer" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::detail::ScopedTimer</compoundname>
+    <includes refid="common_8hpp" local="no">common.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0a1f0b2de87daacb8959a1078ca213f6" prot="public" static="no">
+        <type>std::chrono::steady_clock</type>
+        <definition>using aby::rhi::detail::ScopedTimer::Clock =  std::chrono::steady_clock</definition>
+        <argsstring></argsstring>
+        <name>Clock</name>
+        <qualifiedname>aby::rhi::detail::ScopedTimer::Clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common.hpp" line="88" column="1" bodyfile="include/aby-rhi/common.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a46487776f62af972b2e3708c2da065e3" prot="private" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view aby::rhi::detail::ScopedTimer::m_Name</definition>
+        <argsstring></argsstring>
+        <name>m_Name</name>
+        <qualifiedname>aby::rhi::detail::ScopedTimer::m_Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common.hpp" line="93" column="18" bodyfile="include/aby-rhi/common.hpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0cdb90b40b9cd642a333d116a39149a5" prot="private" static="no" mutable="no">
+        <type>Clock::time_point</type>
+        <definition>Clock::time_point aby::rhi::detail::ScopedTimer::m_Start</definition>
+        <argsstring></argsstring>
+        <name>m_Start</name>
+        <qualifiedname>aby::rhi::detail::ScopedTimer::m_Start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common.hpp" line="94" column="19" bodyfile="include/aby-rhi/common.hpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a2a2e3ca7cd2a1931e71cde8e84cf10a7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::detail::ScopedTimer::ScopedTimer</definition>
+        <argsstring>(std::string_view name)</argsstring>
+        <name>ScopedTimer</name>
+        <qualifiedname>aby::rhi::detail::ScopedTimer::ScopedTimer</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common.hpp" line="90" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1ab023088845c147541026369160ee85b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::detail::ScopedTimer::~ScopedTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedTimer</name>
+        <qualifiedname>aby::rhi::detail::ScopedTimer::~ScopedTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common.hpp" line="91" column="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/common.hpp" line="86" column="1" bodyfile="include/aby-rhi/common.hpp" bodystart="86" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0a1f0b2de87daacb8959a1078ca213f6" prot="public" virt="non-virtual"><scope>aby::rhi::detail::ScopedTimer</scope><name>Clock</name></member>
+      <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a46487776f62af972b2e3708c2da065e3" prot="private" virt="non-virtual"><scope>aby::rhi::detail::ScopedTimer</scope><name>m_Name</name></member>
+      <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0cdb90b40b9cd642a333d116a39149a5" prot="private" virt="non-virtual"><scope>aby::rhi::detail::ScopedTimer</scope><name>m_Start</name></member>
+      <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a2a2e3ca7cd2a1931e71cde8e84cf10a7" prot="public" virt="non-virtual"><scope>aby::rhi::detail::ScopedTimer</scope><name>ScopedTimer</name></member>
+      <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1ab023088845c147541026369160ee85b4" prot="public" virt="non-virtual"><scope>aby::rhi::detail::ScopedTimer</scope><name>~ScopedTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

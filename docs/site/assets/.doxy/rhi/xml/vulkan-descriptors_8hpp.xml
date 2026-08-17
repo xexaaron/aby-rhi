@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-descriptors_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-descriptors.hpp</compoundname>
+    <includes local="no">vulkan/vulkan.hpp</includes>
+    <includedby refid="vulkan-render-pass_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp</includedby>
+    <includedby refid="vulkan-renderer_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp</label>
+        <link refid="vulkan-descriptors_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp</label>
+        <link refid="vulkan-descriptors_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp</label>
+        <link refid="vulkan-render-pass_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" prot="public">aby::rhi::vulkan::DescriptorLayoutBuilder</innerclass>
+    <innerclass refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" prot="public">aby::rhi::vulkan::PoolSizeRatio</innerclass>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" prot="public">aby::rhi::vulkan::DescriptorAllocator</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">aby::rhi::vulkan<sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kindref="compound">DescriptorLayoutBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>add_binding(uint32_t<sp/>binding,<sp/>vk::DescriptorType<sp/>type)<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kindref="compound">DescriptorLayoutBuilder</ref>&amp;;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_flags(vk::DescriptorSetLayoutCreateFlags<sp/>flags)<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kindref="compound">DescriptorLayoutBuilder</ref>&amp;;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_pnext(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>pnext)<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kindref="compound">DescriptorLayoutBuilder</ref>&amp;;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>set_stages(vk::ShaderStageFlags<sp/>flags)<sp/>-&gt;<sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kindref="compound">DescriptorLayoutBuilder</ref>&amp;;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>clear()<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>build()<sp/>-&gt;<sp/>vk::DescriptorSetLayout;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>m_pNext<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::DescriptorSetLayoutCreateFlags<sp/>m_DescriptorFlags<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::ShaderStageFlags<sp/>m_StageFlags<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;vk::DescriptorSetLayoutBinding&gt;<sp/>m_Bindings;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" kindref="compound">PoolSizeRatio</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::DescriptorType<sp/>type;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ratio;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" kindref="compound">DescriptorAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>init(uint32_t<sp/>max_sets,<sp/>std::span&lt;PoolSizeRatio&gt;<sp/>pool_ratios,<sp/>vk::DescriptorPoolCreateFlags<sp/>flags)<sp/>-&gt;<sp/>bool;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>alloc(vk::DescriptorSetLayout<sp/>layout)<sp/>-&gt;<sp/>vk::DescriptorSet;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>clear()<sp/>-&gt;<sp/>bool;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deinit()<sp/>-&gt;<sp/>void;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::DescriptorPool<sp/>m_Pool;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp"/>
+  </compounddef>
+</doxygen>

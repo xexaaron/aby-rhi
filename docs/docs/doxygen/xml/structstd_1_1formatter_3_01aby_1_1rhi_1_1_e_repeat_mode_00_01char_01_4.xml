@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;</compoundname>
+    <includes refid="common-enums_8hpp" local="no">common-enums.hpp</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a2a4b278d30dea168346d4a557dfe8e17" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class ParseContext</type>
+          </param>
+        </templateparamlist>
+        <type>ParseContext::iterator</type>
+        <definition>ParseContext::iterator std::formatter&lt; aby::rhi::ERepeatMode, char &gt;::parse</definition>
+        <argsstring>(ParseContext &amp;ctx)</argsstring>
+        <name>parse</name>
+        <qualifiedname>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;::parse</qualifiedname>
+        <param>
+          <type>ParseContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common-enums.hpp" line="772" column="34" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="772" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a9a4f74905e64829e3e65bd8c4c1207dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class FmtContext</type>
+          </param>
+        </templateparamlist>
+        <type>FmtContext::iterator</type>
+        <definition>FmtContext::iterator std::formatter&lt; aby::rhi::ERepeatMode, char &gt;::format</definition>
+        <argsstring>(aby::rhi::ERepeatMode value, FmtContext &amp;ctx) const</argsstring>
+        <name>format</name>
+        <qualifiedname>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;::format</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61c" kindref="member">aby::rhi::ERepeatMode</ref></type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>FmtContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common-enums.hpp" line="780" column="22" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="780" bodyend="801"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/common-enums.hpp" line="770" column="1" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="770" bodyend="802"/>
+    <listofallmembers>
+      <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a9a4f74905e64829e3e65bd8c4c1207dd" prot="public" virt="non-virtual"><scope>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;</scope><name>format</name></member>
+      <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a2a4b278d30dea168346d4a557dfe8e17" prot="public" virt="non-virtual"><scope>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

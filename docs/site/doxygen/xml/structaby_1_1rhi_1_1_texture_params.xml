@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structaby_1_1rhi_1_1_texture_params" kind="struct" language="C++" prot="public">
+    <compoundname>aby::rhi::TextureParams</compoundname>
+    <includes refid="texture_8hpp" local="no">texture.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1aeb14585ea32d7ac5f883d56f10acc132" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::TextureParams::mip_levels</definition>
+        <argsstring></argsstring>
+        <name>mip_levels</name>
+        <qualifiedname>aby::rhi::TextureParams::mip_levels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="19" column="10" bodyfile="include/aby-rhi/texture.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1a65508e757c5d8213987bd65e41a00257" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float aby::rhi::TextureParams::anisotropy_filtering</definition>
+        <argsstring></argsstring>
+        <name>anisotropy_filtering</name>
+        <qualifiedname>aby::rhi::TextureParams::anisotropy_filtering</qualifiedname>
+        <initializer>= 0.f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="20" column="7" bodyfile="include/aby-rhi/texture.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1a5b8772742493939a0e2b8caa237dd5e0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9" kindref="member">EFiltering</ref></type>
+        <definition>EFiltering aby::rhi::TextureParams::filtering</definition>
+        <argsstring></argsstring>
+        <name>filtering</name>
+        <qualifiedname>aby::rhi::TextureParams::filtering</qualifiedname>
+        <initializer>= <ref refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9a9a932b3cb396238423eb2f33ec17d6aa" kindref="member">EFiltering::linear</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="21" column="12" bodyfile="include/aby-rhi/texture.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1a89f445740cd4234ce6cc1d57476132c6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61c" kindref="member">ERepeatMode</ref></type>
+        <definition>ERepeatMode aby::rhi::TextureParams::repeat_mode</definition>
+        <argsstring></argsstring>
+        <name>repeat_mode</name>
+        <qualifiedname>aby::rhi::TextureParams::repeat_mode</qualifiedname>
+        <initializer>= <ref refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61ca32cf6da134a8b268cf4ab6b79a9a5ad9" kindref="member">ERepeatMode::repeat</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="22" column="13" bodyfile="include/aby-rhi/texture.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1abeb9287ee93087a5b1f4bdf73431e0fe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0b" kindref="member">ETextureUsage</ref></type>
+        <definition>ETextureUsage aby::rhi::TextureParams::texture_usage</definition>
+        <argsstring></argsstring>
+        <name>texture_usage</name>
+        <qualifiedname>aby::rhi::TextureParams::texture_usage</qualifiedname>
+        <initializer>= <ref refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0ba0c1d7cc6308f51826f3cb8dfdac3b660" kindref="member">ETextureUsage::albedo</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="23" column="15" bodyfile="include/aby-rhi/texture.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1_texture_params_1ad22c05efcd507083b42814719a7d081c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01" kindref="member">EChannels</ref></type>
+        <definition>EChannels aby::rhi::TextureParams::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>aby::rhi::TextureParams::channels</qualifiedname>
+        <initializer>= <ref refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a7082a31b8759c9d59795876351ec63aa" kindref="member">EChannels::rgba</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="24" column="11" bodyfile="include/aby-rhi/texture.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1a1afc992d1182ab8b288583cbd5c7ca0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_mip_levels</definition>
+        <argsstring>(uint32_t mip_levels)</argsstring>
+        <name>set_mip_levels</name>
+        <qualifiedname>aby::rhi::TextureParams::set_mip_levels</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_levels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="12" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1a9165b4e41cdddda1630705eb84dd4a21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_anisotropy_filtering</definition>
+        <argsstring>(float anisotropy)</argsstring>
+        <name>set_anisotropy_filtering</name>
+        <qualifiedname>aby::rhi::TextureParams::set_anisotropy_filtering</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>anisotropy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="13" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1a69bdfbaede60ec93eee011b91f8a0650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_filtering</definition>
+        <argsstring>(EFiltering filtering)</argsstring>
+        <name>set_filtering</name>
+        <qualifiedname>aby::rhi::TextureParams::set_filtering</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9" kindref="member">EFiltering</ref></type>
+          <declname>filtering</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="14" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1a84adf9b313308b2f25c0fd35e81c69db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_repeat_mode</definition>
+        <argsstring>(ERepeatMode repeat_mode)</argsstring>
+        <name>set_repeat_mode</name>
+        <qualifiedname>aby::rhi::TextureParams::set_repeat_mode</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61c" kindref="member">ERepeatMode</ref></type>
+          <declname>repeat_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="15" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1afd4a2a2c7fad4c730b3272c3262c9624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_texture_usage</definition>
+        <argsstring>(ETextureUsage texture_usage)</argsstring>
+        <name>set_texture_usage</name>
+        <qualifiedname>aby::rhi::TextureParams::set_texture_usage</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0b" kindref="member">ETextureUsage</ref></type>
+          <declname>texture_usage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="16" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="structaby_1_1rhi_1_1_texture_params_1a2c4dffdc4a7e7c9056f3d8f75445e6b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structaby_1_1rhi_1_1_texture_params" kindref="compound">TextureParams</ref> &amp;</type>
+        <definition>TextureParams &amp; aby::rhi::TextureParams::set_channels</definition>
+        <argsstring>(EChannels channels)</argsstring>
+        <name>set_channels</name>
+        <qualifiedname>aby::rhi::TextureParams::set_channels</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01" kindref="member">EChannels</ref></type>
+          <declname>channels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/texture.hpp" line="17" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/texture.hpp" line="11" column="1" bodyfile="include/aby-rhi/texture.hpp" bodystart="11" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a65508e757c5d8213987bd65e41a00257" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>anisotropy_filtering</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1ad22c05efcd507083b42814719a7d081c" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>channels</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a5b8772742493939a0e2b8caa237dd5e0" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>filtering</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1aeb14585ea32d7ac5f883d56f10acc132" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>mip_levels</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a89f445740cd4234ce6cc1d57476132c6" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>repeat_mode</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a9165b4e41cdddda1630705eb84dd4a21" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_anisotropy_filtering</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a2c4dffdc4a7e7c9056f3d8f75445e6b7" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_channels</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a69bdfbaede60ec93eee011b91f8a0650" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_filtering</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a1afc992d1182ab8b288583cbd5c7ca0a" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_mip_levels</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1a84adf9b313308b2f25c0fd35e81c69db" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_repeat_mode</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1afd4a2a2c7fad4c730b3272c3262c9624" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>set_texture_usage</name></member>
+      <member refid="structaby_1_1rhi_1_1_texture_params_1abeb9287ee93087a5b1f4bdf73431e0fe" prot="public" virt="non-virtual"><scope>aby::rhi::TextureParams</scope><name>texture_usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

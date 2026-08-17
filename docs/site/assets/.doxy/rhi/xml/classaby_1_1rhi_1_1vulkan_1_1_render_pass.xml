@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1vulkan_1_1_render_pass" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::RenderPass</compoundname>
+    <basecompoundref refid="classaby_1_1rhi_1_1_render_pass" prot="public" virt="non-virtual">aby::rhi::RenderPass</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ae9e2f1c346537d92da7efe136f74905c" prot="private" static="no" mutable="no">
+        <type>vk::PipelineBindPoint</type>
+        <definition>vk::PipelineBindPoint aby::rhi::vulkan::RenderPass::m_BindPoint</definition>
+        <argsstring></argsstring>
+        <name>m_BindPoint</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_BindPoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="45" column="23" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a01261f21762e13ce497c2e80af890109" prot="private" static="no" mutable="no">
+        <type>vk::CommandBuffer</type>
+        <definition>vk::CommandBuffer aby::rhi::vulkan::RenderPass::m_Cmd</definition>
+        <argsstring></argsstring>
+        <name>m_Cmd</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_Cmd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="46" column="19" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aae4f2cf2e70588bb254f28131edf5567" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline" kindref="compound">Pipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Pipeline&gt; aby::rhi::vulkan::RenderPass::m_Pipeline</definition>
+        <argsstring></argsstring>
+        <name>m_Pipeline</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_Pipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="47" column="17" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a470d8c6c79a7249b1c8c7848ea702c5b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> &gt;</type>
+        <definition>std::vector&lt;Resource&gt; aby::rhi::vulkan::RenderPass::m_Shaders</definition>
+        <argsstring></argsstring>
+        <name>m_Shaders</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_Shaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="48" column="13" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a6432b9e271fb270ead237e3bf99318a0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" kindref="compound">Uniform</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Uniform&gt; aby::rhi::vulkan::RenderPass::m_Uniforms</definition>
+        <argsstring></argsstring>
+        <name>m_Uniforms</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_Uniforms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="49" column="20" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a98511d800d3f28675f0d137d2a72688d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt;</type>
+        <definition>std::vector&lt;rhi::Texture*&gt; aby::rhi::vulkan::RenderPass::m_ColorAttachments</definition>
+        <argsstring></argsstring>
+        <name>m_ColorAttachments</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_ColorAttachments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="50" column="13" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acce422fc219dd94cbae4680439e4f2cb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt;</type>
+        <definition>std::vector&lt;rhi::Texture*&gt; aby::rhi::vulkan::RenderPass::m_ResolveAttachments</definition>
+        <argsstring></argsstring>
+        <name>m_ResolveAttachments</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_ResolveAttachments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="51" column="13" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac5ed120fb958919c91faf8b13c089ff6" prot="private" static="no" mutable="no">
+        <type><ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> *</type>
+        <definition>rhi::Texture* aby::rhi::vulkan::RenderPass::m_PresentAttachment</definition>
+        <argsstring></argsstring>
+        <name>m_PresentAttachment</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::m_PresentAttachment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="52" column="14" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a2bbfb0dd948ccef4136a09c0d0669bd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::RenderPass::RenderPass</definition>
+        <argsstring>(std::unique_ptr&lt; Pipeline &gt; pipeline, const std::vector&lt; Resource &gt; &amp;shaders, const std::unordered_map&lt; std::string, Uniform &gt; &amp;uniforms, const std::vector&lt; rhi::Texture * &gt; &amp;color_attachments, const std::vector&lt; rhi::Texture * &gt; &amp;resolve_attachments, rhi::Texture *present_attachment)</argsstring>
+        <name>RenderPass</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::RenderPass</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline" kindref="compound">Pipeline</ref> &gt;</type>
+          <declname>pipeline</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> &gt; &amp;</type>
+          <declname>shaders</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, <ref refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" kindref="compound">Uniform</ref> &gt; &amp;</type>
+          <declname>uniforms</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt; &amp;</type>
+          <declname>color_attachments</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt; &amp;</type>
+          <declname>resolve_attachments</declname>
+        </param>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> *</type>
+          <declname>present_attachment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="21" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a7af07df94f68a948d34ea7d82f91f17d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::set_uniform</definition>
+        <argsstring>(std::string_view name, void *data, size_t bytes) override</argsstring>
+        <name>set_uniform</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::set_uniform</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a717a8484689a0f4000ffb787bb30742f">set_uniform</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="28" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa877357824f04e74593c7bcc8d30c803" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::bind</definition>
+        <argsstring>() override</argsstring>
+        <name>bind</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::bind</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1ab3f7c7e429b311344a75ededf8705c30">bind</reimplements>
+        <briefdescription>
+<para>bind the pipeline, buffers, and any other resources used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="30" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a25846b6866aa8c29c39819f8ea24532f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::begin</definition>
+        <argsstring>() override</argsstring>
+        <name>begin</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::begin</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1ad57dd2b49b59c45be2c737aa76f4b090">begin</reimplements>
+        <briefdescription>
+<para>begin rendering using attachments </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="31" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8c6e1a0289f368d660ba3ce472242452" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::end</definition>
+        <argsstring>() override</argsstring>
+        <name>end</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::end</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a95b7a8f8b0f2d72a6b2a6838cad37d37">end</reimplements>
+        <briefdescription>
+<para>end rendering using attachments </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="32" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a29b096ec9b891427118d13c99eda8058" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::run</definition>
+        <argsstring>() override</argsstring>
+        <name>run</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::run</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a8d6bf82814c7b630ad41b17d4e8b52ac">run</reimplements>
+        <briefdescription>
+<para>executes each draw command. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="33" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a54ed5978ebc0c09641c5b0f1a5b2495f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::destroy</definition>
+        <argsstring>() override</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::destroy</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a95a1de102d2f90b2e31dcde6e7eab3c2">destroy</reimplements>
+        <briefdescription>
+<para>destroy all resources the <ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" kindref="compound">RenderPass</ref> owns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="34" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa07195462a3067e6ce971abb493bff61" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::set_viewport</definition>
+        <argsstring>(vec2&lt; float &gt; size, vec2&lt; float &gt; loc={ 0.f, 0.f }, vec2&lt; float &gt; min_max_depth={ 0.f, 1.f }) override</argsstring>
+        <name>set_viewport</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::set_viewport</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a66eeecd7ab2834a655c47be8a4cf0edf">set_viewport</reimplements>
+        <param>
+          <type>vec2&lt; float &gt;</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>vec2&lt; float &gt;</type>
+          <declname>loc</declname>
+          <defval>{ 0.f, 0.f }</defval>
+        </param>
+        <param>
+          <type>vec2&lt; float &gt;</type>
+          <declname>min_max_depth</declname>
+          <defval>{ 0.f, 1.f }</defval>
+        </param>
+        <briefdescription>
+<para>set the viewport. In backends like vulkan it will be configured to use loc=0,0 as the top left. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="35" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a9c9eefe431ec68db688ef355f488e27e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::RenderPass::set_scissor</definition>
+        <argsstring>(vec2&lt; float &gt; offset, vec2&lt; float &gt; size) override</argsstring>
+        <name>set_scissor</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::set_scissor</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_render_pass_1a073b9656330e5a760cdf58248a527fac">set_scissor</reimplements>
+        <param>
+          <type>vec2&lt; float &gt;</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>vec2&lt; float &gt;</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>set the scissor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="36" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acf64076428f295fb68368ae1b25c3965" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::RenderPass::is_present</definition>
+        <argsstring>() const</argsstring>
+        <name>is_present</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::is_present</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="37" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8243f8e4cecacb61e576b290e2e05699" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> *</type>
+        <definition>rhi::Texture * aby::rhi::vulkan::RenderPass::present_attachment</definition>
+        <argsstring>()</argsstring>
+        <name>present_attachment</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::present_attachment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="38" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acc5c960d38f065aa353133425d7adde0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt; &amp;</type>
+        <definition>std::vector&lt; rhi::Texture * &gt; &amp; aby::rhi::vulkan::RenderPass::color_attachments</definition>
+        <argsstring>()</argsstring>
+        <name>color_attachments</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::color_attachments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="39" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1af7c95d937609569b4621e7734083d8a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classaby_1_1rhi_1_1_texture" kindref="compound">rhi::Texture</ref> * &gt; &amp;</type>
+        <definition>std::vector&lt; rhi::Texture * &gt; &amp; aby::rhi::vulkan::RenderPass::resolve_attachments</definition>
+        <argsstring>()</argsstring>
+        <name>resolve_attachments</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::resolve_attachments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="40" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a086b2005ebd2f881838d098d985b7d0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;</type>
+        <definition>RenderPass &amp; aby::rhi::vulkan::RenderPass::set_bind_point</definition>
+        <argsstring>(vk::PipelineBindPoint point)</argsstring>
+        <name>set_bind_point</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::set_bind_point</qualifiedname>
+        <param>
+          <type>vk::PipelineBindPoint</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="42" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac7955cc789c456781d1e5579c1ad76d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" kindref="compound">RenderPass</ref> &amp;</type>
+        <definition>RenderPass &amp; aby::rhi::vulkan::RenderPass::set_cmd_buffer</definition>
+        <argsstring>(vk::CommandBuffer cmd)</argsstring>
+        <name>set_cmd_buffer</name>
+        <qualifiedname>aby::rhi::vulkan::RenderPass::set_cmd_buffer</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="43" column="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>aby::rhi::RenderPass</label>
+        <link refid="classaby_1_1rhi_1_1_render_pass"/>
+      </node>
+      <node id="1">
+        <label>aby::rhi::vulkan::RenderPass</label>
+        <link refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>aby::rhi::RenderPass</label>
+        <link refid="classaby_1_1rhi_1_1_render_pass"/>
+      </node>
+      <node id="1">
+        <label>aby::rhi::vulkan::RenderPass</label>
+        <link refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" line="19" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-render-pass.hpp" bodystart="19" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a25846b6866aa8c29c39819f8ea24532f" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>begin</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa877357824f04e74593c7bcc8d30c803" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>bind</name></member>
+      <member refid="classaby_1_1rhi_1_1_render_pass_1a0e40d3c1f53599cc96655057f945db4f" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>clear</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acc5c960d38f065aa353133425d7adde0" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>color_attachments</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a54ed5978ebc0c09641c5b0f1a5b2495f" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8c6e1a0289f368d660ba3ce472242452" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>end</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acf64076428f295fb68368ae1b25c3965" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>is_present</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ae9e2f1c346537d92da7efe136f74905c" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_BindPoint</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a01261f21762e13ce497c2e80af890109" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_Cmd</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a98511d800d3f28675f0d137d2a72688d" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_ColorAttachments</name></member>
+      <member refid="classaby_1_1rhi_1_1_render_pass_1a8d37347ce818041ff9afc3f359b10168" prot="protected" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_Commands</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aae4f2cf2e70588bb254f28131edf5567" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_Pipeline</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac5ed120fb958919c91faf8b13c089ff6" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_PresentAttachment</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acce422fc219dd94cbae4680439e4f2cb" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_ResolveAttachments</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a470d8c6c79a7249b1c8c7848ea702c5b" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_Shaders</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a6432b9e271fb270ead237e3bf99318a0" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>m_Uniforms</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8243f8e4cecacb61e576b290e2e05699" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>present_attachment</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a2bbfb0dd948ccef4136a09c0d0669bd3" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>RenderPass</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1af7c95d937609569b4621e7734083d8a7" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>resolve_attachments</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a29b096ec9b891427118d13c99eda8058" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>run</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a086b2005ebd2f881838d098d985b7d0a" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_bind_point</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac7955cc789c456781d1e5579c1ad76d1" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_cmd_buffer</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a9c9eefe431ec68db688ef355f488e27e" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_scissor</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a7af07df94f68a948d34ea7d82f91f17d" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_uniform</name></member>
+      <member refid="classaby_1_1rhi_1_1_render_pass_1acf25e9d72f6d31a06bbdefa11c9dbb8b" prot="public" virt="non-virtual" ambiguityscope="aby::rhi::RenderPass::"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_uniform</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa07195462a3067e6ce971abb493bff61" prot="public" virt="virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>set_viewport</name></member>
+      <member refid="classaby_1_1rhi_1_1_render_pass_1a28c07a2a5484931e9c827430f864d63e" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::RenderPass</scope><name>submit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

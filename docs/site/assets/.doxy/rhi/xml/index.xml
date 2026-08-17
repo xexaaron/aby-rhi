@@ -1,0 +1,1069 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.14.0" xml:lang="en-US">
+  <compound refid="structaby_1_1rhi_1_1_blend" kind="struct"><name>aby::rhi::Blend</name>
+    <member refid="structaby_1_1rhi_1_1_blend_1a1a56c14333516d1bdffe3e15bdf9ad8c" kind="variable"><name>op</name></member>
+    <member refid="structaby_1_1rhi_1_1_blend_1ab4e3ce87b1c2c640c3dce02899b0ca28" kind="variable"><name>src</name></member>
+    <member refid="structaby_1_1rhi_1_1_blend_1ae907527a9001f119aeb5131e0176427a" kind="variable"><name>dst</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_buffer" kind="class"><name>aby::rhi::Buffer</name>
+    <member refid="classaby_1_1rhi_1_1_buffer_1abf6b0f3c370379eed661f9e9562cf957" kind="variable"><name>m_Stride</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1af2ee19c849a2a8f2931d2a6ed0f2d8a0" kind="variable"><name>m_Size</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1ad0116fd6fb97e06ab0d29401c9027e80" kind="variable"><name>m_Count</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1aea2f9da2c688342d879a6d11229bfbf3" kind="variable"><name>m_Data</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1aa783518a5fbcbaf8a09e5f318eaa6ac7" kind="function"><name>Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a40a1583abaee1aac8d46c58ac18a6a95" kind="function"><name>~Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a8ed8bb779df662db652fcbbadcac97da" kind="function"><name>upload</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a1b057ac4138d4abb903564fe89379b1e" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a405b28b98afd38f72f656e669eabe4a5" kind="function"><name>stride</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1aba604b89eba5a2f634ce9052c7839a77" kind="function"><name>capacity_bytes</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a85a0959e2dadf66b7c0eff8a02c9e2c2" kind="function"><name>used_bytes</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1afc5ab1e474fab38d90d06cc44368f074" kind="function"><name>count</name></member>
+    <member refid="classaby_1_1rhi_1_1_buffer_1a857d26b9455b44c422ee57c73b9a0b73" kind="function"><name>clear</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" kind="class"><name>aby::rhi::vulkan::Buffer</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a9414d718a8ea5ee81268ee517f6222ca" kind="variable"><name>m_Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1adef1cc253087573da568e05125a35f3a" kind="variable"><name>m_Address</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1ac429e09bad24069fb27b7e0ea47cbd8c" kind="variable"><name>m_Alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a7da99d4ded1a6e1bd568b5107b233f66" kind="variable"><name>m_AllocInfo</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1acd497077368e6d38fbf25aceda54e809" kind="function"><name>Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1afcc80579b4934c6ba5aefbae2dcf8be7" kind="function"><name>Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1ae1db86acddcc39643f5520d4c33bc39a" kind="function"><name>Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a7e09ead81fb1f77a3c36647d83bc2840" kind="function"><name>Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a38ca4ea62c451680c96b1b441146e3f4" kind="function"><name>~Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1afb42b2bb42a1bb2a00061371e6530f8b" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a200355b920948683f9d8b93ab083fb0f" kind="function"><name>copy_to</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1ac8f431e630591effdde1f4f27b9e810d" kind="function"><name>write</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a923dd5225d9955fef1b3e008aa541695" kind="function"><name>read</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a9b1623551b22f4ed02f21f0538f02549" kind="function"><name>allocation</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1acb3a001ddbabf16e22249edc207441be" kind="function"><name>allocation_info</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a7b22ac0216bca3330c490ee26cfed480" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a07de5bc1ee64ad6705dca785bddcd641" kind="function"><name>operator=</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1afd9d8c79a7ca2d88b3c0994b2c612b39" kind="function"><name>operator VkBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1af1866e6f6c952c9314d8658d086102bc" kind="function"><name>operator vk::Buffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_buffer_1a827b4af91b88ddd8ac7acb1663220107" kind="function"><name>operator vk::DeviceAddress</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_context" kind="class"><name>aby::rhi::Context</name>
+    <member refid="classaby_1_1rhi_1_1_context_1a3766daa8d6e6294ee47a4a1dc6c45f9b" kind="variable"><name>m_Logger</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a22f925c69a03ead8a0dc0a8ad71d3b12" kind="variable"><name>m_Allocator</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a752aff1c9ca6cc76cc1b85c3f2829394" kind="variable"><name>m_FileIO</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a73ef78a6b0cdd988383595aa0ad23c48" kind="variable"><name>m_JobSystem</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a9f9382d0455716a57baf239e41c3bcfa" kind="variable"><name>m_Renderer</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a2bba4665eb177c8bb98e21e6da797be2" kind="variable"><name>m_Params</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1aa2185b67610b7f385baa918f770335f3" kind="variable"><name>m_Textures</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a0594b7b85e033d82aa5333b293513df8" kind="variable"><name>m_Shaders</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a243368881baa9b7c39fbc83fa12ba16f" kind="function"><name>get</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a8607a07ab5e6d154e4b5de6b60f3b2a8" kind="function"><name>init</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1aba02ef780650c855c0d444073785d940" kind="function"><name>deinit</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1af6cec020253d1e5c80c7e8b4aba7ada6" kind="function"><name>renderer_backend</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1ac83172bce04959ed6b9ac57f1a918cd8" kind="function"><name>window_backend</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a370f805d5c065f3b39ed1ce4f28a2e81" kind="function"><name>renderer</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a68cf68b1f0b674a256e4a5f7eb271ed5" kind="function"><name>logger</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a43ed16a963a0d942cdecc1c903aedc3c" kind="function"><name>allocator</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a446e6388680dc20d42ec59135c7219e7" kind="function"><name>file_io</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1ae70fd0a09b1c59ccb83b77b8a29a45a0" kind="function"><name>job_sys</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a617251dce12fd8901e01275572b24bf4" kind="function"><name>textures</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1a74764e5163178762555fae5b4fb4d702" kind="function"><name>shaders</name></member>
+    <member refid="classaby_1_1rhi_1_1_context_1ad7aac01962b69336e20bbc018c139174" kind="function"><name>set_interface</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_context_params" kind="struct"><name>aby::rhi::ContextParams</name>
+    <member refid="structaby_1_1rhi_1_1_context_params_1a03a07cc59359f2caf2ac2e44d62d0a3d" kind="variable"><name>renderer_backend</name></member>
+    <member refid="structaby_1_1rhi_1_1_context_params_1ae454085f523aeb8dde70b42e41173721" kind="variable"><name>window_backend</name></member>
+    <member refid="structaby_1_1rhi_1_1_context_params_1a76cdea12a9508bbff3b783a706b2068a" kind="variable"><name>native_window</name></member>
+    <member refid="structaby_1_1rhi_1_1_context_params_1aebd6af8e57d8e06d8b51a62ae09d7704" kind="variable"><name>graphics</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_default_allocator" kind="class"><name>aby::rhi::DefaultAllocator</name>
+    <member refid="classaby_1_1rhi_1_1_default_allocator_1acb59e196aa0531d802e5d1ad305364ee" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_allocator_1a77a17fb527fc01f2cf5c4c010c59626a" kind="function"><name>alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_allocator_1a014a9342d45cb3e7bdc4b4b49614f0c6" kind="function"><name>realloc</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_allocator_1a1c706dadad157744e1b680f644379199" kind="function"><name>free</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_default_file_i_o" kind="class"><name>aby::rhi::DefaultFileIO</name>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a107c4d60f533ef115a298ccebd8c7bac" kind="variable"><name>m_CWD</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a868dd26a0346c3a92d1026a3b9911e16" kind="variable"><name>m_CacheDir</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a7eff7106690e6b3c8725aca334369991" kind="function"><name>set_cwd</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a93084262c806077cb44e9173dc93f4cd" kind="function"><name>set_cache_dir</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a52c4fbebc63617c57eeef06fdd50737d" kind="function"><name>cwd</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1acbd0e61166eeed522e0f714de0146384" kind="function"><name>cache_dir</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a40fc387d63a36df47913ff999bd6e924" kind="function"><name>read</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a7e456dbbe0889c349c4103c23ea08c9a" kind="function"><name>read</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a83923293dd137a615e23600143da02ff" kind="function"><name>write</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_file_i_o_1a206eb316aa1cf911409db3ba0fc2f803" kind="function"><name>write</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_default_job_queue" kind="struct"><name>aby::rhi::DefaultJobQueue</name>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1a684fc66c72d2cce97f0b13e3f94c5ecb" kind="variable"><name>running</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1a563be3c45d0c391725f67e67519bb531" kind="variable"><name>thread</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1a555d3802f6b0d9b7e88e3e821dcdd1f9" kind="variable"><name>low</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1aa58c019af8108b75b1de4f633f59cd23" kind="variable"><name>medium</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1aaff4654ff3b54b5453a30d6ea4a15eac" kind="variable"><name>high</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1aba2eb43051fbece83f9ee72cd3452dd7" kind="variable"><name>critical</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1a8ed783c6628cafa508f95b96900b3c7d" kind="variable"><name>mutex</name></member>
+    <member refid="structaby_1_1rhi_1_1_default_job_queue_1a52aa8232cd1af4bbd50e7c2484549dad" kind="variable"><name>cv</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_default_job_system" kind="class"><name>aby::rhi::DefaultJobSystem</name>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1a23b5ae1f38524710017d1de92e7f384f" kind="variable"><name>m_Queues</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1a460134843d7c5899ff6e52cd10898217" kind="variable"><name>m_NextQueue</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1af671bdbcde21669369f9507cd502baf5" kind="function"><name>DefaultJobSystem</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1add26f242327f7551fa8d8f31e06b3050" kind="function"><name>~DefaultJobSystem</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1a799eb0691acacd67775e57c42b6e94bc" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1a01c438b6da8c3ba4cc88a8be77578586" kind="function"><name>thread_count</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1ae8a8026c9208a28be299c7d95074a52b" kind="function"><name>add_job</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_job_system_1a24428c4bdc55ce9e27f6b8217f035ea7" kind="function"><name>destroy</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_default_logger" kind="class"><name>aby::rhi::DefaultLogger</name>
+    <member refid="classaby_1_1rhi_1_1_default_logger_1a4c0accc128f42607790597fb401c6333" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_default_logger_1ab25d5309aa2b491553512cc22105c01f" kind="function"><name>log</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator" kind="class"><name>aby::rhi::vulkan::DescriptorAllocator</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab939104695bef13fea6e6d0ab94cf4d0" kind="variable"><name>m_Pool</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1ab726e2b1e62a0ea2ab7d5a8d38f58733" kind="function"><name>init</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a50527903e77a2bd28d7700191a45eeef" kind="function"><name>alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a624ede8eb3f7d8d40f7f155d5f18830b" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_allocator_1a26dc2a575253bef22688625712e83b10" kind="function"><name>deinit</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder" kind="class"><name>aby::rhi::vulkan::DescriptorLayoutBuilder</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1ad646152236afb9ab08786fdf4340323b" kind="variable"><name>m_pNext</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a5c66ff7010156ea0ab3d5b24187be15a" kind="variable"><name>m_DescriptorFlags</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a88cc388b4a66c6ac65b4b721778c45d9" kind="variable"><name>m_StageFlags</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a0c787b820f5f9c41a76d7009fa6c0d46" kind="variable"><name>m_Bindings</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a25ca28630824221d5694c6780ac92cb0" kind="function"><name>add_binding</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1aef04507b5429da8a4d446944cc41ca64" kind="function"><name>set_flags</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a803777047de657d6e4122cc3ad26fa7b" kind="function"><name>set_pnext</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1aceda804eabdfbacbee6793f2294ec4bc" kind="function"><name>set_stages</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1a2bf635a3a0a08144387402eb54ffbb5c" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_descriptor_layout_builder_1aaf654fe5731b1a35e385e2fb6261b3c2" kind="function"><name>build</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_draw_cmd" kind="class"><name>aby::rhi::DrawCmd</name>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1aa0b42f399dbc08374cff410961fe0e0b" kind="variable"><name>m_VertexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1ae1b49c5fd300b577b6655eb7dd150ea2" kind="variable"><name>m_IndexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1ae54c6d3ed3aee77487c95a17fd192d00" kind="variable"><name>m_InstanceCount</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1ab4c19a423c890229b83731c4dc3a6e35" kind="function"><name>DrawCmd</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1ad1d5b700d70954afcb32b84bd28bc4c3" kind="function"><name>set_instance_count</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1a801ee57c1dd1beefa9d4586666c292d9" kind="function"><name>vbuff</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1aca2b1fccc8f2d6b47cf30eefad369b8d" kind="function"><name>ibuff</name></member>
+    <member refid="classaby_1_1rhi_1_1_draw_cmd_1a9fa253886fb2aa2ac34b0cbb39ed2f06" kind="function"><name>instances</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_allocation_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EAllocation, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_allocation_00_01char_01_4_1a71756cfd5f4d258094970100adc1853c" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_allocation_00_01char_01_4_1a1db31671ba51ec3aa490fbaa8efe4eff" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_anti_aliasing_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EAntiAliasing, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_anti_aliasing_00_01char_01_4_1a54e242428daab0306643155e2b1e6472" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_anti_aliasing_00_01char_01_4_1a6f448cdc50ab89aaae711309bb35d77b" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_factor_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EBlendFactor, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_factor_00_01char_01_4_1a65d98284cc7a07085e6f2e8291e3734d" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_factor_00_01char_01_4_1a545a9909b96a6c98555b69b647d28992" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_op_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EBlendOp, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_op_00_01char_01_4_1af050bbd1fdc22197a2e64ba5e65baec8" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_blend_op_00_01char_01_4_1a6ae07bd903c5a5384f89688a7ba01c0d" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_channels_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EChannels, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_channels_00_01char_01_4_1ae92b9ffc4c0448ef998c0eaec303b8a7" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_channels_00_01char_01_4_1a3e5868e2bca7c241fe5fb669aaeef811" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_compare_op_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ECompareOp, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_compare_op_00_01char_01_4_1a61a55f071e6764aee97905af21a059bd" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_compare_op_00_01char_01_4_1a41627429e83f0ec6afc8df166e0b6899" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_cull_mode_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ECullMode, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_cull_mode_00_01char_01_4_1afc668d567b6839e96ea4d6662f2bdacd" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_cull_mode_00_01char_01_4_1a87a64d243bc2dab3da53c4f4b2a295e1" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_filtering_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EFiltering, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_filtering_00_01char_01_4_1a509e2e422b61259ec9336cbf599c343b" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_filtering_00_01char_01_4_1a5968fac2bb7ef9f0e42180644856a489" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_format_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EFormat, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_format_00_01char_01_4_1aa397906500851f059ff1301a955e6b59" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_format_00_01char_01_4_1ab18a86994927a9ca3af1517096942e39" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_front_face_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EFrontFace, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_front_face_00_01char_01_4_1aaf0152613e70b174e6bf9d2c725a70aa" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_front_face_00_01char_01_4_1ae2455d00ea6d53bdeedad65823248294" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_priority_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EJobPriority, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_priority_00_01char_01_4_1a4e0fc469f2fe35b8b7e0ebe9377ec79c" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_priority_00_01char_01_4_1aeb74d7fdb2abaf200f3a97614e4feef9" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_queue_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EJobQueue, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_queue_00_01char_01_4_1a63db8b8989bbda184b9abe41647d26b1" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_job_queue_00_01char_01_4_1a9e82499802da3879c9f0766e86cba532" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_log_level_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ELogLevel, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_log_level_00_01char_01_4_1aa61ca37d702639a0fab002ec81a4bcc5" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_log_level_00_01char_01_4_1a223975cd4fc470f2c0f2e55bb7cfa49a" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_polygon_mode_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EPolygonMode, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_polygon_mode_00_01char_01_4_1aabd9f09b8c9903800bfff2d93d0b91fe" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_polygon_mode_00_01char_01_4_1ae94c8adbe365094d370781128a664942" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_renderer_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ERenderer, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_renderer_00_01char_01_4_1a7cb0e92a6fb4a8f91f4bc4a16c5792b8" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_renderer_00_01char_01_4_1abdfa3bfc71078b31a5c2e920f7b3c698" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ERepeatMode, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a2a4b278d30dea168346d4a557dfe8e17" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_repeat_mode_00_01char_01_4_1a9a4f74905e64829e3e65bd8c4c1207dd" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EResource, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_00_01char_01_4_1a548c644bd19bc22186476d3e206d108e" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_00_01char_01_4_1a8e1da02f0fbb35f4231ce021af6824fd" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_state_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EResourceState, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_state_00_01char_01_4_1a802ffb01829fb5195c67ba3d92ade300" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_resource_state_00_01char_01_4_1a8b148dfee6ad89cc59a39164521f82ce" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_shader_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EShader, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_shader_00_01char_01_4_1afd4f8c5e0a5d53226f502771b0f678d5" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_shader_00_01char_01_4_1acd32e1bcc0b0c193c75680ed3e4ce26e" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_texture_usage_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ETextureUsage, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_texture_usage_00_01char_01_4_1ac6e5d65b1bf105791f49ff310170dcab" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_texture_usage_00_01char_01_4_1afbaf4e019701f885bab400627fb1b872" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_topology_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ETopology, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_topology_00_01char_01_4_1a081fccead0e8fb733824d96ebf1e47be" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_topology_00_01char_01_4_1aa7981abdfbaac970eecb443da537e02b" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::EWindow, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1a8113dd0820d832fa3c5b3bc59077b0b4" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1aa497ef161b51037c316e503149cadaac" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_resource_i_d_00_01char_01_4" kind="struct"><name>std::formatter&lt; aby::rhi::ResourceID, char &gt;</name>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_resource_i_d_00_01char_01_4_1a461ba3cefae2307f14b3c50e0bc5e8d0" kind="function"><name>parse</name></member>
+    <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_resource_i_d_00_01char_01_4_1afafb427d10fe117b4180506a13656c86" kind="function"><name>format</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_frame" kind="class"><name>aby::rhi::vulkan::Frame</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a843c13adf21128cdb20cc1a6cd057e41" kind="variable"><name>m_Pool</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1acad09a9089dd0d747b886dd0da7b618a" kind="variable"><name>m_Cmd</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a263b1d9bf62b731c658e1222cc4834a6" kind="variable"><name>m_Acquire</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1ab543c6e0d74e4862168b2b150e0f64b7" kind="variable"><name>m_RenderFence</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a582ca178baa5d6476a1473e8ce3be61c" kind="function"><name>Frame</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1ad8f87b0c8e2304abbda5f25699d89851" kind="function"><name>~Frame</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1ab12f0c1cda2721400c44ed19db9b6e54" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a2dad858df884634bea2d42a48dfc65f5" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1ac3b91f956b488f2b4f154c6316fc2d71" kind="function"><name>cmd</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a4e752f1f5ac6d26bc7d0217b65ea0561" kind="function"><name>begin</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frame_1a0e6651963fd16b581fc074f74400030d" kind="function"><name>end</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_frames" kind="class"><name>aby::rhi::vulkan::Frames</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1afb0a1e5c8f5bb8cc3e4ee3a57cc57b6e" kind="variable"><name>m_CurrentFrame</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a93c319992c35ed61325fa09b29f57ef2" kind="variable"><name>m_Frames</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a83bb9c9cff1ebda8396122d0a89cdcba" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1ac547064507ccc40886a8e853cb607c1e" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a68824984c25158469279b659b7ddfcc0" kind="function"><name>idx</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a698107790dd853b21909d00a42db4e70" kind="function"><name>operator-&gt;</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1a317e6b1be9b61ea38738811a08ec2494" kind="function"><name>operator++</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_frames_1abb2c69359bf87a5024fde016d1f78d9d" kind="function"><name>operator++</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector" kind="class"><name>aby::rhi::vulkan::GarbageCollector</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af17d2ff2582cb6b9db2681cd37997132" kind="typedef"><name>Dtor</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1ab64d6fb61a2cb18269a0dee5f0977f91" kind="variable"><name>m_Dtors</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1a47d2324fbffbed1dc156dcaab1e670a6" kind="function"><name>push</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_garbage_collector_1af3b782baff3874dfcc29fdfec2082125" kind="function"><name>run</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_graphics_params" kind="struct"><name>aby::rhi::GraphicsParams</name>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_i_allocator" kind="class"><name>aby::rhi::IAllocator</name>
+    <member refid="classaby_1_1rhi_1_1_i_allocator_1a251cd7d9a127d9ace66c02d208a9b0c0" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_allocator_1ab54b074a62eae96265f65da8cf0ebf77" kind="function"><name>alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_allocator_1afd7406eab5daaab64a1bf212f6456793" kind="function"><name>realloc</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_allocator_1a44a7252af404c5cca4bf573e2a9f5362" kind="function"><name>free</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_i_file_i_o" kind="class"><name>aby::rhi::IFileIO</name>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1ac8b4b178256e1fbc385aaab39c271ecb" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1ab1c87dd2cb970bd15765e1fa8e40e486" kind="function"><name>set_cwd</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1a7ca440793293386506cebcdfade29704" kind="function"><name>set_cache_dir</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1a6134b35e288789afec044ac12999c485" kind="function"><name>cwd</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1aaaf82349bfaea4893da4458cae81cfcc" kind="function"><name>cache_dir</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1a8d42d63928dcf2dd3f0c9a414595bcca" kind="function"><name>read</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1abcb5be64320979dd7fe20f48b48819e5" kind="function"><name>read</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1af972925d615142b467f9461e923876c8" kind="function"><name>write</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_file_i_o_1a38b778457e2368515f308f06a6949e79" kind="function"><name>write</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_i_interface" kind="class"><name>aby::rhi::IInterface</name>
+    <member refid="classaby_1_1rhi_1_1_i_interface_1a8c95f6d497f91c6dd277308fb2f6c957" kind="function"><name>~IInterface</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_interface_1a42636ed5df2a1792cad63ce1b763819b" kind="function"><name>name</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_i_job_system" kind="class"><name>aby::rhi::IJobSystem</name>
+    <member refid="classaby_1_1rhi_1_1_i_job_system_1a5cad892b8d73fda4f6170195b5e9cfd8" kind="typedef"><name>Job</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_job_system_1a943e9146f5a1026ea74923029636dc95" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_job_system_1a10deaa88522ddf207594dcab1d4cfa28" kind="function"><name>thread_count</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_job_system_1aa2b18692e5f8eb46737bb65b10a88c21" kind="function"><name>add_job</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_job_system_1a37c8757bef713e0cb5190ff5bd530152" kind="function"><name>destroy</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_i_logger" kind="class"><name>aby::rhi::ILogger</name>
+    <member refid="classaby_1_1rhi_1_1_i_logger_1a2ed3859da52112e1e8d77cd4116b32e3" kind="function"><name>name</name></member>
+    <member refid="classaby_1_1rhi_1_1_i_logger_1a2f229e246b9fb48ed2ff6408f1008189" kind="function"><name>log</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_image" kind="class"><name>aby::rhi::vulkan::Image</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4c0366c33233e9844342f9525a8e8cbc" kind="variable"><name>m_Img</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a08f5492de13114ced2717ca59988609a" kind="variable"><name>m_View</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a9ff2606474f880b8ac68210fa5ee4f21" kind="variable"><name>m_Extent</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aca605b7eceafba34151c798e51cc0c5a" kind="variable"><name>m_Format</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a5019c79ad9792703b65640a69a9bbe1c" kind="variable"><name>m_Layouts</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a07dd8277468763375817f68e6cf0b507" kind="variable"><name>m_Alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a790c1de5658b9625d779e81187410fa3" kind="variable"><name>m_Samples</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a166dcffc999dfc5f950bda17a99605dc" kind="variable"><name>m_Usage</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a2347ab93be519af6d9aaeae0266c5e00" kind="variable"><name>m_MipLevels</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a45e394bd2912ca8fa56666e9d87971f3" kind="variable"><name>m_ArrayLayers</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aec8846f8e6f4492a7142f16dffe56b29" kind="variable"><name>m_Aspect</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a354f03de2c069b1ee2fab583cdf10859" kind="variable"><name>bOwnsImage</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac769c4ed4a56f2b433b22c1942c4589c" kind="function"><name>Image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a0a86fec01520a5ec57f98d979d03065f" kind="function"><name>Image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1adae0f3140554b8ccb88b789008ee8368" kind="function"><name>Image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1abc3c110f1e339aaf51682a10699c7fdc" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a82b16c59d4094ec07e7a1db1998fe6b4" kind="function"><name>wrap</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aeb4cec6c9c4e5e3e8ca40eeff9316140" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a78ff04af3a736da4da1eadc14ddef5f3" kind="function"><name>transition</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a8bdbc677b46d5e5a7ca6908b6679810a" kind="function"><name>transition</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1afa7435233c10481a0a37963931543499" kind="function"><name>copy_to</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a60e7979a34f8a2679a9386b05b529e44" kind="function"><name>copy_to</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4a137aafc59adebb49397a36a44224a2" kind="function"><name>copy_to</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ace90a428c5e9c2a4513f82af34675a79" kind="function"><name>copy_to</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a8a66696eb860c32d2770a444efb06275" kind="function"><name>copy_from</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac11e77b312e28333faa48dd5d4d95e3e" kind="function"><name>img</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a781fea08eec8b0111ae34b47769409b9" kind="function"><name>view</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a2bd1c209221ae9f5cae90e317e0c266a" kind="function"><name>width</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a05dfd0cf474dcd21fc8064a76f5a6223" kind="function"><name>height</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a08eced0a2a4cb48fe3e6f7070846828f" kind="function"><name>depth</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a89c0492ced07776f1e4c1ee62e18858d" kind="function"><name>extent</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1affe45bb37ff847c12ecee388dfeb1907" kind="function"><name>extent3d</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a505f7c2642166147b2d2990da947b247" kind="function"><name>extent2d</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a6e738d9f3ccfd0e99f5d7b29d1ee8b09" kind="function"><name>format</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4869befd4bdd071d5411fd86a4b00537" kind="function"><name>layout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac88a0eb4e07d414bf3f0a9d7538c7324" kind="function"><name>usage</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a5374f8fe7e784eaf84b7f57ed56e5af4" kind="function"><name>samples</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ae8d2c88ca66e67fac93e2b771ff08654" kind="function"><name>mip_levels</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ad6fbadb7a6fba2bf04821ffc9b24383a" kind="function"><name>array_layers</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a65c121ab4d550092446732ae434f007a" kind="function"><name>aspect</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a63f768fea6afb65dc657ef6c66d80b0d" kind="function"><name>bpp</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1afb652458ade11987f1cafc88e958587f" kind="function"><name>is_multisampled</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1af3e8007a9a6404559cc6479519c52063" kind="function"><name>is_color</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aff88cff2fc83876da3960c4e6a0002b6" kind="function"><name>is_depth</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac13d4f073a7427f30171ce5cc52538ba" kind="function"><name>operator bool</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a3349df0da3078b17023a7272fba6e289" kind="function"><name>operator vk::Image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a7a66258a20c1a9a400ae7480b5888ce9" kind="function"><name>operator VkImage</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ae5352f58b15bd528f286da13c0819c01" kind="function"><name>operator vk::ImageView</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a496d1f41ecde1ffdc26746f3ea0f246b" kind="function"><name>operator VkImageView</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a30ebf47c8a0747b83505af8433b53f85" kind="function"><name>operator=</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1abbe3211c4959fe08c5cf4750e3d4e4b9" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands" kind="class"><name>aby::rhi::vulkan::ImmediateCommands</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a6cd414cb942fee16e452b31634af653e" kind="variable"><name>m_Fence</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1ad36ce8354453ccc09c47d7b92b5edad7" kind="variable"><name>m_Cmd</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1abdaaf47f4b1fbd14bfe1d4d2d023a2e2" kind="variable"><name>m_Pool</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a7b93812ab9358faed26b1281e7551682" kind="variable"><name>m_CreateFlag</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a78b14405c3f53f4a771601a2594ecffc" kind="function"><name>~ImmediateCommands</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a21b31650d3fd3ef87d71d67c4cb923d5" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1afc7a3bebe443e4df8d78ddfb97b064fb" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a6f67d7354c75b35e58761910bf262ce8" kind="function"><name>begin</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a74d0641670dea6a36e12e6b80e9bdb5e" kind="function"><name>end</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_immediate_commands_1a85a2deca8e30cebe8c1e7fca01994245" kind="function"><name>cmd</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_index_buffer" kind="class"><name>aby::rhi::IndexBuffer</name>
+    <member refid="classaby_1_1rhi_1_1_index_buffer_1aa5527d4cd1b252febc4b8c4a16462269" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_index_buffer_1ad3f474e1cd4b4a87e9ff6f9618987957" kind="function"><name>IndexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_index_buffer_1ab5e5c9acd7e513da7f0758f9ef92deda" kind="function"><name>upload</name></member>
+    <member refid="classaby_1_1rhi_1_1_index_buffer_1afb1181820527e8cec5d7d57e6bb70add" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_index_buffer_1a1d94959609484c3bdffc284a1b11dac9" kind="function"><name>push</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer" kind="class"><name>aby::rhi::vulkan::IndexBuffer</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1ab1bf1bb653efde6dd5380996cc45c997" kind="variable"><name>m_GPUData</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1a1abd63f76c81e831eb9cda973f9c8e88" kind="function"><name>IndexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1a5e2a8c6cd1626b2a9bd081f0ab7d29e7" kind="function"><name>upload</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1ab355875499e61f622d9cf80925e36b3a" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_index_buffer_1aae6df1947d14b76b60011b230fe42cf7" kind="function"><name>gpu</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_vertex_input_description_builder_1_1member__pointer__traits" kind="struct"><name>aby::rhi::VertexInputDescriptionBuilder::member_pointer_traits</name>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_vertex_input_description_builder_1_1member__pointer__traits_3_01_member_01_class_1_1_5_01_4" kind="struct"><name>aby::rhi::VertexInputDescriptionBuilder::member_pointer_traits&lt; Member Class::* &gt;</name>
+    <member refid="structaby_1_1rhi_1_1_vertex_input_description_builder_1_1member__pointer__traits_3_01_member_01_class_1_1_5_01_4_1add0d75f7f3348e79e0a2bb990c046f4c" kind="typedef"><name>class_type</name></member>
+    <member refid="structaby_1_1rhi_1_1_vertex_input_description_builder_1_1member__pointer__traits_3_01_member_01_class_1_1_5_01_4_1a59139f960ae7dbec3ac4290f1e5d3530" kind="typedef"><name>member_type</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_shader_1_1_path_data" kind="struct"><name>aby::rhi::Shader::PathData</name>
+    <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1ab4b74eabe48ab3358fa9ae48d339c5c9" kind="variable"><name>name</name></member>
+    <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1a299d2c1df95ef70d6fa31aa6bf16c65a" kind="variable"><name>ext</name></member>
+    <member refid="structaby_1_1rhi_1_1_shader_1_1_path_data_1a03c64183d675950d716ac4c1d6a6a512" kind="variable"><name>is_compiled</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline" kind="class"><name>aby::rhi::vulkan::Pipeline</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1ac2ab28a8aada9a734c4d69a0e107ea44" kind="variable"><name>m_Pipeline</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1a51229c7be91bed6f525f56d6508013dd" kind="variable"><name>m_Layout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1a257ae1d7f3a3daab4e90e98a7f983abe" kind="variable"><name>m_DescriptorSets</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1aa74ef95b80966d73d6a1584a425a7a2c" kind="function"><name>Pipeline</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1a7678c931c29968f304e7df09fdf6bfc0" kind="function"><name>bind</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1ad0bd8f6e818f517fe8ce9a4eb544ed12" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1a0e49067765b2d48ae63e34e4c56b0efe" kind="function"><name>operator vk::Pipeline</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_pipeline_1a7ce7543f1570cc125ba4be52b0bea717" kind="function"><name>operator VkPipeline</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" kind="struct"><name>aby::rhi::vulkan::PoolSizeRatio</name>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1a015a6685a5b8289eff139572cc1a1565" kind="variable"><name>type</name></member>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1adedb82e85912ab80c896f52b20f5d6a9" kind="variable"><name>ratio</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_renderer" kind="class"><name>aby::rhi::Renderer</name>
+    <member refid="classaby_1_1rhi_1_1_renderer_1a73d7fb9052b439c953e7f07189e77e6c" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1ae848f50225ed2514de6dcf122cc7d4b7" kind="function"><name>~Renderer</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1ae2d189a136f0c4cc1abfcd492ae20c10" kind="function"><name>init</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1a850593ddcd40a1a125184801af548fb5" kind="function"><name>deinit</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1ac3c61a0136abea65c63ab1880f0e6d14" kind="function"><name>add_pass</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1a262a7f7fa9cf90820447abc62b09c337" kind="function"><name>set_clear_color</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1a778c0f697d51b783c790e481fcc625fb" kind="function"><name>on_begin</name></member>
+    <member refid="classaby_1_1rhi_1_1_renderer_1a53d2a5be95fe015a32e042ec08db1935" kind="function"><name>on_end</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_renderer" kind="class"><name>aby::rhi::vulkan::Renderer</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ab151e361e4a8e0ae6b86613ea9a6e9dc" kind="variable"><name>m_Graphics</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a70c78ebadfdc0aa7ee63e95825bda67b" kind="variable"><name>m_Window</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac8d3bf7f6ad8ed182df1db7c21f0a746" kind="variable"><name>m_GraphicsQueueFamily</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a5579c063cad09b9b54532ed0345649b1" kind="variable"><name>m_PresentQueueFamily</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1af43fd32721776fb4abd78f563bd48688" kind="variable"><name>m_FrameIndex</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1aeaeb605c5cbd1849e0c66448f6873fab" kind="variable"><name>m_SwapchainImgIndex</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ab9715b2f88708cf989a07bb287808998" kind="variable"><name>m_Width</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac8d75767af7425872c7ac8d74cd0aefe" kind="variable"><name>m_Height</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a69ec0311c9ca7c98818e81faaf794d7c" kind="variable"><name>m_VMA</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1adbc186fada0c8e64a8e0cd4e78541157" kind="variable"><name>m_DescAllocator</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1abf0074d290a02f6c4a1e90fe86fd2123" kind="variable"><name>m_TexAllocator</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a84b6ee14cf31b528402ef9e7ce82edf7" kind="variable"><name>m_Surface</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a401e6fc609e5f1413fc96ece5f632ef0" kind="variable"><name>m_GraphicsQueue</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a4cc00790e58c4cbf92a2a0ede0ef2936" kind="variable"><name>m_PresentQueue</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac46e82d455eeff8623e2e2948b5361d8" kind="variable"><name>m_Swapchain</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a97b96e89d558d4c3aa7c9bc14007ac64" kind="variable"><name>m_Device</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a1fe7ba0761c67e71861de3355cb733df" kind="variable"><name>m_Instance</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a3d4fddaf2369c839e6eb9fc69ef6a6e1" kind="variable"><name>m_ClearColor</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ad92f731e8261dba1176ea6a0987cc530" kind="variable"><name>m_DrawImageDescriptors</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a34572aca705af132cc9b53c51d705a2e" kind="variable"><name>m_DrawImageDescriptorLayout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a3ec404f8cb699e143b1aa3eb098145e0" kind="variable"><name>m_TextureDescriptors</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ab0d1fdca892749cb0cd39492e6cb2621" kind="variable"><name>m_TextureDescriptorLayout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a82207e8d83e7ab72313df0b432c9e731" kind="variable"><name>m_ImmediateSubmitMutex</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a87c314b34d0247fcd23f9b49e6e28c57" kind="variable"><name>m_Limits</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a60d195559cb415fdac767c457c31bdca" kind="variable"><name>m_GC</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a5b5edff5abce9ccc075b58ccd64e0450" kind="variable"><name>m_SwapchainImages</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a33cb513c4f4f4d42226b46fd63a2576c" kind="variable"><name>m_Frames</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1aab170150aeed1b080a8d3caa9dac32c6" kind="variable"><name>m_RenderPasses</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a120a53a01026138f7536d2ec43932b78" kind="variable"><name>m_ColorToResolveAttachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a0694cb9c66a3b3d535d1ba1296d6a3b4" kind="variable"><name>m_PresentPass</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac6004c35f2ce9ff0f0819e7be46cbf29" kind="function"><name>Renderer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a161692328fbd9f55c0cb1a72d8a05374" kind="function"><name>~Renderer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a1d6ee42da6f4813ea7d458d49e5d9cf3" kind="function"><name>init</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a04b333694bc73aa8b910c87f5e13fa5a" kind="function"><name>deinit</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a58fbc43f193aab494394575e4971dbd4" kind="function"><name>set_clear_color</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1aadeb3bb932a38469a28c349b8ad671af" kind="function"><name>add_pass</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1abf1e0e9b529e67002dd47bbf05762855" kind="function"><name>immediate_submit</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a7bdd9bec9920c9bf2494bb6e1f49739a" kind="function"><name>register_texture</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1aaf070b323c1442015923fe9938e2cc51" kind="function"><name>update_texture</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a4c95066ffac9990f52eb8586fbfbb795" kind="function"><name>on_begin</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a28deca090e5e905ade898f6d5549152f" kind="function"><name>on_end</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ad451428f70056525076a6a9ebac9be23" kind="function"><name>device</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a6e294c7265404f4193360749fb0288b7" kind="function"><name>vma</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a6b71b8bf879a65fd4ba7ca26baf5bd13" kind="function"><name>color_format</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a8d03987faf34c406fe0e2f9f9fbe3dff" kind="function"><name>gc</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a07ea475e35c92358af916af071d684a5" kind="function"><name>desc_alloc</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a97fe73955ba66401b7c63df1bac3ccd7" kind="function"><name>tex_desc_set</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ab485875a6e83681d69dc14d3618d9e63" kind="function"><name>tex_desc_layout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a27e50e4e6dc3ad74de999d580ddcd744" kind="function"><name>max_sampler_anisotropy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac4098125c3e14aa168e8223a5a71bfd8" kind="function"><name>graphics</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1adfb3d4a96bd3a5e49f26a438f5235721" kind="function"><name>width</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a712b44ad45c279668188ca0aa71a0c72" kind="function"><name>height</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a7839f16e6387e1e2008fc2d9f01b74d6" kind="function"><name>clear_color</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ab6832f6844566915ee63c72437838663" kind="function"><name>frame_index</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ae8e318812dc778a34fdf0dc6ddf62301" kind="function"><name>get_resolve_attachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a81b13cc5ba9a385f7bcacaa9cad4e6b4" kind="function"><name>init_vulkan</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a464c70231927f35b0640887097c69bb3" kind="function"><name>init_vma</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1a16cab23ee9ed46a3c53a8086fb0712f6" kind="function"><name>init_descriptors</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1aee9b6817e041855fa0f777b70bf186e0" kind="function"><name>recreate_swapchain</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_renderer_1ac1a065dbd61cc0d8efabfdfa398e9e21" kind="function"><name>get_immediate</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_render_pass" kind="class"><name>aby::rhi::RenderPass</name>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a8d37347ce818041ff9afc3f359b10168" kind="variable"><name>m_Commands</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a28c07a2a5484931e9c827430f864d63e" kind="function"><name>submit</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1acf25e9d72f6d31a06bbdefa11c9dbb8b" kind="function"><name>set_uniform</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a717a8484689a0f4000ffb787bb30742f" kind="function"><name>set_uniform</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a0e40d3c1f53599cc96655057f945db4f" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1ab3f7c7e429b311344a75ededf8705c30" kind="function"><name>bind</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1ad57dd2b49b59c45be2c737aa76f4b090" kind="function"><name>begin</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a95b7a8f8b0f2d72a6b2a6838cad37d37" kind="function"><name>end</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a8d6bf82814c7b630ad41b17d4e8b52ac" kind="function"><name>run</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a95a1de102d2f90b2e31dcde6e7eab3c2" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a66eeecd7ab2834a655c47be8a4cf0edf" kind="function"><name>set_viewport</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_1a073b9656330e5a760cdf58248a527fac" kind="function"><name>set_scissor</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass" kind="class"><name>aby::rhi::vulkan::RenderPass</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ae9e2f1c346537d92da7efe136f74905c" kind="variable"><name>m_BindPoint</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a01261f21762e13ce497c2e80af890109" kind="variable"><name>m_Cmd</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aae4f2cf2e70588bb254f28131edf5567" kind="variable"><name>m_Pipeline</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a470d8c6c79a7249b1c8c7848ea702c5b" kind="variable"><name>m_Shaders</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a6432b9e271fb270ead237e3bf99318a0" kind="variable"><name>m_Uniforms</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a98511d800d3f28675f0d137d2a72688d" kind="variable"><name>m_ColorAttachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acce422fc219dd94cbae4680439e4f2cb" kind="variable"><name>m_ResolveAttachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac5ed120fb958919c91faf8b13c089ff6" kind="variable"><name>m_PresentAttachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a2bbfb0dd948ccef4136a09c0d0669bd3" kind="function"><name>RenderPass</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a7af07df94f68a948d34ea7d82f91f17d" kind="function"><name>set_uniform</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa877357824f04e74593c7bcc8d30c803" kind="function"><name>bind</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a25846b6866aa8c29c39819f8ea24532f" kind="function"><name>begin</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8c6e1a0289f368d660ba3ce472242452" kind="function"><name>end</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a29b096ec9b891427118d13c99eda8058" kind="function"><name>run</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a54ed5978ebc0c09641c5b0f1a5b2495f" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1aa07195462a3067e6ce971abb493bff61" kind="function"><name>set_viewport</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a9c9eefe431ec68db688ef355f488e27e" kind="function"><name>set_scissor</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acf64076428f295fb68368ae1b25c3965" kind="function"><name>is_present</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a8243f8e4cecacb61e576b290e2e05699" kind="function"><name>present_attachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1acc5c960d38f065aa353133425d7adde0" kind="function"><name>color_attachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1af7c95d937609569b4621e7734083d8a7" kind="function"><name>resolve_attachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1a086b2005ebd2f881838d098d985b7d0a" kind="function"><name>set_bind_point</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_1ac7955cc789c456781d1e5579c1ad76d1" kind="function"><name>set_cmd_buffer</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_render_pass_builder" kind="class"><name>aby::rhi::RenderPassBuilder</name>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a7981de230411a6522b15e82232dc6ea7" kind="variable"><name>m_VIDB</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a4726065819f87c11790343b1f8fa4ff5" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1aec91c0669c5514e1724494b8febd5f8c" kind="function"><name>RenderPassBuilder</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1af4b9b5b44cdc073936b3984062e95862" kind="function"><name>~RenderPassBuilder</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a708a51a7bf99533126b9539983016901" kind="function"><name>build</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1afd4f584f0dff250f655e578361374962" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ad5a5f79d98b5c474e871d3b6fb28e622" kind="function"><name>add_shader</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ac252d226f809ec8a94863b82cc36993c" kind="function"><name>add_shader</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a09a309151d8375a59277c37da5590c19" kind="function"><name>add_uniform</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ac396482e4f78b11d52f0343a181b21b7" kind="function"><name>add_color_attachment</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ac42ae964357a83fd2470ed9b1826ce35" kind="function"><name>vertex_description_builder</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a6f99798f2d58d95e15eabb50d4abfa77" kind="function"><name>set_topology</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1aa1b504a9fb6a4c6d4a587f4394a13a03" kind="function"><name>set_polygon_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1aa19b9db114f0f1c1073500af8871c16b" kind="function"><name>set_cull_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1aeae9161a580466b2955fc127ec9541b8" kind="function"><name>set_depth_format</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a18039d16c498fc9b6496886c851ebda2" kind="function"><name>set_depth</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a7fbd57672cfca4eb566b78fa1b59bad0" kind="function"><name>set_stencil</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ab70f6a64956e7a2cde296e2316792449" kind="function"><name>set_blend_color</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1afb841620b48be294b2398d26a77fbe56" kind="function"><name>set_blend_color</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a7c2079c32c5a5724dfc4bcb3d9049362" kind="function"><name>set_blend_alpha</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a2e8334dede58bf1cf5354eb018e9ea27" kind="function"><name>set_blend_alpha</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ac13d0e9be1d0dfd7e666d8a0f9352662" kind="function"><name>set_blend_mask</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a98f352df62c88d0129f52435814ee612" kind="function"><name>set_blend_mask</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a3f5437155492d46b4fc6cd01b422566c" kind="function"><name>set_antialiasing</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1ae6a7bd53cb375c5904596f5b699af77e" kind="function"><name>disable_blending</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a9b528f287f0d5e497c8f0220db34ad26" kind="function"><name>disable_depthtest</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a6432b5febc815057cacb86147c90d710" kind="function"><name>use_all_defaults</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a8cb5488c9c2d3292c1443e28f4a9c9a1" kind="function"><name>use_default_topology</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a9b2afb9856f0a1dc1bc07d50c4b9dddb" kind="function"><name>use_default_polygon_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a702b873eaaf9f374be9e111eae1af54b" kind="function"><name>use_default_cull_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1_render_pass_builder_1a991417c65b9db113653cf2ec69699f70" kind="function"><name>use_default_attachment_formats</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder" kind="class"><name>aby::rhi::vulkan::RenderPassBuilder</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1adb7a0c304c5b4a410cfe40f8804fc516" kind="variable"><name>m_PresentAttachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a4b7f5b91fb341bbf4d7fa48c93624238" kind="variable"><name>m_PresentAttachmentIdx</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a39e2684218a5d74013c1f412b45a6afe" kind="variable"><name>m_ColorAttachmentFormat</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a23c1565f58ebc6753b846bfdf82886d2" kind="variable"><name>m_PipelineLayout</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a7ac9b7d8b23c48ec6131508b866d5609" kind="variable"><name>m_InputAssembly</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a4f7b6bb5819b3e63af6d86a0967c1cb6" kind="variable"><name>m_Rasterizer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a93e6c7a607c69d29d8abab640b024377" kind="variable"><name>m_Multisampling</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ad4bb2ea13dad4eef3a4522b9af683b81" kind="variable"><name>m_DepthStencil</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1af69f7389cb4683c7f5104f093f95cc05" kind="variable"><name>m_RenderInfo</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a03a91d225f275c0dfefa95f34c7f8310" kind="variable"><name>m_SampleCount</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1aa60cd6ea6f1ffa70f32d7b6d55257c3d" kind="variable"><name>m_Shaders</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a84d8c3ae5b7c0c59cccca5ed8a8fb659" kind="variable"><name>m_VertexInputBindings</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1aef648546bf5079c4625ec1db11b20d00" kind="variable"><name>m_VertexAttributes</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ab79fd0c839cf554eb2eb992c2fcdec34" kind="variable"><name>m_ShaderStages</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a647a8bc5caf1411eefac75f0ccda2bf0" kind="variable"><name>m_DescriptorSetLayouts</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a510cd8153f3e619bd6b818caed46b8a7" kind="variable"><name>m_DescriptorSets</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a36e53d1066b995c675e4452079cf38bf" kind="variable"><name>m_ColorAttachmentFormats</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a755f4a8ed6e70d58e007b557372321ce" kind="variable"><name>m_ColorAttachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1aad30e959389a6c1a6cc10d12f10fae61" kind="variable"><name>m_ColorBlendAttachments</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a3d539626bac4a4d850126d91ab1188dd" kind="variable"><name>m_UniformBindings</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a40ee41889cbddf5a3bff262765dac76e" kind="variable"><name>m_Uniforms</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a53b8af26d01e0781b2664a244382d6fc" kind="function"><name>RenderPassBuilder</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a4f27ea421b6462ddb0f923d82c4d4edf" kind="function"><name>build</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ae840fe3dfda72c063d30ce98c62543c6" kind="function"><name>clear</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a8d153520c2d7967ee5263e9b49680e91" kind="function"><name>add_shader</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a852688159b500c51afe32a68ca9dd621" kind="function"><name>add_shader</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1aa3e09ce0d07dc6517242849ef0ee8eb5" kind="function"><name>add_uniform</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ac1402ef5033bb96900a0e8e3cd3cebf6" kind="function"><name>add_color_attachment</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ac8690c664af196059d60a152ea82eaae" kind="function"><name>set_topology</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a440bb7487dcd5e9bb3d5093876c3a2c0" kind="function"><name>set_polygon_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1af7522a791ff822cc455e2a4cc2f3dca6" kind="function"><name>set_cull_mode</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a4d207a1f95bf9fc7b4b0350f3f7af17d" kind="function"><name>set_depth_format</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a46bbad205dab08b99fd1e6e2463e39c4" kind="function"><name>set_depth</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a77c7b14c50939303bf4ba283289787a7" kind="function"><name>set_stencil</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a055439510b0c6bf595c964dd1c8ae9cb" kind="function"><name>set_blend_color</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a95a4edcaabda5d9c9e2655150f523d95" kind="function"><name>set_blend_alpha</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1ad5e768ab181f7efbe2b32c34fca49b01" kind="function"><name>set_blend_mask</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a0976676d7b6fb404c32e8b9518934953" kind="function"><name>set_antialiasing</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a1a3d9c9c9c3ba39963b20393384113bf" kind="function"><name>disable_blending</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a3f60fedf1333c4441dd03fad83957a2a" kind="function"><name>disable_depthtest</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_render_pass_builder_1a3ac0160b6acdc6731e0175b993e04ec1" kind="function"><name>use_default_attachment_formats</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_resource" kind="class"><name>aby::rhi::Resource</name>
+    <member refid="classaby_1_1rhi_1_1_resource_1ad707284f79e113e502c965fc846f9169" kind="variable"><name>m_Type</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1a1042ae5c3c104cb81fbe280724d2e435" kind="variable"><name>m_ID</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1a28f0dd688a1be7bb7a3f4ce9b096e1de" kind="function"><name>Resource</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1ae10b3765b78d0cd5ce0fcc3e2a5a2369" kind="function"><name>type</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1afc4a4494ed7d63ae803e66d87743b5dc" kind="function"><name>id</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1a1c4ce1b27f81e12e22c038efa5a29317" kind="function"><name>operator ResourceID</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1a5c6075a6feea48a01375ddc46b36fb71" kind="function"><name>operator std::pair&lt; EResource, ResourceID &gt;</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1a422d0fa299cb526fc956558f84e3265c" kind="function"><name>operator bool</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_1ac51832d0e49038f46459c0e33da98c0a" kind="function"><name>operator==</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_resource_container" kind="class"><name>aby::rhi::ResourceContainer</name>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a95bdb5cb636ae8bd9c42c55ea122ce50" kind="variable"><name>m_Resources</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a377aa7f0a8d9c9c8692410c93116c61d" kind="variable"><name>m_FreeIDs</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1af55868032ee0f7a6bd2de4812f2694dd" kind="variable"><name>m_ResourceStates</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a67c387c972d7731ec207f9a560e12bc7" kind="variable"><name>m_IndexMutex</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a4958a075dbff67f4cfd8bde84f3df55f" kind="function"><name>~ResourceContainer</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" kind="function"><name>reserve</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1ae8d9b166b324ddbdcddb693499baf035" kind="function"><name>add</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1aafc6249958026b765553b82840678236" kind="function"><name>emplace</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a544cfe60be4ce317bf93fe2836c9f63b" kind="function"><name>remove</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a4877d00219e8c00f43ff9cced571368a" kind="function"><name>fail</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1ac34a764c01016488dbbcf718bf351ea5" kind="function"><name>wait_for</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a7dc79616ae3d2ebb13f906799119980f" kind="function"><name>is_loaded</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a947d928b7946f8730a9ccc7723d797d5" kind="function"><name>state</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_container_1a88addfd8f6d7406e75e08b2f1369520d" kind="function"><name>operator[]</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_resource_ptr" kind="class"><name>aby::rhi::ResourcePtr</name>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a00dc86826130ce0bdc640a4b05259653" kind="variable"><name>m_Cached</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a56b82f4f879a0b2f8cc544ae71f86da1" kind="variable"><name>m_Container</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1ade76cad2e38f292227489d3a815d1913" kind="function"><name>ResourcePtr</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1ade7cffebff2cfffae7995f268465efe9" kind="function"><name>ResourcePtr</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a8e066d9779996a36b2d81e8cf9699efe" kind="function"><name>ResourcePtr</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a5679769c24244931d20f8e9a5f1b3ca8" kind="function"><name>operator-&gt;</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a833ce44a868d5b34d1bb67104fbfb789" kind="function"><name>operator*</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a4cc519df29de4202998b7688958f1e7f" kind="function"><name>get</name></member>
+    <member refid="classaby_1_1rhi_1_1_resource_ptr_1a0f57307028211b8b3276cdd4c72bf54c" kind="function"><name>operator bool</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer" kind="class"><name>aby::rhi::detail::ScopedTimer</name>
+    <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0a1f0b2de87daacb8959a1078ca213f6" kind="typedef"><name>Clock</name></member>
+    <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a46487776f62af972b2e3708c2da065e3" kind="variable"><name>m_Name</name></member>
+    <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a0cdb90b40b9cd642a333d116a39149a5" kind="variable"><name>m_Start</name></member>
+    <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1a2a2e3ca7cd2a1931e71cde8e84cf10a7" kind="function"><name>ScopedTimer</name></member>
+    <member refid="classaby_1_1rhi_1_1detail_1_1_scoped_timer_1ab023088845c147541026369160ee85b4" kind="function"><name>~ScopedTimer</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_shader" kind="class"><name>aby::rhi::Shader</name>
+    <member refid="classaby_1_1rhi_1_1_shader_1a4f3e74a618b0b04774290b8a1811ec5d" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1ad1ccc266c889d51aa71bb25b34f48dfe" kind="function"><name>~Shader</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a7e6a00e7b70d47401a04b84d2e172988" kind="function"><name>data</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a4f0268fe77b47f850e909cde86edd86c" kind="function"><name>bind</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a0e6e1c084676dbe1eacf80f62c7d0255" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a962cb15a9cf71e3cc5a9676fc5f6c03a" kind="function"><name>type</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a140bff6553220771839ecfb70170acbe" kind="function"><name>ext_to_eshader</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a80999463004e04c44a9bbae8c907576b" kind="function"><name>get_path_data</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1a3506036a8773f83c4d15566506bf7e76" kind="function"><name>is_cached_shader</name></member>
+    <member refid="classaby_1_1rhi_1_1_shader_1ab3de78365958bf1c95e4bae46e8cd2a8" kind="function"><name>size_of_glsl_type</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_shader" kind="class"><name>aby::rhi::vulkan::Shader</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1abd598c57f1302a07575fa2590b73c5b1" kind="variable"><name>m_Type</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a9d0b3b6b3a535a169f67bb0a76e90515" kind="variable"><name>m_Module</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a7f585dbf3001c7f5bc899f6c410f6766" kind="variable"><name>m_Data</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ab893d4c898e7db49d572a3566a6b45e2" kind="function"><name>Shader</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a0a5c478b221fff1cae3d6020ca5efce6" kind="function"><name>~Shader</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a495cc59f2a1d017e55348ac87a7d7283" kind="function"><name>data</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ad1c67333add71c0d1a3e6b70bdc7144e" kind="function"><name>bind</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a15f00fd3885ae25811cee8b23c4f27e6" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a9b805438d8641912cbfb1aafc7b53c5c" kind="function"><name>module</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1aef16cc54c20b273f635ba8538f367fb6" kind="function"><name>type</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_texture" kind="class"><name>aby::rhi::Texture</name>
+    <member refid="classaby_1_1rhi_1_1_texture_1aee38862bf7d3ca036256694e365588df" kind="variable"><name>INVALID_ID</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1ac93a90eaf54d4d65143ebc9fdcbd4111" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1ac1eb20d4121fe2707994aedfc00ba3f5" kind="function"><name>create_render_target</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a8d821fcacdbf3563ee1ff469cb6fd4ed" kind="function"><name>~Texture</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a728b7209857a8f480a04d449066a22be" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1aed6a16bf1f1658b55a8ca718725af9d4" kind="function"><name>sync</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a05e4b60be54584978cdd4b5dbc4aa286" kind="function"><name>read_px</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1aa19048aa505f8adcec25bf0e00ed77ae" kind="function"><name>resize</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1ae94d1e62f316902578111ac5e0bd1801" kind="function"><name>write</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a3a16c88b48aedb80b0a4f7211d9653a1" kind="function"><name>id</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a1dea7026d24daaab26c991b1d810ee00" kind="function"><name>width</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1ada66a88913e0c5b754d005d495c856f1" kind="function"><name>height</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1aef7f4700a4addcda1301edf79f1fcc89" kind="function"><name>channels</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1aba27a700bc0ecaaea7bb3953cb0d81fe" kind="function"><name>data</name></member>
+    <member refid="classaby_1_1rhi_1_1_texture_1a1a6e0a98bc805cecedf9fdb38f31c596" kind="function"><name>bytes</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_texture" kind="class"><name>aby::rhi::vulkan::Texture</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a613d3c2718d945299c80954b097e4815" kind="variable"><name>m_ID</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1ae0e31282a1caad6bc2e468331e1d1d32" kind="variable"><name>m_Channels</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a70f1c390d27f96804181f95e68cae871" kind="variable"><name>m_Samples</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a8410f5a14f970c8ae6c38e35bd107b18" kind="variable"><name>m_Sampler</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a601f07c5e68a5abcb75366f620387a95" kind="variable"><name>m_Image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a5aff1281e777e449bcac0ff58f0fd23b" kind="variable"><name>bIsRenderTarget</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1aee35b824bd69fa8e11b99702d9b6195f" kind="variable"><name>m_FrameID</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1ae5034ec83e1d6d828bd243b6f5de9b24" kind="variable"><name>m_Data</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a363ed64b9b22695217c30be93669ac26" kind="function"><name>Texture</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a3a97d8047dd36932987f2e06b0367065" kind="function"><name>Texture</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a0bdaeb66cfb3bafd30faf4babade0457" kind="function"><name>~Texture</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a7e7c553e3cbfb2372304389129071d83" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a1fb78912391695b8936c636c547ffc23" kind="function"><name>sync</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a0f5ab0437c4cf243edaabe5fe19c2c29" kind="function"><name>read_px</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1abebaa1f4c302f193f931647b33aa1555" kind="function"><name>resize</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1af5e3567905a12ca353afdb499f93e06e" kind="function"><name>write</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1af1e99d2d76d455208e15d307a204fb8f" kind="function"><name>format</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a66fd7721d344f27e986fdae7cf80e511" kind="function"><name>view</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a9e2ef1003084968308091b469f23907a" kind="function"><name>id</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1afdadeac64f3b4feebbb0a95633e330cb" kind="function"><name>width</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a9435a747153e0936208b94857bba5957" kind="function"><name>height</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a52674fcf44fa886c1f503d21523a2c2f" kind="function"><name>channels</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a776cd2aaf6632787930211676e244777" kind="function"><name>data</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1ae8f7b42132c53e13defaf8fb7ca16505" kind="function"><name>bytes</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a962c430f5275c59a367cdece0aa675b2" kind="function"><name>image</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a992161227dda2fba8fb48b28e3c41b58" kind="function"><name>is_render_target</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_texture_1a7795fed2e463fd7969f7f35a645f654f" kind="function"><name>load</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_texture_params" kind="struct"><name>aby::rhi::TextureParams</name>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1aeb14585ea32d7ac5f883d56f10acc132" kind="variable"><name>mip_levels</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a65508e757c5d8213987bd65e41a00257" kind="variable"><name>anisotropy_filtering</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a5b8772742493939a0e2b8caa237dd5e0" kind="variable"><name>filtering</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a89f445740cd4234ce6cc1d57476132c6" kind="variable"><name>repeat_mode</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1abeb9287ee93087a5b1f4bdf73431e0fe" kind="variable"><name>texture_usage</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1ad22c05efcd507083b42814719a7d081c" kind="variable"><name>channels</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a1afc992d1182ab8b288583cbd5c7ca0a" kind="function"><name>set_mip_levels</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a9165b4e41cdddda1630705eb84dd4a21" kind="function"><name>set_anisotropy_filtering</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a69bdfbaede60ec93eee011b91f8a0650" kind="function"><name>set_filtering</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a84adf9b313308b2f25c0fd35e81c69db" kind="function"><name>set_repeat_mode</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1afd4a2a2c7fad4c730b3272c3262c9624" kind="function"><name>set_texture_usage</name></member>
+    <member refid="structaby_1_1rhi_1_1_texture_params_1a2c4dffdc4a7e7c9056f3d8f75445e6b7" kind="function"><name>set_channels</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1vulkan_1_1_uniform" kind="struct"><name>aby::rhi::vulkan::Uniform</name>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a7345cf10c726564117678efd9f26f430" kind="variable"><name>binding</name></member>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a880daccf07c94967acb74eaa999a8f5e" kind="variable"><name>stages</name></member>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a81ec9aeb11bafebb537a5c71bcc9405e" kind="variable"><name>set</name></member>
+    <member refid="structaby_1_1rhi_1_1vulkan_1_1_uniform_1a85422ada02f8ca5669f3576c9e7f3fab" kind="variable"><name>buffer</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_uniform_buffer_desc" kind="struct"><name>aby::rhi::UniformBufferDesc</name>
+    <member refid="structaby_1_1rhi_1_1_uniform_buffer_desc_1a95175aa75eb73d310483d8b4f85dfce6" kind="variable"><name>set</name></member>
+    <member refid="structaby_1_1rhi_1_1_uniform_buffer_desc_1a5cd0752b7a5539a7c8923f347cd45a77" kind="variable"><name>binding</name></member>
+    <member refid="structaby_1_1rhi_1_1_uniform_buffer_desc_1a4eba2fe21dab5a9f695662c3ec7cde64" kind="variable"><name>bytes</name></member>
+    <member refid="structaby_1_1rhi_1_1_uniform_buffer_desc_1a32eb93b5a99a8ad89a26ec5d370b5291" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_vertex_attribute_desc" kind="struct"><name>aby::rhi::VertexAttributeDesc</name>
+    <member refid="structaby_1_1rhi_1_1_vertex_attribute_desc_1aaa2d88851950a3e57b881d30e571da8e" kind="variable"><name>location</name></member>
+    <member refid="structaby_1_1rhi_1_1_vertex_attribute_desc_1a3570d1b5bac91bc607c8feef7a1cd2ed" kind="variable"><name>bytes</name></member>
+    <member refid="structaby_1_1rhi_1_1_vertex_attribute_desc_1a13db1b43dab3ba3965a198a0292baf0a" kind="variable"><name>name</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_vertex_buffer" kind="class"><name>aby::rhi::VertexBuffer</name>
+    <member refid="classaby_1_1rhi_1_1_vertex_buffer_1a318f602f3b14a6b6a274de58a7df54f3" kind="function"><name>create</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_buffer_1a288977ebca8fe8b0d5eb853026dedf33" kind="function"><name>VertexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_buffer_1ae451b8b5e820445a35376727a25320b6" kind="function"><name>upload</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_buffer_1af41b70d48f7c52a3feb1d2aedf128fec" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_buffer_1a47d9cc04974c655ebd9ca9f34382e1df" kind="function"><name>push</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer" kind="class"><name>aby::rhi::vulkan::VertexBuffer</name>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer_1a340bcaf2ce64112c2637e0b51f9009a6" kind="variable"><name>m_GPUData</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer_1a2e265ea1cc7a631b7673bdfe0d565e4d" kind="function"><name>VertexBuffer</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer_1a1192eb79ea0816481a73663cc6d29ae2" kind="function"><name>upload</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer_1a66c1722be645fc2eb583096c15613a2e" kind="function"><name>destroy</name></member>
+    <member refid="classaby_1_1rhi_1_1vulkan_1_1_vertex_buffer_1a1aebc6cd2149cc55cc94e0405308a2e7" kind="function"><name>gpu</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_vertex_input" kind="struct"><name>aby::rhi::VertexInput</name>
+    <member refid="structaby_1_1rhi_1_1_vertex_input_1ab6cee624b8ee007283a40af032a4264c" kind="variable"><name>format</name></member>
+    <member refid="structaby_1_1rhi_1_1_vertex_input_1a024dfb857d157b7a9e3e69054fb76431" kind="variable"><name>offset</name></member>
+  </compound>
+  <compound refid="classaby_1_1rhi_1_1_vertex_input_description_builder" kind="class"><name>aby::rhi::VertexInputDescriptionBuilder</name>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a33d23b878a8f55d2ed719b8602e212d3" kind="variable"><name>m_RPB</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a048f92b8c90e03225a9dc20a755c0e04" kind="variable"><name>m_Inputs</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1ae852702ae96fbe02339699232971bf04" kind="variable"><name>m_Stride</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a89d14b3203cdb856c3b5a98620a3c23d" kind="function"><name>offset_of</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a0a2dffc051f10b0c07ad1d080b12fa3e" kind="function"><name>VertexInputDescriptionBuilder</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a0a31b1959cbbc7487a25a42b735998a9" kind="function"><name>add_input</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a2b8bd46842bff25ba5460c665444958d" kind="function"><name>add_input</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1af31da0202924800cf9906f840143f0bc" kind="function"><name>add_inputs</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1aa54f52ceaec3cf59efd8103faf3fec8b" kind="function"><name>build</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1a47a1751e9e104c3d449758d79d1f46e9" kind="function"><name>inputs</name></member>
+    <member refid="classaby_1_1rhi_1_1_vertex_input_description_builder_1ab2694dd5d853df8940f7cc121e02bcfb" kind="function"><name>stride</name></member>
+  </compound>
+  <compound refid="structaby_1_1rhi_1_1_vertex_shader_desc" kind="struct"><name>aby::rhi::VertexShaderDesc</name>
+    <member refid="structaby_1_1rhi_1_1_vertex_shader_desc_1a312870aef649b785892c2a5514894499" kind="variable"><name>inputs</name></member>
+    <member refid="structaby_1_1rhi_1_1_vertex_shader_desc_1a0da47adbf1599cf345558634c4db6f69" kind="variable"><name>uniforms</name></member>
+  </compound>
+  <compound refid="namespaceaby" kind="namespace"><name>aby</name>
+  </compound>
+  <compound refid="namespaceaby_1_1rhi" kind="namespace"><name>aby::rhi</name>
+    <member refid="namespaceaby_1_1rhi_1a54a45437ab354c2b00b26ce75e7b3e67" kind="enum"><name>EAllocation</name></member>
+    <member refid="namespaceaby_1_1rhi_1a54a45437ab354c2b00b26ce75e7b3e67ab43fdd98b1fd705ae4c3a10cf25aad8a" kind="enumvalue"><name>backend</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237f" kind="enum"><name>ELogLevel</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237faad42f6697b035b7580e4fef93be20b4d" kind="enumvalue"><name>debug</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237fa04a75036e9d520bb983c5ed03b8d0182" kind="enumvalue"><name>trace</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237facaf9b6b99962bf5c2264824231d7a40c" kind="enumvalue"><name>info</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237fa1ea4c3ab05ee0c6d4de30740443769cb" kind="enumvalue"><name>warn</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237facb5e100e5a9a3e7f6d1fd97512215282" kind="enumvalue"><name>error</name></member>
+    <member refid="namespaceaby_1_1rhi_1a60f7eebf24678df0f565c358b76d237fadf6402fd9ecc60f5a2159fdf45711cd4" kind="enumvalue"><name>fatal</name></member>
+    <member refid="namespaceaby_1_1rhi_1a408a6f434714d8606f596a52d88d9435" kind="enum"><name>ERenderer</name></member>
+    <member refid="namespaceaby_1_1rhi_1a408a6f434714d8606f596a52d88d9435a8473f19e6529e22157459e75b4cbf485" kind="enumvalue"><name>vulkan</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0" kind="enum"><name>EWindow</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0a9c4f88f706dedde3bc0ebb66e34963e5" kind="enumvalue"><name>win32</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0a6d865d85813b1261953b3e79cdb04716" kind="enumvalue"><name>x11</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0a1ed8ce83c531de31a6d1e45f8cbbeca8" kind="enumvalue"><name>xcb</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0a98af75d93de9f6bace5ed47c2512d9c1" kind="enumvalue"><name>wayland</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0a86094b61cb9f63b77f982ceae03e95f0" kind="enumvalue"><name>metal</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kind="enum"><name>EShader</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500ac9b416167392c2b301810695b92efa12" kind="enumvalue"><name>vert</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a43cf0c43c2b82750b67586fe559677a1" kind="enumvalue"><name>frag</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a21de26caa6bcfc936378c4e45d235bd9" kind="enumvalue"><name>px</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500a005480c8a6a0357d17cff2e8eb7e060d" kind="enumvalue"><name>comp</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500add992be5859bfc12e59d4c15b4c17cf8" kind="enumvalue"><name>geom</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719" kind="enum"><name>ETopology</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719aca5a3df0ee5e40625a9623f463ac519e" kind="enumvalue"><name>point_list</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719a09adbdc7b6551c6c4e2ab8ebbfdb23fb" kind="enumvalue"><name>line_list</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719a7441cbdc45313ce65d3606b1d6e403dd" kind="enumvalue"><name>line_strip</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719ae7d7946aa0047daaed3121d34463184f" kind="enumvalue"><name>triangle_list</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719a01edf5f1ae6135daec55d230c83d3885" kind="enumvalue"><name>triangle_strip</name></member>
+    <member refid="namespaceaby_1_1rhi_1aac6e8fcfbb0f216c1e1a59282cf27719a59fbed48ae7f4867148a651f10c7d254" kind="enumvalue"><name>triangle_fan</name></member>
+    <member refid="namespaceaby_1_1rhi_1a50b739c595e66fca5ab7139e2f54f1d5" kind="enum"><name>EPolygonMode</name></member>
+    <member refid="namespaceaby_1_1rhi_1a50b739c595e66fca5ab7139e2f54f1d5aa552c74784b3a82177bca6c8adde0efb" kind="enumvalue"><name>fill</name></member>
+    <member refid="namespaceaby_1_1rhi_1a50b739c595e66fca5ab7139e2f54f1d5a6438c669e0d0de98e6929c2cc0fac474" kind="enumvalue"><name>line</name></member>
+    <member refid="namespaceaby_1_1rhi_1a50b739c595e66fca5ab7139e2f54f1d5a78ee54aa8f813885fe2fe20d232518b9" kind="enumvalue"><name>point</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250f" kind="enum"><name>ECullMode</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250fa334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250fae6ec529ba185279aa0adcf93e645c7cd" kind="enumvalue"><name>front</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250fa469bba0a564235dfceede42db14f17b0" kind="enumvalue"><name>back</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3c41f6276a461c4e61abe8c330ac250fad46b3c78f91c7d43349252714bf07404" kind="enumvalue"><name>front_and_back</name></member>
+    <member refid="namespaceaby_1_1rhi_1a55cd0fa75cc403cc5353e6516552b6f0" kind="enum"><name>EFrontFace</name></member>
+    <member refid="namespaceaby_1_1rhi_1a55cd0fa75cc403cc5353e6516552b6f0ad0f39c6058684a37e7528df474762f80" kind="enumvalue"><name>clockwise</name></member>
+    <member refid="namespaceaby_1_1rhi_1a55cd0fa75cc403cc5353e6516552b6f0a63f38608ecdbeb23ec9edbe108de1b6e" kind="enumvalue"><name>counter_clockwise</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126e" kind="enum"><name>EFormat</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eacde2596107a0edea615e8400192f3489" kind="enumvalue"><name>rgba_f32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eaca4069ff307714b2b8c626055c1ed058" kind="enumvalue"><name>rgb_f32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eaa8631c15eacdf5f9393f8295fca19614" kind="enumvalue"><name>rg_f32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea3905b9e30f2db569d84b73a29384e005" kind="enumvalue"><name>r_f32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eae7dc55d0a5eb02ffa2153f2c4b1d4c87" kind="enumvalue"><name>rgba_f16</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eae6eaa9f4fd6d1fd0afb060765c47f5a1" kind="enumvalue"><name>rgb_f16</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eaccccba2b4ff0fc39b08cb49fcfaf6d89" kind="enumvalue"><name>rg_f16</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea1b7cddf155ce38ad447e95395c04ff4a" kind="enumvalue"><name>r_f16</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea25d649ee4602f04c7ef8925188a28685" kind="enumvalue"><name>rgba_i32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eacfa35c651c87efa117f1cfced4c948be" kind="enumvalue"><name>rgb_i32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eade6ce16526a50f2497113abae999b676" kind="enumvalue"><name>rg_i32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea40d1706044f1680fa4fe0986760593ee" kind="enumvalue"><name>r_i32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eaf8933238dd8533f3d1072f1cbb0c203d" kind="enumvalue"><name>rgba_u32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea4aa693996d43b82e7bc20bb7170a714f" kind="enumvalue"><name>rgb_u32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126ea621f3dd08250ab82e62abac53b8efdf2" kind="enumvalue"><name>rg_u32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2e02b950b44c64c4ad733900ef9e126eacddaf5e8a1be875c47fb67ffcec1476d" kind="enumvalue"><name>r_u32</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73b092dbb55e292e38b69a7e83854ded" kind="enum"><name>EJobPriority</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73b092dbb55e292e38b69a7e83854deda53cced8d281a1a0ace3cb6594daaa4f7" kind="enumvalue"><name>low</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73b092dbb55e292e38b69a7e83854deda075a3e36a0a52dcbc568c05788e8a713" kind="enumvalue"><name>medium</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73b092dbb55e292e38b69a7e83854deda8d966b2253a917086c8604959e152243" kind="enumvalue"><name>high</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73b092dbb55e292e38b69a7e83854deda7e85bcb66fb9a809d5ab4f62a8b8bea8" kind="enumvalue"><name>critical</name></member>
+    <member refid="namespaceaby_1_1rhi_1ab000ea0097300f483c58c13b0b89ffc4" kind="enum"><name>EJobQueue</name></member>
+    <member refid="namespaceaby_1_1rhi_1ab000ea0097300f483c58c13b0b89ffc4ac5e62798e528da9080811018cbb27cd3" kind="enumvalue"><name>textures</name></member>
+    <member refid="namespaceaby_1_1rhi_1ab000ea0097300f483c58c13b0b89ffc4a1aa355706e1767666124331a716c7890" kind="enumvalue"><name>shaders</name></member>
+    <member refid="namespaceaby_1_1rhi_1ab000ea0097300f483c58c13b0b89ffc4a429f8e6e19e3887fdb9b70d9195bb3fd" kind="enumvalue"><name>caching</name></member>
+    <member refid="namespaceaby_1_1rhi_1ab000ea0097300f483c58c13b0b89ffc4add23205b3745efa2c35302e691beed24" kind="enumvalue"><name>max_queues</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59" kind="enum"><name>EResource</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59a334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59a6d788fcb39cecfd54da7b065a8b75d1a" kind="enumvalue"><name>texture</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac206b6f149ffbf15691d44ec069aab59a842e3e5fe6c1b834705abd4bcb213342" kind="enumvalue"><name>shader</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae50bfb0ac95c350158365fb8073a1dc5" kind="enum"><name>EResourceState</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae50bfb0ac95c350158365fb8073a1dc5afedb2d84cafe20862cb4399751a8a7e3" kind="enumvalue"><name>invalid</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae50bfb0ac95c350158365fb8073a1dc5aa14fa2166ed698f3d04061f57e5ab9b9" kind="enumvalue"><name>loading</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae50bfb0ac95c350158365fb8073a1dc5a2430fe39e225818bd957ed4cb53eb770" kind="enumvalue"><name>loaded</name></member>
+    <member refid="namespaceaby_1_1rhi_1ae50bfb0ac95c350158365fb8073a1dc5a26934eb377001f66e37289a5c93fe284" kind="enumvalue"><name>failed</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2ecc" kind="enum"><name>ResourceID</name></member>
+    <member refid="namespaceaby_1_1rhi_1acb15fa5c9c8ef3f344fd7d132fdf2eccafedb2d84cafe20862cb4399751a8a7e3" kind="enumvalue"><name>invalid</name></member>
+    <member refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9" kind="enum"><name>EFiltering</name></member>
+    <member refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9a9a932b3cb396238423eb2f33ec17d6aa" kind="enumvalue"><name>linear</name></member>
+    <member refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9ad879c351426770bc0b13c3628db1e636" kind="enumvalue"><name>nearest</name></member>
+    <member refid="namespaceaby_1_1rhi_1adac7d01b94c34c634251bd9c744be5d9a7ab93feeb36d98e584d10de2e2f68843" kind="enumvalue"><name>cubic</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61c" kind="enum"><name>ERepeatMode</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61ca32cf6da134a8b268cf4ab6b79a9a5ad9" kind="enumvalue"><name>repeat</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61cabe20202ba9110d9f766430408b75afd6" kind="enumvalue"><name>mirrored</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61ca7ff5ead6fef18ca5f63119754ac76c3e" kind="enumvalue"><name>clamp_to_edge</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61ca80cff00baefbb1ac2ae3f57d71c8b758" kind="enumvalue"><name>clamp_to_border</name></member>
+    <member refid="namespaceaby_1_1rhi_1a3110b219f22a602d0cae4ea49a58a61caf582faf199ad72b4f624f3c0162817f6" kind="enumvalue"><name>mirrored_clamp_to_edge</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c24fa21febee0616199199242fa7f20" kind="enum"><name>EAntiAliasing</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c24fa21febee0616199199242fa7f20a334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c24fa21febee0616199199242fa7f20a83271a5684dac5ab702aca8458a58af9" kind="enumvalue"><name>msaa2x</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c24fa21febee0616199199242fa7f20a9b0b02775d19b51a6f75d30a65c74184" kind="enumvalue"><name>msaa4x</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c24fa21febee0616199199242fa7f20a6a823f482f597f98368f302a03b6554c" kind="enumvalue"><name>msaa8x</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5" kind="enum"><name>ECompareOp</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5ac7561db7a418dd39b2201dfe110ab4a4" kind="enumvalue"><name>never</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5ae37e8d912e8f7b8f9b5ef9452ba47ff1" kind="enumvalue"><name>less</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5adf22f17124884fc51f1ac69d610096ac" kind="enumvalue"><name>eq</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5a87fe40aa86bdb1489f481748d7acce64" kind="enumvalue"><name>less_eq</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5a7b8dc4fb0fb55fc8eb69ff080c45ed7e" kind="enumvalue"><name>greater</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5abc68613fd1fb63c55cd63311464adfbf" kind="enumvalue"><name>neq</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5afe2cfa34d7eaadeac84df12873f6416c" kind="enumvalue"><name>greater_eq</name></member>
+    <member refid="namespaceaby_1_1rhi_1a73fadeeb1303cd83736d1a8662ed86a5af9f90eeaf400d228facde6bc48da5cfb" kind="enumvalue"><name>always</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983" kind="enum"><name>EBlendFactor</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983ad02c4c4cde7ae76252540d116a40f23a" kind="enumvalue"><name>zero</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983af97c5d29941bfb1b2fdab0874906ab82" kind="enumvalue"><name>one</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a3bbfc559ec491c8f1c2e45bb87255cf2" kind="enumvalue"><name>src_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983ab41ddc54ca846edeec43f65983a0f8ae" kind="enumvalue"><name>one_minus_src_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983aeadd61e269579f1d602a06d9ae0972e3" kind="enumvalue"><name>dst_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a10b63c6bd5f63fd9a592ebf3f6103ff3" kind="enumvalue"><name>one_minus_dst_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983aff175e9d424fcb3eef837a773872fb9e" kind="enumvalue"><name>src_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983aa415ef353601f5e5d8a3e5ac06683703" kind="enumvalue"><name>one_minus_src_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983ab71b79d6bf971b9dd2ee1d43565ab344" kind="enumvalue"><name>dst_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a8d3a4c2d0c55b1041c69d3fdd7ed55e1" kind="enumvalue"><name>one_minus_dst_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983aec5574dc954581793a5dcbdf0e358ae1" kind="enumvalue"><name>constant_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a645421b2fe9a762542bf70220d9eae9c" kind="enumvalue"><name>one_minus_constant_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a9831f8a00f48f451286ea6c16cd2f55e" kind="enumvalue"><name>constant_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983ae984532432604da975ecbe092f88091c" kind="enumvalue"><name>one_minus_constant_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a4ca927a00bbb81ed85f09169e3280e4f" kind="enumvalue"><name>src_alpha_saturate</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a8f321a8412020b6ac8b1d30da735a6ab" kind="enumvalue"><name>src_one_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a1b2e53e7b63fb31b05bd6b0f5cff2bf6" kind="enumvalue"><name>one_minus_src_one_color</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983a7136c26a5dda5ac34b2d3c99cbe79478" kind="enumvalue"><name>src_one_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a2753ce0b78ed7a79f0acb083c953a983aa29f69690f82f7b721e84cc55ac3c1a9" kind="enumvalue"><name>one_minus_src_one_alpha</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5c" kind="enum"><name>EBlendOp</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5ca34ec78fcc91ffb1e54cd85e4a0924332" kind="enumvalue"><name>add</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5ca8a68dc3e925eacf92633be230722a140" kind="enumvalue"><name>sub</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5ca4aa42c3339ea017871369cd7ad7b1044" kind="enumvalue"><name>reverse_sub</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5cad8bd79cc131920d5de426f914d17405a" kind="enumvalue"><name>min</name></member>
+    <member refid="namespaceaby_1_1rhi_1a03e106b17c5c0897fe815039444d5f5ca2ffe4e77325d9a7152f7086ea7aa5114" kind="enumvalue"><name>max</name></member>
+    <member refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0b" kind="enum"><name>ETextureUsage</name></member>
+    <member refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0ba0c1d7cc6308f51826f3cb8dfdac3b660" kind="enumvalue"><name>albedo</name></member>
+    <member refid="namespaceaby_1_1rhi_1aa6ddb82113fe857a0c3358f777519e0baeec34d804c9ce6c89cff596be555e6a4" kind="enumvalue"><name>material</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01" kind="enum"><name>EChannels</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a334c4a4c42fdb79d7ebc3e73b517e6f8" kind="enumvalue"><name>none</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a4b43b0aee35624cd95b910189b3dc231" kind="enumvalue"><name>r</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01ab2f5ff47436671b6e533d8dc3614845d" kind="enumvalue"><name>g</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a92eb5ffee6ae2fec3ad71c777531578f" kind="enumvalue"><name>b</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a0cc175b9c0f1b6a831c399e269772661" kind="enumvalue"><name>a</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a0ecb2b966eca6994910caee2947f6679" kind="enumvalue"><name>rg</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a9e3f4f69757d07f6a0d2af4f1f2a1103" kind="enumvalue"><name>rb</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01adb26ee047a4c86fbd2fba73503feccb6" kind="enumvalue"><name>ra</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a7885444af42e4b30c518c5be17c8850b" kind="enumvalue"><name>gb</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a32d7508fe69220cb40af28441ef746d9" kind="enumvalue"><name>ga</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a07159c47ee1b19ae4fb9c40d480856c4" kind="enumvalue"><name>ba</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01aef70a6546536ccd835479f6cddc0188e" kind="enumvalue"><name>rgb</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01ae03918b04a8a79d59b8f3254f5c2d7ad" kind="enumvalue"><name>rga</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a4fd4f7dafe3fc40dffa3ec39db21b07c" kind="enumvalue"><name>rba</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a7f43973f35b3a7ea2620ba52e8d0e6ec" kind="enumvalue"><name>gba</name></member>
+    <member refid="namespaceaby_1_1rhi_1a5d095c69de4346ae0a0bad55656e8b01a7082a31b8759c9d59795876351ec63aa" kind="enumvalue"><name>rgba</name></member>
+    <member refid="namespaceaby_1_1rhi_1a0ded8d0036d7202ab0dd4843872f98f2" kind="typedef"><name>ShaderPtr</name></member>
+    <member refid="namespaceaby_1_1rhi_1a41329511bd0003f7da0d91c922ec2da0" kind="typedef"><name>TexturePtr</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac07f3e71c7330d634671b2b764d36e80" kind="function"><name>operator|</name></member>
+    <member refid="namespaceaby_1_1rhi_1a446d7f543e4fb6e570ded55552124e10" kind="function"><name>operator&amp;</name></member>
+    <member refid="namespaceaby_1_1rhi_1a9c064ccb52376ce4acd23e4b2b5259fc" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1a72a9bdb4c41b718ec3c18a160e10c8a2" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1ad29809a2fe0058dcefe338654c0dd36d" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1ac8f61fee908b58aad8dc42e9b515f563" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1adedbf48b123c6c557acb785ad4885c33" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1a62cdc305797cebaa6eb669af466d1764" kind="function"><name>ABY_RHI_PACKED</name></member>
+    <member refid="namespaceaby_1_1rhi_1a404a3d1c4dbfb1e87fe2c34fe51d2b48" kind="function"><name>create_resource</name></member>
+  </compound>
+  <compound refid="namespaceaby_1_1rhi_1_1detail" kind="namespace"><name>aby::rhi::detail</name>
+  </compound>
+  <compound refid="namespaceaby_1_1rhi_1_1vulkan" kind="namespace"><name>aby::rhi::vulkan</name>
+    <member refid="vulkan-frame_8hpp_1a3b53df09b05c6ea8d4b794b9575c4970" kind="variable"><name>MAX_FRAMES_IN_FLIGHT</name></member>
+    <member refid="vulkan-callbacks_8hpp_1ad5bc8e7072a9835dfcf92a9fcdccbeaf" kind="function"><name>allocator</name></member>
+    <member refid="vulkan-callbacks_8hpp_1a54be09a75e9165ba194f3f8e00c2ffbc" kind="function"><name>vk_alloc_callback</name></member>
+    <member refid="vulkan-callbacks_8hpp_1af6cbb0fbc1b1a08b0887cac79711938e" kind="function"><name>vk_realloc_callback</name></member>
+    <member refid="vulkan-callbacks_8hpp_1ab389da76da4a5b80d9f5c8106971e094" kind="function"><name>vk_free_callback</name></member>
+    <member refid="vulkan-callbacks_8hpp_1ac50b536f53dfc0f0bc26aa0c5f37132f" kind="function"><name>vk_debug_callback</name></member>
+    <member refid="vulkan-common_8hpp_1ae1f7f4396a5ac61d7a3e4b0bc3c0502d" kind="function"><name>vkcast</name></member>
+    <member refid="vulkan-common_8hpp_1af1aa442d6ddfb7d18a1d401b3a0b66f8" kind="function"><name>vkcast</name></member>
+    <member refid="vulkan-common_8hpp_1a2e34e2ab77d94f628473db22be8d304b" kind="function"><name>vkconvert</name></member>
+    <member refid="vulkan-dispatch_8hpp_1afa3882630a99da0410152d563c51854e" kind="function"><name>load_functions</name></member>
+    <member refid="vulkan-helpers_8hpp_1a84e0d3a6aba99a1b4561ed06c5eb18fe" kind="function"><name>log_error</name></member>
+    <member refid="vulkan-helpers_8hpp_1a0f8b2baae0836eee3b7bc1cfd58dcd0c" kind="function"><name>eformat_to_vkformat</name></member>
+    <member refid="vulkan-helpers_8hpp_1ac9618924bc323a23e4d33c85dc2587df" kind="function"><name>erepeatmode_to_vkrepeatmode</name></member>
+    <member refid="vulkan-helpers_8hpp_1aa1b1d8a99d2e1a3d40d0bd04ff273ea1" kind="function"><name>efiltering_to_vkfilter</name></member>
+    <member refid="vulkan-helpers_8hpp_1acc42a7bf4c7788604d164b590dc980c4" kind="function"><name>eblendop_to_vkblendop</name></member>
+    <member refid="vulkan-helpers_8hpp_1ae02aeb834c399b9e556b41093702b24b" kind="function"><name>eblendfactor_to_vkblendfactor</name></member>
+    <member refid="vulkan-helpers_8hpp_1a9e687ca4e42dbfc0645c1e8105c58d39" kind="function"><name>ecompareop_to_vkcompareop</name></member>
+    <member refid="vulkan-helpers_8hpp_1a834f5bb79464d027ab63d218c8d49ade" kind="function"><name>ecullmode_to_vkcullmode</name></member>
+    <member refid="vulkan-helpers_8hpp_1ad6a5db0483992266010854f566356481" kind="function"><name>efrontface_to_vkfrontface</name></member>
+    <member refid="vulkan-helpers_8hpp_1ad7d1969dab917264b10e8e4a6f53d39d" kind="function"><name>etopology_to_vktopology</name></member>
+    <member refid="vulkan-helpers_8hpp_1ac91dd866c0c16415f0f05b49a667fdfd" kind="function"><name>epolygonmode_to_vkpolygonmode</name></member>
+    <member refid="vulkan-helpers_8hpp_1a44a2af6a09a9e773905bbba869e42fde" kind="function"><name>eshader_to_vkshader</name></member>
+    <member refid="vulkan-platform_8hpp_1a88b9bd3742f2448394062ec12f6caa84" kind="function"><name>create_surface</name></member>
+    <member refid="vulkan-platform_8hpp_1a759a3c46f139e416b98728c897ebd7eb" kind="function"><name>get_instance_extensions</name></member>
+    <member refid="vulkan-platform_8hpp_1aa0b00d92960d33ad3f20f6ca59257fc2" kind="function"><name>get_device_extensions</name></member>
+    <member refid="vulkan-platform_8hpp_1a186a9631c98a57d6dcf6fcfecfeaeb05" kind="function"><name>get_extensions</name></member>
+    <member refid="vulkan-platform_8hpp_1a1dbf774e9325cba59e71441808039294" kind="function"><name>get_window_size</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="aby-rhi_8hpp" kind="file"><name>aby-rhi.hpp</name>
+  </compound>
+  <compound refid="vulkan-buffer_8hpp" kind="file"><name>vulkan-buffer.hpp</name>
+  </compound>
+  <compound refid="vulkan-callbacks_8hpp" kind="file"><name>vulkan-callbacks.hpp</name>
+  </compound>
+  <compound refid="vulkan-common_8hpp" kind="file"><name>vulkan-common.hpp</name>
+    <member refid="vulkan-common_8hpp_1a614e6a480502ac5ca8806506d02006da" kind="define"><name>__vkcheck__</name></member>
+    <member refid="vulkan-common_8hpp_1a3a22f16a554389fb21b62412ae3e1b4b" kind="define"><name>vkcheck</name></member>
+    <member refid="vulkan-common_8hpp_1ab55cbc5376c52101d605d108bd4d336c" kind="define"><name>vkassert</name></member>
+    <member refid="vulkan-common_8hpp_1a8deabe08dd8f3c09a29254d0e3e1077c" kind="define"><name>vkpropagate</name></member>
+    <member refid="vulkan-common_8hpp_1af68f2332e68b64eecf39362e19df3a7f" kind="define"><name>vkbcheck</name></member>
+  </compound>
+  <compound refid="vulkan-descriptors_8hpp" kind="file"><name>vulkan-descriptors.hpp</name>
+  </compound>
+  <compound refid="vulkan-dispatch_8hpp" kind="file"><name>vulkan-dispatch.hpp</name>
+  </compound>
+  <compound refid="vulkan-frame_8hpp" kind="file"><name>vulkan-frame.hpp</name>
+  </compound>
+  <compound refid="vulkan-gc_8hpp" kind="file"><name>vulkan-gc.hpp</name>
+  </compound>
+  <compound refid="vulkan-helpers_8hpp" kind="file"><name>vulkan-helpers.hpp</name>
+  </compound>
+  <compound refid="vulkan-image_8hpp" kind="file"><name>vulkan-image.hpp</name>
+  </compound>
+  <compound refid="vulkan-immediate-cmd_8hpp" kind="file"><name>vulkan-immediate-cmd.hpp</name>
+  </compound>
+  <compound refid="vulkan-pipeline_8hpp" kind="file"><name>vulkan-pipeline.hpp</name>
+  </compound>
+  <compound refid="vulkan-platform_8hpp" kind="file"><name>vulkan-platform.hpp</name>
+  </compound>
+  <compound refid="vulkan-render-pass_8hpp" kind="file"><name>vulkan-render-pass.hpp</name>
+  </compound>
+  <compound refid="vulkan-renderer_8hpp" kind="file"><name>vulkan-renderer.hpp</name>
+  </compound>
+  <compound refid="vulkan-shader_8hpp" kind="file"><name>vulkan-shader.hpp</name>
+  </compound>
+  <compound refid="vulkan-texture_8hpp" kind="file"><name>vulkan-texture.hpp</name>
+  </compound>
+  <compound refid="buffer_8hpp" kind="file"><name>buffer.hpp</name>
+  </compound>
+  <compound refid="common-enums_8hpp" kind="file"><name>common-enums.hpp</name>
+  </compound>
+  <compound refid="common-types_8hpp" kind="file"><name>common-types.hpp</name>
+    <member refid="common-types_8hpp_1a376a9d6a877e1d8160e8ec2cf5e63454" kind="define"><name>ABY_RHI_PACK_PUSH</name></member>
+    <member refid="common-types_8hpp_1a2ddb1a1e63c26563e6b2bcb7360582d2" kind="define"><name>ABY_RHI_PACK_POP</name></member>
+    <member refid="common-types_8hpp_1a839cf1f519be86ba537858e9a3bc0b4e" kind="define"><name>ABY_RHI_PACKED_TYPE</name></member>
+    <member refid="common-types_8hpp_1ae5df9cebb4e555ce3a7c830ec5257376" kind="define"><name>ABY_RHI_PACKED</name></member>
+  </compound>
+  <compound refid="common_8hpp" kind="file"><name>common.hpp</name>
+    <member refid="common_8hpp_1a8cac0ddd3d1f6309a1c19b6527dbba87" kind="define"><name>aby_rhi_dbg</name></member>
+    <member refid="common_8hpp_1a927c2773524bc6601197a6fd4dd9336e" kind="define"><name>aby_rhi_trc</name></member>
+    <member refid="common_8hpp_1a97d239f130279d79d3b5e8fe5c2e783b" kind="define"><name>aby_rhi_log</name></member>
+    <member refid="common_8hpp_1abdba75a9c8b4c335e6810d41bbb79e99" kind="define"><name>aby_rhi_wrn</name></member>
+    <member refid="common_8hpp_1a9eb616f043c5017bce565e00b5b98f59" kind="define"><name>aby_rhi_err</name></member>
+    <member refid="common_8hpp_1a5ea4e2e2ebdcce354c4bb743c491cee9" kind="define"><name>aby_rhi_ftl</name></member>
+    <member refid="common_8hpp_1ab0ee65b641f054e6598503ce2392fc03" kind="define"><name>ABY_RHI_DEBUG_BREAK</name></member>
+    <member refid="common_8hpp_1a41add773f7129087c54d5afb1c3c8003" kind="define"><name>ABY_RHI_FUNCTION_NAME</name></member>
+    <member refid="common_8hpp_1a5ad7488b2d108f8dddaf1b4ec7a24240" kind="define"><name>aby_rhi_assert</name></member>
+    <member refid="common_8hpp_1ae923629763ae1920a7893e64411cc663" kind="define"><name>aby_rhi_profile</name></member>
+  </compound>
+  <compound refid="context_8hpp" kind="file"><name>context.hpp</name>
+  </compound>
+  <compound refid="draw-cmd_8hpp" kind="file"><name>draw-cmd.hpp</name>
+  </compound>
+  <compound refid="default__allocator_8hpp" kind="file"><name>default_allocator.hpp</name>
+  </compound>
+  <compound refid="default__fileio_8hpp" kind="file"><name>default_fileio.hpp</name>
+  </compound>
+  <compound refid="default__interfaces_8hpp" kind="file"><name>default_interfaces.hpp</name>
+  </compound>
+  <compound refid="default__job__system_8hpp" kind="file"><name>default_job_system.hpp</name>
+  </compound>
+  <compound refid="default__logger_8hpp" kind="file"><name>default_logger.hpp</name>
+  </compound>
+  <compound refid="interfaces_8hpp" kind="file"><name>interfaces.hpp</name>
+  </compound>
+  <compound refid="render-pass_8hpp" kind="file"><name>render-pass.hpp</name>
+  </compound>
+  <compound refid="renderer_8hpp" kind="file"><name>renderer.hpp</name>
+  </compound>
+  <compound refid="resource_8hpp" kind="file"><name>resource.hpp</name>
+  </compound>
+  <compound refid="shader_8hpp" kind="file"><name>shader.hpp</name>
+  </compound>
+  <compound refid="texture_8hpp" kind="file"><name>texture.hpp</name>
+  </compound>
+  <compound refid="dir_5ec795ce3784ed21409c94a662c670e0" kind="dir"><name>include/aby-rhi</name>
+  </compound>
+  <compound refid="dir_b2e089009e3d6019946b366985df1d18" kind="dir"><name>include/aby-rhi/backends</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_6277bbb7ca6e5761e568397cf4fde752" kind="dir"><name>include/aby-rhi/interfaces</name>
+  </compound>
+  <compound refid="dir_8ecac3f6860031a9c88024a6c0dd2404" kind="dir"><name>include/aby-rhi/backends/vulkan</name>
+  </compound>
+</doxygenindex>

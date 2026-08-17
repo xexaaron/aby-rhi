@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="vulkan-shader_8hpp" kind="file" language="C++">
+    <compoundname>vulkan-shader.hpp</compoundname>
+    <includes refid="shader_8hpp" local="yes">shader.hpp</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vulkan/vulkan.hpp</includes>
+    <includedby refid="vulkan-renderer_8hpp" local="yes">include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-shader.hpp</label>
+        <link refid="vulkan-shader_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>common-enums.hpp</label>
+        <link refid="common-enums_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>common-types.hpp</label>
+        <link refid="common-types_8hpp"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>common.hpp</label>
+        <link refid="common_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>interfaces/interfaces.hpp</label>
+        <link refid="interfaces_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>resource.hpp</label>
+        <link refid="resource_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>shader.hpp</label>
+        <link refid="shader_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="21">
+        <label>array</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>deque</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="7">
+        <label>format</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="14">
+        <label>span</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>vector</label>
+      </node>
+      <node id="23">
+        <label>vulkan/vulkan.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/aby-rhi/backends/vulkan/vulkan-renderer.hpp</label>
+        <link refid="vulkan-renderer_8hpp"/>
+      </node>
+      <node id="1">
+        <label>include/aby-rhi/backends/vulkan/vulkan-shader.hpp</label>
+        <link refid="vulkan-shader_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classaby_1_1rhi_1_1vulkan_1_1_shader" prot="public">aby::rhi::vulkan::Shader</innerclass>
+    <innernamespace refid="namespaceaby">aby</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi">aby::rhi</innernamespace>
+    <innernamespace refid="namespaceaby_1_1rhi_1_1vulkan">aby::rhi::vulkan</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="shader_8hpp" kindref="compound">shader.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vulkan/vulkan.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceaby_1_1rhi_1_1vulkan" kindref="compound">aby::rhi::vulkan</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classaby_1_1rhi_1_1vulkan_1_1_shader" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ab893d4c898e7db49d572a3566a6b45e2" kindref="member">Shader</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1_shader" kindref="compound">aby::rhi::Shader</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ab893d4c898e7db49d572a3566a6b45e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ab893d4c898e7db49d572a3566a6b45e2" kindref="member">Shader</ref>(<ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1aef16cc54c20b273f635ba8538f367fb6" kindref="member">type</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;&amp;<sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a495cc59f2a1d017e55348ac87a7d7283" kindref="member">data</ref>);</highlight></codeline>
+<codeline lineno="12" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a0a5c478b221fff1cae3d6020ca5efce6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a0a5c478b221fff1cae3d6020ca5efce6" kindref="member">~Shader</ref>();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a495cc59f2a1d017e55348ac87a7d7283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a495cc59f2a1d017e55348ac87a7d7283" kindref="member">data</ref>()<sp/>-&gt;<sp/>std::span&lt;uint32_t&gt;;</highlight></codeline>
+<codeline lineno="15" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ad1c67333add71c0d1a3e6b70bdc7144e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1ad1c67333add71c0d1a3e6b70bdc7144e" kindref="member">bind</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a15f00fd3885ae25811cee8b23c4f27e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a15f00fd3885ae25811cee8b23c4f27e6" kindref="member">destroy</ref>()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a9b805438d8641912cbfb1aafc7b53c5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1a9b805438d8641912cbfb1aafc7b53c5c" kindref="member">module</ref>()<sp/>-&gt;<sp/>vk::ShaderModule;</highlight></codeline>
+<codeline lineno="18" refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1aef16cc54c20b273f635ba8538f367fb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classaby_1_1rhi_1_1vulkan_1_1_shader_1aef16cc54c20b273f635ba8538f367fb6" kindref="member">type</ref>()<sp/>const<sp/>-&gt;<sp/><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref><sp/>override;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>private:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespaceaby_1_1rhi_1acb590ccf828028e5cb852e779785a500" kindref="member">EShader</ref><sp/>m_Type;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vk::ShaderModule<sp/>m_Module;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint32_t&gt;<sp/>m_Data;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aby::rhi::vulkan</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-shader.hpp"/>
+  </compounddef>
+</doxygen>

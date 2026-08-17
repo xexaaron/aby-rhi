@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::formatter&lt; aby::rhi::EWindow, char &gt;</compoundname>
+    <includes refid="common-enums_8hpp" local="no">common-enums.hpp</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1a8113dd0820d832fa3c5b3bc59077b0b4" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class ParseContext</type>
+          </param>
+        </templateparamlist>
+        <type>ParseContext::iterator</type>
+        <definition>ParseContext::iterator std::formatter&lt; aby::rhi::EWindow, char &gt;::parse</definition>
+        <argsstring>(ParseContext &amp;ctx)</argsstring>
+        <name>parse</name>
+        <qualifiedname>std::formatter&lt; aby::rhi::EWindow, char &gt;::parse</qualifiedname>
+        <param>
+          <type>ParseContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common-enums.hpp" line="363" column="34" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="363" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1aa497ef161b51037c316e503149cadaac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class FmtContext</type>
+          </param>
+        </templateparamlist>
+        <type>FmtContext::iterator</type>
+        <definition>FmtContext::iterator std::formatter&lt; aby::rhi::EWindow, char &gt;::format</definition>
+        <argsstring>(aby::rhi::EWindow value, FmtContext &amp;ctx) const</argsstring>
+        <name>format</name>
+        <qualifiedname>std::formatter&lt; aby::rhi::EWindow, char &gt;::format</qualifiedname>
+        <param>
+          <type><ref refid="namespaceaby_1_1rhi_1ae7b17ec2e19c74d22e99cf4a5231b9f0" kindref="member">aby::rhi::EWindow</ref></type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>FmtContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/common-enums.hpp" line="371" column="22" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="371" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/common-enums.hpp" line="361" column="1" bodyfile="include/aby-rhi/common-enums.hpp" bodystart="361" bodyend="394"/>
+    <listofallmembers>
+      <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1aa497ef161b51037c316e503149cadaac" prot="public" virt="non-virtual"><scope>std::formatter&lt; aby::rhi::EWindow, char &gt;</scope><name>format</name></member>
+      <member refid="structstd_1_1formatter_3_01aby_1_1rhi_1_1_e_window_00_01char_01_4_1a8113dd0820d832fa3c5b3bc59077b0b4" prot="public" virt="non-virtual"><scope>std::formatter&lt; aby::rhi::EWindow, char &gt;</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

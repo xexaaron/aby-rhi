@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_5ec795ce3784ed21409c94a662c670e0" kind="dir">
+    <compoundname>include/aby-rhi</compoundname>
+    <innerdir refid="dir_b2e089009e3d6019946b366985df1d18">include/aby-rhi/backends</innerdir>
+    <innerdir refid="dir_6277bbb7ca6e5761e568397cf4fde752">include/aby-rhi/interfaces</innerdir>
+    <innerfile refid="aby-rhi_8hpp">aby-rhi.hpp</innerfile>
+    <innerfile refid="buffer_8hpp">buffer.hpp</innerfile>
+    <innerfile refid="common-enums_8hpp">common-enums.hpp</innerfile>
+    <innerfile refid="common-types_8hpp">common-types.hpp</innerfile>
+    <innerfile refid="common_8hpp">common.hpp</innerfile>
+    <innerfile refid="context_8hpp">context.hpp</innerfile>
+    <innerfile refid="draw-cmd_8hpp">draw-cmd.hpp</innerfile>
+    <innerfile refid="render-pass_8hpp">render-pass.hpp</innerfile>
+    <innerfile refid="renderer_8hpp">renderer.hpp</innerfile>
+    <innerfile refid="resource_8hpp">resource.hpp</innerfile>
+    <innerfile refid="shader_8hpp">shader.hpp</innerfile>
+    <innerfile refid="texture_8hpp">texture.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/"/>
+  </compounddef>
+</doxygen>

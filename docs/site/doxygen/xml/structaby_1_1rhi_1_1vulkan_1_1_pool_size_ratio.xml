@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio" kind="struct" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::PoolSizeRatio</compoundname>
+    <includes refid="vulkan-descriptors_8hpp" local="no">vulkan-descriptors.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1a015a6685a5b8289eff139572cc1a1565" prot="public" static="no" mutable="no">
+        <type>vk::DescriptorType</type>
+        <definition>vk::DescriptorType aby::rhi::vulkan::PoolSizeRatio::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>aby::rhi::vulkan::PoolSizeRatio::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="23" column="20" bodyfile="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1adedb82e85912ab80c896f52b20f5d6a9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float aby::rhi::vulkan::PoolSizeRatio::ratio</definition>
+        <argsstring></argsstring>
+        <name>ratio</name>
+        <qualifiedname>aby::rhi::vulkan::PoolSizeRatio::ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="24" column="7" bodyfile="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" line="22" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-descriptors.hpp" bodystart="22" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1adedb82e85912ab80c896f52b20f5d6a9" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::PoolSizeRatio</scope><name>ratio</name></member>
+      <member refid="structaby_1_1rhi_1_1vulkan_1_1_pool_size_ratio_1a015a6685a5b8289eff139572cc1a1565" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::PoolSizeRatio</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

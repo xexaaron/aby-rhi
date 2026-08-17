@@ -1,0 +1,947 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1vulkan_1_1_image" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::vulkan::Image</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a4c0366c33233e9844342f9525a8e8cbc" prot="private" static="no" mutable="no">
+        <type>vk::Image</type>
+        <definition>vk::Image aby::rhi::vulkan::Image::m_Img</definition>
+        <argsstring></argsstring>
+        <name>m_Img</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Img</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="59" column="11" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a08f5492de13114ced2717ca59988609a" prot="private" static="no" mutable="no">
+        <type>vk::ImageView</type>
+        <definition>vk::ImageView aby::rhi::vulkan::Image::m_View</definition>
+        <argsstring></argsstring>
+        <name>m_View</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_View</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="60" column="15" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a9ff2606474f880b8ac68210fa5ee4f21" prot="private" static="no" mutable="no">
+        <type>vk::Extent3D</type>
+        <definition>vk::Extent3D aby::rhi::vulkan::Image::m_Extent</definition>
+        <argsstring></argsstring>
+        <name>m_Extent</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Extent</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="61" column="14" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1aca605b7eceafba34151c798e51cc0c5a" prot="private" static="no" mutable="no">
+        <type>vk::Format</type>
+        <definition>vk::Format aby::rhi::vulkan::Image::m_Format</definition>
+        <argsstring></argsstring>
+        <name>m_Format</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Format</qualifiedname>
+        <initializer>= vk::Format::eUndefined</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="62" column="12" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a5019c79ad9792703b65640a69a9bbe1c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; vk::ImageLayout &gt;</type>
+        <definition>std::vector&lt;vk::ImageLayout&gt; aby::rhi::vulkan::Image::m_Layouts</definition>
+        <argsstring></argsstring>
+        <name>m_Layouts</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Layouts</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="63" column="13" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a07dd8277468763375817f68e6cf0b507" prot="private" static="no" mutable="no">
+        <type>VmaAllocation</type>
+        <definition>VmaAllocation aby::rhi::vulkan::Image::m_Alloc</definition>
+        <argsstring></argsstring>
+        <name>m_Alloc</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Alloc</qualifiedname>
+        <initializer>= VK_NULL_HANDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="64" column="15" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a790c1de5658b9625d779e81187410fa3" prot="private" static="no" mutable="no">
+        <type>vk::SampleCountFlagBits</type>
+        <definition>vk::SampleCountFlagBits aby::rhi::vulkan::Image::m_Samples</definition>
+        <argsstring></argsstring>
+        <name>m_Samples</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Samples</qualifiedname>
+        <initializer>= vk::SampleCountFlagBits::e1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="65" column="25" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a166dcffc999dfc5f950bda17a99605dc" prot="private" static="no" mutable="no">
+        <type>vk::ImageUsageFlags</type>
+        <definition>vk::ImageUsageFlags aby::rhi::vulkan::Image::m_Usage</definition>
+        <argsstring></argsstring>
+        <name>m_Usage</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Usage</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="66" column="21" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a2347ab93be519af6d9aaeae0266c5e00" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::m_MipLevels</definition>
+        <argsstring></argsstring>
+        <name>m_MipLevels</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_MipLevels</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="67" column="10" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a45e394bd2912ca8fa56666e9d87971f3" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::m_ArrayLayers</definition>
+        <argsstring></argsstring>
+        <name>m_ArrayLayers</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_ArrayLayers</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="68" column="10" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1aec8846f8e6f4492a7142f16dffe56b29" prot="private" static="no" mutable="no">
+        <type>vk::ImageAspectFlags</type>
+        <definition>vk::ImageAspectFlags aby::rhi::vulkan::Image::m_Aspect</definition>
+        <argsstring></argsstring>
+        <name>m_Aspect</name>
+        <qualifiedname>aby::rhi::vulkan::Image::m_Aspect</qualifiedname>
+        <initializer>= vk::ImageAspectFlagBits::eColor</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="69" column="22" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a354f03de2c069b1ee2fab583cdf10859" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::bOwnsImage</definition>
+        <argsstring></argsstring>
+        <name>bOwnsImage</name>
+        <qualifiedname>aby::rhi::vulkan::Image::bOwnsImage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="70" column="6" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ac769c4ed4a56f2b433b22c1942c4589c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::Image</definition>
+        <argsstring>()=default</argsstring>
+        <name>Image</name>
+        <qualifiedname>aby::rhi::vulkan::Image::Image</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="12" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a0a86fec01520a5ec57f98d979d03065f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::Image</definition>
+        <argsstring>(const Image &amp;)=delete</argsstring>
+        <name>Image</name>
+        <qualifiedname>aby::rhi::vulkan::Image::Image</qualifiedname>
+        <param>
+          <type>const <ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="13" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1adae0f3140554b8ccb88b789008ee8368" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::Image</definition>
+        <argsstring>(Image &amp;&amp;other) noexcept</argsstring>
+        <name>Image</name>
+        <qualifiedname>aby::rhi::vulkan::Image::Image</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="14" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1abc3c110f1e339aaf51682a10699c7fdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::create</definition>
+        <argsstring>(vk::Extent3D extent, vk::Format format, vk::SampleCountFlagBits samples, vk::ImageUsageFlags usage, uint32_t mip_levels=1)</argsstring>
+        <name>create</name>
+        <qualifiedname>aby::rhi::vulkan::Image::create</qualifiedname>
+        <param>
+          <type>vk::Extent3D</type>
+          <declname>extent</declname>
+        </param>
+        <param>
+          <type>vk::Format</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>vk::SampleCountFlagBits</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>vk::ImageUsageFlags</type>
+          <declname>usage</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_levels</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="16" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a82b16c59d4094ec07e7a1db1998fe6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::wrap</definition>
+        <argsstring>(vk::Image img, vk::ImageView view, vk::Extent3D extent, vk::Format format, vk::SampleCountFlagBits samples, vk::ImageUsageFlags usage)</argsstring>
+        <name>wrap</name>
+        <qualifiedname>aby::rhi::vulkan::Image::wrap</qualifiedname>
+        <param>
+          <type>vk::Image</type>
+          <declname>img</declname>
+        </param>
+        <param>
+          <type>vk::ImageView</type>
+          <declname>view</declname>
+        </param>
+        <param>
+          <type>vk::Extent3D</type>
+          <declname>extent</declname>
+        </param>
+        <param>
+          <type>vk::Format</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>vk::SampleCountFlagBits</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>vk::ImageUsageFlags</type>
+          <declname>usage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="17" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1aeb4cec6c9c4e5e3e8ca40eeff9316140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::destroy</definition>
+        <argsstring>()</argsstring>
+        <name>destroy</name>
+        <qualifiedname>aby::rhi::vulkan::Image::destroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="18" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a78ff04af3a736da4da1eadc14ddef5f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::transition</definition>
+        <argsstring>(vk::CommandBuffer cmd, vk::ImageLayout dst_layout)</argsstring>
+        <name>transition</name>
+        <qualifiedname>aby::rhi::vulkan::Image::transition</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type>vk::ImageLayout</type>
+          <declname>dst_layout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="20" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a8bdbc677b46d5e5a7ca6908b6679810a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::transition</definition>
+        <argsstring>(vk::CommandBuffer cmd, vk::ImageLayout dst_layout, uint32_t mip_level, uint32_t base_mip)</argsstring>
+        <name>transition</name>
+        <qualifiedname>aby::rhi::vulkan::Image::transition</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type>vk::ImageLayout</type>
+          <declname>dst_layout</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_level</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>base_mip</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="21" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1afa7435233c10481a0a37963931543499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::copy_to</definition>
+        <argsstring>(vk::CommandBuffer cmd, vk::Image dst, vk::Extent2D dst_sz)</argsstring>
+        <name>copy_to</name>
+        <qualifiedname>aby::rhi::vulkan::Image::copy_to</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type>vk::Image</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>vk::Extent2D</type>
+          <declname>dst_sz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="22" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a60e7979a34f8a2679a9386b05b529e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::copy_to</definition>
+        <argsstring>(vk::CommandBuffer cmd, Image &amp;image)</argsstring>
+        <name>copy_to</name>
+        <qualifiedname>aby::rhi::vulkan::Image::copy_to</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;</type>
+          <declname>image</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="23" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a4a137aafc59adebb49397a36a44224a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::copy_to</definition>
+        <argsstring>(vk::CommandBuffer cmd, uint32_t width, uint32_t height, uint32_t mip_level, vk::Filter filter_mode)</argsstring>
+        <name>copy_to</name>
+        <qualifiedname>aby::rhi::vulkan::Image::copy_to</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_level</declname>
+        </param>
+        <param>
+          <type>vk::Filter</type>
+          <declname>filter_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="24" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ace90a428c5e9c2a4513f82af34675a79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::copy_to</definition>
+        <argsstring>(vk::CommandBuffer cmd, Buffer &amp;buffer, uint32_t mip_level=0)</argsstring>
+        <name>copy_to</name>
+        <qualifiedname>aby::rhi::vulkan::Image::copy_to</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_level</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a8a66696eb860c32d2770a444efb06275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::vulkan::Image::copy_from</definition>
+        <argsstring>(vk::CommandBuffer cmd, Buffer &amp;buffer, uint32_t mip_level=0)</argsstring>
+        <name>copy_from</name>
+        <qualifiedname>aby::rhi::vulkan::Image::copy_from</qualifiedname>
+        <param>
+          <type>vk::CommandBuffer</type>
+          <declname>cmd</declname>
+        </param>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_buffer" kindref="compound">Buffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_level</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="26" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ac11e77b312e28333faa48dd5d4d95e3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::Image</type>
+        <definition>vk::Image aby::rhi::vulkan::Image::img</definition>
+        <argsstring>()</argsstring>
+        <name>img</name>
+        <qualifiedname>aby::rhi::vulkan::Image::img</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="28" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a781fea08eec8b0111ae34b47769409b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::ImageView</type>
+        <definition>vk::ImageView aby::rhi::vulkan::Image::view</definition>
+        <argsstring>()</argsstring>
+        <name>view</name>
+        <qualifiedname>aby::rhi::vulkan::Image::view</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="29" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a2bd1c209221ae9f5cae90e317e0c266a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::width</definition>
+        <argsstring>() const</argsstring>
+        <name>width</name>
+        <qualifiedname>aby::rhi::vulkan::Image::width</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="30" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a05dfd0cf474dcd21fc8064a76f5a6223" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::height</definition>
+        <argsstring>() const</argsstring>
+        <name>height</name>
+        <qualifiedname>aby::rhi::vulkan::Image::height</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="31" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a08eced0a2a4cb48fe3e6f7070846828f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::depth</definition>
+        <argsstring>() const</argsstring>
+        <name>depth</name>
+        <qualifiedname>aby::rhi::vulkan::Image::depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="32" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a89c0492ced07776f1e4c1ee62e18858d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const vk::Extent3D &amp;</type>
+        <definition>const vk::Extent3D &amp; aby::rhi::vulkan::Image::extent</definition>
+        <argsstring>() const</argsstring>
+        <name>extent</name>
+        <qualifiedname>aby::rhi::vulkan::Image::extent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="33" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1affe45bb37ff847c12ecee388dfeb1907" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const vk::Extent3D &amp;</type>
+        <definition>const vk::Extent3D &amp; aby::rhi::vulkan::Image::extent3d</definition>
+        <argsstring>() const</argsstring>
+        <name>extent3d</name>
+        <qualifiedname>aby::rhi::vulkan::Image::extent3d</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="34" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a505f7c2642166147b2d2990da947b247" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::Extent2D</type>
+        <definition>vk::Extent2D aby::rhi::vulkan::Image::extent2d</definition>
+        <argsstring>() const</argsstring>
+        <name>extent2d</name>
+        <qualifiedname>aby::rhi::vulkan::Image::extent2d</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="35" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a6e738d9f3ccfd0e99f5d7b29d1ee8b09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::Format</type>
+        <definition>vk::Format aby::rhi::vulkan::Image::format</definition>
+        <argsstring>() const</argsstring>
+        <name>format</name>
+        <qualifiedname>aby::rhi::vulkan::Image::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="36" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a4869befd4bdd071d5411fd86a4b00537" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::ImageLayout</type>
+        <definition>vk::ImageLayout aby::rhi::vulkan::Image::layout</definition>
+        <argsstring>(uint32_t mip_level=0) const</argsstring>
+        <name>layout</name>
+        <qualifiedname>aby::rhi::vulkan::Image::layout</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>mip_level</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="37" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ac88a0eb4e07d414bf3f0a9d7538c7324" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::ImageUsageFlags</type>
+        <definition>vk::ImageUsageFlags aby::rhi::vulkan::Image::usage</definition>
+        <argsstring>() const</argsstring>
+        <name>usage</name>
+        <qualifiedname>aby::rhi::vulkan::Image::usage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="38" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a5374f8fe7e784eaf84b7f57ed56e5af4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::SampleCountFlagBits</type>
+        <definition>vk::SampleCountFlagBits aby::rhi::vulkan::Image::samples</definition>
+        <argsstring>() const</argsstring>
+        <name>samples</name>
+        <qualifiedname>aby::rhi::vulkan::Image::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="39" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ae8d2c88ca66e67fac93e2b771ff08654" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::mip_levels</definition>
+        <argsstring>() const</argsstring>
+        <name>mip_levels</name>
+        <qualifiedname>aby::rhi::vulkan::Image::mip_levels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="40" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ad6fbadb7a6fba2bf04821ffc9b24383a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t aby::rhi::vulkan::Image::array_layers</definition>
+        <argsstring>() const</argsstring>
+        <name>array_layers</name>
+        <qualifiedname>aby::rhi::vulkan::Image::array_layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="41" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a65c121ab4d550092446732ae434f007a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>vk::ImageAspectFlags</type>
+        <definition>vk::ImageAspectFlags aby::rhi::vulkan::Image::aspect</definition>
+        <argsstring>() const</argsstring>
+        <name>aspect</name>
+        <qualifiedname>aby::rhi::vulkan::Image::aspect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="42" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a63f768fea6afb65dc657ef6c66d80b0d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t aby::rhi::vulkan::Image::bpp</definition>
+        <argsstring>() const</argsstring>
+        <name>bpp</name>
+        <qualifiedname>aby::rhi::vulkan::Image::bpp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="43" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1afb652458ade11987f1cafc88e958587f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::is_multisampled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_multisampled</name>
+        <qualifiedname>aby::rhi::vulkan::Image::is_multisampled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="45" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1af3e8007a9a6404559cc6479519c52063" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::is_color</definition>
+        <argsstring>() const</argsstring>
+        <name>is_color</name>
+        <qualifiedname>aby::rhi::vulkan::Image::is_color</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="46" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1aff88cff2fc83876da3960c4e6a0002b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::vulkan::Image::is_depth</definition>
+        <argsstring>() const</argsstring>
+        <name>is_depth</name>
+        <qualifiedname>aby::rhi::vulkan::Image::is_depth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="47" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ac13d4f073a7427f30171ce5cc52538ba" prot="public" static="no" const="yes" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>aby::rhi::vulkan::Image::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="49" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a3349df0da3078b17023a7272fba6e289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::operator vk::Image</definition>
+        <argsstring>()</argsstring>
+        <name>operator vk::Image</name>
+        <qualifiedname>aby::rhi::vulkan::Image::Image</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="51" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a7a66258a20c1a9a400ae7480b5888ce9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::operator VkImage</definition>
+        <argsstring>()</argsstring>
+        <name>operator VkImage</name>
+        <qualifiedname>aby::rhi::vulkan::Image::operator VkImage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="52" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1ae5352f58b15bd528f286da13c0819c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::operator vk::ImageView</definition>
+        <argsstring>()</argsstring>
+        <name>operator vk::ImageView</name>
+        <qualifiedname>aby::rhi::vulkan::Image::ImageView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="53" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a496d1f41ecde1ffdc26746f3ea0f246b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::vulkan::Image::operator VkImageView</definition>
+        <argsstring>()</argsstring>
+        <name>operator VkImageView</name>
+        <qualifiedname>aby::rhi::vulkan::Image::operator VkImageView</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="54" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1a30ebf47c8a0747b83505af8433b53f85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;</type>
+        <definition>Image &amp; aby::rhi::vulkan::Image::operator=</definition>
+        <argsstring>(const Image &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>aby::rhi::vulkan::Image::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="56" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1vulkan_1_1_image_1abbe3211c4959fe08c5cf4750e3d4e4b9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;</type>
+        <definition>Image &amp; aby::rhi::vulkan::Image::operator=</definition>
+        <argsstring>(Image &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>aby::rhi::vulkan::Image::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1vulkan_1_1_image" kindref="compound">Image</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="57" column="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/vulkan-image.hpp" line="10" column="1" bodyfile="include/aby-rhi/backends/vulkan/vulkan-image.hpp" bodystart="10" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ad6fbadb7a6fba2bf04821ffc9b24383a" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>array_layers</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a65c121ab4d550092446732ae434f007a" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>aspect</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a354f03de2c069b1ee2fab583cdf10859" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>bOwnsImage</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a63f768fea6afb65dc657ef6c66d80b0d" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>bpp</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a8a66696eb860c32d2770a444efb06275" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>copy_from</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1afa7435233c10481a0a37963931543499" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>copy_to</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a60e7979a34f8a2679a9386b05b529e44" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>copy_to</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4a137aafc59adebb49397a36a44224a2" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>copy_to</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ace90a428c5e9c2a4513f82af34675a79" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>copy_to</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1abc3c110f1e339aaf51682a10699c7fdc" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>create</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a08eced0a2a4cb48fe3e6f7070846828f" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>depth</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aeb4cec6c9c4e5e3e8ca40eeff9316140" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>destroy</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a89c0492ced07776f1e4c1ee62e18858d" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>extent</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a505f7c2642166147b2d2990da947b247" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>extent2d</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1affe45bb37ff847c12ecee388dfeb1907" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>extent3d</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a6e738d9f3ccfd0e99f5d7b29d1ee8b09" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>format</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a05dfd0cf474dcd21fc8064a76f5a6223" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>height</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac769c4ed4a56f2b433b22c1942c4589c" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>Image</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a0a86fec01520a5ec57f98d979d03065f" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>Image</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1adae0f3140554b8ccb88b789008ee8368" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>Image</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac11e77b312e28333faa48dd5d4d95e3e" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>img</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1af3e8007a9a6404559cc6479519c52063" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>is_color</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aff88cff2fc83876da3960c4e6a0002b6" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>is_depth</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1afb652458ade11987f1cafc88e958587f" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>is_multisampled</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4869befd4bdd071d5411fd86a4b00537" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>layout</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a07dd8277468763375817f68e6cf0b507" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Alloc</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a45e394bd2912ca8fa56666e9d87971f3" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_ArrayLayers</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aec8846f8e6f4492a7142f16dffe56b29" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Aspect</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a9ff2606474f880b8ac68210fa5ee4f21" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Extent</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1aca605b7eceafba34151c798e51cc0c5a" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Format</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a4c0366c33233e9844342f9525a8e8cbc" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Img</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a5019c79ad9792703b65640a69a9bbe1c" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Layouts</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a2347ab93be519af6d9aaeae0266c5e00" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_MipLevels</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a790c1de5658b9625d779e81187410fa3" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Samples</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a166dcffc999dfc5f950bda17a99605dc" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_Usage</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a08f5492de13114ced2717ca59988609a" prot="private" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>m_View</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ae8d2c88ca66e67fac93e2b771ff08654" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>mip_levels</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac13d4f073a7427f30171ce5cc52538ba" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator bool</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a3349df0da3078b17023a7272fba6e289" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator vk::Image</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ae5352f58b15bd528f286da13c0819c01" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator vk::ImageView</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a7a66258a20c1a9a400ae7480b5888ce9" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator VkImage</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a496d1f41ecde1ffdc26746f3ea0f246b" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator VkImageView</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a30ebf47c8a0747b83505af8433b53f85" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator=</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1abbe3211c4959fe08c5cf4750e3d4e4b9" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>operator=</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a5374f8fe7e784eaf84b7f57ed56e5af4" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>samples</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a78ff04af3a736da4da1eadc14ddef5f3" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>transition</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a8bdbc677b46d5e5a7ca6908b6679810a" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>transition</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1ac88a0eb4e07d414bf3f0a9d7538c7324" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>usage</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a781fea08eec8b0111ae34b47769409b9" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>view</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a2bd1c209221ae9f5cae90e317e0c266a" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>width</name></member>
+      <member refid="classaby_1_1rhi_1_1vulkan_1_1_image_1a82b16c59d4094ec07e7a1db1998fe6b4" prot="public" virt="non-virtual"><scope>aby::rhi::vulkan::Image</scope><name>wrap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

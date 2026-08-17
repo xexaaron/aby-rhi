@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_8ecac3f6860031a9c88024a6c0dd2404" kind="dir">
+    <compoundname>include/aby-rhi/backends/vulkan</compoundname>
+    <innerfile refid="vulkan-buffer_8hpp">vulkan-buffer.hpp</innerfile>
+    <innerfile refid="vulkan-callbacks_8hpp">vulkan-callbacks.hpp</innerfile>
+    <innerfile refid="vulkan-common_8hpp">vulkan-common.hpp</innerfile>
+    <innerfile refid="vulkan-descriptors_8hpp">vulkan-descriptors.hpp</innerfile>
+    <innerfile refid="vulkan-dispatch_8hpp">vulkan-dispatch.hpp</innerfile>
+    <innerfile refid="vulkan-frame_8hpp">vulkan-frame.hpp</innerfile>
+    <innerfile refid="vulkan-gc_8hpp">vulkan-gc.hpp</innerfile>
+    <innerfile refid="vulkan-helpers_8hpp">vulkan-helpers.hpp</innerfile>
+    <innerfile refid="vulkan-image_8hpp">vulkan-image.hpp</innerfile>
+    <innerfile refid="vulkan-immediate-cmd_8hpp">vulkan-immediate-cmd.hpp</innerfile>
+    <innerfile refid="vulkan-pipeline_8hpp">vulkan-pipeline.hpp</innerfile>
+    <innerfile refid="vulkan-platform_8hpp">vulkan-platform.hpp</innerfile>
+    <innerfile refid="vulkan-render-pass_8hpp">vulkan-render-pass.hpp</innerfile>
+    <innerfile refid="vulkan-renderer_8hpp">vulkan-renderer.hpp</innerfile>
+    <innerfile refid="vulkan-shader_8hpp">vulkan-shader.hpp</innerfile>
+    <innerfile refid="vulkan-texture_8hpp">vulkan-texture.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aby-rhi/backends/vulkan/"/>
+  </compounddef>
+</doxygen>

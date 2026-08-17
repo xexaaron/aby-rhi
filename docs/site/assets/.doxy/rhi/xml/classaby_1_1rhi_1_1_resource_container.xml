@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_resource_container" kind="class" language="C++" prot="public">
+    <compoundname>aby::rhi::ResourceContainer</compoundname>
+    <includes refid="resource_8hpp" local="no">resource.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>EResource</type>
+        <declname>ResourceType</declname>
+        <defname>ResourceType</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_container_1a95bdb5cb636ae8bd9c42c55ea122ce50" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; T * &gt;</type>
+        <definition>std::vector&lt;T*&gt; aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::m_Resources</definition>
+        <argsstring></argsstring>
+        <name>m_Resources</name>
+        <qualifiedname>aby::rhi::ResourceContainer::m_Resources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="108" column="13" bodyfile="include/aby-rhi/resource.hpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_container_1a377aa7f0a8d9c9c8692410c93116c61d" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; ResourceID &gt;</type>
+        <definition>std::queue&lt;ResourceID&gt; aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::m_FreeIDs</definition>
+        <argsstring></argsstring>
+        <name>m_FreeIDs</name>
+        <qualifiedname>aby::rhi::ResourceContainer::m_FreeIDs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="109" column="12" bodyfile="include/aby-rhi/resource.hpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_container_1af55868032ee0f7a6bd2de4812f2694dd" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::atomic&lt; EResourceState &gt; &gt;</type>
+        <definition>std::deque&lt;std::atomic&lt;EResourceState&gt; &gt; aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::m_ResourceStates</definition>
+        <argsstring></argsstring>
+        <name>m_ResourceStates</name>
+        <qualifiedname>aby::rhi::ResourceContainer::m_ResourceStates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="110" column="12" bodyfile="include/aby-rhi/resource.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classaby_1_1rhi_1_1_resource_container_1a67c387c972d7731ec207f9a560e12bc7" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::m_IndexMutex</definition>
+        <argsstring></argsstring>
+        <name>m_IndexMutex</name>
+        <qualifiedname>aby::rhi::ResourceContainer::m_IndexMutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="111" column="12" bodyfile="include/aby-rhi/resource.hpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a4958a075dbff67f4cfd8bde84f3df55f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::~ResourceContainer</definition>
+        <argsstring>()</argsstring>
+        <name>~ResourceContainer</name>
+        <qualifiedname>aby::rhi::ResourceContainer::~ResourceContainer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="49" column="1" bodyfile="include/aby-rhi/resource.hpp" bodystart="163" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+        <definition>Resource aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::reserve</definition>
+        <argsstring>()</argsstring>
+        <name>reserve</name>
+        <qualifiedname>aby::rhi::ResourceContainer::reserve</qualifiedname>
+        <briefdescription>
+<para>Reserve a resource slot in the container. This resource can be passed around before the creation of the actual data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A resource handle that can later be passed to add/emplace. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="56" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="170" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1ae8d9b166b324ddbdcddb693499baf035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::add</definition>
+        <argsstring>(Resource resource, T *obj)</argsstring>
+        <name>add</name>
+        <qualifiedname>aby::rhi::ResourceContainer::add</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>T *</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Add an already constructed resource to the container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> reserved via <ref refid="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" kindref="member">ResourceContainer::reserve</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constructed object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="63" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="189" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1aafc6249958026b765553b82840678236" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::emplace</definition>
+        <argsstring>(Resource resource, Args &amp;&amp;... args)</argsstring>
+        <name>emplace</name>
+        <qualifiedname>aby::rhi::ResourceContainer::emplace</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+    <requiresclause>(std::is_constructible_v&lt;T, Args...&gt;)    </requiresclause>
+        <briefdescription>
+<para>Construct a resource directly into the container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> reserved via <ref refid="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" kindref="member">ResourceContainer::reserve</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Constructor arguments. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="72" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="199" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a544cfe60be4ce317bf93fe2836c9f63b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::remove</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>remove</name>
+        <qualifiedname>aby::rhi::ResourceContainer::remove</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Remove a resource from the container and free its ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> handle. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="78" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="207" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a4877d00219e8c00f43ff9cced571368a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::fail</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>fail</name>
+        <qualifiedname>aby::rhi::ResourceContainer::fail</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Notify the container that resource loading failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> reserved via <ref refid="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" kindref="member">ResourceContainer::reserve</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="84" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1ac34a764c01016488dbbcf718bf351ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::wait_for</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>wait_for</name>
+        <qualifiedname>aby::rhi::ResourceContainer::wait_for</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Wait until a resource finishes loading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>False if loading failed or resource is invalid, true if loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="90" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="227" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a7dc79616ae3d2ebb13f906799119980f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::is_loaded</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>is_loaded</name>
+        <qualifiedname>aby::rhi::ResourceContainer::is_loaded</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Check if a resource has finished loading. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="95" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a947d928b7946f8730a9ccc7723d797d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EResourceState</type>
+        <definition>EResourceState aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::state</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>state</name>
+        <qualifiedname>aby::rhi::ResourceContainer::state</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Get the current state of a resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="100" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_resource_container_1a88addfd8f6d7406e75e08b2f1369520d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * aby::rhi::ResourceContainer&lt; T, ResourceType &gt;::operator[]</definition>
+        <argsstring>(Resource resource)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>aby::rhi::ResourceContainer::operator[]</qualifiedname>
+        <param>
+          <type><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref></type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Access the resource data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para><ref refid="classaby_1_1rhi_1_1_resource" kindref="compound">Resource</ref> must be in the loaded state. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/resource.hpp" line="106" column="6" bodyfile="include/aby-rhi/resource.hpp" bodystart="251" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A resource container that owns the resources and performs cleanup. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the type of resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ResourceType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of resource that is owned. Used for runtime checking and resource creation to ensure that resources owned by another container arent accessed using this container. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="warning"><para>The container does not do bounds checking itself. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/aby-rhi/resource.hpp" line="47" column="1" bodyfile="include/aby-rhi/resource.hpp" bodystart="47" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1ae8d9b166b324ddbdcddb693499baf035" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>add</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1aafc6249958026b765553b82840678236" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>emplace</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a4877d00219e8c00f43ff9cced571368a" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>fail</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a7dc79616ae3d2ebb13f906799119980f" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>is_loaded</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a377aa7f0a8d9c9c8692410c93116c61d" prot="private" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>m_FreeIDs</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a67c387c972d7731ec207f9a560e12bc7" prot="private" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>m_IndexMutex</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a95bdb5cb636ae8bd9c42c55ea122ce50" prot="private" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>m_Resources</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1af55868032ee0f7a6bd2de4812f2694dd" prot="private" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>m_ResourceStates</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a88addfd8f6d7406e75e08b2f1369520d" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>operator[]</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a544cfe60be4ce317bf93fe2836c9f63b" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>remove</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a3781c7379f17e2b95bb4382bb5e5bee8" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>reserve</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a947d928b7946f8730a9ccc7723d797d5" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>state</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1ac34a764c01016488dbbcf718bf351ea5" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>wait_for</name></member>
+      <member refid="classaby_1_1rhi_1_1_resource_container_1a4958a075dbff67f4cfd8bde84f3df55f" prot="public" virt="non-virtual"><scope>aby::rhi::ResourceContainer</scope><name>~ResourceContainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="classaby_1_1rhi_1_1_i_allocator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>aby::rhi::IAllocator</compoundname>
+    <basecompoundref refid="classaby_1_1rhi_1_1_i_interface" prot="public" virt="non-virtual">aby::rhi::IInterface</basecompoundref>
+    <derivedcompoundref refid="classaby_1_1rhi_1_1_default_allocator" prot="public" virt="non-virtual">aby::rhi::DefaultAllocator</derivedcompoundref>
+    <includes refid="interfaces_8hpp" local="no">interfaces.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_i_allocator_1a251cd7d9a127d9ace66c02d208a9b0c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view aby::rhi::IAllocator::name</definition>
+        <argsstring>() override</argsstring>
+        <name>name</name>
+        <qualifiedname>aby::rhi::IAllocator::name</qualifiedname>
+        <reimplements refid="classaby_1_1rhi_1_1_i_interface_1a42636ed5df2a1792cad63ce1b763819b">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/interfaces.hpp" line="50" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_i_allocator_1ab54b074a62eae96265f65da8cf0ebf77" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void *</type>
+        <definition>virtual void * aby::rhi::IAllocator::alloc</definition>
+        <argsstring>(size_t bytes, size_t alignment, EAllocation type)=0</argsstring>
+        <name>alloc</name>
+        <qualifiedname>aby::rhi::IAllocator::alloc</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1_default_allocator_1a77a17fb527fc01f2cf5c4c010c59626a">alloc</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>EAllocation</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/interfaces.hpp" line="51" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_i_allocator_1afd7406eab5daaab64a1bf212f6456793" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void *</type>
+        <definition>virtual void * aby::rhi::IAllocator::realloc</definition>
+        <argsstring>(void *ptr, size_t bytes, size_t alignment, EAllocation type)=0</argsstring>
+        <name>realloc</name>
+        <qualifiedname>aby::rhi::IAllocator::realloc</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1_default_allocator_1a014a9342d45cb3e7bdc4b4b49614f0c6">realloc</reimplementedby>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>alignment</declname>
+        </param>
+        <param>
+          <type>EAllocation</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/interfaces.hpp" line="52" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classaby_1_1rhi_1_1_i_allocator_1a44a7252af404c5cca4bf573e2a9f5362" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void aby::rhi::IAllocator::free</definition>
+        <argsstring>(void *ptr, EAllocation type)=0</argsstring>
+        <name>free</name>
+        <qualifiedname>aby::rhi::IAllocator::free</qualifiedname>
+        <reimplementedby refid="classaby_1_1rhi_1_1_default_allocator_1a1c706dadad157744e1b680f644379199">free</reimplementedby>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>EAllocation</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aby-rhi/interfaces/interfaces.hpp" line="53" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classaby_1_1rhi_1_1_i_allocator" kindref="compound">IAllocator</ref> interface for alloc/free/realloc. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>can be ignored, it its purely for debuggability/memory usage tracking </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alignment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aligment must be respected at all times. The <ref refid="classaby_1_1rhi_1_1_default_allocator" kindref="compound">DefaultAllocator</ref> does this already. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>aby::rhi::DefaultAllocator</label>
+        <link refid="classaby_1_1rhi_1_1_default_allocator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>aby::rhi::IAllocator</label>
+        <link refid="classaby_1_1rhi_1_1_i_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>aby::rhi::IAllocator</label>
+        <link refid="classaby_1_1rhi_1_1_i_allocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>aby::rhi::IInterface</label>
+        <link refid="classaby_1_1rhi_1_1_i_interface"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aby-rhi/interfaces/interfaces.hpp" line="48" column="1" bodyfile="include/aby-rhi/interfaces/interfaces.hpp" bodystart="48" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classaby_1_1rhi_1_1_i_allocator_1ab54b074a62eae96265f65da8cf0ebf77" prot="public" virt="pure-virtual"><scope>aby::rhi::IAllocator</scope><name>alloc</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_allocator_1a44a7252af404c5cca4bf573e2a9f5362" prot="public" virt="pure-virtual"><scope>aby::rhi::IAllocator</scope><name>free</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_allocator_1a251cd7d9a127d9ace66c02d208a9b0c0" prot="public" virt="virtual"><scope>aby::rhi::IAllocator</scope><name>name</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_allocator_1afd7406eab5daaab64a1bf212f6456793" prot="public" virt="pure-virtual"><scope>aby::rhi::IAllocator</scope><name>realloc</name></member>
+      <member refid="classaby_1_1rhi_1_1_i_interface_1a8c95f6d497f91c6dd277308fb2f6c957" prot="public" virt="virtual"><scope>aby::rhi::IAllocator</scope><name>~IInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
