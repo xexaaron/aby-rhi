@@ -3,3 +3,6 @@ vendor/shaderc
 vendor/vk-boostrap
 vendor/vma
 timings.log
+
+__pycache__
+docs/doxygen/xml

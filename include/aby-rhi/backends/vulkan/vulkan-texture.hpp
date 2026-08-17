@@ -20,7 +20,7 @@ namespace aby::rhi::vulkan {
 		auto sync() -> void override;
 		auto read_px(uint32_t x, uint32_t y) -> vec4<uint8_t> override;
 		auto resize(uint32_t w, uint32_t h) -> void override;
-		auto write(const fs::path& path) -> void override;
+		auto write(const fs::path& rel_path) -> void override;
 
 		auto format() -> vk::Format;
 		auto view() -> vk::ImageView;

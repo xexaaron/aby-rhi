@@ -16,7 +16,7 @@ namespace aby::rhi {
         */
 		Buffer(size_t size, size_t stride);
 		virtual ~Buffer() = default;
-		
+
 		/**
          * @brief Upload the buffers cpu data to the GPU
         */
@@ -106,7 +106,7 @@ namespace aby::rhi {
 		virtual auto destroy() -> void = 0;
 		/**
          * @brief Push an index into the cpu buffer
-         * @param v An index
+         * @param index An index
         */
 		auto push(uint32_t index) -> void;
 	private:

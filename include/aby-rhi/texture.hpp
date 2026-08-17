@@ -57,22 +57,22 @@ namespace aby::rhi {
 		 * @param w new width
 		 * @param h new height
 		 */
-		virtual auto resize(uint32_t w, uint32_t h) -> void = 0;
+		virtual auto resize(uint32_t w, uint32_t h) -> void           = 0;
 		/**
 		 * @brief Write the image to a file.
-		 * @param path Output image type determined by path extension.
+		 * @param rel_path Output image type determined by path extension.
 		 */
-		virtual auto write(const fs::path& rel_path) -> void    = 0;
+		virtual auto write(const fs::path& rel_path) -> void          = 0;
 		/**
 		 * @brief An id to the texture within an array or descriptor set that 
 		 * 		  can be sent to the GPU to access bindless textures
 		 */
-		virtual auto id() -> uint32_t       = 0;
-		virtual auto width() -> uint32_t    = 0;
-		virtual auto height() -> uint32_t   = 0;
-		virtual auto channels() -> uint32_t = 0;
-		virtual auto data() -> uint8_t*     = 0;
-		virtual auto bytes() -> size_t      = 0;
+		virtual auto id() -> uint32_t                                 = 0;
+		virtual auto width() -> uint32_t                              = 0;
+		virtual auto height() -> uint32_t                             = 0;
+		virtual auto channels() -> uint32_t                           = 0;
+		virtual auto data() -> uint8_t*                               = 0;
+		virtual auto bytes() -> size_t                                = 0;
 	};
 
 	using TexturePtr = ResourcePtr<Texture, EResource::texture>;

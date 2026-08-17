@@ -18,6 +18,7 @@ option(ABY_RHI_ENABLE_LOG_TRACE "enable trace logging" ON)
 option(ABY_RHI_ENABLE_LOG_WARN "enable warning logging" ON)
 option(ABY_RHI_ENABLE_ASSERT "enable assertions. if turned off then only errors will be logged." ON)
 option(ABY_RHI_ENABLE_PROFILING "enable profiling of initialization scopes" OFF)
+option(ABY_RHI_BUILD_DOCS "build the mkdocs documentation" ON)
 
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FILEPATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
@@ -164,4 +165,28 @@ endif()
 if(MSVC)
     set_target_properties(vk-bootstrap PROPERTIES FOLDER "dependencies/vk")
     set_target_properties(VulkanMemoryAllocator PROPERTIES FOLDER "dependencies/vk")
+endif()
+
+
+
+if (ABY_RHI_BUILD_DOCS)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    find_package(Doxygen REQUIRED)
+
+   file(MAKE_DIRECTORY
+        ${CMAKE_CURRENT_SOURCE_DIR}/docs/doxygen/xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/bin/docs
+    )
+
+    add_custom_target(aby-rhi-docs ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile
+
+        COMMAND ${Python3_EXECUTABLE} -m mkdocs build
+
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+
+        COMMENT "Building Abyss RHI documentation"
+        VERBATIM
+    )
+
 endif()

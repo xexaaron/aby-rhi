@@ -52,12 +52,13 @@ This will get the proper dependencies for shaderc.
 
 | Option                     | Description                                                       | Default |
 | -------------------------- | ----------------------------------------------------------------- | ------- |
-| `ABY_RHI_BUILD_TESTS`      | build aby-rhi tests for the specific platform                     | ![value](https://img.shields.io/badge/value-OFF-red)     |
-| `ABY_RHI_ENABLE_LOG_INFO`  | enable info logging                                               | ![value](https://img.shields.io/badge/value-ON-green)      |
-| `ABY_RHI_ENABLE_LOG_TRACE` | enable trace logging                                              | ![value](https://img.shields.io/badge/value-ON-green)      |
-| `ABY_RHI_ENABLE_LOG_WARN`  | enable warning logging                                            | ![value](https://img.shields.io/badge/value-ON-green)      |
-| `ABY_RHI_ENABLE_ASSERT`    | enable assertions. if turned off then only errors will be logged. | ![value](https://img.shields.io/badge/value-ON-green)      |
-| `ABY_RHI_ENABLE_PROFILING` | enable profiling of initialization scopes                         | ![value](https://img.shields.io/badge/value-OFF-red)     |
+| `ABY_RHI_BUILD_TESTS`      | build aby-rhi tests for the specific platform                     | ![value](https://img.shields.io/badge/value-OFF-red)  |
+| `ABY_RHI_ENABLE_LOG_INFO`  | enable info logging                                               | ![value](https://img.shields.io/badge/value-ON-green) |
+| `ABY_RHI_ENABLE_LOG_TRACE` | enable trace logging                                              | ![value](https://img.shields.io/badge/value-ON-green) |
+| `ABY_RHI_ENABLE_LOG_WARN`  | enable warning logging                                            | ![value](https://img.shields.io/badge/value-ON-green) |
+| `ABY_RHI_ENABLE_ASSERT`    | enable assertions. if turned off then only errors will be logged. | ![value](https://img.shields.io/badge/value-ON-green) |
+| `ABY_RHI_ENABLE_PROFILING` | enable profiling of initialization scopes                         | ![value](https://img.shields.io/badge/value-OFF-red)  |
+| `ABY_RHI_BUILD_DOCS`       | build the mkdocs documentation                                    | ![value](https://img.shields.io/badge/value-OFF-red)  |
 
 ### CMake
 
@@ -155,9 +156,6 @@ auto* renderer = ctx.renderer();
 
 while (running) {
     ///// event loop logic
-    // make sure to call renderer->on_resize(...) when the resize event is signaled
-    // this will only set the width and height for the renderer and at a later time
-    // the swapchain will be recreated.  
 
     if (!running)
         break;
