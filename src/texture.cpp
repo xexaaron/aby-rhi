@@ -15,9 +15,12 @@ namespace aby::rhi {
 				Resource resource = texs.reserve();
 
 				jobs->add_job(EJobPriority::high, [rel_path, resource, params]() {
-					auto& texs = Context::get().textures();
-					auto tex   = new vulkan::Texture(resource.id(), rel_path, params);
-					auto* r    = static_cast<vulkan::Renderer*>(Context::get().renderer());
+					auto& texs    = Context::get().textures();
+					auto& plugins = Context::get().plugins();
+
+					auto tex = new vulkan::Texture(resource.id(), rel_path, params);
+					auto* r  = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
 					texs.add(resource, tex);
 				});
 
@@ -39,8 +42,9 @@ namespace aby::rhi {
 				Resource resource = texs.reserve();
 
 				jobs->add_job(EJobPriority::high, [resource, channels, aliasing]() {
-					auto& texs = Context::get().textures();
-					auto* r    = static_cast<vulkan::Renderer*>(Context::get().renderer());
+					auto& texs    = Context::get().textures();
+					auto& plugins = Context::get().plugins();
+					auto* r       = static_cast<vulkan::Renderer*>(Context::get().renderer());
 
 					vk::SampleCountFlagBits samples;
 					switch (aliasing) {
@@ -62,12 +66,13 @@ namespace aby::rhi {
 					texs.add(resource, tex);
 				});
 
-				return ResourcePtr<Texture, EResource::texture>(resource.id(), &Context::get().textures());
+				return create_resource(resource, Context::get().textures());
 			}
 			default:
 				aby_rhi_assert(false, "unimplemented renderer backend");
+				break;
 		}
-		return ResourcePtr<Texture, EResource::texture>();
+		return nullptr;
 	}
 
 	auto TextureParams::set_mip_levels(uint32_t mip_levels) -> TextureParams& {

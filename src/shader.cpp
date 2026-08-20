@@ -70,7 +70,6 @@ namespace aby::rhi {
 
 					std::vector<uint32_t> out_data;
 					if (!ShaderCompiler::compile(reinterpret_cast<const char*>(data.data()), data.size(), shaderc_type, name.c_str(), &out_data)) {
-						aby_rhi_err("failed to compile shader: {}", name);
 						shaders.fail(resource);
 						return;
 					}
@@ -97,11 +96,8 @@ namespace aby::rhi {
 					});
 
 					shaders.add(resource, shader);
-
-					aby_rhi_dbg("compiled shader: {}", name);
 				});
 
-				aby_rhi_dbg("loaded shader: {} (type: {}, id: {}) (not cached)", rel_path.string(), type, resource.id());
 				return create_resource(resource, shaders);
 			}
 		}
@@ -110,22 +106,23 @@ namespace aby::rhi {
 
 		std::vector<uint32_t> data;
 		if (!io->read(read_path, &data)) {
-			aby_rhi_err("failed to read shader file: {}", read_path.string());
+			shaders.fail(resource);
 			return nullptr;
 		}
 
 		switch (ctx.renderer_backend()) {
 			case ERenderer::vulkan: {
-				auto* shader = new vulkan::Shader(type, std::move(data));
+				auto* shader  = new vulkan::Shader(type, std::move(data));
+				auto& plugins = Context::get().plugins();
+
 				shaders.add(resource, shader);
-				aby_rhi_dbg("loaded shader: {} (type: {}, id: {}) (cached)", rel_path.string(), type, resource.id());
 				return create_resource(resource, shaders);
 			}
 			default:
 				aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
 		}
 
-		aby_rhi_err("failed to create shader: {}", rel_path.string());
+		shaders.fail(resource);
 		return nullptr;
 	}
 

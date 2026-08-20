@@ -33,10 +33,20 @@ namespace aby::rhi::vulkan {
 			render_pass->set_cmd_buffer(m_Frames->cmd());
 		}
 
+		auto& plugins = Context::get().plugins();
+		for (auto* plugin : plugins) {
+			plugin->on_begin();
+		}
+
 		return true;
 	}
 
 	auto Renderer::on_end() -> bool {
+		auto& plugins = Context::get().plugins();
+		for (auto* plugin : plugins) {
+			plugin->on_end();
+		}
+
 		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
 
 		for (auto& render_pass : m_RenderPasses) {

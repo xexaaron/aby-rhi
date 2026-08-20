@@ -1,5 +1,6 @@
 #pragma once
 #include "interfaces/interfaces.hpp"
+#include "plugins/plugin.hpp"
 #include "renderer.hpp"
 #include "resource.hpp"
 #include "texture.hpp"
@@ -34,16 +35,31 @@ namespace aby::rhi {
          * @brief Get the static context instance
         */
 		static auto get() -> Context&;
+
 		/**
          * @brief initialize the context. this must be called before anything else relating to the aby::rhi API
          * @param context_params context parameters structure
          * @return true on success otherwise false
          */
 		auto init(const ContextParams& params) -> bool;
+
 		/**
          * @brief Must be called at the end of the application to release all resources.
          */
 		auto deinit() -> void;
+
+		/**
+		 * @brief Register a plugin.
+		 * 		  The context will handle the memory management.
+		 */
+		auto register_plugin(Plugin* plugin) -> void;
+
+		template <typename T>
+		requires(std::is_default_constructible_v<T>)
+		auto register_plugin() -> void {
+			register_plugin(new T());
+		}
+
 		auto renderer_backend() const -> ERenderer;
 		auto window_backend() const -> EWindow;
 		auto renderer() -> Renderer*;
@@ -53,6 +69,7 @@ namespace aby::rhi {
 		auto job_sys() -> IJobSystem*;
 		auto textures() -> ResourceContainer<Texture, EResource::texture>&;
 		auto shaders() -> ResourceContainer<Shader, EResource::shader>&;
+		auto plugins() -> std::vector<Plugin*>&;
 
 		/**
          * @brief Set the interface type. Call this before calling Context::init.
@@ -83,6 +100,8 @@ namespace aby::rhi {
 		IJobSystem* m_JobSystem;
 		Renderer* m_Renderer;
 		ContextParams m_Params;
+		std::vector<Plugin*> m_Plugins;
+		EInitTime m_InitTime = EInitTime::none;
 		ResourceContainer<Texture, EResource::texture> m_Textures;
 		ResourceContainer<Shader, EResource::shader> m_Shaders;
 	};

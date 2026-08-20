@@ -15,7 +15,6 @@ namespace aby::rhi {
          * @brief Create a renderer for the backend
          * @param backend a renderer api backend
 		 * @param graphics graphics parameters
-         * @note  You are responsible for freeing this memory.
          */
 		static auto create(ERenderer backend, const GraphicsParams& graphics) -> Renderer*;
 		virtual ~Renderer() = default;

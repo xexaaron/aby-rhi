@@ -3,6 +3,7 @@
 #include "draw-cmd.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
+#include "utility/meta.hpp"
 
 #include <set>
 
@@ -79,7 +80,6 @@ namespace aby::rhi {
 		virtual auto build() -> std::shared_ptr<RenderPass> = 0;
 		virtual auto clear() -> void                        = 0;
 
-		/// @brief The render pass will own the created shader
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                   = 0;
 		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                           = 0;
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;

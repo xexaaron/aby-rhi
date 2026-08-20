@@ -53,6 +53,8 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/resource.hpp
     ${ABY_RHI_INCLUDE_DIR}/shader.hpp
     ${ABY_RHI_INCLUDE_DIR}/texture.hpp
+    ${ABY_RHI_INCLUDE_DIR}/plugins/plugin.hpp
+    ${ABY_RHI_INCLUDE_DIR}/utility/meta.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_allocator.hpp
@@ -70,6 +72,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/resource.cpp
     ${ABY_RHI_SRC_DIR}/shader.cpp
     ${ABY_RHI_SRC_DIR}/texture.cpp
+    ${ABY_RHI_SRC_DIR}/plugins/plugin.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_fileio.cpp

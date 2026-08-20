@@ -861,8 +861,6 @@ namespace aby::rhi::vulkan {
 		m_Data.resize(bytes);
 		m_Data.assign(data, data + bytes);
 
-		aby_rhi_dbg("loaded texture: {} (w: {}, h: {}, c: {}, bytes: {})", path.string(), w, h, m_Channels, bytes);
-
 		stbi_image_free(data);
 		return true;
 	}

@@ -1,9 +1,12 @@
 #pragma once
 #include "common.hpp"
+#include "plugins/plugin.hpp"
 
 #include <deque>
 #include <mutex>
+#include <print>
 #include <queue>
+#include <span>
 #include <vector>
 
 namespace aby::rhi {
@@ -60,6 +63,8 @@ namespace aby::rhi {
 		 */
 		auto reserve() -> Resource;
 
+		auto set_plugins(std::vector<Plugin*>& plugins) -> void;
+
 		/**
 		 * @brief Add an already constructed resource to the container.
 		 * @param resource Resource reserved via ResourceContainer::reserve.
@@ -113,6 +118,7 @@ namespace aby::rhi {
 		std::vector<T*> m_Resources;
 		std::queue<ResourceID> m_FreeIDs;
 		std::deque<std::atomic<EResourceState>> m_ResourceStates;
+		std::span<Plugin*> m_Plugins;
 		std::mutex m_IndexMutex;
 	};
 
@@ -186,6 +192,11 @@ namespace aby::rhi {
 	}
 
 	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::set_plugins(std::vector<Plugin*>& plugins) -> void {
+		m_Plugins = plugins;
+	}
+
+	template <typename T, EResource ResourceType>
 	auto ResourceContainer<T, ResourceType>::reserve() -> Resource {
 		std::lock_guard lock(m_IndexMutex);
 
@@ -210,6 +221,10 @@ namespace aby::rhi {
 		m_Resources[idx] = obj;
 		m_ResourceStates[idx].store(EResourceState::loaded, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
+
+		for (auto* plugin : m_Plugins) {
+			plugin->on_resource_loaded(resource.id(), resource.type());
+		}
 	}
 
 	template <typename T, EResource ResourceType>
@@ -220,6 +235,10 @@ namespace aby::rhi {
 		m_Resources[idx] = new T(std::forward<Args>(args)...);
 		m_ResourceStates[idx].store(EResourceState::loaded, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
+
+		for (auto* plugin : m_Plugins) {
+			plugin->on_resource_loaded(resource.id(), resource.type());
+		}
 	}
 
 	template <typename T, EResource ResourceType>
@@ -233,6 +252,10 @@ namespace aby::rhi {
 
 		std::lock_guard lock(m_IndexMutex);
 		m_FreeIDs.push(resource.id());
+
+		for (auto* plugin : m_Plugins) {
+			plugin->on_resource_unloaded(resource.id(), resource.type());
+		}
 	}
 
 	template <typename T, EResource ResourceType>
@@ -240,6 +263,12 @@ namespace aby::rhi {
 		auto idx = static_cast<size_t>(resource.id());
 		m_ResourceStates[idx].store(EResourceState::failed, std::memory_order_release);
 		m_ResourceStates[idx].notify_all();
+		for (auto* plugin : m_Plugins) {
+			if (!plugin->on_resource_failed(resource.id(), resource.type())) {
+				std::println("failed to load resource: [id: {}, type: {}]", resource.id(), resource.type());
+				ABY_RHI_DEBUG_BREAK();
+			}
+		}
 	}
 
 	template <typename T, EResource ResourceType>

@@ -31,8 +31,7 @@ struct MouseMoved {
 } s_MouseMoved;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	auto* ren = reinterpret_cast<aby::rhi::Renderer*>(
-	    GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	auto* ren = reinterpret_cast<aby::rhi::Renderer*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (msg) {
 		case WM_MOUSEMOVE: {
@@ -149,7 +148,7 @@ int main(int argc, char** argv) {
 	    .add_uniform("mvp", 0, EShader::vert)
 	    .add_uniform("texs", 1, EShader::vert)
 	    .add_vertex_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
-	    .add_push_constant("pc", sizeof(TestPushConstant))
+	    .add_push_constant<TestPushConstant>("pc")
 	    .set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	    .set_polygon_mode(EPolygonMode::fill, 1.f)
