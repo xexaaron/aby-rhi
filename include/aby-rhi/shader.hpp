@@ -34,7 +34,7 @@ namespace aby::rhi {
          * @param .frag Fragment shader
          * @param .comp Compute shader
         */
-		static auto create(const fs::path& rel_path) -> Resource;
+		static auto create(const fs::path& rel_path) -> ResourcePtr<Shader, EResource::shader>;
 		virtual ~Shader() = default;
 
 		virtual auto data() -> std::span<uint32_t> = 0;

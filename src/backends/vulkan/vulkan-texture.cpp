@@ -24,33 +24,25 @@ namespace aby::rhi::vulkan::detail {
 	}
 
 	constexpr auto uint_to_u8(uint16_t value) -> uint8_t {
-		return static_cast<uint8_t>(
-		    (static_cast<uint32_t>(value) * 255u) / 65535u);
+		return static_cast<uint8_t>((static_cast<uint32_t>(value) * 255u) / 65535u);
 	}
 
 	constexpr auto uint_to_u8(uint32_t value) -> uint8_t {
-		return static_cast<uint8_t>(
-		    (static_cast<uint64_t>(value) * 255ull) / 4294967295ull);
+		return static_cast<uint8_t>((static_cast<uint64_t>(value) * 255ull) / 4294967295ull);
 	}
 
 	constexpr auto sint_to_u8(int8_t value) -> uint8_t {
-		const auto normalized =
-		    std::clamp(static_cast<float>(value) / 127.0f, -1.0f, 1.0f);
-
+		const auto normalized = std::clamp(static_cast<float>(value) / 127.0f, -1.0f, 1.0f);
 		return snorm_to_u8(normalized);
 	}
 
 	constexpr auto sint_to_u8(int16_t value) -> uint8_t {
-		const auto normalized =
-		    std::clamp(static_cast<float>(value) / 32767.0f, -1.0f, 1.0f);
-
+		const auto normalized = std::clamp(static_cast<float>(value) / 32767.0f, -1.0f, 1.0f);
 		return snorm_to_u8(normalized);
 	}
 
 	constexpr auto sint_to_u8(int32_t value) -> uint8_t {
-		const auto normalized =
-		    std::clamp(static_cast<float>(value) / 2147483647.0f, -1.0f, 1.0f);
-
+		const auto normalized = std::clamp(static_cast<float>(value) / 2147483647.0f, -1.0f, 1.0f);
 		return snorm_to_u8(normalized);
 	}
 
@@ -77,21 +69,15 @@ namespace aby::rhi::vulkan::detail {
 					--e;
 				} while ((m & 0x0400u) == 0);
 
-				m &= 0x03FFu;
-
-				const uint32_t new_exp =
-				    static_cast<uint32_t>(e + 127);
-
-				result = sign | (new_exp << 23) | (m << 13);
+				m                      &= 0x03FFu;
+				const uint32_t new_exp  = static_cast<uint32_t>(e + 127);
+				result                  = sign | (new_exp << 23) | (m << 13);
 			}
 		} else if (exp == 0x1Fu) {
 			result = sign | 0x7F800000u | (mant << 13);
 		} else {
 			const uint32_t new_exp = exp + (127 - 15);
-
-			result = sign |
-			         (new_exp << 23) |
-			         (mant << 13);
+			result                 = sign | (new_exp << 23) | (mant << 13);
 		}
 
 		float result_float;
@@ -101,13 +87,11 @@ namespace aby::rhi::vulkan::detail {
 	}
 
 	constexpr auto snorm8_to_u8(int8_t value) -> uint8_t {
-		return snorm_to_u8(
-		    std::max(-1.0f, static_cast<float>(value) / 127.0f));
+		return snorm_to_u8(std::max(-1.0f, static_cast<float>(value) / 127.0f));
 	}
 
 	constexpr auto snorm16_to_u8(int16_t value) -> uint8_t {
-		return snorm_to_u8(
-		    std::max(-1.0f, static_cast<float>(value) / 32767.0f));
+		return snorm_to_u8(std::max(-1.0f, static_cast<float>(value) / 32767.0f));
 	}
 
 } // namespace aby::rhi::vulkan::detail
@@ -182,8 +166,8 @@ namespace aby::rhi::vulkan {
 			aby_rhi_err("failed to create image for texture: {}", path.string());
 		}
 
-		auto [filter_mode, sampler_mipmap_mode] = efiltering_to_vkfilter(params.filtering);
-		auto repeat_mode                        = erepeatmode_to_vkrepeatmode(params.repeat_mode);
+		auto [filter_mode, sampler_mipmap_mode] = vkconvert(params.filtering);
+		auto repeat_mode                        = vkconvert(params.repeat_mode);
 
 		vk::Bool32 anisotropy_enable = (params.anisotropy_filtering == 0.f ? vk::False : vk::True);
 		float max_aniostropy         = anisotropy_enable ? std::min<float>(params.anisotropy_filtering, r->max_sampler_anisotropy()) : 1.f;
@@ -345,21 +329,39 @@ namespace aby::rhi::vulkan {
 	auto Texture::read_px(uint32_t x, uint32_t y) -> vec4<uint8_t> {
 		if (bIsRenderTarget) {
 			auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
-			aby_rhi_assert(
-			    m_FrameID == r->frame_index(),
-			    "attempting to read px from a render target but the texture "
-			    "was not synchronized for the current frame");
+			aby_rhi_assert(m_FrameID == r->frame_index(),
+			               "attempting to read px from a render target but the texture "
+			               "was not synchronized for the current frame");
 		}
 
 		const auto width  = m_Image.width();
 		const auto height = m_Image.height();
 
-		aby_rhi_assert(
-		    x < width && y < height,
-		    "texture pixel coordinates out of range: ({}, {}) for {}x{}",
-		    x, y, width, height);
+		aby_rhi_assert(x < width && y < height,
+		               "texture pixel coordinates out of range: ({}, {}) for {}x{}",
+		               x, y, width, height);
 
+		return read_px_unchecked(x, y);
+	}
+
+	auto Texture::read_pxs(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1) -> std::vector<vec4<uint8_t>> {
+		aby_rhi_assert(x0 < x1 && y0 < y1, "pixel range must be non-empty");
+		aby_rhi_assert(x1 <= width() && y1 <= height(), "Pixel range exceeds texture dimensions");
+		std::vector<vec4<uint8_t>> pixels;
+		pixels.reserve((x1 - x0) * (y1 - y0));
+
+		for (uint32_t y = y0; y < y1; ++y) {
+			for (uint32_t x = x0; x < x1; ++x) {
+				pixels.push_back(read_px_unchecked(x, y));
+			}
+		}
+
+		return pixels;
+	}
+
+	auto Texture::read_px_unchecked(uint32_t x, uint32_t y) -> vec4<uint8_t> {
+		const auto width  = m_Image.width();
+		const auto height = m_Image.height();
 		const auto format = m_Image.format();
 
 		vec4<uint8_t> color{ 0, 0, 0, 255 };

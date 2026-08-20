@@ -6,3 +6,5 @@ timings.log
 
 __pycache__
 docs/doxygen/xml
+docs/docs
+docs/site

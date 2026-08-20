@@ -14,36 +14,15 @@ namespace aby::rhi {
 
 	class ShaderCompiler {
 	public:
-		static auto init() -> void {
-			std::call_once(s_InitFlag, [] {
-				s_Options.SetTargetEnvironment(
-				    shaderc_target_env_vulkan,
-				    shaderc_env_version_vulkan_1_4);
-
-				s_Options.SetOptimizationLevel(
-				    shaderc_optimization_level_performance);
-			});
-		}
-
-		static auto compile(const char* source_text, size_t source_text_len, shaderc_shader_kind shader_kind, const char* input_file_name, std::vector<uint32_t>* out_data) -> bool {
-			init();
-
-			auto module = s_Compiler.CompileGlslToSpv(source_text, source_text_len, shader_kind, input_file_name, s_Options);
-			if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
-				Context::get().logger()->log(ELogLevel::error, module.GetErrorMessage());
-				return false;
-			}
-
-			out_data->assign(module.cbegin(), module.cend());
-			return true;
-		}
+		static auto init() -> void;
+		static auto compile(const char* source_text, size_t source_text_len, shaderc_shader_kind shader_kind, const char* input_file_name, std::vector<uint32_t>* out_data) -> bool;
 	private:
 		static inline shaderc::Compiler s_Compiler;
 		static inline shaderc::CompileOptions s_Options;
 		static inline std::once_flag s_InitFlag;
 	};
 
-	auto Shader::create(const fs::path& rel_path) -> Resource {
+	auto Shader::create(const fs::path& rel_path) -> ResourcePtr<Shader, EResource::shader> {
 		aby_rhi_assert(Context::get().job_sys(), "context was not initialized");
 		// Officially we do not support using precompiled shaders here.
 		// We want to cache them ourselves.
@@ -55,9 +34,9 @@ namespace aby::rhi {
 		auto* jobs    = ctx.job_sys();
 		auto& shaders = ctx.shaders();
 
-		if (!fs::exists(io->cwd() / rel_path)) {
-			aby_rhi_err("file does not exist: {}", (io->cwd() / rel_path).string());
-			return Resource();
+		if (!io->exists(rel_path)) {
+			aby_rhi_err("file does not exist: {}", io->path(rel_path).string());
+			return nullptr;
 		}
 
 		auto [name, ext, is_compiled] = get_path_data(rel_path);
@@ -66,10 +45,10 @@ namespace aby::rhi {
 		if (type == EShader::none) {
 			aby_rhi_err("unsupported shader extension type: {}", ext.string());
 			aby_rhi_err("expected one of [.vert, .frag, .comp, .geom]");
-			return Resource();
+			return nullptr;
 		}
 
-		bool is_cached     = is_cached_shader(io->cache_dir() / rel_path);
+		bool is_cached     = is_cached_shader(io->cache_path(rel_path));
 		fs::path read_path = rel_path;
 		auto resource      = shaders.reserve();
 
@@ -109,6 +88,9 @@ namespace aby::rhi {
 					auto cache_dir = io->cache_dir();
 
 					jobs->add_job(EJobPriority::low, [cache_dir, rel_path, write_data = shader->data()]() {
+						// Not using the regular io due to multithreaded concerns
+						// We are also not using the methods for out_path as cache_path because
+						// we are creating a different IFileIO object.
 						DefaultFileIO io;
 						fs::path out_path = cache_dir / (rel_path.string() + ".spv");
 						io.write(out_path, write_data);
@@ -119,30 +101,32 @@ namespace aby::rhi {
 					aby_rhi_dbg("compiled shader: {}", name);
 				});
 
-				return resource;
+				aby_rhi_dbg("loaded shader: {} (type: {}, id: {}) (not cached)", rel_path.string(), type, resource.id());
+				return create_resource(resource, shaders);
 			}
 		}
 
-		read_path = io->cache_dir() / rel_path.string().append(".spv");
+		read_path = io->cache_path(rel_path, ".spv");
 
 		std::vector<uint32_t> data;
 		if (!io->read(read_path, &data)) {
 			aby_rhi_err("failed to read shader file: {}", read_path.string());
-			return Resource();
+			return nullptr;
 		}
 
 		switch (ctx.renderer_backend()) {
 			case ERenderer::vulkan: {
 				auto* shader = new vulkan::Shader(type, std::move(data));
 				shaders.add(resource, shader);
-				return resource;
+				aby_rhi_dbg("loaded shader: {} (type: {}, id: {}) (cached)", rel_path.string(), type, resource.id());
+				return create_resource(resource, shaders);
 			}
 			default:
 				aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
 		}
 
 		aby_rhi_err("failed to create shader: {}", rel_path.string());
-		return Resource();
+		return nullptr;
 	}
 
 	auto Shader::ext_to_eshader(const fs::path& ext) -> EShader {
@@ -157,42 +141,20 @@ namespace aby::rhi {
 		return EShader::none;
 	}
 
-	auto eshader_to_shaderc(EShader type) -> shaderc_shader_kind {
-		switch (type) {
-			case EShader::vert:
-				return shaderc_vertex_shader;
-				break;
-			case EShader::frag:
-				return shaderc_fragment_shader;
-				break;
-			case EShader::comp:
-				return shaderc_compute_shader;
-				break;
-			case EShader::geom:
-				return shaderc_geometry_shader;
-				break;
-			default:
-				return shaderc_glsl_infer_from_source;
-		}
-		return shaderc_glsl_infer_from_source;
-	}
-
 	auto Shader::get_path_data(const fs::path& rel_path) -> PathData {
-		bool is_compiled = rel_path.extension() == ".spv";
-		fs::path ext     = is_compiled ? rel_path.stem().extension() : rel_path.extension();
-		std::string name = is_compiled ? rel_path.stem().filename().replace_extension("").string() : rel_path.filename().replace_extension("").string();
+		const bool is_compiled = rel_path.extension() == ".spv";
+		const auto path        = is_compiled ? rel_path.stem() : rel_path;
 
 		return PathData{
-			.name        = name,
-			.ext         = ext,
+			.name        = path.stem().string(),
+			.ext         = path.extension(),
 			.is_compiled = is_compiled
 		};
 	}
 
 	auto Shader::is_cached_shader(fs::path rel_path) -> bool {
-		auto cache_dir = Context::get().file_io()->cache_dir();
-		fs::path path  = cache_dir / rel_path.string().append(".spv");
-		return fs::exists(path);
+		auto* io = Context::get().file_io();
+		return io->cache_path_exists(rel_path, ".spv");
 	}
 
 	auto Shader::size_of_glsl_type(const std::string& glsl_type) -> size_t {
@@ -221,6 +183,54 @@ namespace aby::rhi {
 		if (glsl_type == "mat4") return sizeof(float) * 16;
 
 		return 0;
+	}
+
+} // namespace aby::rhi
+
+namespace aby::rhi {
+
+	auto eshader_to_shaderc(EShader type) -> shaderc_shader_kind {
+		switch (type) {
+			case EShader::vert:
+				return shaderc_vertex_shader;
+				break;
+			case EShader::frag:
+				return shaderc_fragment_shader;
+				break;
+			case EShader::comp:
+				return shaderc_compute_shader;
+				break;
+			case EShader::geom:
+				return shaderc_geometry_shader;
+				break;
+			default:
+				return shaderc_glsl_infer_from_source;
+		}
+		return shaderc_glsl_infer_from_source;
+	}
+
+	auto ShaderCompiler::init() -> void {
+		std::call_once(s_InitFlag, [] {
+			s_Options.SetTargetEnvironment(
+			    shaderc_target_env_vulkan,
+			    shaderc_env_version_vulkan_1_4);
+
+			s_Options.SetOptimizationLevel(
+			    shaderc_optimization_level_performance);
+		});
+	}
+
+	auto ShaderCompiler::compile(const char* source_text, size_t source_text_len, shaderc_shader_kind shader_kind, const char* input_file_name, std::vector<uint32_t>* out_data) -> bool {
+		init();
+
+		auto module = s_Compiler.CompileGlslToSpv(source_text, source_text_len, shader_kind, input_file_name, s_Options);
+		if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
+			Context::get().logger()->log(ELogLevel::error, module.GetErrorMessage());
+			return false;
+		}
+
+		out_data->assign(module.cbegin(), module.cend());
+		return true;
 	}
 
 } // namespace aby::rhi

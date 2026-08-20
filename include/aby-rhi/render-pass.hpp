@@ -154,7 +154,7 @@ namespace aby::rhi {
 
 		/// @brief The render pass will own the created shader
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                   = 0;
-		virtual auto add_shader(Resource shader) -> RenderPassBuilder&                                            = 0;
+		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                           = 0;
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;
 		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& = 0;
 

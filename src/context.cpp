@@ -37,6 +37,11 @@ namespace aby::rhi {
 	auto Context::deinit() -> void {
 		if (m_JobSystem) delete m_JobSystem;
 		{
+			aby_rhi_profile("resource deinitialization");
+			m_Textures.clear();
+			m_Shaders.clear();
+		}
+		{
 			aby_rhi_profile("context renderer deinitialization");
 			m_Renderer->deinit();
 			if (m_Renderer) delete m_Renderer;

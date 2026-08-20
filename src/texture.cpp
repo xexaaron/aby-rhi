@@ -18,22 +18,15 @@ namespace aby::rhi {
 					auto& texs = Context::get().textures();
 					auto tex   = new vulkan::Texture(resource.id(), rel_path, params);
 					auto* r    = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
-					r->gc().push([p = tex] {
-						if (p) {
-							p->destroy();
-						}
-					});
-
 					texs.add(resource, tex);
 				});
 
-				return ResourcePtr<Texture, EResource::texture>(resource.id(), &Context::get().textures());
+				return create_resource(resource, Context::get().textures());
 			}
 			default:
 				aby_rhi_assert(false, "unimplemented renderer backend");
 		}
-		return ResourcePtr<Texture, EResource::texture>();
+		return nullptr;
 	}
 
 	auto Texture::create_render_target(uint8_t channels, EAntiAliasing aliasing) -> ResourcePtr<Texture, EResource::texture> {
@@ -66,13 +59,6 @@ namespace aby::rhi {
 					}
 
 					auto tex = new vulkan::Texture(resource.id(), r->width(), r->height(), channels, samples);
-
-					r->gc().push([p = tex] {
-						if (p) {
-							p->destroy();
-						}
-					});
-
 					texs.add(resource, tex);
 				});
 

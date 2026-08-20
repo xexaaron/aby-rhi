@@ -10,7 +10,7 @@ namespace aby::rhi::vulkan {
 
 	RenderPass::RenderPass(
 	    std::unique_ptr<Pipeline> pipeline,
-	    const std::vector<Resource>& shaders,
+	    const std::vector<ShaderPtr>& shaders,
 	    const std::unordered_map<std::string, Uniform>& uniforms,
 	    const std::vector<rhi::Texture*>& color_attachments,
 	    const std::vector<rhi::Texture*>& resolve_attachments,
@@ -146,9 +146,6 @@ namespace aby::rhi::vulkan {
 
 	auto RenderPass::destroy() -> void {
 		auto& shaders = Context::get().shaders();
-		for (Resource shader : m_Shaders) {
-			shaders.remove(shader);
-		}
 		for (auto& cmd : m_Commands) {
 			cmd.vbuff()->destroy();
 			cmd.ibuff()->destroy();
@@ -212,6 +209,8 @@ namespace aby::rhi::vulkan {
 		auto* r                = static_cast<vulkan::Renderer*>(ctx.renderer());
 		auto& shader_container = ctx.shaders();
 
+		aby_rhi_assert(!m_ColorAttachments.empty(), "the render pass builder must have atleast one color attachment. either create one or call use_default_attachments_formats()");
+
 		if (!m_VIDB.inputs().empty()) {
 			m_VertexInputBindings.push_back(vk::VertexInputBindingDescription(
 			    0, /* binding */
@@ -222,7 +221,7 @@ namespace aby::rhi::vulkan {
 
 			for (size_t i = 0; i < inputs.size(); i++) {
 				auto& input       = inputs[i];
-				vk::Format format = eformat_to_vkformat(input.format);
+				vk::Format format = vkconvert(input.format);
 				m_VertexAttributes.push_back(vk::VertexInputAttributeDescription(
 				    i, /* location */
 				    0, /* binding */
@@ -231,15 +230,10 @@ namespace aby::rhi::vulkan {
 			}
 		}
 
-		for (Resource shader : m_Shaders) {
-			if (!shader_container.wait_for(shader)) {
-				aby_rhi_err("failed to wait for shader: {}", shader.id());
-				return nullptr;
-			}
-
-			auto* s = static_cast<vulkan::Shader*>(shader_container[shader]);
+		for (ShaderPtr shader : m_Shaders) {
+			auto* s = static_cast<vulkan::Shader*>(shader.get());
 			if (!s) {
-				aby_rhi_err("failed to retrieve shader: {}", shader.id());
+				aby_rhi_err("failed to load/retrieve shader: {}", shader.id());
 				return nullptr;
 			}
 
@@ -501,14 +495,14 @@ namespace aby::rhi::vulkan {
 		return add_shader(shader);
 	}
 
-	auto RenderPassBuilder::add_shader(Resource shader) -> RenderPassBuilder& {
+	auto RenderPassBuilder::add_shader(ShaderPtr shader) -> RenderPassBuilder& {
 		aby_rhi_assert(shader.type() == EResource::shader, "attempted to add a shader resource that is not of type EResource::shader");
 		m_Shaders.push_back(shader);
 		return *this;
 	}
 
 	auto RenderPassBuilder::add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& {
-		vk::ShaderStageFlags stage_flags = eshader_to_vkshader(stage);
+		vk::ShaderStageFlags stage_flags = vkconvert(stage);
 
 		m_UniformBindings[std::string(name)] = vk::DescriptorSetLayoutBinding(
 		    binding,
@@ -536,7 +530,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_topology(ETopology topology) -> RenderPassBuilder& {
-		vk::PrimitiveTopology t = etopology_to_vktopology(topology);
+		vk::PrimitiveTopology t = vkconvert(topology);
 
 		m_InputAssembly.setTopology(t);
 		m_InputAssembly.setPrimitiveRestartEnable(vk::False);
@@ -544,7 +538,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& {
-		vk::PolygonMode m = epolygonmode_to_vkpolygonmode(mode);
+		vk::PolygonMode m = vkconvert(mode);
 
 		m_Rasterizer.setPolygonMode(m);
 		m_Rasterizer.setLineWidth(line_width);
@@ -552,8 +546,8 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder& {
-		vk::CullModeFlags m = ecullmode_to_vkcullmode(mode);
-		vk::FrontFace f     = efrontface_to_vkfrontface(front_face);
+		vk::CullModeFlags m = vkconvert(mode);
+		vk::FrontFace f     = vkconvert(front_face);
 
 		m_Rasterizer.setCullMode(m);
 		m_Rasterizer.setFrontFace(f);
@@ -561,12 +555,12 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_depth_format(EFormat format) -> RenderPassBuilder& {
-		m_RenderInfo.setDepthAttachmentFormat(eformat_to_vkformat(format));
+		m_RenderInfo.setDepthAttachmentFormat(vkconvert(format));
 		return *this;
 	}
 
 	auto RenderPassBuilder::set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& {
-		vk::CompareOp op = ecompareop_to_vkcompareop(compare_op);
+		vk::CompareOp op = vkconvert(compare_op);
 
 		m_DepthStencil.setDepthTestEnable(enable_test);
 		m_DepthStencil.setDepthWriteEnable(enable_write);
@@ -577,7 +571,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder& {
-		vk::CompareOp op = ecompareop_to_vkcompareop(compare_op);
+		vk::CompareOp op = vkconvert(compare_op);
 
 		vk::StencilOpState op_state(
 		    vk::StencilOp::eKeep, /* fail op*/
@@ -595,9 +589,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_blend_color(bool enable, Blend blend, size_t attachment) -> RenderPassBuilder& {
-		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
-		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
-		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
+		vk::BlendOp op                   = vkconvert(blend.op);
+		vk::BlendFactor src_blend_factor = vkconvert(blend.src);
+		vk::BlendFactor dst_blend_factor = vkconvert(blend.dst);
 
 		if ((attachment + 1) > m_ColorBlendAttachments.size()) {
 			m_ColorBlendAttachments.resize(attachment + 1);
@@ -611,9 +605,9 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto RenderPassBuilder::set_blend_alpha(Blend blend, size_t attachment) -> RenderPassBuilder& {
-		vk::BlendOp op                   = eblendop_to_vkblendop(blend.op);
-		vk::BlendFactor src_blend_factor = eblendfactor_to_vkblendfactor(blend.src);
-		vk::BlendFactor dst_blend_factor = eblendfactor_to_vkblendfactor(blend.dst);
+		vk::BlendOp op                   = vkconvert(blend.op);
+		vk::BlendFactor src_blend_factor = vkconvert(blend.src);
+		vk::BlendFactor dst_blend_factor = vkconvert(blend.dst);
 
 		if ((attachment + 1) > m_ColorBlendAttachments.size()) {
 			m_ColorBlendAttachments.resize(attachment + 1);

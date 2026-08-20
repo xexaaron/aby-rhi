@@ -49,6 +49,11 @@ namespace aby::rhi {
 		~ResourceContainer();
 
 		/**
+		 * @brief Clear the container and delete all resources, destroying them in the process. 
+		 */
+		auto clear() -> void;
+
+		/**
 		 * @brief Reserve a resource slot in the container. This resource can be passed around before the creation
 		 *        of the actual data.
 		 * @return A resource handle that can later be passed to add/emplace.
@@ -161,8 +166,22 @@ namespace aby::rhi {
 
 	template <typename T, EResource ResourceType>
 	ResourceContainer<T, ResourceType>::~ResourceContainer() {
+		clear();
+	}
+
+	template <typename T, EResource ResourceType>
+	auto ResourceContainer<T, ResourceType>::clear() -> void {
+		std::lock_guard lock_guard(m_IndexMutex);
+
 		for (auto* resource : m_Resources) {
 			delete resource;
+		}
+
+		m_Resources.clear();
+		m_ResourceStates.clear();
+
+		while (!m_FreeIDs.empty()) {
+			m_FreeIDs.pop();
 		}
 	}
 

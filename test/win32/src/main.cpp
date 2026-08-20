@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
 
 	auto rpsb = RenderPassBuilder::create();
 	rpsb->add_shader("test_vertex.vert")
-	    .add_shader("test_frag.frag")
+	    .add_shader(Shader::create("test_frag.frag"))
 	    .add_uniform("mvp", 0, EShader::vert)
 	    .add_uniform("texs", 1, EShader::vert)
 	    .vertex_description_builder()
@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
 	tex_roughness = Texture::create("cobblestone_pavement_2k/Cobblestone_Roughness_2K.png", texture_params);
 	tex_orm       = Texture::create("cobblestone_pavement_2k/Cobblestone_ORM_2K.png", texture_params);
 
-	vbuff = VertexBuffer::create(100, sizeof(Vertex));
+	vbuff = VertexBuffer::create<Vertex>(100);
 	ibuff = IndexBuffer::create(60);
 
 	Vertex vertices[] = {
@@ -234,14 +234,9 @@ int main(int argc, char** argv) {
 		20, 21, 22, 22, 23, 20  // Bottom
 	};
 
-	for (size_t i = 0; i < std::size(vertices); i++) {
-		vbuff->push(&vertices[i]);
-	}
+	vbuff->push(vertices);
+	ibuff->push(indices);
 	vbuff->upload();
-
-	for (size_t i = 0; i < std::size(indices); i++) {
-		ibuff->push(indices[i]);
-	}
 	ibuff->upload();
 
 	material = Material{
@@ -282,7 +277,7 @@ int main(int argc, char** argv) {
 
 	tex_red->resize(256, 256);
 	tex_red->write("red_2.png");
-	
+
 	while (running) {
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {

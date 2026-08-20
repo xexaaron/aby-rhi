@@ -2,6 +2,7 @@
 #include "backends/vulkan/vulkan-buffer.hpp"
 #include "backends/vulkan/vulkan-descriptors.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
+#include "backends/vulkan/vulkan-shader.hpp"
 #include "render-pass.hpp"
 #include "resource.hpp"
 
@@ -19,7 +20,7 @@ namespace aby::rhi::vulkan {
 	class RenderPass : public rhi::RenderPass {
 	public:
 		RenderPass(std::unique_ptr<Pipeline> pipeline,
-		           const std::vector<Resource>& shaders,
+		           const std::vector<ShaderPtr>& shaders,
 		           const std::unordered_map<std::string, Uniform>& uniforms,
 		           const std::vector<rhi::Texture*>& color_attachments,
 		           const std::vector<rhi::Texture*>& resolve_attachments,
@@ -45,7 +46,7 @@ namespace aby::rhi::vulkan {
 		vk::PipelineBindPoint m_BindPoint;
 		vk::CommandBuffer m_Cmd;
 		std::unique_ptr<Pipeline> m_Pipeline;
-		std::vector<Resource> m_Shaders;
+		std::vector<ShaderPtr> m_Shaders;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
 		std::vector<rhi::Texture*> m_ColorAttachments;
 		std::vector<rhi::Texture*> m_ResolveAttachments;
@@ -60,7 +61,7 @@ namespace aby::rhi::vulkan {
 		auto clear() -> void override;
 
 		auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
-		auto add_shader(Resource shader) -> RenderPassBuilder& override;
+		auto add_shader(ShaderPtr shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
 		auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& override;
 
@@ -90,7 +91,7 @@ namespace aby::rhi::vulkan {
 		vk::PipelineDepthStencilStateCreateInfo m_DepthStencil;
 		vk::PipelineRenderingCreateInfo m_RenderInfo;
 		vk::SampleCountFlagBits m_SampleCount;
-		std::vector<Resource> m_Shaders;
+		std::vector<ShaderPtr> m_Shaders;
 		std::vector<vk::VertexInputBindingDescription> m_VertexInputBindings;
 		std::vector<vk::VertexInputAttributeDescription> m_VertexAttributes;
 		std::vector<vk::PipelineShaderStageCreateInfo> m_ShaderStages;

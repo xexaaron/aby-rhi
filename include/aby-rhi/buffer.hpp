@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <memory>
+#include <ranges>
 #include <vector>
 
 namespace aby::rhi {
@@ -57,11 +58,20 @@ namespace aby::rhi {
 	class VertexBuffer : public Buffer {
 	public:
 		/**
-         * @brief Create a vertex buffer
-         * @param size The desired vertex count of the buffer
+         * @brief Create a vertex buffer.
+         * @param size The desired vertex count of the buffer.
          * @param stride The byte size of each vertex in the buffer.
         */
 		static auto create(size_t size, size_t stride) -> std::shared_ptr<VertexBuffer>;
+		/**
+		 * @brief Create a vertex buffer.
+		 * @tparam T the type of the vertex.
+		 * @param size The desired vertex count of the buffer.
+		 */
+		template <typename T>
+		static auto create(size_t size) -> std::shared_ptr<VertexBuffer> {
+			return create(size, sizeof(T));
+		}
 		/**
          * @brief VertexBuffer constructor
          * @param size The desired vertex count of the buffer
@@ -80,7 +90,31 @@ namespace aby::rhi {
          * @brief Push a vertex into the cpu buffer
          * @param v A vertex pointer matching the stride set by the constructor.
         */
-		auto push(void* v) -> void;
+		auto push(const void* vertex) -> void;
+		/**
+		 * @brief Push a vertex into the CPU buffer.
+		 * @tparam T Vertex type. (must match the stride set by the constructor)
+		 * @param vertex The vertex to push.
+		*/
+		template <typename T>
+		auto push(const T& vertex) -> void {
+			push(&vertex);
+		}
+		/**
+		 * @brief Push an array of vertices into the cp u buffer
+		 * @param vertices an array of vertices
+		 * @param count the number of vertices in the array
+		 */
+		auto push(const void* vertices, size_t count) -> void;
+		/**
+		 * @brief Push a range of vertices into the CPU buffer.
+		 * @tparam Range a contiguous range of vertices.
+		 * @param range the range of vertices to push.
+		 */
+		template <std::ranges::contiguous_range Range>
+		auto push(const Range& range) -> void {
+			push(std::ranges::data(range), std::ranges::size(range));
+		}
 	private:
 	};
 
@@ -109,6 +143,20 @@ namespace aby::rhi {
          * @param index An index
         */
 		auto push(uint32_t index) -> void;
+		/**
+		 * @brief Push an array of indices into the cpu buffer
+		 * @param indices an view of indices
+		 */
+		auto push(std::span<const uint32_t> indices) -> void;
+		/**
+		 * @brief Push a range of indices into the cpu buffer
+		 * @param Range a contiguous range of vertices
+		 * @param indices the range of indices to push.
+		 */
+		template <std::ranges::contiguous_range Range>
+		auto push(const Range& indices) -> void {
+			push(std::span<const uint32_t>(std::ranges::data(indices), std::ranges::size(indices)));
+		}
 	private:
 	};
 

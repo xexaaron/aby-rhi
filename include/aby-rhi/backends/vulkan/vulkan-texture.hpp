@@ -19,6 +19,7 @@ namespace aby::rhi::vulkan {
 
 		auto sync() -> void override;
 		auto read_px(uint32_t x, uint32_t y) -> vec4<uint8_t> override;
+		auto read_pxs(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1) -> std::vector<vec4<uint8_t>> override;
 		auto resize(uint32_t w, uint32_t h) -> void override;
 		auto write(const fs::path& rel_path) -> void override;
 
@@ -34,6 +35,7 @@ namespace aby::rhi::vulkan {
 		auto is_render_target() const -> bool;
 	private:
 		auto load(const fs::path& path, uint32_t* out_width, uint32_t* out_height) -> bool;
+		auto read_px_unchecked(uint32_t x, uint32_t y) -> vec4<uint8_t>;
 	private:
 		uint32_t m_ID;
 		uint32_t m_Channels;

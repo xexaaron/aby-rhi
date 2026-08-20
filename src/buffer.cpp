@@ -55,12 +55,21 @@ namespace aby::rhi {
 	    Buffer(size, stride) {
 	}
 
-	auto VertexBuffer::push(void* v) -> void {
-		aby_rhi_assert(used_bytes() + m_Stride <= capacity_bytes(),
+	auto VertexBuffer::push(const void* vertex) -> void {
+		push(vertex, 1);
+	}
+
+	auto VertexBuffer::push(const void* vertices, size_t count) -> void {
+		aby_rhi_assert(count > 0, "Vertex buffer expects a count greater than 0 to be pushed into it");
+
+		const auto bytes = m_Stride * count;
+
+		aby_rhi_assert(used_bytes() + bytes <= capacity_bytes(),
 		               "VertexBuffer is full: {} + {} <= {}",
-		               used_bytes(), m_Stride, capacity_bytes());
-		std::memcpy(m_Data + (m_Count * m_Stride), v, m_Stride);
-		m_Count++;
+		               used_bytes(), bytes, capacity_bytes());
+
+		std::memcpy(m_Data + used_bytes(), vertices, bytes);
+		m_Count += count;
 	}
 
 	auto IndexBuffer::create(size_t size) -> std::shared_ptr<IndexBuffer> {
@@ -90,6 +99,13 @@ namespace aby::rhi {
 		aby_rhi_assert(used_bytes() + sizeof(uint32_t) <= capacity_bytes(), "VertexBuffer out of range");
 		std::memcpy(m_Data + (m_Count * sizeof(uint32_t)), &index, sizeof(uint32_t));
 		m_Count++;
+	}
+
+	auto IndexBuffer::push(std::span<const uint32_t> indices) -> void {
+		const auto bytes = indices.size_bytes();
+		aby_rhi_assert(used_bytes() + bytes <= capacity_bytes(), "IndexBuffer out of range");
+		std::memcpy(m_Data + used_bytes(), indices.data(), bytes);
+		m_Count += indices.size();
 	}
 
 } // namespace aby::rhi
