@@ -17,8 +17,8 @@ namespace aby::rhi::vulkan {
 
 		auto clear() -> void;
 		auto copy_to(vk::Buffer dst, size_t bytes) -> bool;
-		auto write(void* data, size_t bytes) -> void;
-		auto read(std::vector<uint8_t>* out_data) -> void; 
+		auto write(const void* data, size_t bytes) -> void;
+		auto read(std::vector<uint8_t>* out_data) -> void;
 		auto allocation() -> VmaAllocation;
 		auto allocation_info() -> VmaAllocationInfo;
 		auto destroy() -> void;

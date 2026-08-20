@@ -17,16 +17,23 @@ namespace aby::rhi::vulkan {
 		vulkan::Buffer buffer;
 	};
 
+	struct PushConstant {
+		size_t size;
+		size_t offset;
+	};
+
 	class RenderPass : public rhi::RenderPass {
 	public:
 		RenderPass(std::unique_ptr<Pipeline> pipeline,
 		           const std::vector<ShaderPtr>& shaders,
 		           const std::unordered_map<std::string, Uniform>& uniforms,
+		           const std::unordered_map<std::string, PushConstant>& push_constants,
 		           const std::vector<rhi::Texture*>& color_attachments,
 		           const std::vector<rhi::Texture*>& resolve_attachments,
 		           rhi::Texture* present_attachment);
 
-		auto set_uniform(std::string_view name, void* data, size_t bytes) -> void override;
+		auto set_uniform(std::string_view name, const void* data, size_t bytes) -> void override;
+		auto push_constant(std::string_view name, const void* data, size_t bytes) -> void override;
 
 		auto bind() -> void override;
 		auto begin() -> void override;
@@ -48,6 +55,7 @@ namespace aby::rhi::vulkan {
 		std::unique_ptr<Pipeline> m_Pipeline;
 		std::vector<ShaderPtr> m_Shaders;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
+		std::unordered_map<std::string, PushConstant> m_PushConstants;
 		std::vector<rhi::Texture*> m_ColorAttachments;
 		std::vector<rhi::Texture*> m_ResolveAttachments;
 		rhi::Texture* m_PresentAttachment;
@@ -56,7 +64,6 @@ namespace aby::rhi::vulkan {
 	class RenderPassBuilder : public rhi::RenderPassBuilder {
 	public:
 		RenderPassBuilder();
-
 		auto build() -> std::shared_ptr<rhi::RenderPass> override;
 		auto clear() -> void override;
 
@@ -64,6 +71,8 @@ namespace aby::rhi::vulkan {
 		auto add_shader(ShaderPtr shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
 		auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& override;
+		auto add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder& override;
+		auto add_vertex_input(size_t bytes, EFormat format, size_t offset) -> RenderPassBuilder& override;
 
 		auto set_topology(ETopology topology) -> RenderPassBuilder& override;
 		auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder& override;
@@ -83,6 +92,8 @@ namespace aby::rhi::vulkan {
 	private:
 		Resource m_PresentAttachment;
 		size_t m_PresentAttachmentIdx;
+		size_t m_VertexStride;
+		size_t m_PushConstantOffset;
 		vk::Format m_ColorAttachmentFormat;
 		vk::PipelineLayout m_PipelineLayout;
 		vk::PipelineInputAssemblyStateCreateInfo m_InputAssembly;
@@ -91,6 +102,7 @@ namespace aby::rhi::vulkan {
 		vk::PipelineDepthStencilStateCreateInfo m_DepthStencil;
 		vk::PipelineRenderingCreateInfo m_RenderInfo;
 		vk::SampleCountFlagBits m_SampleCount;
+		std::vector<VertexInput> m_VertexInputs;
 		std::vector<ShaderPtr> m_Shaders;
 		std::vector<vk::VertexInputBindingDescription> m_VertexInputBindings;
 		std::vector<vk::VertexInputAttributeDescription> m_VertexAttributes;
@@ -102,6 +114,7 @@ namespace aby::rhi::vulkan {
 		std::vector<vk::PipelineColorBlendAttachmentState> m_ColorBlendAttachments;
 		std::unordered_map<std::string, vk::DescriptorSetLayoutBinding> m_UniformBindings;
 		std::unordered_map<std::string, Uniform> m_Uniforms;
+		std::unordered_map<std::string, PushConstant> m_PushConstants;
 	};
 
 } // namespace aby::rhi::vulkan

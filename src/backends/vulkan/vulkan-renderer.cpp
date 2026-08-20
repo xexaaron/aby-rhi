@@ -28,6 +28,11 @@ namespace aby::rhi::vulkan {
 
 		aby_rhi_assert(m_PresentPass, "renderer does not have a present pass");
 
+		for (auto& render_pass : m_RenderPasses) {
+			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
+			render_pass->set_cmd_buffer(m_Frames->cmd());
+		}
+
 		return true;
 	}
 
@@ -35,8 +40,6 @@ namespace aby::rhi::vulkan {
 		auto& [swapchain_img, render_finished_semaphore] = m_SwapchainImages[m_SwapchainImgIndex];
 
 		for (auto& render_pass : m_RenderPasses) {
-			render_pass->set_bind_point(vk::PipelineBindPoint::eGraphics);
-			render_pass->set_cmd_buffer(m_Frames->cmd());
 			render_pass->begin();
 			render_pass->bind();
 			render_pass->set_viewport({ static_cast<float>(m_Width), static_cast<float>(m_Height) });

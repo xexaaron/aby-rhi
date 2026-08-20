@@ -18,11 +18,18 @@ namespace aby::rhi {
 		auto submit(const DrawCmd& cmd) -> void;
 
 		template <typename T>
-		auto set_uniform(std::string_view name, T& obj) -> void {
+		auto set_uniform(std::string_view name, const T& obj) -> void {
 			set_uniform(name, &obj, sizeof(T));
 		}
 
-		virtual auto set_uniform(std::string_view name, void* data, size_t bytes) -> void = 0;
+		virtual auto set_uniform(std::string_view name, const void* data, size_t bytes) -> void = 0;
+
+		template <typename T>
+		auto push_constant(std::string_view name, const T& obj) -> void {
+			push_constant(name, &obj, sizeof(T));
+		}
+
+		virtual auto push_constant(std::string_view name, const void* data, size_t bytes) -> void = 0;
 
 		/// @brief The functions below should not be called by the user. only by the renderer backend.
 		///        these functions must be called during Renderer::on_begin
@@ -63,86 +70,6 @@ namespace aby::rhi {
 		std::vector<DrawCmd> m_Commands;
 	};
 
-	class RenderPassBuilder;
-
-	struct VertexInput {
-		EFormat format;
-		size_t offset;
-	};
-
-	class VertexInputDescriptionBuilder {
-	private:
-		template <typename>
-		struct member_pointer_traits;
-
-		template <typename Class, typename Member>
-		struct member_pointer_traits<Member Class::*> {
-			using class_type  = Class;
-			using member_type = Member;
-		};
-
-		template <typename T, auto Member>
-		static size_t offset_of() {
-			return reinterpret_cast<size_t>(
-			    &(reinterpret_cast<volatile const T*>(0)->*Member));
-		}
-	public:
-		VertexInputDescriptionBuilder(RenderPassBuilder* rpb);
-		/**
-         * @brief add a vertex input
-         * @param bytes The size of the vertex member.
-         * @param format The format of the member (ie. vec2f -> rg_f32)
-         * @param offset The offsetof the member compared to the Vertex structure. 
-        */
-		auto add_input(size_t bytes, EFormat format, size_t offset) -> VertexInputDescriptionBuilder&;
-
-		/**
-         * @brief Add a vertex shader input
-         * @tparam Member in the format: &T::member
-         * @param format The format corresponding to the members layout. (ie. vec2f -> rg_f32)
-         */
-		template <auto Member>
-		requires(std::is_member_object_pointer_v<decltype(Member)>)
-		auto add_input(EFormat format) -> VertexInputDescriptionBuilder& {
-			using traits = member_pointer_traits<decltype(Member)>;
-			using T      = typename traits::class_type;
-			using M      = typename traits::member_type;
-
-			m_Stride += sizeof(M);
-			m_Inputs.emplace_back(format, offset_of<T, Member>());
-
-			return *this;
-		}
-
-		/**
-         * @brief Add vertex shader inputs
-         * @tparam ...Member in the format: &T::member...
-         * @param formats The format(s) corresponding to the members layout. (ie. vec2f -> rg_f32)
-         */
-		template <auto... Member>
-		requires((std::is_member_object_pointer_v<decltype(Member)> && ...))
-		auto add_inputs(std::same_as<EFormat> auto... formats) -> VertexInputDescriptionBuilder& {
-			static_assert(sizeof...(Member) == sizeof...(formats));
-			(add_input<Member>(formats), ...);
-			return *this;
-		}
-
-		auto build() -> RenderPassBuilder*;
-
-		auto inputs() -> std::vector<VertexInput>&;
-		auto stride() -> size_t;
-	private:
-		RenderPassBuilder* m_RPB;
-		std::vector<VertexInput> m_Inputs;
-		size_t m_Stride;
-	};
-
-	struct Blend {
-		EBlendOp op      = EBlendOp::add;
-		EBlendFactor src = EBlendFactor::zero;
-		EBlendFactor dst = EBlendFactor::zero;
-	};
-
 	class RenderPassBuilder {
 	public:
 		static auto create() -> std::unique_ptr<RenderPassBuilder>;
@@ -157,8 +84,44 @@ namespace aby::rhi {
 		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                           = 0;
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;
 		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& = 0;
-
-		auto vertex_description_builder() -> VertexInputDescriptionBuilder&;
+		/**
+		 * @brief Add a push constant to the render pass
+		 * @param name The name to access it by
+		 * @param bytes The size of the push constant
+		 * @note Push constants are globally accessible by all shader stages
+		 */
+		virtual auto add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder&               = 0;
+		/**
+		 * @brief Add a push constant to the render pass
+		 * @tparam T the type of the object to be used for the size of the push constant
+		 * @param name The name to access it by
+		 * @note Push constants are globally accessible by all shader stages
+		 */
+		template <typename T>
+		auto add_push_constant(const std::string& name) -> RenderPassBuilder&;
+		/**
+         * @brief add a vertex input
+         * @param bytes The size of the vertex member.
+         * @param format The format of the member (ie. vec2f -> rg_f32)
+         * @param offset The offsetof the member compared to the Vertex structure. 
+        */
+		virtual auto add_vertex_input(size_t bytes, EFormat format, size_t offset) -> RenderPassBuilder& = 0;
+		/**
+         * @brief Add a vertex shader input
+         * @tparam Member in the format: &T::member
+         * @param format The format corresponding to the members layout. (ie. vec2f -> rg_f32)
+         */
+		template <auto Member>
+		requires(std::is_member_object_pointer_v<decltype(Member)>)
+		auto add_vertex_input(EFormat format) -> RenderPassBuilder&;
+		/**
+         * @brief Add vertex shader inputs
+         * @tparam ...Member in the format: &T::member...
+         * @param formats The format(s) corresponding to the members layout. (ie. vec2f -> rg_f32)
+         */
+		template <auto... Member>
+		requires((std::is_member_object_pointer_v<decltype(Member)> && ...))
+		auto add_vertex_inputs(std::same_as<EFormat> auto... formats) -> RenderPassBuilder&;
 
 		virtual auto set_topology(ETopology topology) -> RenderPassBuilder&                                      = 0;
 		virtual auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder&                 = 0;
@@ -187,8 +150,33 @@ namespace aby::rhi {
 		auto use_default_cull_mode() -> RenderPassBuilder&;
 		/// @brief Renderer determinant
 		virtual auto use_default_attachment_formats() -> RenderPassBuilder& = 0;
-	protected:
-		VertexInputDescriptionBuilder m_VIDB;
 	};
+
+} // namespace aby::rhi
+
+namespace aby::rhi {
+
+	template <typename T>
+	auto RenderPassBuilder::add_push_constant(const std::string& name) -> RenderPassBuilder& {
+		return add_push_constant(name, sizeof(T));
+	}
+
+	template <auto Member>
+	requires(std::is_member_object_pointer_v<decltype(Member)>)
+	auto RenderPassBuilder::add_vertex_input(EFormat format) -> RenderPassBuilder& {
+		using traits = meta::member_pointer_traits<decltype(Member)>;
+		using T      = typename traits::class_type;
+		using M      = typename traits::member_type;
+		add_vertex_input(sizeof(M), format, meta::offset_of<T, Member>());
+		return *this;
+	}
+
+	template <auto... Member>
+	requires((std::is_member_object_pointer_v<decltype(Member)> && ...))
+	auto RenderPassBuilder::add_vertex_inputs(std::same_as<EFormat> auto... formats) -> RenderPassBuilder& {
+		static_assert(sizeof...(Member) == sizeof...(formats));
+		(add_vertex_input<Member>(formats), ...);
+		return *this;
+	}
 
 } // namespace aby::rhi

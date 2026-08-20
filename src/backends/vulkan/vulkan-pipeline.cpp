@@ -30,6 +30,10 @@ namespace aby::rhi::vulkan {
 		);
 	}
 
+	auto Pipeline::layout() -> vk::PipelineLayout {
+		return m_Layout;
+	}
+
 	auto Pipeline::destroy() -> void {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
 		vkDestroyPipelineLayout(r->device(), m_Layout, allocator());

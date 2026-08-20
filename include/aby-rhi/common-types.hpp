@@ -1,4 +1,6 @@
 #pragma once
+#include "common-enums.hpp"
+
 #include <algorithm>
 
 #if defined(_MSC_VER)
@@ -20,6 +22,17 @@
 	ABY_RHI_PACK_POP
 
 namespace aby::rhi {
+
+	struct VertexInput {
+		EFormat format;
+		size_t offset;
+	};
+
+	struct Blend {
+		EBlendOp op      = EBlendOp::add;
+		EBlendFactor src = EBlendFactor::zero;
+		EBlendFactor dst = EBlendFactor::zero;
+	};
 
 	ABY_RHI_PACKED(struct Color {
 		Color(float scalar = 0.f);

@@ -12,6 +12,7 @@ namespace aby::rhi::vulkan {
 		Pipeline(vk::Pipeline pipeline, vk::PipelineLayout layout, const std::vector<vk::DescriptorSet>& sets);
 
 		auto bind(vk::CommandBuffer cmd, vk::PipelineBindPoint point) -> void;
+		auto layout() -> vk::PipelineLayout;
 		auto destroy() -> void;
 
 		explicit operator vk::Pipeline();

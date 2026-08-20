@@ -12,6 +12,7 @@ namespace aby::rhi::vulkan {
 	    std::unique_ptr<Pipeline> pipeline,
 	    const std::vector<ShaderPtr>& shaders,
 	    const std::unordered_map<std::string, Uniform>& uniforms,
+	    const std::unordered_map<std::string, PushConstant>& push_constants,
 	    const std::vector<rhi::Texture*>& color_attachments,
 	    const std::vector<rhi::Texture*>& resolve_attachments,
 	    rhi::Texture* present_attachment) :
@@ -20,6 +21,7 @@ namespace aby::rhi::vulkan {
 	    m_Pipeline(std::move(pipeline)),
 	    m_Shaders(shaders),
 	    m_Uniforms(uniforms),
+	    m_PushConstants(push_constants),
 	    m_ColorAttachments(color_attachments),
 	    m_PresentAttachment(present_attachment),
 	    m_ResolveAttachments(resolve_attachments) {
@@ -28,7 +30,7 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
-	auto RenderPass::set_uniform(std::string_view name, void* data, size_t bytes) -> void {
+	auto RenderPass::set_uniform(std::string_view name, const void* data, size_t bytes) -> void {
 		auto& uniform = m_Uniforms.at(std::string(name));
 
 		if (!uniform.buffer.allocation()) {
@@ -56,6 +58,21 @@ namespace aby::rhi::vulkan {
 		}
 
 		uniform.buffer.write(data, bytes);
+	}
+
+	auto RenderPass::push_constant(std::string_view name, const void* data, size_t bytes) -> void {
+		auto it = m_PushConstants.find(std::string(name));
+		aby_rhi_assert(it != m_PushConstants.end(), "push constant '{}' does not exist", name);
+		auto& push_constant = it->second;
+		aby_rhi_assert(bytes == push_constant.size, "push constant '{}' size mismatch: {} != {}", name, bytes, push_constant.size);
+
+		vkCmdPushConstants(
+		    m_Cmd,
+		    m_Pipeline->layout(),
+		    VK_SHADER_STAGE_ALL,
+		    static_cast<uint32_t>(push_constant.offset),
+		    static_cast<uint32_t>(bytes),
+		    data);
 	}
 
 	auto RenderPass::bind() -> void {
@@ -211,22 +228,19 @@ namespace aby::rhi::vulkan {
 
 		aby_rhi_assert(!m_ColorAttachments.empty(), "the render pass builder must have atleast one color attachment. either create one or call use_default_attachments_formats()");
 
-		if (!m_VIDB.inputs().empty()) {
+		if (!m_VertexInputs.empty()) {
 			m_VertexInputBindings.push_back(vk::VertexInputBindingDescription(
 			    0, /* binding */
-			    m_VIDB.stride(),
+			    m_VertexStride,
 			    vk::VertexInputRate::eVertex));
 
-			auto& inputs = m_VIDB.inputs();
-
-			for (size_t i = 0; i < inputs.size(); i++) {
-				auto& input       = inputs[i];
-				vk::Format format = vkconvert(input.format);
+			for (size_t i = 0; i < m_VertexInputs.size(); i++) {
+				auto& input = m_VertexInputs[i];
 				m_VertexAttributes.push_back(vk::VertexInputAttributeDescription(
 				    i, /* location */
 				    0, /* binding */
-				    format,
-				    inputs[i].offset));
+				    vkconvert(input.format),
+				    input.offset));
 			}
 		}
 
@@ -396,13 +410,21 @@ namespace aby::rhi::vulkan {
 		    m_ColorBlendAttachments.size(),
 		    m_ColorBlendAttachments.data());
 
+		std::vector<vk::PushConstantRange> push_constants;
+		for (auto& [name, push_constant] : m_PushConstants) {
+			vk::PushConstantRange vk_push_constant(
+			    vk::ShaderStageFlagBits::eAll,
+			    push_constant.offset,
+			    push_constant.size);
+			push_constants.push_back(vk_push_constant);
+		}
+
 		vk::PipelineLayoutCreateInfo layout_create_info(
 		    vk::PipelineLayoutCreateFlags(),
 		    m_DescriptorSetLayouts.size(),
 		    m_DescriptorSetLayouts.data(),
-		    0,      /* push constant ranges count */
-		    nullptr /*  push constant ranges      */
-		);
+		    push_constants.size(),
+		    push_constants.data());
 
 		vkassert(vkCreatePipelineLayout(
 		             r->device(),
@@ -461,6 +483,7 @@ namespace aby::rhi::vulkan {
 		    std::make_unique<Pipeline>(pipeline, m_PipelineLayout, m_DescriptorSets),
 		    m_Shaders,
 		    m_Uniforms,
+		    m_PushConstants,
 		    textures,
 		    resolve_attachments,
 		    present);
@@ -477,6 +500,10 @@ namespace aby::rhi::vulkan {
 		m_RenderInfo            = vk::PipelineRenderingCreateInfo();
 		m_SampleCount           = vk::SampleCountFlagBits::e1;
 		m_PresentAttachmentIdx  = SIZE_MAX;
+		m_VertexStride          = 0;
+		m_PushConstantOffset    = 0;
+		m_PushConstants.clear();
+		m_VertexInputs.clear();
 		m_Shaders.clear();
 		m_VertexInputBindings.clear();
 		m_VertexAttributes.clear();
@@ -526,6 +553,21 @@ namespace aby::rhi::vulkan {
 			m_PresentAttachment    = texture;
 			m_PresentAttachmentIdx = m_ColorAttachments.size() - 1;
 		}
+		return *this;
+	}
+
+	auto RenderPassBuilder::add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder& {
+		m_PushConstants[name] = PushConstant{
+			.size   = bytes,
+			.offset = m_PushConstantOffset
+		};
+		m_PushConstantOffset += bytes;
+		return *this;
+	}
+
+	auto RenderPassBuilder::add_vertex_input(size_t bytes, EFormat format, size_t offset) -> RenderPassBuilder& {
+		m_VertexStride += bytes;
+		m_VertexInputs.push_back(VertexInput{ format, offset });
 		return *this;
 	}
 

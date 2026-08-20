@@ -70,15 +70,14 @@ namespace aby::rhi::vulkan {
 		std::memset(m_AllocInfo.pMappedData, 0, m_AllocInfo.size);
 	}
 
-	auto Buffer::write(void* data, size_t bytes) -> void {
+	auto Buffer::write(const void* data, size_t bytes) -> void {
 		std::memcpy(m_AllocInfo.pMappedData, data, bytes);
 	}
 
 	auto Buffer::read(std::vector<uint8_t>* out_data) -> void {
 		uint8_t* bytes = static_cast<uint8_t*>(m_AllocInfo.pMappedData);
 		out_data->assign(bytes, bytes + m_AllocInfo.size);
-	} 
-
+	}
 
 	auto Buffer::copy_to(vk::Buffer dst, size_t bytes) -> bool {
 		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());

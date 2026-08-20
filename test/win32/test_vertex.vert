@@ -21,6 +21,10 @@ layout(set = 1, binding = 1) uniform TEXTURES {
     uint orm;
 } texs;
 
+layout(push_constant) uniform TestPushConstants {
+    vec3 offset;
+} pc;
+
 layout(location = 0) out vec4 outColor;
 layout(location = 1) out vec2 outUV;
 layout(location = 2) flat out uint outAlbedo;
@@ -41,6 +45,7 @@ void main() {
         mvp.model * vec4(inPosition, 1.0);
 
     world_position.xyz += offset;
+    world_position.xyz += pc.offset;
 
     gl_Position =
         mvp.projection *

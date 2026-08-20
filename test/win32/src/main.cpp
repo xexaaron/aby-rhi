@@ -139,15 +139,18 @@ int main(int argc, char** argv) {
 
 	s_ColorAttachment = Texture::create_render_target(4, EAntiAliasing::msaa8x);
 
+	struct TestPushConstant {
+		vec3<float> offset;
+	};
+
 	auto rpsb = RenderPassBuilder::create();
 	rpsb->add_shader("test_vertex.vert")
 	    .add_shader(Shader::create("test_frag.frag"))
 	    .add_uniform("mvp", 0, EShader::vert)
 	    .add_uniform("texs", 1, EShader::vert)
-	    .vertex_description_builder()
-	    /**/.add_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
-	    /**/.build()
-	    ->set_topology(ETopology::triangle_list)
+	    .add_vertex_inputs<&Vertex::pos, &Vertex::uv, &Vertex::color>(EFormat::rgb_f32, EFormat::rg_f32, EFormat::rgba_f32)
+	    .add_push_constant("pc", sizeof(TestPushConstant))
+	    .set_topology(ETopology::triangle_list)
 	    .set_cull_mode(ECullMode::front, EFrontFace::counter_clockwise)
 	    .set_polygon_mode(EPolygonMode::fill, 1.f)
 	    .set_blend_mask(EChannels::rgba, { 0, 1 })
@@ -278,6 +281,12 @@ int main(int argc, char** argv) {
 	tex_red->resize(256, 256);
 	tex_red->write("red_2.png");
 
+	TestPushConstant test_push_constant{
+		.offset = { 0.f, 0.f, 0.f }
+	};
+
+	float time = 0.f;
+
 	while (running) {
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {
@@ -296,9 +305,17 @@ int main(int argc, char** argv) {
 			continue;
 
 		angle += 0.01f;
+		time  += 0.01f;
+
+		test_push_constant.offset = {
+			0.5f * std::sin(time),
+			0.5f * std::sin(time + 2.094f),
+			0.5f * std::sin(time + 4.189f)
+		};
 
 		auto mvp = create_mvp(angle);
 		pass->set_uniform("mvp", mvp);
+		pass->push_constant("pc", test_push_constant);
 		pass->submit(cmd);
 		ren->on_end();
 
