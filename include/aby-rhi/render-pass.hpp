@@ -12,6 +12,10 @@ namespace aby::rhi {
 	/// @brief Use the RenderPassBuilder to construct this.
 	class RenderPass {
 	public:
+		RenderPass()                  = default;
+		RenderPass(const RenderPass&) = delete;
+		RenderPass(RenderPass&&)      = delete;
+
 		/**
          * @brief Submit a draw cmd to be rendered. This must be called each frame.
          * @param cmd The draw command.

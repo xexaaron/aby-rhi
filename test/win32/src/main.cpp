@@ -30,6 +30,9 @@ struct MouseMoved {
 	bool moved;
 } s_MouseMoved;
 
+float s_Width  = 1280.f;
+float s_Height = 720.f;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	auto* ren = reinterpret_cast<aby::rhi::Renderer*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
@@ -42,6 +45,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 			};
 			break;
 		}
+		case WM_SIZE: {
+			s_Width  = LOWORD(lParam);
+			s_Height = HIWORD(lParam);
+			break;
+		}
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
@@ -50,16 +58,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-auto create_mvp(float angle) -> MVP {
+auto create_mvp(float angle, float w, float h) -> MVP {
 	float c = cos(angle);
 	float s = sin(angle);
 
-	constexpr float fov    = 45.0f * 3.1415926f / 180.0f;
-	constexpr float aspect = 1280.0f / 720.0f;
-	constexpr float pnear  = 0.1f;
-	constexpr float pfar   = 100.0f;
+	constexpr float fov   = 45.0f * 3.1415926f / 180.0f;
+	constexpr float pnear = 0.1f;
+	constexpr float pfar  = 100.0f;
 
-	float f = 1.0f / tan(fov / 2.0f);
+	float aspect = w / h;
+	float f      = 1.0f / tan(fov / 2.0f);
 
 	return {
 		.model = {
@@ -105,16 +113,13 @@ int main(int argc, char** argv) {
 
 	RegisterClassA(&wc);
 
-	int width  = 1280;
-	int height = 720;
-
 	window = CreateWindowExA(
 	    0,
 	    wc.lpszClassName,
 	    "Aby RHI",
 	    WS_OVERLAPPEDWINDOW,
 	    CW_USEDEFAULT, CW_USEDEFAULT,
-	    width, height,
+	    s_Width, s_Height,
 	    nullptr,
 	    nullptr,
 	    hInstance,
@@ -251,7 +256,7 @@ int main(int argc, char** argv) {
 	};
 
 	angle     = 0.785398f; // 45 degrees
-	mvp       = create_mvp(angle);
+	mvp       = create_mvp(angle, s_Width, s_Height);
 	auto* ren = ctx.renderer();
 
 	pass = rpsb->build();
@@ -312,7 +317,7 @@ int main(int argc, char** argv) {
 			0.5f * std::sin(time + 4.189f)
 		};
 
-		auto mvp = create_mvp(angle);
+		auto mvp = create_mvp(angle, s_Width, s_Height);
 		pass->set_uniform("mvp", mvp);
 		pass->push_constant("pc", test_push_constant);
 		pass->submit(cmd);

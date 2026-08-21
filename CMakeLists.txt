@@ -9,8 +9,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
 set(VENDOR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
-set(ABY_RHI_INCLUDE_DIR "include/aby-rhi")
-set(ABY_RHI_SRC_DIR "src")
+set(ABY_RHI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/aby-rhi)
+set(ABY_RHI_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 option(ABY_RHI_BUILD_TESTS "build aby-rhi tests for the specific platform" ON)
 option(ABY_RHI_ENABLE_LOG_INFO "enable info logging" ON)
@@ -18,6 +18,7 @@ option(ABY_RHI_ENABLE_LOG_TRACE "enable trace logging" ON)
 option(ABY_RHI_ENABLE_LOG_WARN "enable warning logging" ON)
 option(ABY_RHI_ENABLE_ASSERT "enable assertions. if turned off then only errors will be logged." ON)
 option(ABY_RHI_ENABLE_PROFILING "enable profiling of initialization scopes" OFF)
+option(ABY_RHI_ENABLE_IMGUI "enable the imgui plugin" OFF)
 
 set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FILEPATH "")
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
@@ -38,6 +39,7 @@ set_target_properties(stb_image PROPERTIES
 )
 
 find_package(Vulkan REQUIRED)
+
 
 add_library(${PROJECT_NAME} 
     # User API 
@@ -132,13 +134,28 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     stb_image::stb_image
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${ABY_RHI_INCLUDE_DIR}
-    ${Vulkan_INCLUDE_DIR}
-    ${VENDOR_DIR}/vma/include
-    ${VENDOR_DIR}/shaderc/libshaderc/include
-    ${VENDOR_DIR}/stb_image/include
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${ABY_RHI_INCLUDE_DIR}
+    PRIVATE
+        ${Vulkan_INCLUDE_DIR}
+        ${VENDOR_DIR}/vma/include
+        ${VENDOR_DIR}/shaderc/libshaderc/include
+        ${VENDOR_DIR}/stb_image/include
 )
+
+if (ABY_RHI_ENABLE_IMGUI)
+    if (NOT IMGUI_DIR) 
+        message(FATAL_ERROR "ImGui is enabled but cannot find IMGUI_DIR. This variable needs to be set!")
+    endif()
+    if (NOT IMGUI_LIB)
+        message(FATAL_ERROR "ImGui is enable but cannot find IMGUI_LIB. This variable needs to be set!")
+    endif()
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${IMGUI_LIB})
+    target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_DIR} ${IMGUI_DIR}/backends)
+endif()
+
 
 target_compile_options(${PROJECT_NAME} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:
@@ -158,6 +175,7 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
     ABY_RHI_ENABLE_LOG_WARN=$<BOOL:${ABY_RHI_ENABLE_LOG_WARN}> 
     ABY_RHI_ENABLE_ASSERT=$<BOOL:${ABY_RHI_ENABLE_ASSERT}>
     ABY_RHI_ENABLE_PROFILING=$<BOOL:${ABY_RHI_ENABLE_PROFILING}>
+    ABY_RHI_ENABLE_IMGUI=$<BOOL:${ABY_RHI_ENABLE_IMGUI}>
 )
 
 if (ABY_RHI_BUILD_TESTS)
@@ -167,4 +185,57 @@ endif()
 if(MSVC)
     set_target_properties(vk-bootstrap PROPERTIES FOLDER "dependencies/vk")
     set_target_properties(VulkanMemoryAllocator PROPERTIES FOLDER "dependencies/vk")
+
+    set_target_properties(GenericCodeGen PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(glslang PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(glslang-default-resource-limits PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(MachineIndependent PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(OSDependent PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(SPIRV PROPERTIES FOLDER "dependencies/glslang")
+    set_target_properties(glslang-standalone PROPERTIES FOLDER "dependencies/glslang")
+
+    set_target_properties(spirv-tools-header-DebugInfo PROPERTIES FOLDER "dependencies/spirv/debug")
+    set_target_properties(spirv-tools-header-OpenCLDebugInfo100 PROPERTIES FOLDER "dependencies/spirv/debug")
+    set_target_properties(spirv-tools-cpp-example PROPERTIES FOLDER "dependencies/spirv/examples")
+    set_target_properties(spirv-as PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-cfg PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-diff PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-dis PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-link PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-lint PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-objdump PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-opt PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-reduce PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(spirv-val PROPERTIES FOLDER "dependencies/spirv")
+    set_target_properties(SPIRV-Tools-diff PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-link PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-lint PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-opt PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-reduce PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-shared PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(SPIRV-Tools-static PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(spirv-tools-check-python-types PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(spirv-tools-check-python-tests PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(spirv-tools-pkg-config PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(spirv-tools-tables PROPERTIES FOLDER "dependencies/spirv/tools")
+    set_target_properties(spirv-tools-vimsyntax PROPERTIES FOLDER "dependencies/spirv/tools")
+
+    set_target_properties(glslc PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc_combined PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc_combined-pkg-config PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc_shared PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc_static-pkg-config PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc_util PROPERTIES FOLDER "dependencies/shaderc")
+    set_target_properties(shaderc-pkg-config PROPERTIES FOLDER "dependencies/shaderc")
+    
+    set_target_properties(stb_image PROPERTIES FOLDER "dependencies/stb")
+
+    set_target_properties(add-copyright PROPERTIES FOLDER "dependencies/misc")
+    set_target_properties(build-version PROPERTIES FOLDER "dependencies/misc")
+    set_target_properties(core_tables PROPERTIES FOLDER "dependencies/misc")
+    set_target_properties(extinst_tables PROPERTIES FOLDER "dependencies/misc")
+    set_target_properties(testdata PROPERTIES FOLDER "dependencies/misc")
+
+    set_target_properties(aby-rhi-test-win32 PROPERTIES FOLDER "tests/win32")
 endif()

@@ -31,6 +31,10 @@ namespace aby::rhi {
 
 	class Context {
 	public:
+		Context()               = default;
+		Context(const Context&) = delete;
+		Context(Context&&)      = delete;
+
 		/**
          * @brief Get the static context instance
         */
@@ -94,14 +98,14 @@ namespace aby::rhi {
 			}
 		}
 	private:
-		ILogger* m_Logger;
-		IAllocator* m_Allocator;
-		IFileIO* m_FileIO;
-		IJobSystem* m_JobSystem;
-		Renderer* m_Renderer;
-		ContextParams m_Params;
-		std::vector<Plugin*> m_Plugins;
-		EInitTime m_InitTime = EInitTime::none;
+		ILogger* m_Logger              = nullptr;
+		IAllocator* m_Allocator        = nullptr;
+		IFileIO* m_FileIO              = nullptr;
+		IJobSystem* m_JobSystem        = nullptr;
+		Renderer* m_Renderer           = nullptr;
+		ContextParams m_Params         = {};
+		std::vector<Plugin*> m_Plugins = {};
+		EInitTime m_InitTime           = EInitTime::none;
 		ResourceContainer<Texture, EResource::texture> m_Textures;
 		ResourceContainer<Shader, EResource::shader> m_Shaders;
 	};

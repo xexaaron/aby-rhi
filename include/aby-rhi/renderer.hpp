@@ -11,6 +11,9 @@ namespace aby::rhi {
 
 	class Renderer {
 	public:
+		Renderer()                = default;
+		Renderer(const Renderer&) = delete;
+		Renderer(Renderer&&)      = delete;
 		/**
          * @brief Create a renderer for the backend
          * @param backend a renderer api backend
