@@ -358,7 +358,9 @@ namespace aby::rhi::vulkan {
 			for (size_t i = 0; i < m_ColorAttachments.size(); i++) {
 				auto resource = m_ColorAttachments[i];
 				auto& texs    = Context::get().textures();
-				auto* tex     = texs[resource];
+
+				texs.wait_for(resource);
+				auto* tex = texs[resource];
 
 				aby_rhi_assert(static_cast<Texture*>(tex)->image().samples() == m_SampleCount,
 				               "color attachment ({}) sample count does not match render pass anti aliasing sample count: {}", i, aliasing);
