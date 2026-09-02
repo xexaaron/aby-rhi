@@ -2,6 +2,7 @@
 #include "common.hpp"
 #include "plugins/plugin.hpp"
 
+#include <atomic>
 #include <deque>
 #include <mutex>
 #include <print>
