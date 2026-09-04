@@ -17,7 +17,7 @@ namespace aby::rhi {
     */
 	class IInterface {
 	public:
-		virtual ~IInterface()                   = default;
+		virtual ~IInterface() noexcept          = default;
 		/**
 		 * @brief Debug class name
 		 */

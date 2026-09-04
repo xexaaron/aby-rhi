@@ -4,43 +4,19 @@
 
 #include <condition_variable>
 #include <mutex>
+#include <oneapi/tbb/task_arena.h>
+#include <oneapi/tbb/task_group.h>
+#include <tbb/concurrent_queue.h>
+#include <tbb/task_arena.h>
+#include <tbb/task_group.h>
 #include <thread>
 
-#ifdef _MSC_VER
-#	include <concurrent_queue.h>
 namespace aby::rhi {
-
-	template <typename T>
-	using ConcurrentQueue = concurrency::concurrent_queue<T>;
-
-}
-#else
-#	include <tbb/concurrent_queue.h>
-namespace aby::rhi {
-
-	template <typename T>
-	using ConcurrentQueue = tbb::concurrent_queue<T>;
-
-}
-#endif
-
-namespace aby::rhi {
-
-	struct DefaultJobQueue {
-		std::atomic_bool running{ true };
-		std::thread thread;
-		ConcurrentQueue<IJobSystem::Job> low;
-		ConcurrentQueue<IJobSystem::Job> medium;
-		ConcurrentQueue<IJobSystem::Job> high;
-		ConcurrentQueue<IJobSystem::Job> critical;
-		std::mutex mutex;
-		std::condition_variable cv;
-	};
 
 	class DefaultJobSystem : public IJobSystem {
 	public:
 		DefaultJobSystem();
-		~DefaultJobSystem();
+		~DefaultJobSystem() noexcept;
 
 		auto name() -> std::string_view override;
 
@@ -48,8 +24,10 @@ namespace aby::rhi {
 		auto add_job(EJobPriority priority, Job&& job) -> void override;
 		auto destroy() -> void override;
 	private:
-		std::vector<std::unique_ptr<DefaultJobQueue>> m_Queues;
-		size_t m_NextQueue;
+		tbb::task_arena m_Arena;
+		tbb::task_group m_Tasks;
+		size_t m_ThreadCount;
+		std::atomic<bool> bRunning{ true };
 	};
 
 } // namespace aby::rhi

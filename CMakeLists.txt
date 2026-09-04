@@ -46,22 +46,22 @@ set_target_properties(stb_image PROPERTIES
 find_package(Vulkan REQUIRED)
 
 
-if(NOT WIN32)
-    include(FetchContent)
+include(FetchContent)
 
-    FetchContent_Declare(
-        tbb
-        GIT_REPOSITORY https://github.com/uxlfoundation/oneTBB.git
-        GIT_TAG master
-        GIT_SHALLOW TRUE
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/tbb
-    )
-
+FetchContent_Declare(
+    tbb
+    GIT_REPOSITORY https://github.com/uxlfoundation/oneTBB.git
+    GIT_TAG master
+    GIT_SHALLOW TRUE
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/tbb
+)
+block(PROPAGATE)
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
     set(TBB_TEST OFF CACHE BOOL "" FORCE)
     set(TBB_EXAMPLES OFF CACHE BOOL "" FORCE)
-
+    set(TBB_BENCH OFF CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(tbb)
-endif()
+endblock()
 
 
 
@@ -156,11 +156,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     VulkanMemoryAllocator::Headers
     shaderc
     stb_image::stb_image
+    TBB::tbb
 )
 
-if(NOT WIN32)
-    target_link_libraries(${PROJECT_NAME} PUBLIC TBB::tbb)
-endif()
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
