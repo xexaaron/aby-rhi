@@ -1,13 +1,16 @@
 #include "context.hpp"
 
+#include "backends/vulkan/vulkan-platform.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
+#include "common-enums.hpp"
+#include "common.hpp"
 #include "interfaces/default_interfaces.hpp"
 
 #include <assert.h>
 
 namespace aby::rhi {
 
-#ifndef NDEBUG
+#ifndef _NDEBUG
 	class DebugPlugin : public Plugin {
 	public:
 		auto on_init(EInitTime init_time) -> bool override {
@@ -49,11 +52,34 @@ namespace aby::rhi {
 	auto Context::init(const ContextParams& params) -> bool {
 		aby_rhi_profile("context initialization");
 
-#ifndef NDEBUG
+#ifndef _NDEBUG
 		register_plugin(new DebugPlugin());
 #endif
 
 		m_Params = params;
+
+		if (params.window_backend == EWindow::automatic) {
+#ifdef _WIN32
+			m_Params.window_backend = EWindow::win32;
+#elif defined(__APPLE__)
+			m_Params.window_backend = EWindow::metal;
+#elif defined(__linux__)
+			m_Params.window_backend = EWindow::wayland;
+#else
+#	error "Unsupported platform"
+#endif
+			aby_rhi_dbg("automatic window selection chose: {}", m_Params.window_backend);
+		}
+
+#ifdef __linux__
+		if (m_Params.window_backend == EWindow::wayland) {
+			aby_rhi_assert(m_Params.wl_get_size_cb, "wayland on size callback needs to be set to track the window size");
+			if (m_Params.renderer_backend == ERenderer::vulkan) {
+				vulkan::set_wayland_get_size_callback(m_Params.wl_get_size_cb);
+			}
+		}
+#endif
+
 		m_Textures.set_plugins(m_Plugins);
 		m_Shaders.set_plugins(m_Plugins);
 

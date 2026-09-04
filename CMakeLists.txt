@@ -8,6 +8,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
+if (NOT WIN32)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
 set(VENDOR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
 set(ABY_RHI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/aby-rhi)
 set(ABY_RHI_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -24,6 +28,7 @@ set(VK_BOOTSTRAP_VULKAN_HEADER_DIR ${VENDOR_DIR}/Vulkan-Headers/include CACHE FI
 add_subdirectory(${VENDOR_DIR}/vk-bootstrap)
 set_target_properties(vk-bootstrap PROPERTIES
     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    POSITION_INDEPENDENT_CODE ON
 )
 add_subdirectory(${VENDOR_DIR}/vma)
 set(SHADERC_SKIP_EXAMPLES        ON CACHE BOOL "")
@@ -39,6 +44,25 @@ set_target_properties(stb_image PROPERTIES
 )
 
 find_package(Vulkan REQUIRED)
+
+
+if(NOT WIN32)
+    include(FetchContent)
+
+    FetchContent_Declare(
+        tbb
+        GIT_REPOSITORY https://github.com/uxlfoundation/oneTBB.git
+        GIT_TAG master
+        GIT_SHALLOW TRUE
+        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/tbb
+    )
+
+    set(TBB_TEST OFF CACHE BOOL "" FORCE)
+    set(TBB_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+    FetchContent_MakeAvailable(tbb)
+endif()
+
 
 
 add_library(${PROJECT_NAME} 
@@ -134,6 +158,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     stb_image::stb_image
 )
 
+if(NOT WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC TBB::tbb)
+endif()
+
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -170,6 +198,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     VULKAN_HPP_DISPATCH_LOADER_DYNAMIC=1
 )
 
+if(NOT WIN32)
+    # Macro compatibility
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:_NDEBUG>
+        $<$<CONFIG:RelWithDebInfo>:_NDEBUG>
+        $<$<CONFIG:MinSizeRel>:_NDEBUG>
+    )
+endif()
+
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     ABY_RHI_ENABLE_LOG_INFO=$<BOOL:${ABY_RHI_ENABLE_LOG_INFO}>
     ABY_RHI_ENABLE_LOG_TRACE=$<BOOL:${ABY_RHI_ENABLE_LOG_TRACE}>
@@ -180,7 +217,9 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
 )
 
 if (ABY_RHI_BUILD_TESTS)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test/win32)
+    if (WIN32)
+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test/win32)
+    endif()
 endif()
 
 if(MSVC)

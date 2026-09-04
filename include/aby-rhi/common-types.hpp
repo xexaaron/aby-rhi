@@ -1,7 +1,7 @@
 #pragma once
 #include "common-enums.hpp"
 
-#include <algorithm>
+#include <cstring>
 
 #if defined(_MSC_VER)
 #	define ABY_RHI_PACK_PUSH __pragma(pack(push, 1))

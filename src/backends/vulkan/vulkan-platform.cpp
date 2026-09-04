@@ -1,15 +1,19 @@
 #include "backends/vulkan/vulkan-platform.hpp"
 
 #include "backends/vulkan/vulkan-callbacks.hpp"
+#include "common.hpp"
 #include "context.hpp"
+
+#include <wayland-client-protocol.h>
 
 #ifdef _WIN32
 #	define WIN32_LEAN_AND_MEAN
 #	include <Windows.h>
 #	include <vulkan/vulkan_win32.h>
 #elif defined(__linux__)
+#	include <X11/Xlib.h>       // Display, Window, ...
+#	include <wayland-client.h> // wl_display, wl_surface, ...
 #	include <vulkan/vulkan_wayland.h>
-#	include <vulkan/vulkan_xcb.h>
 #	include <vulkan/vulkan_xlib.h>
 #elif defined(__APPLE__)
 #	include <vulkan/vulkan_macos.h>
@@ -51,26 +55,13 @@ namespace aby::rhi::vulkan {
 				           allocator(),
 				           surface) == VK_SUCCESS;
 			}
-			case EWindow::xcb: {
-				auto& [connection, window] = *static_cast<std::pair<xcb_connection_t*, xcb_window_t>*>(native_window);
-				VkXcbSurfaceCreateInfoKHR create_info{
-					VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR
-				};
-				create_info.connection = connection;
-				create_info.window     = window;
-				return vkCreateXcbSurfaceKHR(
-				           instance,
-				           &create_info,
-				           allocator(),
-				           surface) == VK_SUCCESS;
-			}
 			case EWindow::wayland: {
-				auto& [display, wl_surface] = *static_cast<std::pair<wl_display*, wl_surface*>*>(native_window);
+				auto& [display, wsurface] = *static_cast<std::pair<wl_display*, wl_surface*>*>(native_window);
 				VkWaylandSurfaceCreateInfoKHR create_info{
 					VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR
 				};
 				create_info.display = display;
-				create_info.surface = wl_surface;
+				create_info.surface = wsurface;
 				return vkCreateWaylandSurfaceKHR(
 				           instance,
 				           &create_info,
@@ -99,7 +90,7 @@ namespace aby::rhi::vulkan {
 
 	auto get_instance_extensions(std::vector<const char*>* inst_exts) -> bool {
 		auto& ctx = Context::get();
-#ifndef NDEBUG
+#ifndef _NDEBUG
 		inst_exts->reserve(2);
 		inst_exts->push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #else
@@ -114,9 +105,6 @@ namespace aby::rhi::vulkan {
 #elif defined(__linux__)
 			case EWindow::x11:
 				inst_exts->push_back(VK_KHR_XLIB_SURFACE_EXTENSION_NAME);
-				break;
-			case EWindow::xcb:
-				inst_exts->push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
 				break;
 			case EWindow::wayland:
 				inst_exts->push_back(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME);
@@ -149,6 +137,14 @@ namespace aby::rhi::vulkan {
 		return get_instance_extensions(inst_exts);
 	}
 
+#ifdef __linux__
+	void (*s_WaylandGetSizeCallback)(uint32_t* w, uint32_t* h) = nullptr;
+
+	auto set_wayland_get_size_callback(void (*cb)(uint32_t* w, uint32_t* h)) -> void {
+		s_WaylandGetSizeCallback = cb;
+	}
+#endif
+
 	auto get_window_size(void* native_window, uint32_t* x, uint32_t* y) -> void {
 		auto& ctx = Context::get();
 
@@ -178,33 +174,11 @@ namespace aby::rhi::vulkan {
 
 				return;
 			}
-
-			case EWindow::xcb: {
-				auto& [connection, window] = *static_cast<std::pair<xcb_connection_t*, xcb_window_t>*>(native_window);
-				auto cookie                = xcb_get_geometry(connection, window);
-				auto* geometry             = xcb_get_geometry_reply(connection, cookie, nullptr);
-
-				if (!geometry) {
-					*x = 0;
-					*y = 0;
-					return;
-				}
-
-				*x = geometry->width;
-				*y = geometry->height;
-
-				free(geometry);
-
+			case EWindow::wayland: {
+				aby_rhi_assert(s_WaylandGetSizeCallback, "Wayland get size callback was not set");
+				s_WaylandGetSizeCallback(x, y);
 				return;
 			}
-
-			// Wayland does not provide a generic synchronous
-			// "get surface size" API. Track the configured
-			// surface size from your configure events.
-			case EWindow::wayland:
-				aby_rhi_assert(false, "Wayland window size must be tracked from configure events");
-				return;
-
 #elif defined(__APPLE__)
 			case EWindow::metal: {
 				auto layer         = static_cast<CAMetalLayer*>(native_window);
@@ -220,7 +194,7 @@ namespace aby::rhi::vulkan {
 				break;
 		}
 
-		aby_rhi_assert(false, "unimplemented windowing backend: {}", ctx.window_backend());
+		aby_rhi_assert(false, "unimplemented/unsupported windowing backend: {}", ctx.window_backend());
 	}
 
 } // namespace aby::rhi::vulkan

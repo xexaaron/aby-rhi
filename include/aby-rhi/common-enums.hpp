@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <format>
 #include <string>
+#include <utility>
 
 namespace aby::rhi {
 
@@ -23,11 +24,11 @@ namespace aby::rhi {
 	};
 
 	enum class EWindow {
-		win32,   // windows
-		x11,     // linux
-		xcb,     // linux
-		wayland, // linux
-		metal    // macos
+		win32,     // windows (HWND)
+		x11,       // linux (Display*, Window*)
+		wayland,   // linux (wl_display*, wl_surface*)
+		metal,     // macos (TODO:)
+		automatic, // On Linux will default to wayland
 	};
 
 	enum class EShader {
@@ -378,14 +379,14 @@ namespace std {
 				case aby::rhi::EWindow::x11:
 					str = "x11";
 					break;
-				case aby::rhi::EWindow::xcb:
-					str = "xcb";
-					break;
 				case aby::rhi::EWindow::wayland:
 					str = "wayland";
 					break;
 				case aby::rhi::EWindow::metal:
 					str = "metal";
+					break;
+				case aby::rhi::EWindow::automatic:
+					str = "auto";
 					break;
 			}
 
@@ -576,6 +577,14 @@ namespace std {
 				case aby::rhi::EFormat::r_u32:
 					str = "uint32";
 					break;
+				case aby::rhi::EFormat::rgba_f16:
+					return "float16[4]";
+				case aby::rhi::EFormat::rgb_f16:
+					return "float16[3]";
+				case aby::rhi::EFormat::rg_f16:
+					return "float16[2]";
+				case aby::rhi::EFormat::r_f16:
+					return "float16";
 			}
 
 			return std::ranges::copy(str, ctx.out()).out;

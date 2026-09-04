@@ -20,13 +20,20 @@ namespace aby::rhi {
 		 * @brief The native window handle(s)
 		 * @param Win32   HWND
 		 * @param X11 	  std::pair<Display*, Window>
-		 * @param XCB     std::pair<xcb_connection_t*, xcb_window_t>
-		 * @param Wayland std::pair<wl_display*, wl_surface*>
+		 * @param Wayland std::pair<wl_display*, wl_surface*> If using wayland ensure that the wayland size callback is set.
 		 * @param Metal   CAMetalLayer*
 		*/
 		void* native_window;
 		/// @brief The graphics configuraton to pass to the renderer.
 		GraphicsParams graphics;
+#ifdef __linux__
+		/** 
+		* @brief wayland window size needs to be tracked outside the scope of this project
+		* @param w out width
+		* @param h out height
+		*/
+		void (*wl_get_size_cb)(uint32_t* w, uint32_t* h);
+#endif
 	};
 
 	class Context {
@@ -111,3 +118,4 @@ namespace aby::rhi {
 	};
 
 } // namespace aby::rhi
+

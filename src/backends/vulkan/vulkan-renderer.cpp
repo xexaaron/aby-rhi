@@ -1,11 +1,15 @@
 #include "backends/vulkan/vulkan-renderer.hpp"
 
 #include "backends/vulkan/vulkan-common.hpp"
+#include "backends/vulkan/vulkan-immediate-cmd.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-texture.hpp"
 #include "context.hpp"
 
 #include <VkBootstrap.h>
+#include <cmath>
+#include <thread>
+#include <unordered_map>
 #include <vector>
 
 #ifndef _NDEBUG
@@ -15,6 +19,7 @@
 #	define SHADER_PRINTF_ENABLE 0
 #	define VALIDATION_LAYER_ENABLE 0
 #endif
+
 namespace aby::rhi::vulkan {
 
 	Renderer::Renderer(GraphicsParams params) :
@@ -157,8 +162,13 @@ namespace aby::rhi::vulkan {
 		return true;
 	}
 
+	static std::unordered_map<std::thread::id, ImmediateCommands> s_ImmediateCommands;
+	static std::mutex s_ImmediateCommandsMutex;
+
 	auto Renderer::get_immediate() -> ImmediateCommands& {
-		thread_local ImmediateCommands cmds;
+		const auto id = std::this_thread::get_id();
+		std::scoped_lock lock(s_ImmediateCommandsMutex);
+		auto& cmds = s_ImmediateCommands[id];
 		cmds.create(m_GraphicsQueueFamily);
 		return cmds;
 	}
@@ -342,7 +352,7 @@ namespace aby::rhi::vulkan {
 	}
 
 	auto Renderer::get_resolve_attachment(rhi::Texture* color_attachment) -> rhi::Texture* {
-#ifndef NDEBUG
+#ifndef _NDEBUG
 		auto it = m_ColorToResolveAttachment.find(color_attachment);
 		if (it != m_ColorToResolveAttachment.end()) {
 			return it->second;
@@ -404,9 +414,9 @@ namespace aby::rhi::vulkan {
 		                    .set_allocation_callbacks(allocator())
 		                    .set_debug_callback(vk_debug_callback)
 		                    .set_debug_messenger_severity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
+		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT
 #if SHADER_PRINTF_ENABLE == 1
-		                                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT
+		                                                  | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT
 #endif
 		                                                  )
 		                    .request_validation_layers(VALIDATION_LAYER_ENABLE)

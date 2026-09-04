@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.28.3)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIGURATION>)
 
+if (NOT WIN32)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
 add_library(${PROJECT_NAME} 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image/stb_image.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image/stb_image_resize2.h

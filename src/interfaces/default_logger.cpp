@@ -27,14 +27,14 @@ namespace aby::rhi {
 
 		switch (level) {
 			case ELogLevel::debug:
-#ifdef NDEBUG // skip on release build
+#ifdef _NDEBUG // skip on release build
 				return;
 #endif
 				fmt   = "[%sdbg%s] %s\n";
 				color = cyan;
 				break;
 			case ELogLevel::trace:
-#ifdef NDEBUG // skip on release build
+#ifdef _NDEBUG // skip on release build
 				return;
 #endif
 				fmt   = "[%strc%s] %s\n";

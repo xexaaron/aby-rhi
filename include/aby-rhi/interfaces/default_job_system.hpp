@@ -2,7 +2,6 @@
 
 #include "interfaces/interfaces.hpp"
 
-#include <array>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
@@ -16,7 +15,13 @@ namespace aby::rhi {
 
 }
 #else
-#	error "implement concurrent_queue for other compilers"
+#	include <tbb/concurrent_queue.h>
+namespace aby::rhi {
+
+	template <typename T>
+	using ConcurrentQueue = tbb::concurrent_queue<T>;
+
+}
 #endif
 
 namespace aby::rhi {

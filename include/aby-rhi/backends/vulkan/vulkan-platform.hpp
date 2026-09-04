@@ -10,4 +10,8 @@ namespace aby::rhi::vulkan {
 	auto get_extensions(std::vector<const char*>* inst_exts, std::vector<const char*>* dev_exts) -> bool;
 	auto get_window_size(void* native_window, uint32_t* x, uint32_t* y) -> void;
 
+#ifdef __linux__
+	auto set_wayland_get_size_callback(void (*cb)(uint32_t* w, uint32_t* h)) -> void;
+#endif
+
 } // namespace aby::rhi::vulkan

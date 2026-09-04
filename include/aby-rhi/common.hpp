@@ -4,7 +4,7 @@
 
 #include <chrono>
 
-#ifndef NDEBUG
+#ifndef _NDEBUG
 #	define aby_rhi_dbg(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::debug, std::format(msg __VA_OPT__(, ) __VA_ARGS__))
 #else
 #	define aby_rhi_dbg(...)
