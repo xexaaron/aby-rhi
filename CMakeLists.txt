@@ -150,13 +150,15 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 list(APPEND CMAKE_PREFIX_PATH "$ENV{VULKAN_SDK}/Lib/cmake")
-target_link_libraries(${PROJECT_NAME} PRIVATE 
+target_link_libraries(${PROJECT_NAME} 
+PUBLIC
+    TBB::tbb
+PRIVATE 
     Vulkan::Vulkan
     vk-bootstrap::vk-bootstrap
     VulkanMemoryAllocator::Headers
     shaderc
     stb_image::stb_image
-    TBB::tbb
 )
 
 
