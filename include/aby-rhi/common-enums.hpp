@@ -109,6 +109,7 @@ namespace aby::rhi {
 		none,
 		texture,
 		shader,
+		user, // Custom resource type start.
 	};
 
 	enum class EResourceState : uint16_t {
@@ -670,6 +671,7 @@ namespace std {
 		template <class FmtContext>
 		FmtContext::iterator format(aby::rhi::EResource value, FmtContext& ctx) const {
 			std::string_view str = "<unknown>";
+			bool unknown         = false;
 
 			switch (value) {
 				case aby::rhi::EResource::none:
@@ -681,6 +683,14 @@ namespace std {
 				case aby::rhi::EResource::shader:
 					str = "shader";
 					break;
+				default:
+					unknown = true;
+					break;
+			}
+
+			if (unknown) {
+				auto s = std::format("resource_type({})", std::to_underlying(value));
+				return std::ranges::copy(s, ctx.out()).out;
 			}
 
 			return std::ranges::copy(str, ctx.out()).out;

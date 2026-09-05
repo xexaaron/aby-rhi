@@ -2,6 +2,8 @@
 
 #include "backends/vulkan/vulkan-common.hpp"
 #include "backends/vulkan/vulkan-renderer.hpp"
+#include "vulkan/vulkan.hpp"
+#include "vulkan/vulkan_core.h"
 
 #include <cmath>
 #include <stb_image/stb_image.h>
@@ -234,6 +236,79 @@ namespace aby::rhi::vulkan {
 		});
 
 		m_ID = r->register_texture(id, m_Image.view(), m_Sampler);
+	}
+
+	Texture::Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels, const std::vector<uint8_t>& bytes) :
+	    m_ID(INVALID_ID),
+	    m_Channels(channels),
+	    m_Sampler(VK_NULL_HANDLE),
+	    bIsRenderTarget(false),
+	    m_FrameID(SIZE_MAX),
+	    m_Samples(vk::SampleCountFlagBits::e1),
+	    m_Data(std::move(bytes)) {
+		vk::Format img_format;
+		switch (m_Channels) {
+			case 1:
+				img_format = vk::Format::eR8Srgb;
+				break;
+			case 2:
+				img_format = vk::Format::eR8G8Srgb;
+				break;
+			case 3:
+				img_format = vk::Format::eR8G8B8Srgb;
+				break;
+			case 4:
+				img_format = vk::Format::eR8G8B8A8Srgb;
+				break;
+		}
+
+		if (!m_Image.create(
+		        vk::Extent3D(width, height, 1),
+		        img_format,
+		        m_Samples,
+		        vk::ImageUsageFlagBits::eTransferDst |
+		            vk::ImageUsageFlagBits::eTransferSrc |
+		            vk::ImageUsageFlagBits::eSampled,
+		        1)) {
+			aby_rhi_err("failed to create image for texture: {}", id);
+		}
+
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
+		vk::SamplerCreateInfo sampler_create_info(
+		    vk::SamplerCreateFlags(),
+		    vk::Filter::eLinear,                     /* mag filter */
+		    vk::Filter::eLinear,                     /* min filter */
+		    vk::SamplerMipmapMode::eLinear,          /* mipmap mode */
+		    vk::SamplerAddressMode::eRepeat,         /* u */
+		    vk::SamplerAddressMode::eRepeat,         /* v */
+		    vk::SamplerAddressMode::eRepeat,         /* w */
+		    0.f,                                     /* mip load bias */
+		    vk::False,                               /* anisotropy enable */
+		    1.f,                                     /* max anisotropy */
+		    vk::False,                               /* compare enable */
+		    vk::CompareOp::eNever,                   /* compare operator */
+		    0.f,                                     /* min lod*/
+		    1,                                       /* max lod*/
+		    vk::BorderColor::eFloatTransparentBlack, /* border color */
+		    vk::False                                /* unormalized coordinates */
+		);
+
+		vkassert(vkCreateSampler(
+		             r->device(),
+		             vkcast(sampler_create_info),
+		             allocator(),
+		             vkcast(m_Sampler)),
+		         "failed to create texture sampler for: {}", id);
+
+		auto staging = Buffer(this->bytes(), vk::BufferUsageFlagBits::eTransferSrc, VMA_MEMORY_USAGE_CPU_ONLY);
+		staging.write(m_Data.data(), m_Data.size());
+
+		r->immediate_submit([&](vk::CommandBuffer cmd) {
+			m_Image.transition(cmd, vk::ImageLayout::eTransferDstOptimal);
+			m_Image.copy_from(cmd, staging, 0);
+			m_Image.transition(cmd, vk::ImageLayout::eShaderReadOnlyOptimal);
+		});
 	}
 
 	Texture::Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels, vk::SampleCountFlagBits samples) :

@@ -29,6 +29,7 @@ namespace aby::rhi {
 		static constexpr uint32_t INVALID_ID = UINT32_MAX;
 	public:
 		static auto create(const fs::path& rel_path, const TextureParams& params = {}) -> ResourcePtr<Texture, EResource::texture>;
+		static auto create(uint32_t width, uint32_t height, uint8_t channels, std::vector<uint8_t>&& bytes) -> ResourcePtr<Texture, EResource::texture>;
 		static auto create_render_target(uint8_t channels, EAntiAliasing aliasing = EAntiAliasing::none) -> ResourcePtr<Texture, EResource::texture>;
 		virtual ~Texture() = default;
 

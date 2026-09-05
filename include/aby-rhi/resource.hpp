@@ -1,4 +1,5 @@
 #pragma once
+#include "common-enums.hpp"
 #include "common.hpp"
 #include "plugins/plugin.hpp"
 
