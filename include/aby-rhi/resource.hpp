@@ -141,11 +141,15 @@ namespace aby::rhi {
 		 * @return If the resource load failed nullptr, otherwise the resource data.
 		 */
 		auto operator->() -> T*;
+		auto operator->() const -> const T*;
+
 		/**
 		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
 		 * @return If the resource load failed assert, otherwise the resource data.
 		*/
 		auto operator*() -> T&;
+		auto operator*() const -> const T&;
+
 		/**
 		 * @brief Get the underlying resource. waits for the resource to be loaded if it is not loaded.
 		 * @return If the resource load failed nullptr, otherwise the resource data.
@@ -345,7 +349,30 @@ namespace aby::rhi {
 	}
 
 	template <typename T, EResource ResourceType>
+	auto ResourcePtr<T, ResourceType>::operator->() const -> const T* {
+		if (!m_Cached) {
+			if (!m_Container->wait_for(*this))
+				return nullptr;
+
+			m_Cached = (*m_Container)[*this];
+		}
+
+		return m_Cached;
+	}
+
+	template <typename T, EResource ResourceType>
 	auto ResourcePtr<T, ResourceType>::operator*() -> T& {
+		auto* ptr = get();
+		if (ptr == nullptr) {
+			// cant assert here because context.hpp needs to know about resource
+			std::fprintf(stderr, "attempted to dereference a null ResourcePtr\n");
+			ABY_RHI_DEBUG_BREAK();
+		}
+		return *ptr;
+	}
+
+	template <typename T, EResource ResourceType>
+	auto ResourcePtr<T, ResourceType>::operator*() const -> const T& {
 		auto* ptr = get();
 		if (ptr == nullptr) {
 			// cant assert here because context.hpp needs to know about resource
