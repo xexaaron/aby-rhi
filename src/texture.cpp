@@ -23,7 +23,9 @@ namespace aby::rhi {
 
 					auto tex = new vulkan::Texture(resource.id(), rel_path, params);
 					auto* r  = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
+#ifndef _NDEBUG
+					tex->set_debug_name(rel_path.string());
+#endif
 					texs.add(resource, tex);
 				});
 
@@ -50,7 +52,9 @@ namespace aby::rhi {
 
 					auto tex = new vulkan::Texture(resource.id(), width, height, channels, bytes);
 					auto* r  = static_cast<vulkan::Renderer*>(Context::get().renderer());
-
+#ifndef _NDEBUG
+					tex->set_debug_name(std::format("Tex{}[{}x{}x{}]", resource.id(), width, height, channels));
+#endif
 					texs.add(resource, tex);
 				});
 
@@ -93,6 +97,10 @@ namespace aby::rhi {
 					}
 
 					auto tex = new vulkan::Texture(resource.id(), r->width(), r->height(), channels, samples);
+
+#ifndef _NDEBUG
+					tex->set_debug_name(std::format("RT{}[{}x{}]", resource.id(), channels, static_cast<uint8_t>(samples)));
+#endif
 					texs.add(resource, tex);
 				});
 

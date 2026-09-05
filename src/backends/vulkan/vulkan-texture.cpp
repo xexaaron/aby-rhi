@@ -941,4 +941,31 @@ namespace aby::rhi::vulkan {
 		return true;
 	}
 
+#ifndef _NDEBUG
+	PFN_vkSetDebugUtilsObjectNameEXT vkSetDebugUtilsObjectNameEXT = nullptr;
+#endif
+
+	auto Texture::set_debug_name(const std::string& str) -> void {
+#ifndef _NDEBUG
+		auto* r = static_cast<vulkan::Renderer*>(Context::get().renderer());
+
+		if (!vkSetDebugUtilsObjectNameEXT) {
+			vkSetDebugUtilsObjectNameEXT = reinterpret_cast<PFN_vkSetDebugUtilsObjectNameEXT>(
+			    vkGetDeviceProcAddr(r->device(), "vkSetDebugUtilsObjectNameEXT"));
+		}
+
+		VkImage img = m_Image.img();
+
+		VkDebugUtilsObjectNameInfoEXT info{
+			.sType        = VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT,
+			.pNext        = nullptr,
+			.objectType   = VK_OBJECT_TYPE_IMAGE,
+			.objectHandle = reinterpret_cast<uint64_t>(img),
+			.pObjectName  = str.c_str()
+		};
+
+		vkSetDebugUtilsObjectNameEXT(r->device(), &info);
+#endif
+	}
+
 } // namespace aby::rhi::vulkan

@@ -34,6 +34,7 @@ namespace aby::rhi::vulkan {
 		auto bytes() -> size_t override;
 		auto image() -> Image&;
 		auto is_render_target() const -> bool;
+		auto set_debug_name(const std::string& str) -> void override;
 	private:
 		auto load(const fs::path& path, uint32_t* out_width, uint32_t* out_height) -> bool;
 		auto read_px_unchecked(uint32_t x, uint32_t y) -> vec4<uint8_t>;
