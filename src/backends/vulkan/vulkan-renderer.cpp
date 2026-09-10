@@ -22,6 +22,9 @@
 
 namespace aby::rhi::vulkan {
 
+	static std::unordered_map<std::thread::id, ImmediateCommands> s_ImmediateCommands;
+	static std::mutex s_ImmediateCommandsMutex;
+
 	Renderer::Renderer(GraphicsParams params) :
 	    m_Graphics(params) {
 	}
@@ -161,9 +164,6 @@ namespace aby::rhi::vulkan {
 
 		return true;
 	}
-
-	static std::unordered_map<std::thread::id, ImmediateCommands> s_ImmediateCommands;
-	static std::mutex s_ImmediateCommandsMutex;
 
 	auto Renderer::get_immediate() -> ImmediateCommands& {
 		const auto id = std::this_thread::get_id();
@@ -584,8 +584,9 @@ namespace aby::rhi::vulkan {
 		while (vkDeviceWaitIdle(m_Device.device) != VK_SUCCESS)
 			;
 
-		auto& immediate_cmds = get_immediate();
-		immediate_cmds.destroy();
+		for (auto& [id, immediate_cmd] : s_ImmediateCommands) {
+			immediate_cmd.destroy();
+		}
 
 		for (auto& render_pass : m_RenderPasses) {
 			render_pass->destroy();
