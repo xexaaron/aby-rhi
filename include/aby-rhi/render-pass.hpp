@@ -22,19 +22,54 @@ namespace aby::rhi {
          */
 		auto submit(const DrawCmd& cmd) -> void;
 
+		/**
+		* @brief Set a uniform by name
+		* @param name The name of the uniform (set during RenderPassBuilder creation)
+		* @param obj the data to set the uniform to
+		*/
 		template <typename T>
 		auto set_uniform(std::string_view name, const T& obj) -> void {
 			set_uniform(name, &obj, sizeof(T));
 		}
 
+		/**
+		* @brief Set a uniform by name
+		* @param name The name of the uniform (set during RenderPassBuilder creation) 
+		* @param data the data to set the uniform to
+		* @param bytes the size of the data and the uniform (they must match)
+		*/
 		virtual auto set_uniform(std::string_view name, const void* data, size_t bytes) -> void = 0;
 
+		/**
+		* @brief Upload a constant by name
+		* @param name The name of the constant (set during RenderPassBuilder creation)
+		* @param obj The data to set the constant to
+		*/
 		template <typename T>
 		auto push_constant(std::string_view name, const T& obj) -> void {
 			push_constant(name, &obj, sizeof(T));
 		}
 
+		/**
+		* @brief Upload a constant by name
+		* @param name The name of the constant (set during RenderPassBuilder creation)
+		* @param data The data to set the constant to
+		* @param bytes The size of the data and the constant (they must match)
+		*/
 		virtual auto push_constant(std::string_view name, const void* data, size_t bytes) -> void = 0;
+
+		/**
+		* @brief Set the scissor flag
+		* @param enabled [true | false] 
+		*/
+		virtual auto set_scissor_enable(bool enabled) -> void = 0;
+
+		/**
+		* @brief Set the scissor region to use if scissor is enabled
+		* @param min the min coords of the rectangle
+		* @param max the max coords of the rectangle
+		*/
+		virtual auto set_scissor_region(vec2<int> min, vec2<int> max) -> void = 0;
 
 		/// @brief The functions below should not be called by the user. only by the renderer backend.
 		///        these functions must be called during Renderer::on_begin
@@ -70,7 +105,7 @@ namespace aby::rhi {
 		/**
          * @brief set the scissor. 
          */
-		virtual auto set_scissor(vec2<float> offset, vec2<float> size) -> void                                                        = 0;
+		virtual auto set_scissor() -> void                                                                                            = 0;
 	protected:
 		std::vector<DrawCmd> m_Commands;
 	};

@@ -34,6 +34,8 @@ namespace aby::rhi::vulkan {
 
 		auto set_uniform(std::string_view name, const void* data, size_t bytes) -> void override;
 		auto push_constant(std::string_view name, const void* data, size_t bytes) -> void override;
+		auto set_scissor_enable(bool enabled) -> void override;
+		auto set_scissor_region(vec2<int> min, vec2<int> max) -> void override;
 
 		auto bind() -> void override;
 		auto begin() -> void override;
@@ -41,7 +43,7 @@ namespace aby::rhi::vulkan {
 		auto run() -> void override;
 		auto destroy() -> void override;
 		auto set_viewport(vec2<float> size, vec2<float> loc = { 0.f, 0.f }, vec2<float> min_max_depth = { 0.f, 1.f }) -> void override;
-		auto set_scissor(vec2<float> offset, vec2<float> size) -> void override;
+		auto set_scissor() -> void override;
 		auto is_present() const -> bool;
 		auto present_attachment() -> rhi::Texture*;
 		auto color_attachments() -> std::vector<rhi::Texture*>&;
@@ -59,6 +61,9 @@ namespace aby::rhi::vulkan {
 		std::vector<rhi::Texture*> m_ColorAttachments;
 		std::vector<rhi::Texture*> m_ResolveAttachments;
 		rhi::Texture* m_PresentAttachment;
+		bool bScissor;
+		vec2<int> m_ScissorMin;
+		vec2<int> m_ScissorMax;
 	};
 
 	class RenderPassBuilder : public rhi::RenderPassBuilder {

@@ -2,6 +2,7 @@
 #include "common.hpp"
 
 #include <cassert>
+#include <functional>
 #include <memory>
 #include <ranges>
 #include <vector>
@@ -86,6 +87,16 @@ namespace aby::rhi {
          * @brief Cleanup all resources
         */
 		virtual auto destroy() -> void = 0;
+
+		virtual auto for_each(std::function<void(void*)>&& fn) -> void = 0;
+
+		template <typename T, typename F>
+		auto for_each(F&& fn) -> void {
+			for_each([fn = std::forward<F>(fn)](void* p) mutable {
+				fn(reinterpret_cast<std::remove_cvref_t<T>*>(p));
+			});
+		}
+
 		/**
          * @brief Push a vertex into the cpu buffer
          * @param v A vertex pointer matching the stride set by the constructor.
@@ -98,7 +109,7 @@ namespace aby::rhi {
 		*/
 		template <typename T>
 		auto push(const T& vertex) -> void {
-			push(&vertex);
+			push(static_cast<const void*>(&vertex));
 		}
 		/**
 		 * @brief Push an array of vertices into the cp u buffer

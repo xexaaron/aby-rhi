@@ -61,7 +61,7 @@ namespace aby::rhi::vulkan {
 			render_pass->begin();
 			render_pass->bind();
 			render_pass->set_viewport({ static_cast<float>(m_Width), static_cast<float>(m_Height) });
-			render_pass->set_scissor({ 0.f, 0.f }, { static_cast<float>(m_Width), static_cast<float>(m_Height) });
+			render_pass->set_scissor();
 			render_pass->run();
 			render_pass->clear();
 			render_pass->end();

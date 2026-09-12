@@ -24,7 +24,10 @@ namespace aby::rhi::vulkan {
 	    m_PushConstants(push_constants),
 	    m_ColorAttachments(color_attachments),
 	    m_PresentAttachment(present_attachment),
-	    m_ResolveAttachments(resolve_attachments) {
+	    m_ResolveAttachments(resolve_attachments),
+	    bScissor(false),
+	    m_ScissorMin(0, 0),
+	    m_ScissorMax(0, 0) {
 		if (!resolve_attachments.empty()) {
 			aby_rhi_assert(resolve_attachments.size() == color_attachments.size(), "each color attachment must have a corresponding resolve attachment at the respective index");
 		}
@@ -73,6 +76,15 @@ namespace aby::rhi::vulkan {
 		    static_cast<uint32_t>(push_constant.offset),
 		    static_cast<uint32_t>(bytes),
 		    data);
+	}
+
+	auto RenderPass::set_scissor_enable(bool enabled) -> void {
+		bScissor = enabled;
+	}
+
+	auto RenderPass::set_scissor_region(vec2<int> min, vec2<int> max) -> void {
+		m_ScissorMin = min;
+		m_ScissorMax = max;
 	}
 
 	auto RenderPass::bind() -> void {
@@ -180,11 +192,14 @@ namespace aby::rhi::vulkan {
 		vkCmdSetViewport(m_Cmd, 0, 1, vkcast(vp));
 	}
 
-	auto RenderPass::set_scissor(vec2<float> offset, vec2<float> size) -> void {
-		vk::Rect2D scissor(
-		    vk::Offset2D(offset.x, offset.y),
-		    vk::Extent2D(size.x, size.y));
-		vkCmdSetScissor(m_Cmd, 0, 1, vkcast(scissor));
+	auto RenderPass::set_scissor() -> void {
+		if (bScissor) {
+			vk::Rect2D scissor(
+			    vk::Offset2D(m_ScissorMin.x, m_ScissorMin.y),
+			    vk::Extent2D(static_cast<float>(m_ScissorMax.x - m_ScissorMin.x),
+				             static_cast<float>(m_ScissorMax.y, m_ScissorMin.y)));
+			vkCmdSetScissor(m_Cmd, 0, 1, vkcast(scissor));
+		}
 	}
 
 	auto RenderPass::set_bind_point(vk::PipelineBindPoint point) -> RenderPass& {

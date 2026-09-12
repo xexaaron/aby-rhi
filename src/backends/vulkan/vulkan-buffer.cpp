@@ -149,10 +149,10 @@ namespace aby::rhi::vulkan {
 	VertexBuffer::VertexBuffer(size_t size, size_t stride) :
 	    rhi::VertexBuffer(size, stride),
 	    m_GPUData(size * stride,
-	              vk::BufferUsageFlagBits::eVertexBuffer |
-	                  vk::BufferUsageFlagBits::eTransferDst |
-	                  vk::BufferUsageFlagBits::eShaderDeviceAddress,
-	              VMA_MEMORY_USAGE_GPU_ONLY) {
+		          vk::BufferUsageFlagBits::eVertexBuffer |
+		              vk::BufferUsageFlagBits::eTransferDst |
+		              vk::BufferUsageFlagBits::eShaderDeviceAddress,
+		          VMA_MEMORY_USAGE_GPU_ONLY) {
 	}
 
 	auto VertexBuffer::upload() -> void {
@@ -179,6 +179,14 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
+	auto VertexBuffer::for_each(std::function<void(void*)>&& fn) -> void {
+		auto* data = reinterpret_cast<uint8_t*>(m_Data);
+		for (size_t i = 0; i < count(); i++) {
+			fn(data);
+			data += m_Stride;
+		}
+	}
+
 	auto VertexBuffer::gpu() -> vulkan::Buffer& {
 		return m_GPUData;
 	}
@@ -186,10 +194,10 @@ namespace aby::rhi::vulkan {
 	IndexBuffer::IndexBuffer(size_t size) :
 	    rhi::IndexBuffer(size),
 	    m_GPUData(size * sizeof(uint32_t),
-	              vk::BufferUsageFlagBits::eIndexBuffer |
-	                  vk::BufferUsageFlagBits::eTransferDst |
-	                  vk::BufferUsageFlagBits::eShaderDeviceAddress,
-	              VMA_MEMORY_USAGE_GPU_ONLY) {
+		          vk::BufferUsageFlagBits::eIndexBuffer |
+		              vk::BufferUsageFlagBits::eTransferDst |
+		              vk::BufferUsageFlagBits::eShaderDeviceAddress,
+		          VMA_MEMORY_USAGE_GPU_ONLY) {
 	}
 
 	auto IndexBuffer::upload() -> void {
