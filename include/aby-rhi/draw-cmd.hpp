@@ -25,8 +25,8 @@ namespace aby::rhi {
 		auto ibuff() const -> IndexBuffer*;
 		auto instances() const -> uint32_t;
 	private:
-		VertexBuffer* m_VertexBuffer;
-		IndexBuffer* m_IndexBuffer;
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 		uint32_t m_InstanceCount;
 	};
 

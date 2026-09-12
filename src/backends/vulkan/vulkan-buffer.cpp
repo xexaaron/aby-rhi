@@ -179,14 +179,6 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
-	auto VertexBuffer::for_each(std::function<void(void*)>&& fn) -> void {
-		auto* data = reinterpret_cast<uint8_t*>(m_Data);
-		for (size_t i = 0; i < count(); i++) {
-			fn(data);
-			data += m_Stride;
-		}
-	}
-
 	auto VertexBuffer::gpu() -> vulkan::Buffer& {
 		return m_GPUData;
 	}

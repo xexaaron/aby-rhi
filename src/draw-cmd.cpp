@@ -3,8 +3,8 @@
 namespace aby::rhi {
 
 	DrawCmd::DrawCmd(std::shared_ptr<VertexBuffer> vertices, std::shared_ptr<IndexBuffer> indices, uint32_t instances) :
-	    m_VertexBuffer(vertices.get()),
-	    m_IndexBuffer(indices.get()),
+	    m_VertexBuffer(vertices),
+	    m_IndexBuffer(indices),
 	    m_InstanceCount(instances) {
 	}
 
@@ -13,11 +13,11 @@ namespace aby::rhi {
 	}
 
 	auto DrawCmd::vbuff() const -> VertexBuffer* {
-		return m_VertexBuffer;
+		return m_VertexBuffer.get();
 	}
 
 	auto DrawCmd::ibuff() const -> IndexBuffer* {
-		return m_IndexBuffer;
+		return m_IndexBuffer.get();
 	}
 
 	auto DrawCmd::instances() const -> uint32_t {

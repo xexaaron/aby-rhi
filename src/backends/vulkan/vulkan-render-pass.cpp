@@ -5,6 +5,7 @@
 #include "backends/vulkan/vulkan-renderer.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "backends/vulkan/vulkan-texture.hpp"
+#include "common-enums.hpp"
 
 namespace aby::rhi::vulkan {
 
@@ -159,6 +160,9 @@ namespace aby::rhi::vulkan {
 
 	auto RenderPass::run() -> void {
 		for (auto& cmd : m_Commands) {
+			cmd.vbuff()->upload();
+			cmd.ibuff()->upload();
+
 			auto* i = static_cast<vulkan::IndexBuffer*>(cmd.ibuff());
 			auto* v = static_cast<vulkan::VertexBuffer*>(cmd.vbuff());
 			auto s  = cmd.instances();
@@ -197,7 +201,7 @@ namespace aby::rhi::vulkan {
 			vk::Rect2D scissor(
 			    vk::Offset2D(m_ScissorMin.x, m_ScissorMin.y),
 			    vk::Extent2D(static_cast<float>(m_ScissorMax.x - m_ScissorMin.x),
-				             static_cast<float>(m_ScissorMax.y, m_ScissorMin.y)));
+				             static_cast<float>(m_ScissorMax.y - m_ScissorMin.y)));
 			vkCmdSetScissor(m_Cmd, 0, 1, vkcast(scissor));
 		}
 	}
@@ -362,6 +366,9 @@ namespace aby::rhi::vulkan {
 				break;
 			case vk::SampleCountFlagBits::e8:
 				aliasing = EAntiAliasing::msaa8x;
+				break;
+			default:
+				aliasing = EAntiAliasing::none;
 				break;
 		}
 
@@ -760,6 +767,8 @@ namespace aby::rhi::vulkan {
 			case vk::SampleCountFlagBits::e8:
 				aliasing = EAntiAliasing::msaa8x;
 				break;
+			default:
+				aliasing = EAntiAliasing::none;
 		}
 
 		add_color_attachment(Texture::create_render_target(4, aliasing), true);

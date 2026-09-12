@@ -49,6 +49,16 @@ namespace aby::rhi {
          * @brief Clears all data from the buffer (CPU ONLY)
         */
 		auto clear() -> void;
+
+		template <typename T, typename Fn>
+		auto for_each(Fn&& fn) -> void {
+			auto offset = 0;
+			for (size_t i = 0; i < m_Count; i++) {
+				auto* obj = reinterpret_cast<T*>(m_Data + offset);
+				fn(obj);
+				offset += m_Stride;
+			}
+		}
 	protected:
 		size_t m_Stride;
 		size_t m_Size;
@@ -87,15 +97,6 @@ namespace aby::rhi {
          * @brief Cleanup all resources
         */
 		virtual auto destroy() -> void = 0;
-
-		virtual auto for_each(std::function<void(void*)>&& fn) -> void = 0;
-
-		template <typename T, typename F>
-		auto for_each(F&& fn) -> void {
-			for_each([fn = std::forward<F>(fn)](void* p) mutable {
-				fn(reinterpret_cast<std::remove_cvref_t<T>*>(p));
-			});
-		}
 
 		/**
          * @brief Push a vertex into the cpu buffer

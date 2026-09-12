@@ -41,7 +41,6 @@ namespace aby::rhi::vulkan {
 
 		auto upload() -> void override;
 		auto destroy() -> void override;
-		auto for_each(std::function<void(void*)>&& fn) -> void override;
 		auto gpu() -> vulkan::Buffer&;
 	private:
 		vulkan::Buffer m_GPUData;
