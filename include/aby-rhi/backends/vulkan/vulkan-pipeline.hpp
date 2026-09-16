@@ -7,7 +7,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class Pipeline {
+	class ABY_RHI_API Pipeline {
 	public:
 		Pipeline(vk::Pipeline pipeline, vk::PipelineLayout layout, const std::vector<vk::DescriptorSet>& sets);
 

@@ -6,7 +6,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class Buffer {
+	class ABY_RHI_API Buffer {
 	public:
 		Buffer();
 		Buffer(size_t size, vk::BufferUsageFlags usage, VmaMemoryUsage memory_usage);
@@ -35,7 +35,7 @@ namespace aby::rhi::vulkan {
 		VmaAllocationInfo m_AllocInfo;
 	};
 
-	class VertexBuffer : public rhi::VertexBuffer {
+	class ABY_RHI_API VertexBuffer : public rhi::VertexBuffer {
 	public:
 		VertexBuffer(size_t size, size_t stride);
 
@@ -46,7 +46,7 @@ namespace aby::rhi::vulkan {
 		vulkan::Buffer m_GPUData;
 	};
 
-	class IndexBuffer : public rhi::IndexBuffer {
+	class ABY_RHI_API IndexBuffer : public rhi::IndexBuffer {
 	public:
 		IndexBuffer(size_t size);
 

@@ -22,7 +22,7 @@ namespace aby::rhi::vulkan {
 		size_t offset;
 	};
 
-	class RenderPass : public rhi::RenderPass {
+	class ABY_RHI_API RenderPass : public rhi::RenderPass {
 	public:
 		RenderPass(std::unique_ptr<Pipeline> pipeline,
 		           const std::vector<ShaderPtr>& shaders,
@@ -66,7 +66,7 @@ namespace aby::rhi::vulkan {
 		vec2<int> m_ScissorMax;
 	};
 
-	class RenderPassBuilder : public rhi::RenderPassBuilder {
+	class ABY_RHI_API RenderPassBuilder : public rhi::RenderPassBuilder {
 	public:
 		RenderPassBuilder();
 		auto build() -> std::shared_ptr<rhi::RenderPass> override;

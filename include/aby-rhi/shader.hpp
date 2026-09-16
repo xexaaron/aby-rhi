@@ -24,7 +24,7 @@ namespace aby::rhi {
 		std::vector<UniformBufferDesc> uniforms;
 	};
 
-	class Shader {
+	class ABY_RHI_API Shader {
 	public:
 		/**
          * @brief The type of shader will be determined by the path.

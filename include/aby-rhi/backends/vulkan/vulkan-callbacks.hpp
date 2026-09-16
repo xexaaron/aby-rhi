@@ -1,9 +1,11 @@
 #pragma once
+#include "common.hpp"
+
 #include <vulkan/vulkan.hpp>
 
 namespace aby::rhi::vulkan {
 
-	auto allocator() -> VkAllocationCallbacks*;
+	auto ABY_RHI_API allocator() -> VkAllocationCallbacks*;
 
 	auto VKAPI_PTR vk_alloc_callback(void* pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope) -> void*;
 	auto VKAPI_PTR vk_realloc_callback(void* pUserData, void* pOriginal, size_t size, size_t alignment, VkSystemAllocationScope allocationScope) -> void*;

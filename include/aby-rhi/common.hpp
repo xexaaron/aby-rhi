@@ -4,6 +4,16 @@
 
 #include <chrono>
 
+#ifdef _WIN32
+#	if ABY_BUILD_DLL == 1
+#		define ABY_RHI_API __declspec(dllexport)
+#	else
+#		define ABY_RHI_API __declspec(dllimport)
+#	endif
+#else
+#	define ABY_RHI_API __attribute__((visibility("default")))
+#endif
+
 #ifndef _NDEBUG
 #	define aby_rhi_dbg(msg, ...) ::aby::rhi::Context::get().logger()->log(::aby::rhi::ELogLevel::debug, std::format(msg __VA_OPT__(, ) __VA_ARGS__))
 #else
@@ -83,7 +93,7 @@
 
 namespace aby::rhi::detail {
 
-	class ScopedTimer {
+	class ABY_RHI_API ScopedTimer {
 	public:
 		using Clock = std::chrono::steady_clock;
 

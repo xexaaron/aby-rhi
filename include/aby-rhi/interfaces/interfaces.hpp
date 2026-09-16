@@ -1,6 +1,6 @@
 #pragma once
-#include "common-enums.hpp"
-#include "common.hpp"
+#include "../common-enums.hpp"
+#include "../common.hpp"
 
 #include <filesystem>
 #include <functional>
@@ -15,7 +15,7 @@ namespace aby::rhi {
 	/**
      * @brief Base class for interfaces providing a common subset of debugging information
     */
-	class IInterface {
+	class ABY_RHI_API IInterface {
 	public:
 		virtual ~IInterface() noexcept          = default;
 		/**
@@ -28,7 +28,7 @@ namespace aby::rhi {
 	/**
      * @brief ILogger message for passing pre-formatted messages to the application
     */
-	class ILogger : public IInterface {
+	class ABY_RHI_API ILogger : public IInterface {
 	public:
 		auto name() -> std::string_view override;
 		/**
@@ -43,7 +43,7 @@ namespace aby::rhi {
 	/**
      * @brief IAllocator interface for aligned memory management
 	*/
-	class IAllocator : public IInterface {
+	class ABY_RHI_API IAllocator : public IInterface {
 	public:
 		auto name() -> std::string_view override;
 		/**
@@ -74,7 +74,7 @@ namespace aby::rhi {
      * @brief IFileIO interface for reading/writing data.
 	 * 		  Controls the working directory and cache directory.
      */
-	class IFileIO : public IInterface {
+	class ABY_RHI_API IFileIO : public IInterface {
 	public:
 		auto name() -> std::string_view override;
 		/**
@@ -169,7 +169,7 @@ namespace aby::rhi {
 	 *  	 It will go in the order of highest priority to lowest priority
 	 * 	     which may end up blocking lower priority tasks.  
 	 */
-	class IJobSystem : public IInterface {
+	class ABY_RHI_API IJobSystem : public IInterface {
 	public:
 		using Job = std::function<void()>;
 

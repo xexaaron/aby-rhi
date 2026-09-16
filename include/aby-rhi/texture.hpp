@@ -8,7 +8,7 @@ namespace aby::rhi {
 
 	namespace fs = std::filesystem;
 
-	struct TextureParams {
+	struct ABY_RHI_API TextureParams {
 		auto set_mip_levels(uint32_t mip_levels) -> TextureParams&;
 		auto set_anisotropy_filtering(float anisotropy) -> TextureParams&;
 		auto set_filtering(EFiltering filtering) -> TextureParams&;
@@ -24,7 +24,7 @@ namespace aby::rhi {
 		EChannels channels          = EChannels::rgba;
 	};
 
-	class Texture {
+	class ABY_RHI_API Texture {
 	public:
 		static constexpr uint32_t INVALID_ID = UINT32_MAX;
 	public:

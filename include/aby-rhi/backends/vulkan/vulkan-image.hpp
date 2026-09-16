@@ -7,7 +7,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class Image {
+	class ABY_RHI_API Image {
 	public:
 		Image()             = default;
 		Image(const Image&) = delete;

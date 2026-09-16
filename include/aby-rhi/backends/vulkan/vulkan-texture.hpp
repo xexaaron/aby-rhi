@@ -9,7 +9,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class Texture : public rhi::Texture {
+	class ABY_RHI_API Texture : public rhi::Texture {
 	public:
 		Texture(ResourceID id, const fs::path& path, const TextureParams& params);
 		Texture(ResourceID id, uint32_t width, uint32_t height, uint8_t channels, const std::vector<uint8_t>& bytes);

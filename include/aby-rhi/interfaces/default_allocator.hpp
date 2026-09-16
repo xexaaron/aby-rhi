@@ -3,7 +3,7 @@
 
 namespace aby::rhi {
 
-	class DefaultAllocator final : public IAllocator {
+	class ABY_RHI_API DefaultAllocator final : public IAllocator {
 	public:
 		auto name() -> std::string_view override;
 		auto alloc(size_t bytes, size_t alignment, EAllocation type) -> void* override;

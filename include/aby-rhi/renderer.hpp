@@ -9,7 +9,7 @@ namespace aby::rhi {
 	struct GraphicsParams {
 	};
 
-	class Renderer {
+	class ABY_RHI_API Renderer {
 	public:
 		Renderer()                = default;
 		Renderer(const Renderer&) = delete;

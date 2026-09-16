@@ -82,8 +82,6 @@ namespace aby::rhi::vulkan {
 
 			get_window_size(m_Window, &m_Width, &m_Height);
 
-			aby_rhi_dbg("recreating swapchain: [w: {}, h: {}, result: {}]", m_Width, m_Height, vk::to_string(result));
-
 			recreate_swapchain();
 
 			for (auto& render_pass : m_RenderPasses) {
@@ -282,6 +280,14 @@ namespace aby::rhi::vulkan {
 
 	auto Renderer::device() -> vkb::Device& {
 		return m_Device;
+	}
+
+	auto Renderer::inst() -> vkb::Instance& {
+		return m_Instance;
+	}
+
+	auto Renderer::surface() -> vk::SurfaceKHR {
+		return m_Surface;
 	}
 
 	auto Renderer::add_pass(std::shared_ptr<rhi::RenderPass> render_pass) -> void {

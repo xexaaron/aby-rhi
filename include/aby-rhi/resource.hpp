@@ -18,7 +18,7 @@ namespace aby::rhi {
      *        This is used for loading data asynchronously while still being able to give out
      *        valid usable IDs. 
     */
-	class Resource {
+	class ABY_RHI_API Resource {
 	public:
 		/**
          * @brief Resource constructor. Users should not construct Resources themselves and 
@@ -49,7 +49,7 @@ namespace aby::rhi {
 	 * @warning The container does not do bounds checking itself.
 	 */
 	template <typename T, EResource ResourceType>
-	class ResourceContainer {
+	class ABY_RHI_API ResourceContainer {
 	public:
 		~ResourceContainer();
 
@@ -130,7 +130,7 @@ namespace aby::rhi {
 	 * @tparam ResourceType the resource type of the container that owns the underlying resource data
 	 */
 	template <typename T, EResource ResourceType>
-	class ResourcePtr : public Resource {
+	class ABY_RHI_API ResourcePtr : public Resource {
 	public:
 		ResourcePtr();
 		ResourcePtr(std::nullptr_t);
@@ -166,7 +166,7 @@ namespace aby::rhi {
 	};
 
 	template <typename T, EResource ResourceType>
-	auto create_resource(Resource resource, ResourceContainer<T, ResourceType>& container) -> ResourcePtr<T, ResourceType> {
+	auto ABY_RHI_API create_resource(Resource resource, ResourceContainer<T, ResourceType>& container) -> ResourcePtr<T, ResourceType> {
 		if (resource.type() != ResourceType)
 			return {};
 		return ResourcePtr<T, ResourceType>(resource.id(), &container);

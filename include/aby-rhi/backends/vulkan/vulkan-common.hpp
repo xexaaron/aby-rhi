@@ -76,7 +76,7 @@ namespace aby::rhi::vulkan {
      * @return Vulkan-C pointee 
      */
 	template <typename T>
-	auto vkcast(T& obj) -> typename std::remove_cvref_t<T>::NativeType* {
+	auto ABY_RHI_API vkcast(T& obj) -> typename std::remove_cvref_t<T>::NativeType* {
 		using U = std::remove_cvref_t<T>;
 		return reinterpret_cast<typename U::NativeType*>(&obj);
 	}
@@ -88,13 +88,13 @@ namespace aby::rhi::vulkan {
      * @return Vulkan-C pointee 
      */
 	template <typename T>
-	auto vkcast(T* obj) -> typename std::remove_cvref_t<T>::NativeType* {
+	auto ABY_RHI_API vkcast(T* obj) -> typename std::remove_cvref_t<T>::NativeType* {
 		using U = std::remove_cvref_t<T>;
 		return reinterpret_cast<typename U::NativeType*>(obj);
 	}
 
 	template <typename T>
-	auto vkconvert(T value) {
+	auto ABY_RHI_API vkconvert(T value) {
 		if constexpr (std::same_as<T, EFormat>) {
 			return eformat_to_vkformat(value);
 		} else if constexpr (std::same_as<T, ERepeatMode>) {

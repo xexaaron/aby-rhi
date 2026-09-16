@@ -7,7 +7,7 @@ namespace aby::rhi {
 	/**
      * @brief Draw Cmd ares to be submitted to a created render pass each frame.
      */
-	class DrawCmd {
+	class ABY_RHI_API DrawCmd {
 	public:
 		/**
          * @brief DrawCmd constructor

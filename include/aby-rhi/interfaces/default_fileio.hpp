@@ -3,7 +3,7 @@
 
 namespace aby::rhi {
 
-	class DefaultFileIO final : public IFileIO {
+	class ABY_RHI_API DefaultFileIO final : public IFileIO {
 	public:
 		auto set_cwd(const fs::path& path) -> void override;
 		auto set_cache_dir(const fs::path& path) -> void override;

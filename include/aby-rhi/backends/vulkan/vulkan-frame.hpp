@@ -5,7 +5,7 @@ namespace aby::rhi::vulkan {
 
 	static constexpr size_t MAX_FRAMES_IN_FLIGHT = 2;
 
-	class Frame {
+	class ABY_RHI_API Frame {
 	public:
 		Frame()  = default;
 		~Frame() = default;
@@ -24,7 +24,7 @@ namespace aby::rhi::vulkan {
 		vk::Fence m_RenderFence = VK_NULL_HANDLE;
 	};
 
-	class Frames {
+	class ABY_RHI_API Frames {
 	public:
 		auto create(uint32_t graphics_queue_family) -> bool;
 		auto destroy() -> void;

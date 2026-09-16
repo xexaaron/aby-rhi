@@ -10,7 +10,7 @@ namespace aby::rhi {
 		float scale       = 1.f;
 	};
 
-	class ImGuiPlugin : public Plugin {
+	class ABY_RHI_API ImGuiPlugin : public Plugin {
 	public:
 		ImGuiPlugin(const ImGuiConfig& config);
 

@@ -9,7 +9,7 @@
 
 namespace aby::rhi {
 
-	class Buffer {
+	class ABY_RHI_API Buffer {
 	public:
 		/**
          * @brief Buffer constructor
@@ -66,7 +66,7 @@ namespace aby::rhi {
 		uint8_t* m_Data;
 	};
 
-	class VertexBuffer : public Buffer {
+	class ABY_RHI_API VertexBuffer : public Buffer {
 	public:
 		/**
          * @brief Create a vertex buffer.
@@ -130,7 +130,7 @@ namespace aby::rhi {
 	private:
 	};
 
-	class IndexBuffer : public Buffer {
+	class ABY_RHI_API IndexBuffer : public Buffer {
 	public:
 		/**
          * @brief Create an Index buffer

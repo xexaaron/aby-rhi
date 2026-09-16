@@ -6,7 +6,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class GarbageCollector {
+	class ABY_RHI_API GarbageCollector {
 	public:
 		using Dtor = std::function<void()>;
 

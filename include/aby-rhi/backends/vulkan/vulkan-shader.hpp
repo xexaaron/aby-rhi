@@ -6,12 +6,12 @@
 
 namespace aby::rhi::vulkan {
 
-	class Shader : public aby::rhi::Shader {
+	class ABY_RHI_API Shader : public aby::rhi::Shader {
 	public:
 		Shader(EShader type, const std::vector<uint32_t>& data);
 		~Shader();
 
-		auto data() -> std::span<uint32_t>;
+		auto data() -> std::span<uint32_t> override;
 		auto bind() -> void override;
 		auto destroy() -> void override;
 		auto module() -> vk::ShaderModule;

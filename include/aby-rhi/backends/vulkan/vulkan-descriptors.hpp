@@ -1,9 +1,11 @@
 #pragma once
+#include "common.hpp"
+
 #include <vulkan/vulkan.hpp>
 
 namespace aby::rhi::vulkan {
 
-	class DescriptorLayoutBuilder {
+	class ABY_RHI_API DescriptorLayoutBuilder {
 	public:
 		auto add_binding(uint32_t binding, vk::DescriptorType type) -> DescriptorLayoutBuilder&;
 		auto set_flags(vk::DescriptorSetLayoutCreateFlags flags) -> DescriptorLayoutBuilder&;
@@ -24,7 +26,7 @@ namespace aby::rhi::vulkan {
 		float ratio;
 	};
 
-	class DescriptorAllocator {
+	class ABY_RHI_API DescriptorAllocator {
 	public:
 		auto init(uint32_t max_sets, std::span<PoolSizeRatio> pool_ratios, vk::DescriptorPoolCreateFlags flags) -> bool;
 		auto alloc(vk::DescriptorSetLayout layout) -> vk::DescriptorSet;

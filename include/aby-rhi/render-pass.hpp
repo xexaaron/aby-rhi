@@ -10,7 +10,7 @@
 namespace aby::rhi {
 
 	/// @brief Use the RenderPassBuilder to construct this.
-	class RenderPass {
+	class ABY_RHI_API RenderPass {
 	public:
 		RenderPass()                  = default;
 		RenderPass(const RenderPass&) = delete;

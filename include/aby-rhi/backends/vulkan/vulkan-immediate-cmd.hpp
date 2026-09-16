@@ -3,7 +3,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class ImmediateCommands {
+	class ABY_RHI_API ImmediateCommands {
 	public:
 		~ImmediateCommands();
 

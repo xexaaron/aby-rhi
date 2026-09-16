@@ -153,10 +153,10 @@ list(APPEND CMAKE_PREFIX_PATH "$ENV{VULKAN_SDK}/Lib/cmake")
 target_link_libraries(${PROJECT_NAME} 
 PUBLIC
     TBB::tbb
-PRIVATE 
     Vulkan::Vulkan
-    vk-bootstrap::vk-bootstrap
     VulkanMemoryAllocator::Headers
+PRIVATE 
+    vk-bootstrap::vk-bootstrap
     shaderc
     stb_image::stb_image
 )
@@ -166,9 +166,9 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${ABY_RHI_INCLUDE_DIR}
-    PRIVATE
         ${Vulkan_INCLUDE_DIR}
         ${VENDOR_DIR}/vma/include
+    PRIVATE
         ${VENDOR_DIR}/shaderc/libshaderc/include
         ${VENDOR_DIR}/stb_image/include
 )

@@ -17,7 +17,7 @@ namespace aby::rhi {
 		post, // after everything has been deinitialized
 	};
 
-	class Plugin {
+	class ABY_RHI_API Plugin {
 	public:
 		/**
          * @brief Called during initialization

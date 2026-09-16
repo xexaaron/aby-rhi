@@ -13,7 +13,7 @@
 
 namespace aby::rhi {
 
-	class DefaultJobSystem : public IJobSystem {
+	class ABY_RHI_API DefaultJobSystem : public IJobSystem {
 	public:
 		DefaultJobSystem();
 		~DefaultJobSystem() noexcept;

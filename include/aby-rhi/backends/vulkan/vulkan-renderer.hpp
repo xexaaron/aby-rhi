@@ -17,7 +17,7 @@
 
 namespace aby::rhi::vulkan {
 
-	class Renderer : public aby::rhi::Renderer {
+	class ABY_RHI_API Renderer : public aby::rhi::Renderer {
 	public:
 		Renderer(GraphicsParams params);
 		~Renderer() = default;
@@ -35,8 +35,10 @@ namespace aby::rhi::vulkan {
 		auto on_end() -> bool override;
 	public:
 		auto device() -> vkb::Device&;
+		auto inst() -> vkb::Instance&;
 		auto vma() -> VmaAllocator&;
 		auto color_format() -> vk::Format;
+		auto surface() -> vk::SurfaceKHR;
 		auto gc() -> GarbageCollector&;
 		auto desc_alloc() -> DescriptorAllocator&;
 		auto tex_desc_set() -> vk::DescriptorSet;

@@ -36,7 +36,7 @@ namespace aby::rhi {
 #endif
 	};
 
-	class Context {
+	class ABY_RHI_API Context {
 	public:
 		Context()               = default;
 		Context(const Context&) = delete;
