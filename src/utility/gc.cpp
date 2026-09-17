@@ -1,8 +1,6 @@
-#include "backends/vulkan/vulkan-gc.hpp"
+#include "utility/gc.hpp"
 
-#include "context.hpp"
-
-namespace aby::rhi::vulkan {
+namespace aby::rhi {
 
 	auto GarbageCollector::push(Dtor&& dtor) -> void {
 		m_Dtors.emplace(std::move(dtor));
@@ -18,4 +16,4 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
-} // namespace aby::rhi::vulkan
+} // namespace aby::rhi

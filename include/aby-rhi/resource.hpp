@@ -21,20 +21,21 @@ namespace aby::rhi {
 	class ABY_RHI_API Resource {
 	public:
 		/**
-         * @brief Resource constructor. Users should not construct Resources themselves and 
-         *        use the appropriate resource Create method.
-         * @param type The type of resource
-         * @param id An id given by the Context. 
+         * @brief Resource constructor. Users should construct resources with @c create_resource<...>(...)
+         * @param[in] type The type of resource
+         * @param[in] id an id given by the @c ResourceContainer
          */
 		Resource(EResource type = EResource::none, ResourceID id = ResourceID::invalid);
-
+		/// @brief Get the resource type
 		auto type() const -> EResource;
+		/// @brief Get the resource id
 		auto id() const -> ResourceID;
 
 		operator ResourceID() const;
 		operator std::pair<EResource, ResourceID>() const;
-
+		/// @brief id != ResourceID::invalid
 		explicit operator bool() const;
+		/// @brief id == other.id && type == other.type
 		auto operator==(Resource other) const -> bool;
 	private:
 		EResource m_Type;
@@ -52,67 +53,66 @@ namespace aby::rhi {
 	class ABY_RHI_API ResourceContainer {
 	public:
 		~ResourceContainer();
-
 		/**
 		 * @brief Clear the container and delete all resources, destroying them in the process. 
 		 */
 		auto clear() -> void;
-
 		/**
 		 * @brief Reserve a resource slot in the container. This resource can be passed around before the creation
 		 *        of the actual data.
 		 * @return A resource handle that can later be passed to add/emplace.
 		 */
 		auto reserve() -> Resource;
-
+		/**
+		* @brief Used by the context to set the plugins for resource loading and remove hooks
+		* @param[in] plugins the context plugins
+		*/
 		auto set_plugins(std::vector<Plugin*>& plugins) -> void;
-
 		/**
 		 * @brief Add an already constructed resource to the container.
-		 * @param resource Resource reserved via ResourceContainer::reserve.
-		 * @param obj Constructed object.
+		 * @param[in] resource resource reserved via ResourceContainer::reserve.
+		 * @param[in] obj constructed object.
 		 */
 		auto add(Resource resource, T* obj) -> void;
-
 		/**
 		 * @brief Construct a resource directly into the container.
-		 * @param resource Resource reserved via ResourceContainer::reserve.
-		 * @param args Constructor arguments.
+		 * @tparam Args the argument types
+		 * @param[in] resource resource reserved via ResourceContainer::reserve.
+		 * @param[in] args constructor arguments.
 		 */
 		template <typename... Args>
 		requires(std::is_constructible_v<T, Args...>)
 		auto emplace(Resource resource, Args&&... args) -> void;
-
 		/**
 		 * @brief Remove a resource from the container and free its ID.
-		 * @param resource Resource handle.
+		 * @param[in] resource resource handle.
 		 */
 		auto remove(Resource resource) -> void;
-
 		/**
 		 * @brief Notify the container that resource loading failed.
-		 * @param resource Resource reserved via ResourceContainer::reserve.
+		 * @param[in] resource resource reserved via ResourceContainer::reserve.
 		 */
 		auto fail(Resource resource) -> void;
-
 		/**
 		 * @brief Wait until a resource finishes loading.
-		 * @return False if loading failed or resource is invalid, true if loaded.
+		 * @param[in] resource the resource to wait on
+		 * @return false if loading failed or resource is invalid, otherwise true.
 		 */
 		auto wait_for(Resource resource) -> bool;
-
 		/**
 		 * @brief Check if a resource has finished loading.
+		 * @param[in] resource the resource to check
+		 * @return [true|false]
 		 */
 		auto is_loaded(Resource resource) -> bool;
-
 		/**
 		 * @brief Get the current state of a resource.
+		 * @param[in] resource the resource to get the state of
 		 */
 		auto state(Resource resource) -> EResourceState;
-
 		/**
 		 * @brief Access the resource data.
+		 * @param[in] resource the resource to get
 		 * @warning Resource must be in the loaded state.
 		 */
 		auto operator[](Resource resource) -> T*;
@@ -165,6 +165,14 @@ namespace aby::rhi {
 		ResourceContainer<T, ResourceType>* m_Container = nullptr;
 	};
 
+	/**
+	* @brief Create a resource ptr
+	* @tparam T the resource data type
+	* @tparam ResourceType the resource enumeration type
+	* @param[in] resource the resource handle to associate with this data
+	* @param[in] container the container that stores the resource
+	* @return nullptr if the resource types dont match, otherwise a resource ptr in a loaded or unloaded state. 
+	*/
 	template <typename T, EResource ResourceType>
 	auto ABY_RHI_API create_resource(Resource resource, ResourceContainer<T, ResourceType>& container) -> ResourcePtr<T, ResourceType> {
 		if (resource.type() != ResourceType)

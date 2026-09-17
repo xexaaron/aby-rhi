@@ -18,58 +18,52 @@ namespace aby::rhi {
 
 		/**
          * @brief Submit a draw cmd to be rendered. This must be called each frame.
-         * @param cmd The draw command.
+         * @param[in] cmd The draw command.
          */
 		auto submit(const DrawCmd& cmd) -> void;
-
 		/**
 		* @brief Set a uniform by name
-		* @param name The name of the uniform (set during RenderPassBuilder creation)
-		* @param obj the data to set the uniform to
+		* @param[in] name The name of the uniform (set during RenderPassBuilder creation)
+		* @param[in] obj the data to set the uniform to
 		*/
 		template <typename T>
 		auto set_uniform(std::string_view name, const T& obj) -> void {
 			set_uniform(name, &obj, sizeof(T));
 		}
-
 		/**
 		* @brief Set a uniform by name
-		* @param name The name of the uniform (set during RenderPassBuilder creation) 
-		* @param data the data to set the uniform to
-		* @param bytes the size of the data and the uniform (they must match)
+		* @param[in] name The name of the uniform (set during RenderPassBuilder creation) 
+		* @param[in] data the data to set the uniform to
+		* @param[in] bytes the size of the data and the uniform (they must match)
 		*/
 		virtual auto set_uniform(std::string_view name, const void* data, size_t bytes) -> void = 0;
-
 		/**
 		* @brief Upload a constant by name
-		* @param name The name of the constant (set during RenderPassBuilder creation)
-		* @param obj The data to set the constant to
+		* @param[in] name The name of the constant (set during RenderPassBuilder creation)
+		* @param[in] obj The data to set the constant to
 		*/
 		template <typename T>
 		auto push_constant(std::string_view name, const T& obj) -> void {
 			push_constant(name, &obj, sizeof(T));
 		}
-
 		/**
 		* @brief Upload a constant by name
-		* @param name The name of the constant (set during RenderPassBuilder creation)
-		* @param data The data to set the constant to
-		* @param bytes The size of the data and the constant (they must match)
+		* @param[in] name The name of the constant (set during RenderPassBuilder creation)
+		* @param[in] data The data to set the constant to
+		* @param[in] bytes The size of the data and the constant (they must match)
 		*/
 		virtual auto push_constant(std::string_view name, const void* data, size_t bytes) -> void = 0;
-
 		/**
 		* @brief Set the scissor flag
-		* @param enabled [true | false] 
+		* @param[in] enabled [true | false] 
 		*/
-		virtual auto set_scissor_enable(bool enabled) -> void = 0;
-
+		virtual auto set_scissor_enable(bool enabled) -> void                                     = 0;
 		/**
 		* @brief Set the scissor region to use if scissor is enabled
-		* @param min the min coords of the rectangle
-		* @param max the max coords of the rectangle
+		* @param[in] min the min coords of the rectangle
+		* @param[in] max the max coords of the rectangle
 		*/
-		virtual auto set_scissor_region(vec2<int> min, vec2<int> max) -> void = 0;
+		virtual auto set_scissor_region(vec2<int> min, vec2<int> max) -> void                     = 0;
 
 		/// @brief The functions below should not be called by the user. only by the renderer backend.
 		///        these functions must be called during Renderer::on_begin
@@ -119,36 +113,60 @@ namespace aby::rhi {
 		virtual auto build() -> std::shared_ptr<RenderPass> = 0;
 		virtual auto clear() -> void                        = 0;
 
+		/**
+		* @brief Add a shader to the render pass
+		* @param[in] rel_path a path relative to the CWD
+		* @note The shader will be compiled in the background, and it will block if not finished compiling
+		* 		when @c RenderPassBuilder::build() is called
+		*/
 		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                   = 0;
+		/**
+		* @brief Add a shader to the render pass
+		* @param[in] shader a resource shader ptr
+		* @note The shader if still compiling in the background will block if not finished compiling
+		* 		when @c RenderPassBuilder::build() is called 
+		*/
 		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                           = 0;
+		/**
+		* @brief Add a shader uniform to the render pass
+		* @param[in] name the name of the uniform, this should generally correspond to the name in the shader but does not have to.
+		* @param[in] binding the binding of the uniform in the shader
+		* @param[in] stage the shader stage that contains the uniform
+		*/
 		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;
+		/**
+		* @brief Add a color attachment to the render pass
+		* @param[in] texture a texture created via @c Texture::create_render_target(...) If the texture has not finished
+						 loading by the time @c RenderPassBuilder::build() is called it will block until finished loading.
+		* @param[in] is_present_target the present target is the final image to be presented to the swapchain between ALL passes. 
+		*/
 		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& = 0;
 		/**
 		 * @brief Add a push constant to the render pass
-		 * @param name The name to access it by
-		 * @param bytes The size of the push constant
+		 * @param[in] name The name to access it by
+		 * @param[in] bytes The size of the push constant
 		 * @note Push constants are globally accessible by all shader stages
 		 */
 		virtual auto add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder&               = 0;
 		/**
 		 * @brief Add a push constant to the render pass
 		 * @tparam T the type of the object to be used for the size of the push constant
-		 * @param name The name to access it by
+		 * @param[in] name The name to access it by
 		 * @note Push constants are globally accessible by all shader stages
 		 */
 		template <typename T>
 		auto add_push_constant(const std::string& name) -> RenderPassBuilder&;
 		/**
          * @brief add a vertex input
-         * @param bytes The size of the vertex member.
-         * @param format The format of the member (ie. vec2f -> rg_f32)
-         * @param offset The offsetof the member compared to the Vertex structure. 
+         * @param[in] bytes The size of the vertex member.
+         * @param[in] format The format of the member (ie. vec2f -> rg_f32)
+         * @param[in] offset The offsetof the member compared to the Vertex structure. 
         */
 		virtual auto add_vertex_input(size_t bytes, EFormat format, size_t offset) -> RenderPassBuilder& = 0;
 		/**
          * @brief Add a vertex shader input
          * @tparam Member in the format: &T::member
-         * @param format The format corresponding to the members layout. (ie. vec2f -> rg_f32)
+         * @param[in] format The format corresponding to the members layout. (ie. vec2f -> rg_f32)
          */
 		template <auto Member>
 		requires(std::is_member_object_pointer_v<decltype(Member)>)
@@ -156,30 +174,95 @@ namespace aby::rhi {
 		/**
          * @brief Add vertex shader inputs
          * @tparam ...Member in the format: &T::member...
-         * @param formats The format(s) corresponding to the members layout. (ie. vec2f -> rg_f32)
+         * @param[in] formats The format(s) corresponding to the members layout. (ie. vec2f -> rg_f32)
          */
 		template <auto... Member>
 		requires((std::is_member_object_pointer_v<decltype(Member)> && ...))
 		auto add_vertex_inputs(std::same_as<EFormat> auto... formats) -> RenderPassBuilder&;
 
+		/**
+		* @brief Set the topology mode
+		* @param[in] topology the mode
+		*/
 		virtual auto set_topology(ETopology topology) -> RenderPassBuilder&                                      = 0;
+		/**
+		* @brief Set the polygon mode
+		* @param[in] mode the mode
+		* @param[in] line_width the width of the polygon lines
+		*/
 		virtual auto set_polygon_mode(EPolygonMode mode, float line_width) -> RenderPassBuilder&                 = 0;
+		/**
+		* @brief Set the cull mode
+		* @param[in] mode the mode
+		* @param[in] front_face the triangle winding order
+		*/
 		virtual auto set_cull_mode(ECullMode mode, EFrontFace front_face) -> RenderPassBuilder&                  = 0;
+		/**
+		* @brief Set the depth format of the depth attachment
+		* @param[in] format the format 
+		*/
 		virtual auto set_depth_format(EFormat format) -> RenderPassBuilder&                                      = 0;
+		/**
+		* @brief Set the depth enabling flags and comparison operation
+		* @param[in] enable_test enable depth testing in the attachments
+		* @param[in] enable_write enable depth writing in the attachments
+		* @param[in] compare_op the comparison op for depth operations
+		*/
 		virtual auto set_depth(bool enable_test, bool enable_write, ECompareOp compare_op) -> RenderPassBuilder& = 0;
+		/**
+		* @brief Set stencil enabling flags and comparison operation
+		* @param[in] enable enable stencil in the attachments
+		* @param[in] compare_op the comparison op for stencil operations
+		*/
 		virtual auto set_stencil(bool enable, ECompareOp compare_op) -> RenderPassBuilder&                       = 0;
+		/**
+		* @brief Set the blend color enabling flags, operations, and factors for a color attachment
+		* @param[in] enable enable color blending in the color attachment
+		* @param[in] blend the color blend operation and blend factors
+		* @param[in] attachment the attachment to set these values for
+		*/
 		virtual auto set_blend_color(bool enable, Blend blend, size_t attachment = 0) -> RenderPassBuilder&      = 0;
+		/**
+		* @brief Set the blend color enabling flags, operations, and factors for color attachment(s)
+		* @param[in] enable enable color blending in the color attachment
+		* @param[in] blend the color blend operation and blend factors
+		* @param[in] attachments the attachment(s) to set these values for
+		*/
 		auto set_blend_color(bool enable, Blend blend, std::set<size_t> attachments) -> RenderPassBuilder&;
+		/**
+		* @brief Set the blend alpha operations, and factors for a color attachment
+		* @param[in] blend the alpha blend operation and blend factors
+		* @param[in] attachment the attachment to set these values for
+		*/
 		virtual auto set_blend_alpha(Blend blend, size_t attachment = 0) -> RenderPassBuilder& = 0;
+		/**
+		* @brief Set the blend alpha operations, and factors for color attachment(s)
+		* @param[in] blend the alpha blend operation and blend factors
+		* @param[in] attachments the attachment(s) to set these values for
+		*/
 		auto set_blend_alpha(Blend blend, std::set<size_t> attachments) -> RenderPassBuilder&;
+		/**
+		* @brief Set the blend mask for a color attachment
+		* @param[in] mask [R|G|B|A]
+		* @param[in] attachment the attachment to set the mask for
+		*/
 		virtual auto set_blend_mask(EChannels mask, size_t attachment = 0) -> RenderPassBuilder& = 0;
+		/**
+		* @brief Set the blend mask for color attachment(s)
+		* @param[in] mask [R|G|B|A]
+		* @param[in] attachments the attachment(s) to set the mask for
+		*/
 		auto set_blend_mask(EChannels mask, std::set<size_t> attachments) -> RenderPassBuilder&;
+		/**
+		* @brief Set the anti-aliasing factor for the attachments
+		* @note the anti-aliasing must be the same as each color attachment in the render pass
+		*/
 		virtual auto set_antialiasing(EAntiAliasing aliasing) -> RenderPassBuilder& = 0;
-
-		virtual auto disable_blending() -> RenderPassBuilder&  = 0;
-		virtual auto disable_depthtest() -> RenderPassBuilder& = 0;
-
-		// use_default_topology, use_default_polygon_mode, not present, ... etc.
+		/// @brief disable all blending operations
+		virtual auto disable_blending() -> RenderPassBuilder&                       = 0;
+		/// @brief disable all depth operations
+		virtual auto disable_depthtest() -> RenderPassBuilder&                      = 0;
+		/// @brief use_default_topology, use_default_polygon_mode, not present, ... etc.
 		auto use_all_defaults() -> RenderPassBuilder&;
 		/// @brief ETopologoy::triangle_list
 		auto use_default_topology() -> RenderPassBuilder&;

@@ -1,5 +1,8 @@
 #include "draw-cmd.hpp"
 
+#include "common.hpp"
+#include "context.hpp"
+
 namespace aby::rhi {
 
 	DrawCmd::DrawCmd(std::shared_ptr<VertexBuffer> vertices, std::shared_ptr<IndexBuffer> indices, uint32_t instances) :

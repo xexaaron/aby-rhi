@@ -4,7 +4,7 @@
 #include <functional>
 #include <stack>
 
-namespace aby::rhi::vulkan {
+namespace aby::rhi {
 
 	class ABY_RHI_API GarbageCollector {
 	public:
@@ -16,4 +16,4 @@ namespace aby::rhi::vulkan {
 		std::stack<Dtor> m_Dtors;
 	};
 
-}; // namespace aby::rhi::vulkan
+} // namespace aby::rhi

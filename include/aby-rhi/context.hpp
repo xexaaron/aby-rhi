@@ -41,27 +41,24 @@ namespace aby::rhi {
 		Context()               = default;
 		Context(const Context&) = delete;
 		Context(Context&&)      = delete;
-
 		/**
          * @brief Get the static context instance
         */
 		static auto get() -> Context&;
-
 		/**
          * @brief initialize the context. this must be called before anything else relating to the aby::rhi API
-         * @param context_params context parameters structure
+         * @param[in] context_params context parameters structure
          * @return true on success otherwise false
          */
 		auto init(const ContextParams& params) -> bool;
-
 		/**
          * @brief Must be called at the end of the application to release all resources.
          */
 		auto deinit() -> void;
-
 		/**
 		 * @brief Register a plugin.
 		 * 		  The context will handle the memory management.
+		 * @param[in] plugin the plugin to register 
 		 */
 		auto register_plugin(Plugin* plugin) -> void;
 

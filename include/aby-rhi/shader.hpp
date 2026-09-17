@@ -28,18 +28,29 @@ namespace aby::rhi {
 	public:
 		/**
          * @brief The type of shader will be determined by the path.
-         * @warning Do not use precompiled shaders. For vertex shaders we want to be able to parse a description.
+         * @warning Do not use precompiled shaders.
          * @param .geom Geometry shader
          * @param .vert Vertex shader
          * @param .frag Fragment shader
          * @param .comp Compute shader
         */
 		static auto create(const fs::path& rel_path) -> ResourcePtr<Shader, EResource::shader>;
-		virtual ~Shader() = default;
-
+		virtual ~Shader()                          = default;
+		/**
+		* @brief Get the shader code
+		*/
 		virtual auto data() -> std::span<uint32_t> = 0;
+		/**
+		* @brief Bind the shader, used in backends like opengl
+		*/
 		virtual auto bind() -> void                = 0;
+		/**
+		* @brief Destroy the shader and any backend data
+		*/
 		virtual auto destroy() -> void             = 0;
+		/**
+		* @brief Get the shader stage
+		*/
 		virtual auto type() const -> EShader       = 0;
 	protected:
 		struct PathData {

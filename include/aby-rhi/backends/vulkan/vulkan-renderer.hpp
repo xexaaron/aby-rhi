@@ -1,13 +1,13 @@
 #pragma once
 #include "backends/vulkan/vulkan-descriptors.hpp"
 #include "backends/vulkan/vulkan-frame.hpp"
-#include "backends/vulkan/vulkan-gc.hpp"
 #include "backends/vulkan/vulkan-image.hpp"
 #include "backends/vulkan/vulkan-immediate-cmd.hpp"
 #include "backends/vulkan/vulkan-pipeline.hpp"
 #include "backends/vulkan/vulkan-render-pass.hpp"
 #include "backends/vulkan/vulkan-shader.hpp"
 #include "renderer.hpp"
+#include "utility/gc.hpp"
 
 #include <VkBootstrap.h>
 #include <array>

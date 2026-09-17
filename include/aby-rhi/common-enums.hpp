@@ -24,10 +24,10 @@ namespace aby::rhi {
 	};
 
 	enum class EWindow {
-		win32,     // windows (HWND)
-		x11,       // linux (Display*, Window*)
-		wayland,   // linux (wl_display*, wl_surface*)
-		metal,     // macos (TODO:)
+		win32,     // win32 (HWND)
+		x11,       // linux[x11] (Display*, Window*)
+		wayland,   // linux[wayland] (wl_display*, wl_surface*)
+		metal,     // macos (CAMetalLayer*)
 		automatic, // On Linux will default to wayland
 	};
 

@@ -5,6 +5,9 @@
 
 namespace aby::rhi::vulkan {
 
+	/**
+	* @brief Get the vulkan allocator callbacks
+	*/
 	auto ABY_RHI_API allocator() -> VkAllocationCallbacks*;
 
 	auto VKAPI_PTR vk_alloc_callback(void* pUserData, size_t size, size_t alignment, VkSystemAllocationScope allocationScope) -> void*;

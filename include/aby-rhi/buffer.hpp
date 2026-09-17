@@ -13,8 +13,8 @@ namespace aby::rhi {
 	public:
 		/**
          * @brief Buffer constructor
-         * @param size The desired element count of the buffer
-         * @param stride The byte size of each element in the buffer.
+         * @param[in] size The desired element count of the buffer
+         * @param[in] stride The byte size of each element in the buffer.
         */
 		Buffer(size_t size, size_t stride);
 		virtual ~Buffer() = default;
@@ -50,8 +50,15 @@ namespace aby::rhi {
         */
 		auto clear() -> void;
 
+		/**
+		* @brief Iterate the buffer as a type T*
+		* @tparam T the type of object to iterate as
+		* @tparam Fn the type of the fn to call on each element
+		* @param[in] fn the function to call on each element
+		*/
 		template <typename T, typename Fn>
 		auto for_each(Fn&& fn) -> void {
+			if (sizeof(T) != m_Stride) return;
 			auto offset = 0;
 			for (size_t i = 0; i < m_Count; i++) {
 				auto* obj = reinterpret_cast<T*>(m_Data + offset);
@@ -70,14 +77,14 @@ namespace aby::rhi {
 	public:
 		/**
          * @brief Create a vertex buffer.
-         * @param size The desired vertex count of the buffer.
-         * @param stride The byte size of each vertex in the buffer.
+         * @param[in] size The desired vertex count of the buffer.
+         * @param[in] stride The byte size of each vertex in the buffer.
         */
 		static auto create(size_t size, size_t stride) -> std::shared_ptr<VertexBuffer>;
 		/**
 		 * @brief Create a vertex buffer.
 		 * @tparam T the type of the vertex.
-		 * @param size The desired vertex count of the buffer.
+		 * @param[in] size The desired vertex count of the buffer.
 		 */
 		template <typename T>
 		static auto create(size_t size) -> std::shared_ptr<VertexBuffer> {
@@ -85,8 +92,8 @@ namespace aby::rhi {
 		}
 		/**
          * @brief VertexBuffer constructor
-         * @param size The desired vertex count of the buffer
-         * @param stride The byte size of each vertex in the buffer.
+         * @param[in] size The desired vertex count of the buffer
+         * @param[in] stride The byte size of each vertex in the buffer.
         */
 		VertexBuffer(size_t size, size_t stride);
 		/**
@@ -100,28 +107,30 @@ namespace aby::rhi {
 
 		/**
          * @brief Push a vertex into the cpu buffer
-         * @param v A vertex pointer matching the stride set by the constructor.
+         * @param[in] vertex A vertex pointer matching the stride set by the constructor.
+		 * @param[in] bytes the size of the vertex
         */
 		auto push(const void* vertex) -> void;
 		/**
 		 * @brief Push a vertex into the CPU buffer.
 		 * @tparam T Vertex type. (must match the stride set by the constructor)
-		 * @param vertex The vertex to push.
+		 * @param[in] vertex The vertex to push.
 		*/
 		template <typename T>
 		auto push(const T& vertex) -> void {
+			if (sizeof(T) != m_Stride) return;
 			push(static_cast<const void*>(&vertex));
 		}
 		/**
 		 * @brief Push an array of vertices into the cp u buffer
-		 * @param vertices an array of vertices
-		 * @param count the number of vertices in the array
+		 * @param[in] vertices an array of vertices
+		 * @param[in] count the number of vertices in the array
 		 */
 		auto push(const void* vertices, size_t count) -> void;
 		/**
 		 * @brief Push a range of vertices into the CPU buffer.
 		 * @tparam Range a contiguous range of vertices.
-		 * @param range the range of vertices to push.
+		 * @param[in] range the range of vertices to push.
 		 */
 		template <std::ranges::contiguous_range Range>
 		auto push(const Range& range) -> void {
@@ -134,12 +143,12 @@ namespace aby::rhi {
 	public:
 		/**
          * @brief Create an Index buffer
-         * @param size The desired index count of the buffer (uint32_t indices)
+         * @param[in] size The desired index count of the buffer (uint32_t indices)
         */
 		static auto create(size_t size) -> std::shared_ptr<IndexBuffer>;
 		/**
          * @brief IndexBuffer constructor
-         * @param size The desired index count of the buffer (uint32_t indices)
+         * @param[in] size The desired index count of the buffer (uint32_t indices)
         */
 		IndexBuffer(size_t size);
 		/**
@@ -152,18 +161,18 @@ namespace aby::rhi {
 		virtual auto destroy() -> void = 0;
 		/**
          * @brief Push an index into the cpu buffer
-         * @param index An index
+         * @param[in] index An index
         */
 		auto push(uint32_t index) -> void;
 		/**
 		 * @brief Push an array of indices into the cpu buffer
-		 * @param indices an view of indices
+		 * @param[in] indices an view of indices
 		 */
 		auto push(std::span<const uint32_t> indices) -> void;
 		/**
 		 * @brief Push a range of indices into the cpu buffer
-		 * @param Range a contiguous range of vertices
-		 * @param indices the range of indices to push.
+		 * @param[in] Range a contiguous range of vertices
+		 * @param[in] indices the range of indices to push.
 		 */
 		template <std::ranges::contiguous_range Range>
 		auto push(const Range& indices) -> void {

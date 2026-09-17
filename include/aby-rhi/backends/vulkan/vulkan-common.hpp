@@ -9,10 +9,10 @@
 
 /**
  * @brief private vulkan check macro that handles different return expressions
- * @param result VkResult from a function or variable
- * @param return_expression What happens when the check fails
- * @param msg formmatable message to log 
- * @param ... format msg arguments
+ * @param[in] result VkResult from a function or variable
+ * @param[in] return_expression What happens when the check fails
+ * @param[in] msg formmatable message to log 
+ * @param[in] ... format msg arguments
  */
 #define __vkcheck__(result, return_expression, msg, ...)                                               \
 	do {                                                                                               \
@@ -28,35 +28,35 @@
 
 /**
  * @brief vulkan result check macro that handles different return expressions
- * @param result VkResult from a function or variable
- * @param msg formmatable message to log 
- * @param ... format msg arguments
+ * @param[in] result VkResult from a function or variable
+ * @param[in] msg formmatable message to log 
+ * @param[in] ... format msg arguments
  * @return false on failure. otherwise nothing.
  */
 #define vkcheck(result, msg, ...) __vkcheck__(result, return false, msg __VA_OPT__(, ) __VA_ARGS__)
 
 /**
  * @brief vulkan result check macro that handles different return expressions
- * @param result VkResult from a function or variable
- * @param msg formmatable message to log 
- * @param ... format msg arguments
+ * @param[in] result VkResult from a function or variable
+ * @param[in] msg formmatable message to log 
+ * @param[in] ... format msg arguments
  * @return assertion on failure. otherwise nothing.
  */
 #define vkassert(result, msg, ...) __vkcheck__(result, aby_rhi_assert(res == VK_SUCCESS, "vkassert failed"), msg __VA_OPT__(, ) __VA_ARGS__)
 
 /**
  * @brief vulkan result check macro that propogates the error to the caller
- * @param result VkResult from a function or variable
- * @param msg formattable message to log
- * @param ... format msg arguments
+ * @param[in] result VkResult from a function or variable
+ * @param[in] msg formattable message to log
+ * @param[in] ... format msg arguments
  * @return error that was logged, otherwise nothing
  */
 #define vkpropagate(result, msg, ...) __vkcheck__(result, return static_cast<vk::Result>(res), msg __VA_OPT__(, ) __VA_ARGS__)
 
 /**
  * @brief vulkan bootstrap check macro 
- * @param obj The Result<T> object from a vkb:: Builder
- * @param msg The message to log as the header for the error
+ * @param[in] obj The Result<T> object from a vkb:: Builder
+ * @param[in] msg The message to log as the header for the error
  * @return false on failure. otherwise nothing
  */
 #define vkbcheck(obj, msg)                                        \
@@ -72,7 +72,7 @@ namespace aby::rhi::vulkan {
 	/**
      * @brief Helper function for converting vk:: namespaced types from vulkan.hpp to
      *        their Vulkan C counterparts
-     * @param obj reference to a vk:: namespaced object
+     * @param[in] obj reference to a vk:: namespaced object
      * @return Vulkan-C pointee 
      */
 	template <typename T>
@@ -84,7 +84,7 @@ namespace aby::rhi::vulkan {
 	/**
      * @brief Helper function for converting vk:: namespaced types from vulkan.hpp to
      *        their Vulkan C counterparts
-     * @param obj pointer to a vk:: namespaced object
+     * @param[in] obj pointer to a vk:: namespaced object
      * @return Vulkan-C pointee 
      */
 	template <typename T>
@@ -93,6 +93,12 @@ namespace aby::rhi::vulkan {
 		return reinterpret_cast<typename U::NativeType*>(obj);
 	}
 
+	/**
+	* @brief Helper function for converting rhi enumerations to vk enumerations
+	* @tparam T the rhi enumeration type
+	* @param[in] value the rhi enumeration value
+	* @return vk:: enumeration
+	*/
 	template <typename T>
 	auto ABY_RHI_API vkconvert(T value) {
 		if constexpr (std::same_as<T, EFormat>) {

@@ -81,6 +81,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/texture.hpp
     ${ABY_RHI_INCLUDE_DIR}/plugins/plugin.hpp
     ${ABY_RHI_INCLUDE_DIR}/utility/meta.hpp
+    ${ABY_RHI_INCLUDE_DIR}/utility/gc.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_interfaces.hpp
     ${ABY_RHI_INCLUDE_DIR}/interfaces/default_allocator.hpp
@@ -99,6 +100,7 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/shader.cpp
     ${ABY_RHI_SRC_DIR}/texture.cpp
     ${ABY_RHI_SRC_DIR}/plugins/plugin.cpp
+    ${ABY_RHI_SRC_DIR}/utility/gc.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/interfaces.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_allocator.cpp
     ${ABY_RHI_SRC_DIR}/interfaces/default_fileio.cpp
@@ -113,7 +115,6 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-descriptors.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-dispatch.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-frame.hpp
-    ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-gc.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-helpers.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-image.hpp
     ${ABY_RHI_INCLUDE_DIR}/backends/vulkan/vulkan-immediate-cmd.hpp
@@ -129,7 +130,6 @@ add_library(${PROJECT_NAME}
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-descriptors.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-dispatch.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-frame.cpp
-    ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-gc.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-helpers.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-image.cpp
     ${ABY_RHI_SRC_DIR}/backends/vulkan/vulkan-immediate-cmd.cpp
@@ -166,9 +166,9 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${ABY_RHI_INCLUDE_DIR}
+    PRIVATE
         ${Vulkan_INCLUDE_DIR}
         ${VENDOR_DIR}/vma/include
-    PRIVATE
         ${VENDOR_DIR}/shaderc/libshaderc/include
         ${VENDOR_DIR}/stb_image/include
 )

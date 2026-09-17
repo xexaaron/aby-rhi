@@ -33,8 +33,8 @@ namespace aby::rhi {
 		auto name() -> std::string_view override;
 		/**
 		 * @brief log a message 
-		 * @param level the level of the log message
-		 * @param msg the message data
+		 * @param[in] level the level of the log message
+		 * @param[in] msg the message data
 		 */
 		virtual auto log(ELogLevel level, const std::string& msg) -> void = 0;
 	private:
@@ -48,23 +48,25 @@ namespace aby::rhi {
 		auto name() -> std::string_view override;
 		/**
 		 * @brief Allocate a chunk of memory
-		 * @param bytes the requested size
-		 * @param alignment a power of 2. alignment must be respected at all times.
-		 * @param type The type of allocation. (may be ignored)
+		 * @param[in] bytes the requested size
+		 * @param[in] alignment a power of 2. alignment must be respected at all times.
+		 * @param[in] type the type of allocation. (may be ignored)
+		 * @return alligned allocated chunk of memory
 		 */
 		virtual auto alloc(size_t bytes, size_t alignment, EAllocation type) -> void*              = 0;
 		/**
 		 * @brief Reallocate a chunk of memory.
-		 * @param ptr the old pointer
-		 * @param bytes the requested size
-		 * @param alignment a power of 2. alignment must be respected at all times.
-		 * @param type The type of allocation. (may be ignored)
+		 * @param[in] ptr the old pointer
+		 * @param[in] bytes the requested size
+		 * @param[in] alignment a power of 2. alignment must be respected at all times.
+		 * @param[in] type the type of allocation. (may be ignored)
+		 * @return alligned allocated chunk of memory with ptr data copied to it
 		 */
 		virtual auto realloc(void* ptr, size_t bytes, size_t alignment, EAllocation type) -> void* = 0;
 		/**
 		 * @brief Free a chunk of memory
-		 * @param ptr the pointer to free
-		 * @param type (may be ignored)
+		 * @param[in] ptr the pointer to free
+		 * @param[in] type the type of the allocation. (may be ignored)
 		 */
 		virtual auto free(void* ptr, EAllocation type) -> void                                     = 0;
 	private:
@@ -79,48 +81,50 @@ namespace aby::rhi {
 		auto name() -> std::string_view override;
 		/**
 		 * @brief Concatenates a path with the cache directory
-		 * @param rel_path path relative to the cache directory
+		 * @param[in] rel_path path relative to the cache directory
 		 * @return absolute path
 		 */
 		auto cache_path(const fs::path& rel_path) -> fs::path;
 		/**
 		 * @brief Concatenates a path with the cache directory
-		 * @param rel_path path relative to the cache directory
-		 * @param append_ext an extension to append to the relative path
+		 * @param[in] rel_path path relative to the cache directory
+		 * @param[in] append_ext an extension to append to the relative path
 		 * @return absolute path
 		 */
 		auto cache_path(const fs::path& rel_path, const std::string& append_ext) -> fs::path;
 		/**
 		 * @brief Check if a cache path exists
-		 * @param rel_path path relative to the cache directory.
+		 * @param[in] rel_path path relative to the cache directory.
 		 * @return true if exists, otherwise false
 		 */
 		auto cache_path_exists(const fs::path& rel_path) -> bool;
 		/**
 		 * @brief Check if a cache path exists
-		 * @param rel_path path relative to the cache directory.
-		 * @param append_ext an extension to append to the relative path.
+		 * @param[in] rel_path path relative to the cache directory.
+		 * @param[in] append_ext an extension to append to the relative path.
 		 * @return true if exists, otherwise false
 		 */
 		auto cache_path_exists(const fs::path& rel_path, const std::string& append_ext) -> bool;
 		/**
 		 * @brief Concatenates a path with the CWD
-		 * @param rel_path path relative to the CWD
+		 * @param[in] rel_path path relative to the CWD
 		 * @return absolute path
 		 */
 		auto path(const fs::path& rel_path) -> fs::path;
 		/**
 		 * @brief Checks if a relative path exists inside the CWD
-		 * @param rel_path path relative to the CWD
+		 * @param[in] rel_path path relative to the CWD
 		 * @return true if exists, otherwise false
 		 */
 		auto exists(const fs::path& rel_path) -> bool;
 		/**
 		 * @brief Set the cache directory. Used mainly for when using the DefaultFileIO.
+		 * @param[in] path the new cwd path
 		 */
 		virtual auto set_cwd(const fs::path& path) -> void                               = 0;
 		/**
 		 * @brief set the cache directory. Used mainly for when using the DefaultFileIO.
+		 * @param path  the new cache directory path
 		 */
 		virtual auto set_cache_dir(const fs::path& path) -> void                         = 0;
 		/**
@@ -133,29 +137,29 @@ namespace aby::rhi {
 		virtual auto cache_dir() const -> const fs::path&                                = 0;
 		/**
 		 * @brief Read an entire file.
-		 * @param rel_path path relative to the cwd
-		 * @param data uint8_t byte vector. (this function will reserve space in the vector)
+		 * @param[in] rel_path path relative to the cwd
+		 * @param[out] data uint8_t byte vector. (this function will reserve space in the vector)
 		 * @return true if success, otherwise false.
 		 */
 		virtual auto read(const fs::path& rel_path, std::vector<uint8_t>* data) -> bool  = 0;
 		/**
 		 * @brief Read an entire file
-		 * @param rel_path path relative to the cwd
-		 * @param data uint32_t vector (this function will reserve space in the vector)
+		 * @param[in] rel_path path relative to the cwd
+		 * @param[out] data uint32_t vector (this function will reserve space in the vector)
 		 * @return true if success, otherwise false
 		 */
 		virtual auto read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool = 0;
 		/**
 		 * @brief Write to a file. (expects to truncate)
-		 * @param rel_path path relative to the cwd
-		 * @param data uint8_t span
+		 * @param[in] rel_path path relative to the cwd
+		 * @param[in] data uint8_t span
 		 * @return true if success, otherwise false
 		 */
 		virtual auto write(const fs::path& rel_path, std::span<uint8_t> data) -> bool    = 0;
 		/**
 		 * @brief Write to a file. (expects to truncate)
-		 * @param rel_path path relative to the cwd
-		 * @param data uint32_t span
+		 * @param[in] rel_path path relative to the cwd
+		 * @param[in] data uint32_t span
 		 * @return true if success, otherwise false
 		 */
 		virtual auto write(const fs::path& rel_path, std::span<uint32_t> data) -> bool   = 0;
@@ -172,28 +176,26 @@ namespace aby::rhi {
 	class ABY_RHI_API IJobSystem : public IInterface {
 	public:
 		using Job = std::function<void()>;
-
+	public:
 		auto name() -> std::string_view override;
-
 		/**
 		 * @brief Get the number of threads that jobs can be run on.
 		 * @note The default job system requests 2/3 of the available threads. 
 		 * 		 This is probably overkill.
 		 */
-		virtual auto thread_count() -> size_t = 0;
-
+		virtual auto thread_count() -> size_t                          = 0;
 		/**
 		 * @brief Add a job to be ran asynchronously 
-		 * @param priority The order in which the jobs should be completed.
+		 * @param[in] priority The order in which the jobs should be completed.
+		 * @param[in] job The job to run
 		 */
 		virtual auto add_job(EJobPriority priority, Job&& job) -> void = 0;
-
 		/**
 		 * @brief Should cleanup any resources the JobSystem uses
 		 * 	      and finish all jobs currently running. The jobs must finish
 		 * 		  because they could be jobs such as caching data.
 		 */
-		virtual auto destroy() -> void = 0;
+		virtual auto destroy() -> void                                 = 0;
 	private:
 	};
 
