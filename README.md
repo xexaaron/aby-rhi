@@ -12,12 +12,16 @@
 
 ---
 
-## Platforms
-| Platform  | Status |
-| --------- | ------ |
-| [![Windows](https://custom-icon-badges.demolab.com/badge/Windows-0078D6?logo=windows11&logoColor=white)](#) |  ![Platform](https://img.shields.io/badge/platform-Passing-green)
-| [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#) | ![Platform](https://img.shields.io/badge/platform-Passing-green)
-| [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0)](#) | ![Platform](https://img.shields.io/badge/platform-Unknown-yellow)
+## Platforms & Backends
+| Platform | Status | Backend | Status |
+| --------- | ------ | ------- | ------ |
+| [![Windows](https://custom-icon-badges.demolab.com/badge/Windows-0078D6?logo=windows11&logoColor=white)](#) | ![Platform](https://img.shields.io/badge/platform-Passing-green) | [![Vulkan](https://img.shields.io/badge/Vulkan-AE0F28?logo=Vulkan&logoColor=fff)](#) | ![Backend](https://img.shields.io/badge/backend-Passing-green) |
+| [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#) | ![Platform](https://img.shields.io/badge/platform-Passing-green) | [![Direct3D 12](https://img.shields.io/badge/Direct3D%2012-0078D4?logo=microsoft&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
+| [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0)](#) | ![Platform](https://img.shields.io/badge/platform-Unknown-yellow) | [![Metal](https://img.shields.io/badge/Metal-000000?logo=apple&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
+| | | [![OpenGL](https://img.shields.io/badge/OpenGL-5586A4?logo=opengl&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
+
+
+
 
 ## Cloning
 
@@ -78,16 +82,12 @@ set_target_properties(${YOUR_PROJECT_NAME} PROPERTIES
 )
 ```
 
-# Features
-
 | Feature     | Description                                           | Status   |
 | ----------- | ----------------------------------------------------- | -------- |
-| Interfaces  | Context interfaces that can be overridden             | ![status](https://img.shields.io/badge/status-Complete-green)_ |
-| Shaders     | Shader compilation, uniforms, etc...                  | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
-| Textures    | Texture reading, mipmaps, anisotropy, etc...          | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
-| RenderPass  | Draw command, uniforms, and per pass shaders          | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
-| Backends    | Vulkan, D3D12, Metal                                  | ![Backend](https://img.shields.io/badge/backend-Vulkan-green) ![Backend](https://img.shields.io/badge/backend-D3D12-red) ![Backend](https://img.shields.io/badge/backend-Metal-red)   |
-
+| Interfaces  | Context interfaces that can be overridden             | ![status](https://img.shields.io/badge/status-Complete-green) |
+| Shaders     | Shader compilation, uniforms, etc...                  | ![status](https://img.shields.io/badge/status-Complete-green) |
+| Textures    | Texture reading, mipmaps, anisotropy, etc...          | ![status](https://img.shields.io/badge/status-Complete-green) |
+| RenderPass  | Draw command, uniforms, and per pass shaders          | ![status](https://img.shields.io/badge/status-Complete-green) |
 
 ## Interfaces 
 
