@@ -119,35 +119,44 @@ namespace aby::rhi {
 		* @note The shader will be compiled in the background, and it will block if not finished compiling
 		* 		when @c RenderPassBuilder::build() is called
 		*/
-		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                   = 0;
+		virtual auto add_shader(const fs::path& rel_path) -> RenderPassBuilder&                                          = 0;
+		/**
+		* @brief Add a shader to the render pass
+		* @param[in] name the name of the shader (used for caching)
+		* @param[in] source_code the shader glsl source code
+		* @param[in] type the shader stage
+		* @note The shader will be compiled in the background, and it will block if not finished compiling
+		* 		when @c RenderPassBuilder::build() is called
+		*/
+		virtual auto add_shader(std::string_view name, std::string_view source_code, EShader type) -> RenderPassBuilder& = 0;
 		/**
 		* @brief Add a shader to the render pass
 		* @param[in] shader a resource shader ptr
 		* @note The shader if still compiling in the background will block if not finished compiling
 		* 		when @c RenderPassBuilder::build() is called 
 		*/
-		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                           = 0;
+		virtual auto add_shader(ShaderPtr shader) -> RenderPassBuilder&                                                  = 0;
 		/**
 		* @brief Add a shader uniform to the render pass
 		* @param[in] name the name of the uniform, this should generally correspond to the name in the shader but does not have to.
 		* @param[in] binding the binding of the uniform in the shader
 		* @param[in] stage the shader stage that contains the uniform
 		*/
-		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&    = 0;
+		virtual auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder&           = 0;
 		/**
 		* @brief Add a color attachment to the render pass
 		* @param[in] texture a texture created via @c Texture::create_render_target(...) If the texture has not finished
 						 loading by the time @c RenderPassBuilder::build() is called it will block until finished loading.
 		* @param[in] is_present_target the present target is the final image to be presented to the swapchain between ALL passes. 
 		*/
-		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& = 0;
+		virtual auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder&        = 0;
 		/**
 		 * @brief Add a push constant to the render pass
 		 * @param[in] name The name to access it by
 		 * @param[in] bytes The size of the push constant
 		 * @note Push constants are globally accessible by all shader stages
 		 */
-		virtual auto add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder&               = 0;
+		virtual auto add_push_constant(const std::string& name, size_t bytes) -> RenderPassBuilder&                      = 0;
 		/**
 		 * @brief Add a push constant to the render pass
 		 * @tparam T the type of the object to be used for the size of the push constant

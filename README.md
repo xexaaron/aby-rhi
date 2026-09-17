@@ -1,8 +1,9 @@
 # Abyss Renderer Hardware Interface
 
-
 ## Table of Contents
 
+- [Dependency Requirements](#dependency-requirements)
+- [Platforms & Backends](#platforms--backends)
 - [Cloning](#cloning)
 - [Building](#building)
   - [Options](#options)
@@ -10,7 +11,14 @@
 - [Features](#features)
     - [Interfaces](#interfaces)
 
----
+
+## Dependency Requirements
+
+| Dependency | Version | Note |
+| ---------- | ------- | ---- |
+| [![Vulkan](https://img.shields.io/badge/Vulkan-AE0F28?logo=Vulkan&logoColor=fff)](#) | ![Version](https://img.shields.io/badge/version-%3E=_1.4.341-blue) | VulkanSDK for Vulkan Backend
+| [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#) | ![Version](https://img.shields.io/badge/version-%3E=_3.14.17-blue) | Shaderc dependency syncing |
+| [![CMake](https://img.shields.io/badge/CMake-064F8C?logo=cmake&logoColor=fff)](#) | ![Version](https://img.shields.io/badge/version-%3E=_3.28.3-blue) | Building the project |
 
 ## Platforms & Backends
 | Platform | Status | Backend | Status |
@@ -19,9 +27,6 @@
 | [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#) | ![Platform](https://img.shields.io/badge/platform-Passing-green) | [![Direct3D 12](https://img.shields.io/badge/Direct3D%2012-0078D4?logo=microsoft&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
 | [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0)](#) | ![Platform](https://img.shields.io/badge/platform-Unknown-yellow) | [![Metal](https://img.shields.io/badge/Metal-000000?logo=apple&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
 | | | [![OpenGL](https://img.shields.io/badge/OpenGL-5586A4?logo=opengl&logoColor=white)](#) | ![Backend](https://img.shields.io/badge/backend-failing-red) |
-
-
-
 
 ## Cloning
 
@@ -82,20 +87,21 @@ set_target_properties(${YOUR_PROJECT_NAME} PROPERTIES
 )
 ```
 
+## Features
+
 | Feature     | Description                                           | Status   |
 | ----------- | ----------------------------------------------------- | -------- |
-| Interfaces  | Context interfaces that can be overridden             | ![status](https://img.shields.io/badge/status-Complete-green) |
-| Shaders     | Shader compilation, uniforms, etc...                  | ![status](https://img.shields.io/badge/status-Complete-green) |
-| Textures    | Texture reading, mipmaps, anisotropy, etc...          | ![status](https://img.shields.io/badge/status-Complete-green) |
-| RenderPass  | Draw command, uniforms, and per pass shaders          | ![status](https://img.shields.io/badge/status-Complete-green) |
+| `Interfaces`  | Context interfaces that can be overridden             | ![status](https://img.shields.io/badge/status-Complete-green) |
+| `Shaders`     | Shader compilation, uniforms, etc...                  | ![status](https://img.shields.io/badge/status-Complete-green) |
+| `Textures`    | Texture reading, mipmaps, anisotropy, etc...          | ![status](https://img.shields.io/badge/status-Complete-green) |
+| `RenderPass`  | Draw command, uniforms, and per pass shaders          | ![status](https://img.shields.io/badge/status-Complete-green) |
 
-## Interfaces 
+### Interfaces 
 
 The library provides multiple interfaces to control the logic of what happens inside the context.
 All of them are optional and default interfaces are provided that can be extended. 
 
-There are currently 4 [interfaces](include/aby-rhi/interfaces/interfaces.hpp) that can be override.
-They can be set by calling `Context::get().set_interface<YourInterfaceClass>();`
+There are currently 4 [interfaces](include/aby-rhi/interfaces/interfaces.hpp) that can be overriden.
 
 | Interfaces    | Description                                                        | Default            |
 | ------------- | ------------------------------------------------------------------ | ------------------ |
@@ -104,4 +110,6 @@ They can be set by calling `Context::get().set_interface<YourInterfaceClass>();`
 | `IFileIO`     | Reads and writes files. As well as managing the CWD and cache dir  | [DefaultFileIO](include/aby-rhi/interfaces/default_fileio.hpp)      |                                   
 | `IJobSystem`  | Handles running arbitrary work on multiple threads                 | [DefaultJobSystem](include/aby-rhi/interfaces/default_job_system.hpp)   |                      
 
+---
 
+[Scroll to top](#abyss-renderer-hardware-interface)

@@ -18,6 +18,7 @@ namespace aby::rhi {
          * @brief Create a renderer for the backend
          * @param[in] backend a renderer api backend
 		 * @param[in] graphics graphics parameters
+		 * @return Renderer*
          */
 		static auto create(ERenderer backend, const GraphicsParams& graphics) -> Renderer*;
 		virtual ~Renderer()                                                    = default;

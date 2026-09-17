@@ -1,10 +1,13 @@
 #include "shader.hpp"
 
 #include "backends/vulkan/vulkan-shader.hpp"
+#include "common-enums.hpp"
 #include "context.hpp"
 #include "interfaces/default_fileio.hpp"
+#include "resource.hpp"
 
 #include <assert.h>
+#include <filesystem>
 #include <iostream>
 #include <shaderc/shaderc.hpp>
 #include <thread>
@@ -123,6 +126,86 @@ namespace aby::rhi {
 		}
 
 		shaders.fail(resource);
+		return nullptr;
+	}
+
+	auto Shader::create(const std::string& name, const std::string& source_code, EShader type) -> ResourcePtr<Shader, EResource::shader> {
+		auto& ctx     = Context::get();
+		auto* io      = ctx.file_io();
+		auto* log     = ctx.logger();
+		auto* jobs    = ctx.job_sys();
+		auto& shaders = ctx.shaders();
+
+		auto resource = shaders.reserve();
+
+		if (io->cache_path_exists("shaders/named", std::format("{}{}.spv", name, type))) {
+			jobs->add_job(EJobPriority::high, [resource, name, type]() {
+				auto& ctx     = Context::get();
+				auto* io      = ctx.file_io();
+				auto& shaders = ctx.shaders();
+
+				std::vector<uint32_t> data;
+				if (!io->read(io->cache_path("shaders/named", name), &data)) {
+					shaders.fail(resource);
+					return;
+				}
+
+				Shader* shader = nullptr;
+				switch (ctx.renderer_backend()) {
+					case ERenderer::vulkan: {
+						shader = new vulkan::Shader(type, std::move(data));
+						break;
+					}
+					default:
+						aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
+				}
+
+				shaders.add(resource, shader);
+			});
+
+			return create_resource(resource, shaders);
+		} else {
+			jobs->add_job(EJobPriority::high, [resource, name, type, source_code] {
+				auto& ctx     = Context::get();
+				auto* io      = ctx.file_io();
+				auto* jobs    = ctx.job_sys();
+				auto& shaders = ctx.shaders();
+
+				auto shaderc_type = eshader_to_shaderc(type);
+
+				std::vector<uint32_t> out_data;
+				if (!ShaderCompiler::compile(source_code.data(), source_code.size(), shaderc_type, name.c_str(), &out_data)) {
+					shaders.fail(resource);
+					return;
+				}
+
+				Shader* shader = nullptr;
+				switch (ctx.renderer_backend()) {
+					case ERenderer::vulkan: {
+						shader = new vulkan::Shader(type, std::move(out_data));
+						break;
+					}
+					default:
+						aby_rhi_assert(false, "shader for renderer backend: {} is not implemented", ctx.renderer_backend());
+				}
+
+				jobs->add_job(EJobPriority::low, [name, write_data = shader->data(), type]() {
+					// Not using the regular io due to multithreaded concerns
+					// We are also not using the methods for out_path as cache_path because
+					// we are creating a different IFileIO object.
+					DefaultFileIO io;
+					auto dir = io.cache_path("shaders/named");
+					fs::create_directories(dir);
+					fs::path out_path = dir / std::format("{}_{}.spv", name, type);
+					io.write(out_path, write_data);
+				});
+
+				shaders.add(resource, shader);
+			});
+
+			return create_resource(resource, shaders);
+		}
+
 		return nullptr;
 	}
 

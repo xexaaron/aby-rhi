@@ -27,14 +27,24 @@ namespace aby::rhi {
 	class ABY_RHI_API Shader {
 	public:
 		/**
-         * @brief The type of shader will be determined by the path.
+         * @brief Create a shader from a file.
+		 * @note The type of shader will be determined by the path.
          * @warning Do not use precompiled shaders.
-         * @param .geom Geometry shader
+         * @param rel_path path relative to the cwd
+		 * @param .geom Geometry shader
          * @param .vert Vertex shader
          * @param .frag Fragment shader
          * @param .comp Compute shader
         */
 		static auto create(const fs::path& rel_path) -> ResourcePtr<Shader, EResource::shader>;
+		/**
+		* @brief Create a shader from source code
+		* @warning Do not use precompiled shaders
+		* @param name the name of the shader (used for caching)
+		* @param source_code string of valid glsl source code
+		* @param type the shader stage
+		*/
+		static auto create(const std::string& name, const std::string& source_code, EShader type) -> ResourcePtr<Shader, EResource::shader>;
 		virtual ~Shader()                          = default;
 		/**
 		* @brief Get the shader code

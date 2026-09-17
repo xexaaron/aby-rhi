@@ -73,6 +73,7 @@ namespace aby::rhi::vulkan {
 		auto clear() -> void override;
 
 		auto add_shader(const fs::path& rel_path) -> RenderPassBuilder& override;
+		auto add_shader(std::string_view name, std::string_view source_code, EShader type) -> RenderPassBuilder& override;
 		auto add_shader(ShaderPtr shader) -> RenderPassBuilder& override;
 		auto add_uniform(std::string_view name, uint32_t binding, EShader stage) -> RenderPassBuilder& override;
 		auto add_color_attachment(Resource texture, bool is_present_target = false) -> RenderPassBuilder& override;

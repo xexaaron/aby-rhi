@@ -546,6 +546,11 @@ namespace aby::rhi::vulkan {
 		return add_shader(shader);
 	}
 
+	auto RenderPassBuilder::add_shader(std::string_view name, std::string_view source_code, EShader type) -> RenderPassBuilder& {
+		auto shader = Shader::create(std::string(name), std::string(source_code), type);
+		return add_shader(shader);
+	}
+
 	auto RenderPassBuilder::add_shader(ShaderPtr shader) -> RenderPassBuilder& {
 		aby_rhi_assert(shader.type() == EResource::shader, "attempted to add a shader resource that is not of type EResource::shader");
 		m_Shaders.push_back(shader);

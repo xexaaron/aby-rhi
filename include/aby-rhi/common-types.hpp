@@ -15,6 +15,7 @@
 #	define ABY_RHI_PACK_PUSH
 #	define ABY_RHI_PACK_POP
 #	define ABY_RHI_PACKED_TYPE
+#	error "unkown packing method for current compiler"
 #endif
 
 #define ABY_RHI_PACKED(structure)                    \
