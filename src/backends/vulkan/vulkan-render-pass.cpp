@@ -185,7 +185,7 @@ namespace aby::rhi::vulkan {
 		}
 		for (auto& [name, uniform] : m_Uniforms) {
 			uniform.buffer.destroy();
-			std::memset(&uniform, 0, sizeof(Uniform));
+			std::memset(static_cast<void*>(&uniform), 0, sizeof(Uniform));
 		}
 		m_Pipeline->destroy();
 	}

@@ -69,6 +69,8 @@ namespace aby::rhi::vulkan {
 			case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
 				log->log(ELogLevel::trace, data->pMessage);
 				break;
+			default:
+				break;
 		}
 		return VK_SUCCESS;
 	}

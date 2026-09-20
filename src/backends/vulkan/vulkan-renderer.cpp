@@ -263,10 +263,10 @@ namespace aby::rhi::vulkan {
 			case VK_FORMAT_R64G64_SINT:
 			case VK_FORMAT_R64G64B64_SINT:
 			case VK_FORMAT_R64G64B64A64_SINT:
-				m_ClearColor.int32[0] = int32_t(std::round(color.r * INT32_MAX));
-				m_ClearColor.int32[1] = int32_t(std::round(color.g * INT32_MAX));
-				m_ClearColor.int32[2] = int32_t(std::round(color.b * INT32_MAX));
-				m_ClearColor.int32[3] = int32_t(std::round(color.a * INT32_MAX));
+				m_ClearColor.int32[0] = int32_t(std::round(color.r * static_cast<float>(INT32_MAX)));
+				m_ClearColor.int32[1] = int32_t(std::round(color.g * static_cast<float>(INT32_MAX)));
+				m_ClearColor.int32[2] = int32_t(std::round(color.b * static_cast<float>(INT32_MAX)));
+				m_ClearColor.int32[3] = int32_t(std::round(color.a * static_cast<float>(INT32_MAX)));
 				// normalzie from -128 -> +128
 				break;
 			default:
