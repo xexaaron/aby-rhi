@@ -191,7 +191,12 @@ target_compile_options(${PROJECT_NAME} PRIVATE
         /WX
         /Zc:preprocessor
     >
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Werror>
+    $<$<CXX_COMPILER_ID:Clang>:
+        -Wno-nullability-completeness
+    >
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
+        -Werror
+    >
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
