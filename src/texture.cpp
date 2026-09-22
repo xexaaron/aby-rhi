@@ -13,6 +13,7 @@ namespace aby::rhi {
 		auto backend = Context::get().renderer_backend();
 		auto* jobs   = Context::get().job_sys();
 		auto& texs   = Context::get().textures();
+
 		switch (backend) {
 			case ERenderer::vulkan: {
 				Resource resource = texs.reserve();

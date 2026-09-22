@@ -6,6 +6,7 @@
 #include "vulkan/vulkan_core.h"
 
 #include <cmath>
+#include <filesystem>
 #include <stb_image/stb_image.h>
 #include <stb_image/stb_image_resize2.h>
 #include <stb_image/stb_image_write.h>

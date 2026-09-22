@@ -29,7 +29,10 @@ namespace aby::rhi {
 	}
 
 	auto DefaultFileIO::read(const fs::path& rel_path, std::vector<uint8_t>* data) -> bool {
-		std::ifstream ifs(m_CWD / rel_path, std::ios::binary | std::ios::ate);
+		auto path = m_CWD / rel_path;
+		aby_rhi_assert(fs::exists(path), "texture file does not exist: {}", path.string());
+
+		std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 		if (!ifs.is_open()) return false;
 
 		size_t bytes = static_cast<size_t>(ifs.tellg());
@@ -43,7 +46,10 @@ namespace aby::rhi {
 	}
 
 	auto DefaultFileIO::read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool {
-		std::ifstream ifs(m_CWD / rel_path, std::ios::binary | std::ios::ate);
+		auto path = m_CWD / rel_path;
+		aby_rhi_assert(fs::exists(path), "texture file does not exist: {}", path.string());
+
+		std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 		if (!ifs.is_open()) return false;
 
 		size_t bytes = static_cast<size_t>(ifs.tellg());

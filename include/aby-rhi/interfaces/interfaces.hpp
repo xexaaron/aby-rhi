@@ -139,6 +139,7 @@ namespace aby::rhi {
 		 * @brief Read an entire file.
 		 * @param[in] rel_path path relative to the cwd
 		 * @param[out] data uint8_t byte vector. (this function will reserve space in the vector)
+		 * @note @c read should handle the checking of file existence 
 		 * @return true if success, otherwise false.
 		 */
 		virtual auto read(const fs::path& rel_path, std::vector<uint8_t>* data) -> bool  = 0;
@@ -146,6 +147,7 @@ namespace aby::rhi {
 		 * @brief Read an entire file
 		 * @param[in] rel_path path relative to the cwd
 		 * @param[out] data uint32_t vector (this function will reserve space in the vector)
+		 * @note @c read should handle the checking of file existence 
 		 * @return true if success, otherwise false
 		 */
 		virtual auto read(const fs::path& rel_path, std::vector<uint32_t>* data) -> bool = 0;
