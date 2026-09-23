@@ -94,7 +94,7 @@ namespace aby::rhi {
 		 * @brief Write the image to a file.
 		 * @param rel_path path relative to the CWD.
 		 * @param jpeg_quality a value between 1-100 (90 is a good middleground for high quality and reasonable file size)
-		 * @note The output image is determined by the file extension [.bmp, .hdr, .jpeg, .png, .tga]
+		 * @note The output image is determined by the file extension: [.bmp, .hdr, .jpeg, .png, .tga]
 		 */
 		virtual auto write(const fs::path& rel_path, int jpeg_quality = 90) -> void                             = 0;
 		/**

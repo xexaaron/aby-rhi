@@ -73,8 +73,8 @@ auto create_mvp(float angle, float w, float h) -> MVP {
 		.model = {
 		          c, 0, -s, 0,
 		          0,  1, 0, 0,
-		          s, 0,		             c,  0,
-		          0, 0,		                    -7.5, 1		                                                             },
+		          s, 0,                     c,  0,
+		          0, 0,                            -7.5, 1                                                                     },
 
 		.view = {          1, 0,  0, 0, 0,  1, 0, 0, 0, 0,                     1,  0, 0, 0,                               0, 1 },
 
