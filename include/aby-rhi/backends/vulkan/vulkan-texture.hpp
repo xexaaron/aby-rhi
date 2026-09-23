@@ -22,7 +22,7 @@ namespace aby::rhi::vulkan {
 		auto read_px(uint32_t x, uint32_t y) -> vec4<uint8_t> override;
 		auto read_pxs(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1) -> std::vector<vec4<uint8_t>> override;
 		auto resize(uint32_t w, uint32_t h) -> void override;
-		auto write(const fs::path& rel_path) -> void override;
+		auto write(const fs::path& rel_path, int jpeg_quality = 90) -> void override;
 
 		auto format() -> vk::Format;
 		auto view() -> vk::ImageView;

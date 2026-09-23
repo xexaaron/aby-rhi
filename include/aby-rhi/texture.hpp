@@ -92,9 +92,11 @@ namespace aby::rhi {
 		virtual auto resize(uint32_t w, uint32_t h) -> void                                                     = 0;
 		/**
 		 * @brief Write the image to a file.
-		 * @param rel_path Output image type determined by path extension.
+		 * @param rel_path path relative to the CWD.
+		 * @param jpeg_quality a value between 1-100 (90 is a good middleground for high quality and reasonable file size)
+		 * @note The output image is determined by the file extension [.bmp, .hdr, .jpeg, .png, .tga]
 		 */
-		virtual auto write(const fs::path& rel_path) -> void                                                    = 0;
+		virtual auto write(const fs::path& rel_path, int jpeg_quality = 90) -> void                             = 0;
 		/**
 		 * @brief An id to the texture within an array or descriptor set that 
 		 * 		  can be sent to the GPU to access bindless textures

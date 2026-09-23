@@ -391,8 +391,6 @@ namespace aby::rhi::vulkan {
 				m_ColorAttachmentFormats.push_back(static_cast<vulkan::Texture*>(tex)->format());
 
 				if (m_SampleCount != vk::SampleCountFlagBits::e1) {
-					// create a resolve texture with 1 sample count bit.
-					// TODO: change this to load the textures in two phases. storing the resource handles first
 					auto resolve_resource = Texture::create_render_target(tex->channels(), aby::rhi::EAntiAliasing::none);
 					resolve_attachments.push_back(resolve_resource.get());
 				}

@@ -841,7 +841,7 @@ namespace aby::rhi::vulkan {
 		}
 	}
 
-	auto Texture::write(const fs::path& rel_path) -> void {
+	auto Texture::write(const fs::path& rel_path, int jpeg_quality) -> void {
 		// assume rel path always, we will use stbi to load but we must concat the path
 		auto io   = Context::get().file_io();
 		auto path = io->cwd() / rel_path;
@@ -862,9 +862,7 @@ namespace aby::rhi::vulkan {
 			aby_rhi_assert(false, "HDR texture writing currently not supported");
 		} else if (ext == ".jpeg" || ext == ".jpg") {
 			aby_rhi_assert(m_Channels <= 3, "JPEG does not support {} channels", m_Channels);
-			// TODO: should probably make this controllable quality level for jpegs.
-			// 90 is a good middleground high quality while drastically cutting file size.
-			result = stbi_write_jpg(path_str.c_str(), w, h, m_Channels, m_Data.data(), 90);
+			result = stbi_write_jpg(path_str.c_str(), w, h, m_Channels, m_Data.data(), jpeg_quality);
 		} else if (ext == ".png") {
 			result = stbi_write_png(path_str.c_str(), w, h, m_Channels, m_Data.data(), 0); /* contigous memory */
 		} else if (ext == ".tga") {
