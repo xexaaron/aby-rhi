@@ -44,6 +44,14 @@ namespace aby::rhi {
 
 namespace aby::rhi {
 
+	auto env(const char* name) -> std::string_view {
+		if (const char* value = std::getenv(name)) {
+			return value;
+		}
+
+		return {};
+	}
+
 	auto Context::get() -> Context& {
 		static Context context;
 		return context;
@@ -64,7 +72,20 @@ namespace aby::rhi {
 #elif defined(__APPLE__)
 			m_Params.window_backend = EWindow::metal;
 #elif defined(__linux__)
-			m_Params.window_backend = EWindow::wayland;
+			const auto qt_platform = env("QT_QPA_PLATFORM");
+
+			if (qt_platform == "wayland") {
+				m_Params.window_backend = EWindow::wayland;
+			} else if (qt_platform == "xcb") {
+				m_Params.window_backend = EWindow::x11;
+			} else if (std::getenv("WAYLAND_DISPLAY")) {
+				m_Params.window_backend = EWindow::wayland;
+			} else if (std::getenv("DISPLAY")) {
+				m_Params.window_backend = EWindow::x11;
+			} else {
+				aby_rhi_wrn("could not detect a window platform from env (defaulting to: wayland)");
+				m_Params.window_backend = EWindow::wayland;
+			}
 #else
 #	error "Unsupported platform"
 #endif

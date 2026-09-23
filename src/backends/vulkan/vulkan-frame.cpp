@@ -122,7 +122,8 @@ namespace aby::rhi::vulkan {
 		    1,
 		    &signal_ssi);
 
-		vkQueueSubmit2(queue, 1, vkcast(submit_info), m_RenderFence);
+		vkpropagate(vkQueueSubmit2(queue, 1, vkcast(submit_info), m_RenderFence), "failed to submit queue");
+
 		vk::PresentInfoKHR present_info(
 		    1,
 		    &render_finished_semaphore,
